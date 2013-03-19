@@ -27,7 +27,7 @@ public class RecognizeBarcodeFromWord
         try
         {
             // Describes how to create barcode in word document.
-            // Generate barcode image
+            // Generate barcode image.
             /*
             BarCodeBuilder builder = new BarCodeBuilder();
             builder.setSymbologyType(Symbology.Code39Standard);
