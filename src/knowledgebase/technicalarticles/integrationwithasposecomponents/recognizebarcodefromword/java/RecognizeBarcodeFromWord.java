@@ -35,7 +35,7 @@ public class RecognizeBarcodeFromWord
             String strBarCodeImageSave = "img.jpg";
             builder.save(strBarCodeImageSave);
 
-            // add this image to word doc
+            // add this image to word doc.
             Document doc = new Document();
             DocumentBuilder docBuilder = new DocumentBuilder(doc);
             docBuilder.insertImage(strBarCodeImageSave);
