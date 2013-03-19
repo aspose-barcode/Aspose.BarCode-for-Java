@@ -46,7 +46,7 @@ public class RecognizeBarcodeFromWord
             // Open the input word document which contains the barcode.
             Document wordDocument = new Document(dataDir + "input.doc");
 
-            // recognition part
+            // recognition part.
             // extract image from word document.
             NodeCollection<Shape> shapes = wordDocument.getChildNodes(NodeType.SHAPE, true, false);
             int imageIndex = 0;
