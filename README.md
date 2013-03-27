@@ -16,6 +16,9 @@ Using Aspose.Barcode for Java in your project gives you the following benefits:
 
 These example projects provide helpful demonstrations and code when using Aspose.Barcode for Java.
 
+###Run Examples on your PC
+
+Download the [Aspose Examples Dashboard for Java](http://www.aspose.com/community/files/72/java-components/aspose.total-for-java/category1426.aspx) to view and run all these examples on your PC.
 
 ##What's included in this examples repository?
 
