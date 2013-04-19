@@ -1,6 +1,6 @@
 #Aspose.Barcode for Java Examples Repository
 
-This package contains Java Examples Projects for http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx.
+This package contains Java Examples Projects for [Aspose.BarCode for Java]http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx.
 
 ##How to use the Examples?
 
@@ -16,6 +16,20 @@ Clone or Download the ZIP and extract the contents to your local hard drive. If 
 by browsing to the folder. For Netbeans and Eclipse, you can import project feature.
 
 Also download the [latest version](http://www.aspose.com/community/files/72/java-components/aspose.barcode-for-java/default.aspx) of Aspose.BarCode for Java and set/fix jar references.
+
+## Open Source Feel of Aspose.BarCode
+
+Aspose.BarCode for .NET and Aspose.BarCode for Java are successful commercial products, but our philosophy is to develop them using our unique "*open-source feel*" approach. In other words, we at Aspose are extremely customer driven and this shows in:
+
++ Frequent releases (at least 1-2 a month).
++ Features are prioritized according to your requests.
++ Unlimited free technical support for anyone.
++ Helpful support in the forums and answers within 12-24 hours.
++ Live chat with experienced technical advisors.
+
+We think that customers who use our products feel that they use an open source product because of the extent they can influence the project, but with the security of a fully committed talented team working on the project.
+
+The Aspose.BarCode for Java examples published here at GitHub is a part of the above effort.
 
 ##What examples are included in this repository?
 
