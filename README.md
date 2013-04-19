@@ -20,6 +20,8 @@ These example projects provide helpful demonstrations and code when using Aspose
 
 Download the [Aspose Examples Dashboard for Java](http://www.aspose.com/community/files/72/java-components/aspose.total-for-java/category1426.aspx) to view and run all these examples on your PC.
 
+![Aspose Examples Dashboard](http://www.aspose.com/blogs/wp-content/uploads/2013/03/Java-Dashboard1.png "Aspose Examples Dashboard")
+
 ##What's included in this examples repository?
 
 ###Code
