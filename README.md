@@ -1,16 +1,6 @@
-<img width="75" height="75" src="http://www.aspose.com/docs/download/attachments/10849602/aspose.BarCode-Java_logo.png?version=1&modificationDate=1346860181963"></img>#Aspose.Barcode for Java Examples Repository
+#Aspose.Barcode for Java Examples Repository
 
-<table border="">
-  <tr>
-	<td>
-		<img width="75" height="75" src="http://www.aspose.com/docs/download/attachments/10849602/aspose.BarCode-Java_logo.png?version=1&modificationDate=1346860181963"></img>
-	</td>
-	<td>
-		This package contains Java Examples Projects for http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx.
-
-	</td>
-  </tr>
-</table>
+This package contains Java Examples Projects for http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx.
 
 ##How to use the Examples?
 
