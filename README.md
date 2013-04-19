@@ -6,7 +6,7 @@ This package contains Java Examples Projects for [Aspose.Barcode for Java](http:
 
 ##How to use the Examples?
 
-Download the [Aspose Examples Dashboard for Java](http://www.aspose.com/community/files/72/java-components/aspose-examples-for-java/default.aspx) to view and run all these examples on your PC. No need to download any other file to run the examples in Dashboard!! It updates itself with the latest dependency libraries and examples.
+Download the [Aspose Examples Dashboard for Java](http://www.aspose.com/community/files/72/java-components/aspose-examples-for-java/default.aspx) to view and run all these examples on your PC. It updates itself with the latest dependency libraries and examples.
 
 ![Aspose Examples Dashboard](http://www.aspose.com/blogs/wp-content/uploads/2013/03/Java-Dashboard1.png "Aspose Examples Dashboard")
 
