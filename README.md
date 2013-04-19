@@ -1,8 +1,16 @@
 #Aspose.Barcode for Java Examples Repository
 
-![Aspose.BarCode for Java](http://www.aspose.com/images/banner-aspose-barcode-for-java.jpg "Aspose.BarCode for Java")
+<table>
+  <tr>
+	<td>
+		![Aspose.BarCode for Java](http://www.aspose.com/docs/download/attachments/10849602/aspose.BarCode-Java_logo.png?version=1&modificationDate=1346860181963 "Aspose.BarCode for Java")
+	</td>
+	<td>
+		This package contains Java Examples Projects for [Aspose.Barcode for Java](http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx).
 
-This package contains Java Examples Projects for [Aspose.Barcode for Java](http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx).
+	</td>
+  </tr>
+</table>
 
 ##How to use the Examples?
 
