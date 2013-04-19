@@ -1,6 +1,6 @@
 #Aspose.Barcode for Java Examples Repository
 
-<table border="0">
+<table border="">
   <tr>
 	<td>
 		<img width="75" height="75" src="http://www.aspose.com/docs/download/attachments/10849602/aspose.BarCode-Java_logo.png?version=1&modificationDate=1346860181963"></img>
