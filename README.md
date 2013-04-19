@@ -3,10 +3,10 @@
 <table>
   <tr>
 	<td>
-		![Aspose.BarCode for Java](http://www.aspose.com/docs/download/attachments/10849602/aspose.BarCode-Java_logo.png?version=1&modificationDate=1346860181963 "Aspose.BarCode for Java")
+		<img src="http://www.aspose.com/docs/download/attachments/10849602/aspose.BarCode-Java_logo.png?version=1&modificationDate=1346860181963"></img>
 	</td>
 	<td>
-		This package contains Java Examples Projects for [Aspose.Barcode for Java](http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx).
+		This package contains Java Examples Projects for http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx.
 
 	</td>
   </tr>
