@@ -34,7 +34,7 @@ public class CustomizeBarcodeImageResolution
         bb.save(dataDir + "barcode.out.jpg","jpg");
         
         // Print message
-        System.out.println("Barcode image generated successfully. Please check data folder for output.");
+        System.out.println("Barcode image generated successfully.");
         
     }
 }

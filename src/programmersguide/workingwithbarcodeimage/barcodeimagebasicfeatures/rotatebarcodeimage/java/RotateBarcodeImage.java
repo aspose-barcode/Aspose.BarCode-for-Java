@@ -39,6 +39,6 @@ public class RotateBarcodeImage
             ex.printStackTrace();
         }
         // Print message
-        System.out.println("Barcode image generated and rotated successfully.\nPlease check data folder for output.");
+        System.out.println("Barcode image generated and rotated successfully.");
     }
 }

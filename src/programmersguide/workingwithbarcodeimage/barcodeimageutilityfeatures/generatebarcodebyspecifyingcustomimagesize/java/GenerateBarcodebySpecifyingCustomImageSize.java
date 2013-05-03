@@ -33,6 +33,6 @@ public class GenerateBarcodebySpecifyingCustomImageSize
         builder.save(dataDir + "barcode.out.png");
 
         // Print message
-        System.out.println("Barcode image generated successfully. Please check data folder for output.");
+        System.out.println("Barcode image generated successfully.");
     }
 }
