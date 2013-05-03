@@ -74,6 +74,11 @@ This example explains this concept in a very easy way.</Description>
                     <DisplayName>Generate Barcode by Specifying Custom Image Size</DisplayName>
                     <Url>http://www.aspose.com/docs/display/barcodejava/Generate+Barcode+by+Specifying+Custom+Image+Size</Url>
                   </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.out.png</Path>
+                    </DataFile>
+                  </OutputFiles>
                   <Type>Console</Type>
                 </Example>
                 <Example>
@@ -90,6 +95,11 @@ setDpiY() method that is used to set Vertical Resolution settings of the barcode
                     <DisplayName>Customize Barcode Image Resolution</DisplayName>
                     <Url>http://www.aspose.com/docs/display/barcodejava/Customize+Barcode+Image+Resolution</Url>
                   </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.out.jpg</Path>
+                    </DataFile>
+                  </OutputFiles>
                   <Type>Console</Type>
                 </Example>
               </Examples>
@@ -115,6 +125,11 @@ Working with Image Borders
                     <DisplayName>Rotate Barcode Image</DisplayName>
                     <Url>http://www.aspose.com/docs/display/barcodejava/Rotate+Barcode+Image</Url>
                   </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.out.png</Path>
+                    </DataFile>
+                  </OutputFiles>
                   <Type>Console</Type>
                 </Example>
               </Examples>
