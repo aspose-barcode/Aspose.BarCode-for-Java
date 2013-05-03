@@ -65,6 +65,58 @@ This example explains this concept in a very easy way.</Description>
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
+                <Example>
+                  <Title>Generate Barcode by Specifying Custom Image Size</Title>
+                  <Description>Aspose.BarCode for Java automatically adjusts the image size (width and height) according to the generated barcode’s size. But, you can also control the image size by specifying height and width of image using BarCodeBuilder.setImageHeight() and setImageWidth() methods. BarCodeBuilder.setAutoSize() should be set to false in order to customize the image size.</Description>
+                  <FolderName>GenerateBarcodebySpecifyingCustomImageSize</FolderName>
+                  <Order>2</Order>
+                  <DocLink>
+                    <DisplayName>Generate Barcode by Specifying Custom Image Size</DisplayName>
+                    <Url>http://www.aspose.com/docs/display/barcodejava/Generate+Barcode+by+Specifying+Custom+Image+Size</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Customize Barcode Image Resolution</Title>
+                  <Description>What if developers need to set the resolution of their barcode images according to their custom settings?
+Well, Aspose.BarCode also addresses this issue and provides Resolution class that serves developers to customize the resolution of their barcode images in any way they want. 
+Resolution class has three major properties:
+
+setDpiX() method that is used to set Horizontal Resolution settings of the barcode image in Dot per inches (Dpi)
+setDpiY() method that is used to set Vertical Resolution settings of the barcode image in Dot per inches (Dpi)</Description>
+                  <FolderName>CustomizeBarcodeImageResolution</FolderName>
+                  <Order>3</Order>
+                  <DocLink>
+                    <DisplayName>Customize Barcode Image Resolution</DisplayName>
+                    <Url>http://www.aspose.com/docs/display/barcodejava/Customize+Barcode+Image+Resolution</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
+              </Examples>
+            </Folder>
+            <Folder>
+              <Title>Barcode Image Basic Features</Title>
+              <Description>This section includes the following topics: 
+Working with Image Borders 
+
+- Colorize any Part of the Barcode Image 
+- Rotate Barcode Image
+- Control Barcode Image Quality 
+- Set Barcode Image MarginsF</Description>
+              <FolderName>BarcodeImageBasicFeatures</FolderName>
+              <Order>2</Order>
+              <Examples>
+                <Example>
+                  <Title>Rotate Barcode Image</Title>
+                  <Description>Aspose.BarCode allows developers to rotate the barcode image by calling the setRotationAngleF() method of the barcode class.</Description>
+                  <FolderName>RotateBarcodeImage</FolderName>
+                  <Order>1</Order>
+                  <DocLink>
+                    <DisplayName>Rotate Barcode Image</DisplayName>
+                    <Url>http://www.aspose.com/docs/display/barcodejava/Rotate+Barcode+Image</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
               </Examples>
             </Folder>
           </Folders>
