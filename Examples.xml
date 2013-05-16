@@ -132,6 +132,94 @@ Working with Image Borders
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
+                <Example>
+                  <Title>Working with Image Borders</Title>
+                  <Description>Aspose.BarCode allows its users to handle image borders, which include margins and its width.</Description>
+                  <FolderName>WorkingwithImageBorders</FolderName>
+                  <Order>2</Order>
+                  <DocLink>
+                    <DisplayName>Working with Image Borders</DisplayName>
+                    <Url>http://www.aspose.com/docs/display/barcodejava/Working+with+Image+Borders</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode-borders.out.jpg</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Colorize any Part of the Barcode Image</Title>
+                  <Description>Normally, barcodes are generated and printed in black and white colors. But, what if it is required to generate a colored barcode?
+Keeping this possible requirement in mind, Aspose.BarCode gives free hand to developers to change the colors of: 
+
+- Barcode
+- Code text
+- Barcode Background
+- Barcode Border
+- Caption
+
+BarCodeBuilder class has following methods that are used to colorize different parts of a barcode as follows: 
+
+- setForeColor() method to assign any color to the Barcode
+- setCodeTextColor() method to assign any color to the Code text of the barcode
+- setBackColor() method to set the Background color of the barcode
+- setBorderColor() method to set the Border color of the barcode
+
+Developers can select any desired color using Java.awt.Color (part of Java) and then pass that selected color to any of the methods (setForeColor(), setCodeTextColor(), setBackColor ()or setBorderColor()) according to their custom requirements.</Description>
+                  <FolderName>ColorizeanyPartoftheBarcodeImage</FolderName>
+                  <Order>3</Order>
+                  <DocLink>
+                    <DisplayName>Colorize any Part of the Barcode Image</DisplayName>
+                    <Url>http://www.aspose.com/docs/display/barcodejava/Colorize+any+Part+of+the+Barcode+Image</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.out.jpg</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Control Barcode Image Quality</Title>
+                  <Description>Aspose.BarCode can render anti-aliased barcode images that provide much better quality due to anti-aliasing. The quality of anti-aliased barcode images is more distinguished when barcode is generated with high resolution. 
+All you have to do is to call setImageQuality() method of BarCodeBuilder class provided by Aspose.BarCode) to any desired pre-defined image quality mode stored in ImageQualityMode class. 
+
+The pre-defined image quality modes in ImageQualityMode class are listed below:
+
+Default	: Specifies simple image rendering
+AntiAlias	: Specifies Anti-aliased image rendering. Much better quality due to antialiasing but at a higher performance cost</Description>
+                  <FolderName>ControlBarcodeImageQuality</FolderName>
+                  <Order>4</Order>
+                  <DocLink>
+                    <DisplayName>Control Barcode Image Quality</DisplayName>
+                    <Url>http://www.aspose.com/docs/display/barcodejava/Control+Barcode+Image+Quality</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.out.jpg</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Set Barcode Image Margins</Title>
+                  <Description>It is possible to set barcode image margins using Aspose.BarCode. Margins is the area between the edges of the barcode image and its border. By default, the border of barcode image is visible on the barcode. If the border is shown, the image margin is between the border and the edges of the image. But, if the border is hidden then border margin will not be effected and image margin covers the area between the area captured by bars and the edges of the barcode image.
+
+Developers can set the image margins of the barcode image by calling the setLeft (), setRight(), setTop() and setBottom() methods found in BarCodeBuilder class provided by com.aspose.barcode for margin settings of the barcode image.</Description>
+                  <FolderName>SetBarcodeImageMargins</FolderName>
+                  <Order>5</Order>
+                  <DocLink>
+                    <DisplayName>Set Barcode Image Margins</DisplayName>
+                    <Url>http://www.aspose.com/docs/display/barcodejava/Set+Barcode+Image+Margins</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.out.jpg</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
               </Examples>
             </Folder>
           </Folders>
