@@ -16,7 +16,7 @@ public class SetBarcodeImageMargins
     {
         // The path to the documents directory.
         String dataDir = "src/programmersguide/workingwithbarcodeimage/barcodeimagebasicfeatures/setbarcodeimagemargins/data/";
-        
+
         //Instantiate barcode object
         BarCodeBuilder bb = new BarCodeBuilder("12345678", Symbology.Code128);
 
@@ -35,14 +35,18 @@ public class SetBarcodeImageMargins
         try
         {
             //Save the image to file
-            bb.save(dataDir + "barcode.out.jpg");
-            
+            bb.save(dataDir + "barcode.jpg");
+
             //Print message
             System.out.println("Barcode image generated successfully.");
         }
         catch (Exception ex)
         {
-        	System.out.println("Some problem occurred while saving barcode image.");
+            System.out.println("Some problem occurred while saving barcode image.");
         }
     }
 }
+
+
+
+

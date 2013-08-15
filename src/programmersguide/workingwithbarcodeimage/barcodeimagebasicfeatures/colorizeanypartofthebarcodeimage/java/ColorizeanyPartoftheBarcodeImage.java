@@ -8,9 +8,8 @@
  
 package programmersguide.workingwithbarcodeimage.barcodeimagebasicfeatures.colorizeanypartofthebarcodeimage.java;
 
-import java.awt.Color;
-
 import com.aspose.barcode.*;
+import java.awt.*;
 
 public class ColorizeanyPartoftheBarcodeImage
 {
@@ -18,7 +17,7 @@ public class ColorizeanyPartoftheBarcodeImage
     {
         // The path to the documents directory.
         String dataDir = "src/programmersguide/workingwithbarcodeimage/barcodeimagebasicfeatures/colorizeanypartofthebarcodeimage/data/";
-        
+
         //Instantiate barcode object
         BarCodeBuilder bb = new BarCodeBuilder();
 
@@ -37,18 +36,22 @@ public class ColorizeanyPartoftheBarcodeImage
         //Caption's color
         bb.getCaptionAbove().setForeColor(Color.darkGray);
         bb.getCaptionBelow().setForeColor(Color.CYAN);
-        
+
         try
         {
             //Save the image to file
-            bb.save(dataDir + "barcode.out.jpg");
-            
+            bb.save(dataDir + "barcode.jpg");
+
             //Print message
             System.out.println("Barcode image generated successfully.");
         }
         catch (Exception ex)
         {
-        	System.out.println("Some problem occurred while saving barcode image.");
+            System.out.println("Some problem occurred while saving barcode image.");
         }
     }
 }
+
+
+
+

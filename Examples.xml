@@ -65,159 +65,121 @@ This example explains this concept in a very easy way.</Description>
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
-                <Example>
-                  <Title>Generate Barcode by Specifying Custom Image Size</Title>
-                  <Description>Aspose.BarCode for Java automatically adjusts the image size (width and height) according to the generated barcode’s size. But, you can also control the image size by specifying height and width of image using BarCodeBuilder.setImageHeight() and setImageWidth() methods. BarCodeBuilder.setAutoSize() should be set to false in order to customize the image size.</Description>
-                  <FolderName>GenerateBarcodebySpecifyingCustomImageSize</FolderName>
-                  <Order>2</Order>
-                  <DocLink>
-                    <DisplayName>Generate Barcode by Specifying Custom Image Size</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Generate+Barcode+by+Specifying+Custom+Image+Size</Url>
-                  </DocLink>
-                  <OutputFiles>
-                    <DataFile>
-                      <Path>..\Data\barcode.out.png</Path>
-                    </DataFile>
-                  </OutputFiles>
-                  <Type>Console</Type>
-                </Example>
-                <Example>
-                  <Title>Customize Barcode Image Resolution</Title>
-                  <Description>What if developers need to set the resolution of their barcode images according to their custom settings?
-Well, Aspose.BarCode also addresses this issue and provides Resolution class that serves developers to customize the resolution of their barcode images in any way they want. 
-Resolution class has three major properties:
-
-setDpiX() method that is used to set Horizontal Resolution settings of the barcode image in Dot per inches (Dpi)
-setDpiY() method that is used to set Vertical Resolution settings of the barcode image in Dot per inches (Dpi)</Description>
-                  <FolderName>CustomizeBarcodeImageResolution</FolderName>
-                  <Order>3</Order>
-                  <DocLink>
-                    <DisplayName>Customize Barcode Image Resolution</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Customize+Barcode+Image+Resolution</Url>
-                  </DocLink>
-                  <OutputFiles>
-                    <DataFile>
-                      <Path>..\Data\barcode.out.jpg</Path>
-                    </DataFile>
-                  </OutputFiles>
-                  <Type>Console</Type>
-                </Example>
               </Examples>
             </Folder>
             <Folder>
               <Title>Barcode Image Basic Features</Title>
               <Description>This section includes the following topics: 
-Working with Image Borders 
 
-- Colorize any Part of the Barcode Image 
-- Rotate Barcode Image
-- Control Barcode Image Quality 
-- Set Barcode Image MarginsF</Description>
+1: Working with Image Borders
+2: Colorize any Part of the Barcode Image
+3: Rotate Barcode Image
+4: Control Barcode Image Quality
+5: Set Barcode Image Margins
+6: How to Detect Orientation of a Detected Bar Code</Description>
               <FolderName>BarcodeImageBasicFeatures</FolderName>
               <Order>2</Order>
               <Examples>
                 <Example>
-                  <Title>Rotate Barcode Image</Title>
-                  <Description>Aspose.BarCode allows developers to rotate the barcode image by calling the setRotationAngleF() method of the barcode class.</Description>
-                  <FolderName>RotateBarcodeImage</FolderName>
+                  <Title>Working with Image Borders</Title>
+                  <Description>Aspose.BarCode allows its users to handle everything about barcode image borders, which include setting border style, margins and its width.</Description>
+                  <FolderName>WorkingWithImageBorders</FolderName>
                   <Order>1</Order>
                   <DocLink>
-                    <DisplayName>Rotate Barcode Image</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Rotate+Barcode+Image</Url>
-                  </DocLink>
-                  <OutputFiles>
-                    <DataFile>
-                      <Path>..\Data\barcode.out.png</Path>
-                    </DataFile>
-                  </OutputFiles>
-                  <Type>Console</Type>
-                </Example>
-                <Example>
-                  <Title>Working with Image Borders</Title>
-                  <Description>Aspose.BarCode allows its users to handle image borders, which include margins and its width.</Description>
-                  <FolderName>WorkingwithImageBorders</FolderName>
-                  <Order>2</Order>
-                  <DocLink>
                     <DisplayName>Working with Image Borders</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Working+with+Image+Borders</Url>
+                    <Url>Working+with+Image+Borders</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\barcode-borders.out.jpg</Path>
+                      <Path>..\Data\barcode.jpg</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
                 <Example>
                   <Title>Colorize any Part of the Barcode Image</Title>
-                  <Description>Normally, barcodes are generated and printed in black and white colors. But, what if it is required to generate a colored barcode?
-Keeping this possible requirement in mind, Aspose.BarCode gives free hand to developers to change the colors of: 
-
-- Barcode
-- Code text
-- Barcode Background
-- Barcode Border
-- Caption
-
-BarCodeBuilder class has following methods that are used to colorize different parts of a barcode as follows: 
-
-- setForeColor() method to assign any color to the Barcode
-- setCodeTextColor() method to assign any color to the Code text of the barcode
-- setBackColor() method to set the Background color of the barcode
-- setBorderColor() method to set the Border color of the barcode
-
-Developers can select any desired color using Java.awt.Color (part of Java) and then pass that selected color to any of the methods (setForeColor(), setCodeTextColor(), setBackColor ()or setBorderColor()) according to their custom requirements.</Description>
+                  <Description>Normally, barcodes are generated and printed in black and white colors. But, what if it is required to generate a colored barcode? Keeping this possible requirement in mind, Aspose.BarCode gives free hand to developers to change the colors of:
+ 
+-Barcode
+-Code text
+-Barcode Background
+-Barcode Border
+-Caption</Description>
                   <FolderName>ColorizeanyPartoftheBarcodeImage</FolderName>
-                  <Order>3</Order>
+                  <Order>2</Order>
                   <DocLink>
                     <DisplayName>Colorize any Part of the Barcode Image</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Colorize+any+Part+of+the+Barcode+Image</Url>
+                    <Url>Colorize+any+Part+of+the+Barcode+Image</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\barcode.out.jpg</Path>
+                      <Path>..\Data\barcode.jpg</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Rotate Barcode Image</Title>
+                  <Description>Aspose.BarCode allows developers to rotate the barcode image by setting the RotationAngleF property of the barcode class.</Description>
+                  <FolderName>RotateBarcodeImage</FolderName>
+                  <Order>3</Order>
+                  <DocLink>
+                    <DisplayName>Rotate Barcode Image</DisplayName>
+                    <Url>Rotate+Barcode+Image</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.jpg</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
                 <Example>
                   <Title>Control Barcode Image Quality</Title>
-                  <Description>Aspose.BarCode can render anti-aliased barcode images that provide much better quality due to anti-aliasing. The quality of anti-aliased barcode images is more distinguished when barcode is generated with high resolution. 
-All you have to do is to call setImageQuality() method of BarCodeBuilder class provided by Aspose.BarCode) to any desired pre-defined image quality mode stored in ImageQualityMode class. 
-
-The pre-defined image quality modes in ImageQualityMode class are listed below:
-
-Default	: Specifies simple image rendering
-AntiAlias	: Specifies Anti-aliased image rendering. Much better quality due to antialiasing but at a higher performance cost</Description>
+                  <Description>Aspose.BarCode can render anti-aliased barcode images that provide much better quality due to anti-aliasing. The quality of anti-aliased barcode images is more distinguished when barcode is generated with high resolution.</Description>
                   <FolderName>ControlBarcodeImageQuality</FolderName>
                   <Order>4</Order>
                   <DocLink>
                     <DisplayName>Control Barcode Image Quality</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Control+Barcode+Image+Quality</Url>
+                    <Url>Control+Barcode+Image+Quality</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\barcode.out.jpg</Path>
+                      <Path>..\Data\barcode.jpg</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
                 <Example>
                   <Title>Set Barcode Image Margins</Title>
-                  <Description>It is possible to set barcode image margins using Aspose.BarCode. Margins is the area between the edges of the barcode image and its border. By default, the border of barcode image is visible on the barcode. If the border is shown, the image margin is between the border and the edges of the image. But, if the border is hidden then border margin will not be effected and image margin covers the area between the area captured by bars and the edges of the barcode image.
-
-Developers can set the image margins of the barcode image by calling the setLeft (), setRight(), setTop() and setBottom() methods found in BarCodeBuilder class provided by com.aspose.barcode for margin settings of the barcode image.</Description>
+                  <Description>It is possible to set barcode image margins using Aspose.BarCode. Margins is the area between the edges of the barcode image and its border. By default, the border of barcode image is visible on the barcode.</Description>
                   <FolderName>SetBarcodeImageMargins</FolderName>
                   <Order>5</Order>
                   <DocLink>
                     <DisplayName>Set Barcode Image Margins</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Set+Barcode+Image+Margins</Url>
+                    <Url>Set+Barcode+Image+Margins</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\barcode.out.jpg</Path>
+                      <Path>..\Data\barcode.jpg</Path>
                     </DataFile>
                   </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>How to Detect Orientation of a Detected Bar Code</Title>
+                  <Description>Aspose.BarCode allows developers to detect orientation of a detected bar code by calling GetAngle method of BarCodeReader class.</Description>
+                  <FolderName>DetectOrientationOfBarCode</FolderName>
+                  <Order>6</Order>
+                  <DocLink>
+                    <DisplayName>How to Detect Orientation of a Detected Bar Code</DisplayName>
+                    <Url>How+to+Detect+Orientation+of+a+Detected+Bar+Code</Url>
+                  </DocLink>
+                  <InputFiles>
+                    <DataFile>
+                      <Path>..\Data\barcode.jpg</Path>
+                    </DataFile>
+                  </InputFiles>
                   <Type>Console</Type>
                 </Example>
               </Examples>
@@ -279,45 +241,33 @@ Developers can set the image margins of the barcode image by calling the setLeft
                 </Example>
                 <Example>
                   <Title>Specify Symbologies for Barcodes</Title>
-                  <Description>Barcode is a system for automatic identification of items, such as books in a library, by means of printed bars of different widths which represent numbers. Barcodes are used for many reasons among them are, to speed up check out, to track sales and to help with inventory. The first set of numbers in a barcode is the manufacturer code, the second set of numbers in the barcode is the product code. The barcode was introduced in the early 80s and is often printed on the record sleeve only, sometimes also on the center record paper label.
-
-Barcode Symbology is the protocol that defines a standard for arranging the bars and spaces (between the bars) that comprise a particular type of barcode, such as UPCA, EAN, Code128 etc.
-
-Aspose.BarCode supports nearly all popular barcode symbologies. BarCodeBuilder class has a method setSymbologyType() that is used to set the symbology of a barcode.
-Developers can pass any symbology to setSymbologyType() method from the pre-defined symbologies supported by Aspose.BarCode in Symbology enumeration.</Description>
-                  <FolderName>SpecifySymbologiesforBarcodes</FolderName>
+                  <Description>Aspose.BarCode supports nearly all popular barcode symbologies. All barcode generating classes like LinearBarCode , BarCodeControl and BarCodeWebControl have a common property named as SymbologyType that is used to set the symbology of a barcode.
+ Developers can assign any symbology to SymbologyType property from the pre-defined symbologies supported by Aspose.BarCode in Symbology enumeration.</Description>
+                  <FolderName>SpecifySymbologiesForBarcodes</FolderName>
                   <Order>3</Order>
                   <DocLink>
                     <DisplayName>Specify Symbologies for Barcodes</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Specify+Symbologies+for+Barcodes</Url>
+                    <Url>Specify+Symbologies+for+Barcodes</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\code39Standard.out.png</Path>
-                    </DataFile>
-                    <DataFile>
-                      <Path>..\Data\code128.out.png</Path>
-                    </DataFile>
-                    <DataFile>
-                      <Path>..\Data\QR.out.png</Path>
+                      <Path>..\Data\barcode.jpg</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
                 <Example>
                   <Title>Set Code text for Barcode</Title>
-                  <Description>A barcode is the representation of characters in the form of bars and spaces between them. So, it is a simple fact that we would also have to assign some characters to Aspose.BarCode so that the input characters could be converted to a barcode. We know that Aspose.BarCode has BarCodeBuilder class to create barcodes for different kinds of applications. All characters to be encoded to barcode are passed to setCodeText() method of the BarCodeBuilder class.
-
-Developers can pass any set of characters to setCodeText() method but only according to its symbology type. For example, If the SymbologyType of barcode is Symbology.EAN13, the valid character set of EAN13 specification is limited to numeric values and contains 13 digits only. If you attempt to shorter CodeText to it, zero will be added, if longer CodeText, the outbound part will be truncated:</Description>
-                  <FolderName>SetCodetextforBarcode</FolderName>
+                  <Description>A barcode is the representation of characters in the form of bars and spaces between them. So, it is a simple fact that we would also have to assign some characters to Aspose.BarCode so that the input characters could be converted to a barcode. We know that Aspose.BarCode has three different classes (BarCodeBuilder, BarCodeControl and BarCodeWebControl) to create barcodes for different kinds of applications. All these classes have a common property, CodeText. All characters to be encoded to barcode are assigned to CodeText property of any barcode class.</Description>
+                  <FolderName>SetCodeTextForBarcode</FolderName>
                   <Order>4</Order>
                   <DocLink>
                     <DisplayName>Set Code text for Barcode</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Set+Code+text+for+Barcode</Url>
+                    <Url>Set+Code+text+for+Barcode</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\codetext.out.jpg</Path>
+                      <Path>..\Data\barcode.jpg</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>
@@ -410,107 +360,61 @@ To change the measuring unit of the bar height, developers can make use of Image
                   <Type>Console</Type>
                 </Example>
                 <Example>
-                  <Title>Use Checksum for Barcodes</Title>
-                  <Description>A Checksum is an error detection scheme in which some additional characters are added to a barcode to protect the integrity of barcode data. Checksums are not necessary for all kinds of barcodes. For example, Code128 and Code39 are self-checking and checksums for such symbologies are not necessary. But on the other hand, another symbology like Interleaved2Of5, which can only represent numeric data, has very little spaces between its bars and is prone to substitution errors. So, for such symbologies, checksums are necessary. There are also some symbologies such as UPC (Universal Product Code) that require a checksum.</Description>
-                  <FolderName>UseChecksumforBarcodes</FolderName>
+                  <Title>Generate AustraliaPost Barcode</Title>
+                  <Description>AustraliaPost barcode can be generated using following 6 different format control code options: 
+
+1.Standard
+2.ReplyPaid
+3.Customer2
+4.Customer3
+5.Routing
+6.Redirection</Description>
+                  <FolderName>GenerateAustraliaPostBarcode</FolderName>
                   <Order>4</Order>
                   <DocLink>
-                    <DisplayName>Use Checksum for Barcodes</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Use+Checksum+and+Supplement+Data+for+Barcodes</Url>
-                  </DocLink>
-                  <OutputFiles>
-                    <DataFile>
-                      <Path>..\Data\barcode-checksum.out.jpg</Path>
-                    </DataFile>
-                  </OutputFiles>
-                  <Type>Console</Type>
-                </Example>
-                <Example>
-                  <Title>Generate AustraliaPost Barcode with Different Format Control Code Options</Title>
-                  <Description>AustraliaPost barcode can be generated using following 6 different format control code options:
-
-1. Standard
-2. ReplyPaid
-3. Customer2
-4. Customer3
-5. Routing
-6. Redirection
-
-These control code can be applied using BarCodeBuilder.setAustraliaPostFormatControlCode() method.</Description>
-                  <FolderName>AustraliaPostBarcodewithDifferentFormatControlCodeOptions</FolderName>
-                  <Order>6</Order>
-                  <DocLink>
                     <DisplayName>Generate AustraliaPost Barcode with Different Format Control Code Options</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Generate+AustraliaPost+Barcode+with+Different+Format+Control+Code+Options</Url>
+                    <Url>Generate+AustraliaPost+Barcode+with+Different+Format+Control+Code+Options</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\barcodeStandard.out.png</Path>
+                      <Path>..\Data\Customer2.png</Path>
                     </DataFile>
                     <DataFile>
-                      <Path>..\Data\barcodeCustomer2.out.png</Path>
+                      <Path>..\Data\Customer3.png</Path>
+                    </DataFile>
+                    <DataFile>
+                      <Path>..\Data\Redirection.png</Path>
+                    </DataFile>
+                    <DataFile>
+                      <Path>..\Data\ReplyPaid.png</Path>
+                    </DataFile>
+                    <DataFile>
+                      <Path>..\Data\Routing.png</Path>
+                    </DataFile>
+                    <DataFile>
+                      <Path>..\Data\Standard.png</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>
                 </Example>
                 <Example>
                   <Title>Set Start and Stop Symbols of Codabar Barcode</Title>
-                  <Description>The Codabar barcode has the following structure:
-1. Start Symbol at the beginning (A, B, C or D)
-2. Data to be encoded
-3. End Symbol (A, B, C or D)
+                  <Description>The Codabar barcode has the following structure: 
 
-Using Aspose.BarCode for Java, you can customize the start and stop symbols according to your requirements, using BarCodeBuilder.setCodabarStartSymbol() and BarCodeBuilder.setCodabarStop Symbol() methods.</Description>
-                  <FolderName>SetStartandStopSymbolsofCodabarBarcode</FolderName>
-                  <Order>7</Order>
-                  <DocLink>
-                    <DisplayName>Set Start and Stop Symbols of Codabar Barcode</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Set+Start+and+Stop+Symbols+of+Codabar+Barcode</Url>
-                  </DocLink>
-                  <OutputFiles>
-                    <DataFile>
-                      <Path>..\Data\barcode.out.png</Path>
-                    </DataFile>
-                  </OutputFiles>
-                  <Type>Console</Type>
-                </Example>
-                <Example>
-                  <Title>Customize Code128 Barcodes</Title>
-                  <Description>Code128 barcode can be generated using 3 different code/character sets.
+1.Start Symbol at the beginning (A, B, C or D)
+2.Data to be encoded
+3.End Symbol (A, B, C or D)
 
-1. Code A
-2. Code B
-3. Code C
-
-These code sets can be specified using BarCodeBuilder.setCode128CodeSet() method. Aspose.BarCode also provides the option to set the codeset as Auto, to choose the best possible code set internally.</Description>
-                  <FolderName>CustomizeCode128Barcodes</FolderName>
-                  <Order>8</Order>
-                  <DocLink>
-                    <DisplayName>Customize Code128 Barcodes</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Customize+Code128+Barcodes</Url>
-                  </DocLink>
-                  <OutputFiles>
-                    <DataFile>
-                      <Path>..\Data\barcode-setA.out.png</Path>
-                    </DataFile>
-                    <DataFile>
-                      <Path>..\Data\barcode-setC.out.png</Path>
-                    </DataFile>
-                  </OutputFiles>
-                  <Type>Console</Type>
-                </Example>
-                <Example>
-                  <Title>Use Supplement Data for Barcodes</Title>
-                  <Description>UPCA, UPCE, EAN13 and EAN8 symbologies may all include an additional barcode to the right of the main barcode. This second barcode that is usually not as tall as the main barcode, is called Supplemental Barcode and is used to encode additional information for newspapers, books and other periodicals.</Description>
-                  <FolderName>UseSupplementDataforBarcodes</FolderName>
+Using Aspose.BarCode, you can customize the start and stop symbols according to your requirements, using BarCodeBuilder.CodabarStartSymbol and BarCodeBuilder.CodabarStopSymbol properties.</Description>
+                  <FolderName>SetStartAndStopSymbolsOfCodabarBarcode</FolderName>
                   <Order>5</Order>
                   <DocLink>
-                    <DisplayName>Use Supplement Data for Barcodes</DisplayName>
-                    <Url>http://www.aspose.com/docs/display/barcodejava/Use+Checksum+and+Supplement+Data+for+Barcodes</Url>
+                    <DisplayName>Set Start and Stop Symbols of Codabar Barcode</DisplayName>
+                    <Url>Set+Start+and+Stop+Symbols+of+Codabar+Barcode</Url>
                   </DocLink>
                   <OutputFiles>
                     <DataFile>
-                      <Path>..\Data\barcode-supplement-data.out.jpg</Path>
+                      <Path>..\Data\barcode.png</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>

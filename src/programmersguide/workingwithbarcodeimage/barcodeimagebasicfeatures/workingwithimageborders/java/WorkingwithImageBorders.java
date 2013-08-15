@@ -10,20 +10,20 @@ package programmersguide.workingwithbarcodeimage.barcodeimagebasicfeatures.worki
 
 import com.aspose.barcode.*;
 
-public class WorkingwithImageBorders
+public class WorkingWithImageBorders
 {
     public static void main(String[] args) throws Exception
     {
         // The path to the documents directory.
         String dataDir = "src/programmersguide/workingwithbarcodeimage/barcodeimagebasicfeatures/workingwithimageborders/data/";
-      
+
         //Instantiate barcode object
         BarCodeBuilder bb = new BarCodeBuilder();
 
         //Border will be visible
         bb.setBorderVisible(true);
 
-        //Set border's width to be 0.5 millimeter
+        //Set border's width to be 0.5 milimeter
         bb.setBorderWidth(0.5f);
 
         //Set the border's color to red
@@ -32,14 +32,15 @@ public class WorkingwithImageBorders
         try
         {
             //Save the image to file
-            bb.save(dataDir + "barcode-borders.out.jpg");
-            
+            bb.save(dataDir + "barcode.jpg");
+
             //Print message
-            System.out.println("Barcode image generated successfully.");
+            System.out.println("Process completed successfully.");
         }
         catch (Exception ex)
         {
-        	System.out.println("Some problem occurred while saving barcode image.");
+            ex.printStackTrace();
         }
+
     }
 }

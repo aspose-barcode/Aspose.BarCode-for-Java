@@ -16,7 +16,7 @@ public class RotateBarcodeImage
     {
         // The path to the documents directory.
         String dataDir = "src/programmersguide/workingwithbarcodeimage/barcodeimagebasicfeatures/rotatebarcodeimage/data/";
-        
+
         //Instantiate barcode object
         BarCodeBuilder bb = new BarCodeBuilder();
 
@@ -28,11 +28,11 @@ public class RotateBarcodeImage
 
         //Set the symbology type to code39
         bb.setSymbologyType(Symbology.Code39Extended);
-        
+
         try
         {
             //Save the image to file
-            bb.save(dataDir + "barcode.out.png");
+            bb.save(dataDir + "barcode.jpg");
         }
         catch (Exception ex)
         {
@@ -42,3 +42,7 @@ public class RotateBarcodeImage
         System.out.println("Barcode image generated and rotated successfully.");
     }
 }
+
+
+
+
