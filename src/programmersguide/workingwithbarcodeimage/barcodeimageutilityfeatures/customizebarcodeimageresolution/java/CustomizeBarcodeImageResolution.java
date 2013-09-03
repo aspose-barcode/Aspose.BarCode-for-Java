@@ -16,9 +16,9 @@ public class CustomizeBarcodeImageResolution
     {
         // The path to the documents directory.
         String dataDir = "src/programmersguide/workingwithbarcodeimage/barcodeimageutilityfeatures/customizebarcodeimageresolution/data/";
-        
-      //Instantiate barcode object
-        BarCodeBuilder bb = new BarCodeBuilder();
+
+        //Instantiate barcode object
+        BarCodeBuilder bb=new BarCodeBuilder();
 
         //Set the Code text for the barcode
         bb.setCodeText("1234567");
@@ -31,10 +31,14 @@ public class CustomizeBarcodeImageResolution
 
         //Save the image to your system
         //and set its image format to Jpeg
-        bb.save(dataDir + "barcode.out.jpg","jpg");
-        
-        // Print message
+        bb.save(dataDir + "barcode.jpg","jpg");
+
+        //Print message
         System.out.println("Barcode image generated successfully.");
-        
+
     }
 }
+
+
+
+
