@@ -31,7 +31,7 @@
 - Set Size Unit for the Barcode Image 
 - Save Barcode Images to different Formats 
 - Save Barcode Image to Streams 
-- Print Barcode Image</Description>
+</Description>
               <FolderName>BarcodeImageUtilityFeatures</FolderName>
               <Order>1</Order>
               <Examples>
@@ -93,6 +93,23 @@ This example explains this concept in a very easy way.</Description>
                   <OutputFiles>
                     <DataFile>
                       <Path>..\Data\barcode.jpg</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+            
+                <Example>
+                  <Title>Generate Barcode by Specifying Custom Image Size</Title>
+                  <Description>Aspose.BarCode for automatically adjusts the image size (width and height) according to the generated barcodes size. But, you can also control the image size by specifying height and width of image using BarCodeBuilder.ImageHeight and ImageWidth properties. BarCodeBuilder.AutoSize should be set to false in order to customize the image size.</Description>
+                  <FolderName>GenerateBarcodeCustomSize</FolderName>
+                  <Order>4</Order>
+                  <DocLink>
+                    <DisplayName>Generate Barcode by Specifying Custom Image Size</DisplayName>
+                    <Url>Generate+Barcode+by+Specifying+Custom+Image+Size</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\Data\test.png</Path>
                     </DataFile>
                   </OutputFiles>
                   <Type>Console</Type>
