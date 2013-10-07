@@ -6,16 +6,16 @@
  * "as is", without warranty of any kind, either expressed or implied.
  */
  
-package programmersguide.workingwithbarcode.barcodeadvancedfeatures.customizecode128barcodes.java;
+package programmersguide.workingwithbarcode.barcodeadvancedfeatures.usechecksumandsupplementdata.java;
 
 import com.aspose.barcode.*;
 
-public class CustomizeCode128Barcodes
+public class UseChecksumAndSupplementData
 {
     public static void main(String[] args) throws Exception
     {
         // The path to the documents directory.
-        String dataDir = "src/programmersguide/workingwithbarcode/barcodeadvancedfeatures/customizecode128barcodes/data/";
+        String dataDir = "src/programmersguide/workingwithbarcode/barcodeadvancedfeatures/usechecksumandsupplementdata/data/";
 
         // Create instance of BarCodeBuilder, specify codetext and symbology in the constructor
         BarCodeBuilder builder = new BarCodeBuilder("12345678", Symbology.Code128);
@@ -23,12 +23,11 @@ public class CustomizeCode128Barcodes
         // Set Code128 code set to Auto
         builder.setCode128CodeSet(Code128CodeSet.Auto);
 
-        // Save the image to disk in PNG format
-        builder.save(dataDir + "test.png");
+        // Save the image to disk in JPG format
+        builder.save(dataDir + "barcode.jpg");
 
         // Print message
         System.out.println("Barcode image generated successfully.");
-
     }
 }
 
