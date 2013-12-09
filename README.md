@@ -1,6 +1,16 @@
-#Aspose.Barcode for Java Examples Repository
+##Aspose.Barcode for Java Examples Repository
 
 This package contains Java Examples Projects for [Aspose.BarCode for Java](http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx).
+<br/><br/>
+<p align="center">
+  <a title="Download Examples Dashboard" href="http://www.aspose.com/community/files/72/java-components/aspose-examples-for-java/default.aspx">
+	<img src="https://raw.github.com/AsposeExamples/java-examples-dashboard/master/images/downloadDasboard-Button-Large.png" />
+  </a>
+  &nbsp;
+  <a title="Download Examples ZIP" href="https://github.com/asposebarcode/Aspose_BarCode_Java/archive/master.zip">
+	<img src="https://raw.github.com/AsposeExamples/java-examples-dashboard/master/images/downloadZip-Button-Large.png" />
+  </a>
+</p>
 
 ##How to use the Examples?
 
