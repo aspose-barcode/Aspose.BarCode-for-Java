@@ -21,7 +21,7 @@
 - Barcode Image Basic Features 
 - Barcode Image Utility Features</Description>
           <FolderName>workingwithbarcodeimage</FolderName>
-          <Order>1</Order>
+          <Order>2</Order>
           <Folders>
             <Folder>
               <Title>Barcode Image Utility Features</Title>
@@ -253,7 +253,7 @@ This example explains this concept in a very easy way.</Description>
 - Barcode Utility Features 
 - Barcode Advance Features</Description>
           <FolderName>workingwithbarcode</FolderName>
-          <Order>2</Order>
+          <Order>3</Order>
           <Folders>
             <Folder>
               <Title>Barcode Utility Features</Title>
@@ -512,172 +512,387 @@ Using Aspose.BarCode, you can customize the start and stop symbols according to 
                 </Example>
               </Examples>
             </Folder>
-            <Folder>
-              <Title>Working with 2D Barcodes</Title>
-              <Description>This section includes the following example: 
+          </Folders>
+        </Folder>
+        <Folder>
+          <Title>Working with 2D Barcodes</Title>
+          <Description>This section includes the following example: 
 
 - 2D Barcodes Basic Features
 - 2D Barcodes Utility Features</Description>
-              <FolderName>workingwith2dbarcodes</FolderName>
-              <Order>3</Order>
-              <Folders>
-                <Folder>
-                  <Title>2D Barcodes Basic Features</Title>
-                  <Description>This section includes the following topics: 
+          <FolderName>workingwith2dbarcodes</FolderName>
+          <Order>1</Order>
+          <Folders>
+            <Folder>
+              <Title>2D Barcodes Basic Features</Title>
+              <Description>This section includes the following topics: 
 
 - How to Create Two Dimensional (2D) Barcodes
 - How to create a PDF417 Barcode
 - How to create a Datamatrix Barcode
 - How to create a QR Barcode
 - How to create a Aztec Barcode</Description>
-                  <FolderName>2dbarcodesbasicfeatures</FolderName>
+              <FolderName>2dbarcodesbasicfeatures</FolderName>
+              <Order>1</Order>
+              <Examples>
+                <Example>
+                  <Title>How to Create Two Dimensional (2D) Barcodes</Title>
+                  <Description>Aspose.BarCode.BarCodeBuilder supports both one dimensional and two dimensional barcodes. It encapsulate both types of barcode into one unified interface. Creating two dimensional barcodes is just the same as creating one dimensional barcodes.</Description>
+                  <FolderName>createtwodbarcodes</FolderName>
                   <Order>1</Order>
-                  <Examples>
-                    <Example>
-                      <Title>How to Create Two Dimensional (2D) Barcodes</Title>
-                      <Description>Aspose.BarCode.BarCodeBuilder supports both one dimensional and two dimensional barcodes. It encapsulate both types of barcode into one unified interface. Creating two dimensional barcodes is just the same as creating one dimensional barcodes.</Description>
-                      <FolderName>createtwodbarcodes</FolderName>
-                      <Order>1</Order>
-                      <DocLink>
-                        <DisplayName>How to Create Two Dimensional (2D) Barcodes</DisplayName>
-                        <Url>How+to+Create+Two+Dimensional+%282D%29+Barcodes</Url>
-                      </DocLink>
-                      <OutputFiles>
-                        <DataFile>
-                          <Path>..\data\result.bmp</Path>
-                        </DataFile>
-                      </OutputFiles>
-                      <Type>Console</Type>
-                    </Example>
-                    <Example>
-                      <Title>How to create a PDF417 Barcode</Title>
-                      <Description>Pdf417 uses Reed Solomon error correction instead of check digits. This error correction allows the symbol to withstand some damage without causing loss of data. AIM standards recommend a minimum error correction level of 2.</Description>
-                      <FolderName>createpdf417barcode</FolderName>
-                      <Order>2</Order>
-                      <DocLink>
-                        <DisplayName>How to create a PDF417 Barcode</DisplayName>
-                        <Url>How+to+create+a+PDF417+Barcode</Url>
-                      </DocLink>
-                      <OutputFiles>
-                        <DataFile>
-                          <Path>..\data\output.bmp</Path>
-                        </DataFile>
-                      </OutputFiles>
-                      <Type>Console</Type>
-                    </Example>
-                    <Example>
-                      <Title>How to create a Datamatrix Barcode</Title>
-                      <Description>DataMatrix is being used to encode product and serial number information on electrical rating plates; to mark of surgical instruments in Japan; to identify lenses, circuit boards, and other items during manufacturing. DataMatrix barcodes can store up to 2000 characters.</Description>
-                      <FolderName>createdatamatrixbarcode</FolderName>
-                      <Order>3</Order>
-                      <DocLink>
-                        <DisplayName>How to create a Datamatrix Barcode</DisplayName>
-                        <Url>How+to+create+a+Datamatrix+Barcode</Url>
-                      </DocLink>
-                      <OutputFiles>
-                        <DataFile>
-                          <Path>..\data\output.bmp</Path>
-                        </DataFile>
-                      </OutputFiles>
-                      <Type>Console</Type>
-                    </Example>
-                  </Examples>
-                  <Folders>
-                    <Folder>
-                      <Title>How to create a QR Barcode</Title>
-                      <Description>This section includes the following examples:
+                  <DocLink>
+                    <DisplayName>How to Create Two Dimensional (2D) Barcodes</DisplayName>
+                    <Url>How+to+Create+Two+Dimensional+%282D%29+Barcodes</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\data\result.bmp</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>How to create a PDF417 Barcode</Title>
+                  <Description>Pdf417 uses Reed Solomon error correction instead of check digits. This error correction allows the symbol to withstand some damage without causing loss of data. AIM standards recommend a minimum error correction level of 2.</Description>
+                  <FolderName>createpdf417barcode</FolderName>
+                  <Order>2</Order>
+                  <DocLink>
+                    <DisplayName>How to create a PDF417 Barcode</DisplayName>
+                    <Url>How+to+create+a+PDF417+Barcode</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\data\output.bmp</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>How to create a Datamatrix Barcode</Title>
+                  <Description>DataMatrix is being used to encode product and serial number information on electrical rating plates; to mark of surgical instruments in Japan; to identify lenses, circuit boards, and other items during manufacturing. DataMatrix barcodes can store up to 2000 characters.</Description>
+                  <FolderName>createdatamatrixbarcode</FolderName>
+                  <Order>3</Order>
+                  <DocLink>
+                    <DisplayName>How to create a Datamatrix Barcode</DisplayName>
+                    <Url>How+to+create+a+Datamatrix+Barcode</Url>
+                  </DocLink>
+                  <OutputFiles>
+                    <DataFile>
+                      <Path>..\data\output.bmp</Path>
+                    </DataFile>
+                  </OutputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>How To Create A Aztec Barcode</Title>
+                  <Description>In this example, we will see how we can create Aztec barcode using Aspose.Barcode.</Description>
+                  <FolderName>createaaztecbarcode</FolderName>
+                  <Order>5</Order>
+                  <DocLink>
+                    <DisplayName>How to create a Aztec Barcode</DisplayName>
+                    <Url>How+to+create+a+Aztec+Barcode</Url>
+                  </DocLink>
+                  <InputFiles>
+                    <DataFile>
+                      <Path>..\data\test_aztec.bmp</Path>
+                    </DataFile>
+                  </InputFiles>
+                  <Type>Console</Type>
+                </Example>
+              </Examples>
+              <Folders>
+                <Folder>
+                  <Title>How to create a QR Barcode</Title>
+                  <Description>This section includes the following examples:
 
 - Produce a QR barcode
 - Error correction
 - Rotation
 - Encode Mode</Description>
-                      <FolderName>createqrbarcode</FolderName>
-                      <Order>4</Order>
-                      <Examples>
-                        <Example>
-                          <Title>Produce a QR barcode</Title>
-                          <Description>QR barcode is a two dimensional barcode symbology developed in Japan. QR barcode has the following features: 
+                  <FolderName>createqrbarcode</FolderName>
+                  <Order>4</Order>
+                  <Examples>
+                    <Example>
+                      <Title>Produce a QR barcode</Title>
+                      <Description>QR barcode is a two dimensional barcode symbology developed in Japan. QR barcode has the following features: 
 
 - High capacity encoding of data, upto 7000 numeric digits or 4000 alphanumeric data
 - Dirt and damage resistant, a maximum 30% of codewords can be restored
 - Readable from all directions</Description>
-                          <FolderName>produceqrbarcode</FolderName>
-                          <Order>1</Order>
-                          <DocLink>
-                            <DisplayName>How to create a QR Barcode</DisplayName>
-                            <Url>How+to+create+a+QR+Barcode</Url>
-                          </DocLink>
-                          <OutputFiles>
-                            <DataFile>
-                              <Path>..\data\test_qr.bmp</Path>
-                            </DataFile>
-                          </OutputFiles>
-                          <Type>Console</Type>
-                        </Example>
-                        <Example>
-                          <Title>Error Correction</Title>
-                          <Description>QR barcode can withstand certain damage and can still be decoded normally. This is decided by QR barcode's error correction level during encode. There are four levels of error correction, from low to high: 
+                      <FolderName>produceqrbarcode</FolderName>
+                      <Order>1</Order>
+                      <DocLink>
+                        <DisplayName>How to create a QR Barcode</DisplayName>
+                        <Url>How+to+create+a+QR+Barcode</Url>
+                      </DocLink>
+                      <OutputFiles>
+                        <DataFile>
+                          <Path>..\data\test_qr.bmp</Path>
+                        </DataFile>
+                      </OutputFiles>
+                      <Type>Console</Type>
+                    </Example>
+                    <Example>
+                      <Title>Error Correction</Title>
+                      <Description>QR barcode can withstand certain damage and can still be decoded normally. This is decided by QR barcode's error correction level during encode. There are four levels of error correction, from low to high: 
 
 - LevelL. Allows recovery of 7% of the code text
 - LevelM. Allows recovery of 15% of the code text
 - LevelQ. Allows recovery of 25% of the code text
 - LevelH. Allows recovery of 30% of the code text</Description>
-                          <FolderName>errorcorrection</FolderName>
-                          <Order>2</Order>
-                          <DocLink>
-                            <DisplayName>How to create a QR Barcode</DisplayName>
-                            <Url>How+to+create+a+QR+Barcode</Url>
-                          </DocLink>
-                          <OutputFiles>
-                            <DataFile>
-                              <Path>..\data\test_qr.bmp</Path>
-                            </DataFile>
-                          </OutputFiles>
-                          <Type>Console</Type>
-                        </Example>
-                        <Example>
-                          <Title>Rotation</Title>
-                          <Description>QR barcode can be read from any direction and in this example we will rotate the barcode using Aspose.BarCode API.</Description>
-                          <FolderName>rotation</FolderName>
-                          <Order>3</Order>
-                          <DocLink>
-                            <DisplayName>How to create a QR Barcode</DisplayName>
-                            <Url>How+to+create+a+QR+Barcode</Url>
-                          </DocLink>
-                          <OutputFiles>
-                            <DataFile>
-                              <Path>..\data\test_qr.bmp</Path>
-                            </DataFile>
-                          </OutputFiles>
-                          <Type>Console</Type>
-                        </Example>
-                        <Example>
-                          <Title>Encode Mode</Title>
-                          <Description>QR barcode supports below 3 encoding modes:
+                      <FolderName>errorcorrection</FolderName>
+                      <Order>2</Order>
+                      <DocLink>
+                        <DisplayName>How to create a QR Barcode</DisplayName>
+                        <Url>How+to+create+a+QR+Barcode</Url>
+                      </DocLink>
+                      <OutputFiles>
+                        <DataFile>
+                          <Path>..\data\test_qr.bmp</Path>
+                        </DataFile>
+                      </OutputFiles>
+                      <Type>Console</Type>
+                    </Example>
+                    <Example>
+                      <Title>Rotation</Title>
+                      <Description>QR barcode can be read from any direction and in this example we will rotate the barcode using Aspose.BarCode API.</Description>
+                      <FolderName>rotation</FolderName>
+                      <Order>3</Order>
+                      <DocLink>
+                        <DisplayName>How to create a QR Barcode</DisplayName>
+                        <Url>How+to+create+a+QR+Barcode</Url>
+                      </DocLink>
+                      <OutputFiles>
+                        <DataFile>
+                          <Path>..\data\test_qr.bmp</Path>
+                        </DataFile>
+                      </OutputFiles>
+                      <Type>Console</Type>
+                    </Example>
+                    <Example>
+                      <Title>Encode Mode</Title>
+                      <Description>QR barcode supports below 3 encoding modes:
 
 - Numeric: Only encode numeric data. Ignore other characters
 - Alpha-numeric: Only encode numbers and alphabets. Ignore other characters
 - Binary: Encode all kind of dataAll above modes are supported by Aspose.BarCode for .NET. 
 
 However, you may also specify Auto encode mode to choose the best encoding mode.</Description>
-                          <FolderName>encodemode</FolderName>
-                          <Order>4</Order>
-                          <DocLink>
-                            <DisplayName>How to create a QR Barcode</DisplayName>
-                            <Url>How+to+create+a+QR+Barcode</Url>
-                          </DocLink>
-                          <OutputFiles>
-                            <DataFile>
-                              <Path>..\data\barcode.png</Path>
-                            </DataFile>
-                          </OutputFiles>
-                          <Type>Console</Type>
-                        </Example>
-                      </Examples>
-                    </Folder>
-                  </Folders>
+                      <FolderName>encodemode</FolderName>
+                      <Order>4</Order>
+                      <DocLink>
+                        <DisplayName>How to create a QR Barcode</DisplayName>
+                        <Url>How+to+create+a+QR+Barcode</Url>
+                      </DocLink>
+                      <OutputFiles>
+                        <DataFile>
+                          <Path>..\data\barcode.png</Path>
+                        </DataFile>
+                      </OutputFiles>
+                      <Type>Console</Type>
+                    </Example>
+                  </Examples>
                 </Folder>
               </Folders>
+            </Folder>
+            <Folder>
+              <Title>2D Barcodes Utility Features</Title>
+              <Description>This section includes the following topics: 
+
+ - Hiding CodeText which is too long to display
+ - Adjusting 2D images size
+ - Set Aspect Ratio of Barcodes
+ - Generate Multiple MacroPdf417 Barcodes for Large or Multiple Codetext Values</Description>
+              <FolderName>2dbarcodesutilityfeatures</FolderName>
+              <Order>2</Order>
+              <Examples>
+                <Example>
+                  <Title>Hiding CodeText which is too long to display</Title>
+                  <Description>In this example, we will see how we can hide the barcode CodeText using Aspose.Barcode.</Description>
+                  <FolderName>hidingcodetext</FolderName>
+                  <Order>1</Order>
+                  <DocLink>
+                    <DisplayName>Hiding CodeText which is too long to display</DisplayName>
+                    <Url>Hiding+CodeText+which+is+too+long+to+display</Url>
+                  </DocLink>
+                  <InputFiles>
+                    <DataFile>
+                      <Path>..\data\test_datamatrix.bmp</Path>
+                    </DataFile>
+                  </InputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Set Aspect Ratio Of Barcodes</Title>
+                  <Description>In this example, we will see how we can set the aspect ratio of the barcode using Aspose.Barcode.</Description>
+                  <FolderName>setaspectratio</FolderName>
+                  <Order>2</Order>
+                  <DocLink>
+                    <DisplayName>Set Aspect Ratio of Barcodes</DisplayName>
+                    <Url>Set+Aspect+Ratio+of+Barcodes</Url>
+                  </DocLink>
+                  <InputFiles>
+                    <DataFile>
+                      <Path>..\data\barcode.png</Path>
+                    </DataFile>
+                  </InputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Generate Multiple MacroPdf417 Barcodes for Large Or Multiple Codetext Values</Title>
+                  <Description>In this example, we will see how we can generate 4 MacroPdf417 barcodes for 4 different codetext values using Aspose.Barcode.</Description>
+                  <FolderName>generatemultiplemacropdf417barcodes</FolderName>
+                  <Order>3</Order>
+                  <DocLink>
+                    <DisplayName>Generate Multiple MacroPdf417 Barcodes for Large or Multiple Codetext Values</DisplayName>
+                    <Url>Generate+Multiple+MacroPdf417+Barcodes+for+Large+or+Multiple+Codetext+Values</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
+              </Examples>
+            </Folder>
+          </Folders>
+        </Folder>
+        <Folder>
+          <Title>Working With Barcode Recognition</Title>
+          <Description>This section includes the following topics: 
+
+ - Barcode Recognition Basic Features
+ - Barcode Recognition Advanced Features</Description>
+          <FolderName>workingwithbarcoderecognition</FolderName>
+          <Order>4</Order>
+          <Folders>
+            <Folder>
+              <Title>Barcode Recognition Basic Features</Title>
+              <Description>This section includes the following topics: 
+
+ - Introducing BarCode Recognition
+ - Supporting Image Format
+ - Recognizing Specific Barcode Symbology
+ - Recognizing Multiple Symbologies in Single Image
+ - Recognizing Barcode in WPF Project</Description>
+              <FolderName>barcoderecognitionbasicfeatures</FolderName>
+              <Order>1</Order>
+              <Examples>
+                <Example>
+                  <Title>Introducing BarCode Recognition</Title>
+                  <Description>In this example, we will see how we can scan a picture of a barcode image using Aspose.BarCode.</Description>
+                  <FolderName>introducingbarcoderecognition</FolderName>
+                  <Order>1</Order>
+                  <DocLink>
+                    <DisplayName>Introducing BarCode Recognition</DisplayName>
+                    <Url>Introducing+BarCode+Recognition</Url>
+                  </DocLink>
+                  <InputFiles>
+                    <DataFile>
+                      <Path>..\data\imagesample.png</Path>
+                    </DataFile>
+                  </InputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Supporting Image Format</Title>
+                  <Description>Aspose.Barcode accepts many standard image formats such as:
+
+ - BMP
+ - GIF
+ - JPEG
+ - EXIF
+ - PNG
+ -TIFF</Description>
+                  <FolderName>supportingimageformat</FolderName>
+                  <Order>2</Order>
+                  <DocLink>
+                    <DisplayName>Supporting Image Format</DisplayName>
+                    <Url>Supporting+Image+Format</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Recognizing Specific Barcode Symbology</Title>
+                  <Description>In this example, we will see how we can recognize specific barcode symbology using Aspose.Barcode.</Description>
+                  <FolderName>recognizingspecificbarcodesymbology</FolderName>
+                  <Order>3</Order>
+                  <DocLink>
+                    <DisplayName>Recognizing Specific Barcode Symbology</DisplayName>
+                    <Url>Recognizing+Specific+Barcode+Symbology</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
+              </Examples>
+            </Folder>
+            <Folder>
+              <Title>Barcode Recognition Advanced Features</Title>
+              <Description>This section includes the following topics: 
+
+ - Optimized Scan
+ - Barcode Orientation
+ - Better and Faster Image Processing for Barcode Recognition
+ - Marking BarCode Regions in the Image
+ - Read Barcode from Specific Region of Image
+ - Read Multiple Macropdf417 Barcode Images
+ - Getting BarCode Region Information from the Image
+ - Read Multiple Macro Pdf417 Barcodes
+ - Get all Possible 1D Barcodes from an Image
+ - Get BarCode Recognition Quality in Percent</Description>
+              <FolderName>barcoderecognitionadvancedfeatures</FolderName>
+              <Order>2</Order>
+              <Examples>
+                <Example>
+                  <Title>Barcode Orientation</Title>
+                  <Description>In this example, we will see how we can recognize the barcode in the image using orientation hints using Aspose.Barcode.</Description>
+                  <FolderName>barcodeorientation</FolderName>
+                  <Order>1</Order>
+                  <DocLink>
+                    <DisplayName>Barcode Orientation</DisplayName>
+                    <Url>Barcode+Orientation</Url>
+                  </DocLink>
+                  <InputFiles>
+                    <DataFile>
+                      <Path>..\data\code39.jpg</Path>
+                    </DataFile>
+                  </InputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Better and Faster Image Processing For Barcode Recognition</Title>
+                  <Description>In this example, we will see how we can  use the grayscale image processing technique during barcode recognition using Aspose.Barcode.</Description>
+                  <FolderName>betterandfasterimageprocessing</FolderName>
+                  <Order>2</Order>
+                  <DocLink>
+                    <DisplayName>Better and Faster Image Processing for Barcode Recognition</DisplayName>
+                    <Url>Better+and+Faster+Image+Processing+for+Barcode+Recognition</Url>
+                  </DocLink>
+                  <InputFiles>
+                    <DataFile>
+                      <Path>..\data\code39.jpg</Path>
+                    </DataFile>
+                  </InputFiles>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Marking BarCode Regions In The Image</Title>
+                  <Description>In this example, we will see how we can mark the barcode regions of an image using Aspose,Barcode,</Description>
+                  <FolderName>markingbarcoderegions</FolderName>
+                  <Order>3</Order>
+                  <DocLink>
+                    <DisplayName>Marking BarCode Regions in the Image</DisplayName>
+                    <Url>Marking+BarCode+Regions+in+the+Image</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
+                <Example>
+                  <Title>Read Barcode From Specific Region Of Image</Title>
+                  <Description>In this example, we will see how we can red the barcode from a specific region of an image using Aspose.Barcode.</Description>
+                  <FolderName>readbarcodefromspecificregion</FolderName>
+                  <Order>4</Order>
+                  <DocLink>
+                    <DisplayName>Read Barcode from Specific Region of Image</DisplayName>
+                    <Url>Read+Barcode+from+Specific+Region+of+Image</Url>
+                  </DocLink>
+                  <Type>Console</Type>
+                </Example>
+              </Examples>
             </Folder>
           </Folders>
         </Folder>
