@@ -1,6 +1,6 @@
 ##Aspose.Barcode for Java Examples Repository
 
-This package contains Java Examples Projects for [Aspose.BarCode for Java](http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx).
+This package contains Java Examples Projects for [Aspose.BarCode for Java](http://www.aspose.com/java/barcode-component.aspx).
 <br/><br/>
 <p align="center">
   <a title="Download Examples Dashboard" href="http://www.aspose.com/community/files/72/java-components/aspose-examples-for-java/default.aspx">
@@ -57,8 +57,8 @@ The Aspose.BarCode for Java examples published here at GitHub is a part of the a
 ##Contact Us
 
 + **Website:** [www.aspose.com](http://www.aspose.com)
-+ **Product Home:** [Aspose.Barcode for Java](http://www.aspose.com/categories/java-components/aspose.barcode-for-java/default.aspx)
++ **Product Home:** [Aspose.Barcode for Java](http://www.aspose.com/java/barcode-component.aspx)
 + **Download:** [Download Aspose.Barcode for Java](http://www.aspose.com/community/files/72/java-components/aspose.barcode-for-java/default.aspx)
-+ **Documentation:** [Aspose.Barcode for Java Documentation](http://www.aspose.com/documentation/java-components/aspose.barcode-for-java/index.html)
++ **Documentation:** [Aspose.Barcode for Java Documentation](http://www.aspose.com/docs/display/barcodejava/Home)
 + **Forum:** [Aspose.Barcode for Java Forum](http://www.aspose.com/community/forums/aspose.barcode-product-family/193/showforum.aspx)
 + **Blog:** [Aspose.Barcode for Java Blog](http://www.aspose.com/blogs/aspose-products/aspose-barcode-product-family.html)
