@@ -1,24 +1,14 @@
-##Aspose.Barcode for Java Examples Repository
+##Aspose.Barcode for Java Repository
 
 This package contains Java Examples Projects for [Aspose.BarCode for Java](http://www.aspose.com/java/barcode-component.aspx).
 <br/><br/>
 <p align="center">
-  <a title="Download Examples Dashboard" href="http://www.aspose.com/community/files/72/java-components/aspose-examples-for-java/default.aspx">
-	<img src="https://raw.github.com/AsposeExamples/java-examples-dashboard/master/images/downloadDasboard-Button-Large.png" />
-  </a>
-  &nbsp;
   <a title="Download Examples ZIP" href="https://github.com/asposebarcode/Aspose_BarCode_Java/archive/master.zip">
 	<img src="https://raw.github.com/AsposeExamples/java-examples-dashboard/master/images/downloadZip-Button-Large.png" />
   </a>
 </p>
 
 ##How to use the Examples?
-
-###With the Examples Dashboard
-
-Download the [Aspose Examples Dashboard for Java](http://www.aspose.com/community/files/72/java-components/aspose-examples-for-java/default.aspx) to view and run all these examples on your PC. It updates itself with the latest dependency libraries and examples.
-
-![Aspose Examples Dashboard](http://www.aspose.com/blogs/wp-content/uploads/2013/03/Java-Dashboard1.png "Aspose Examples Dashboard")
 
 ###With IDE
 
