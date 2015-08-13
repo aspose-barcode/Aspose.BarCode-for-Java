@@ -1,0 +1,5 @@
+jar_dir: ../asposebarcodejava/jars
+license_path: ../asposebarcodejava/license/path
+jvm_args: -Xms512m -Xmx1G
+
+

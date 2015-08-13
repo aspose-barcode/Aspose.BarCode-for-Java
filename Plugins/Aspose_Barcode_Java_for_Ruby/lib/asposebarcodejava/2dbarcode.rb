@@ -1,0 +1,8 @@
+require_relative '2DBarcode/creating2dbarcode'
+require_relative '2DBarcode/creatingpdf417barcode'
+require_relative '2DBarcode/creatingdatamatrixbarcode'
+require_relative '2DBarcode/creatingqrbarcode'
+require_relative '2DBarcode/creatingaztecbarcode'
+require_relative '2DBarcode/hidecodetext'
+require_relative '2DBarcode/setaspectratio'
+require_relative '2DBarcode/generatemultiplemacropdf417barcodes'
