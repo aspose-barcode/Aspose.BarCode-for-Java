@@ -4,12 +4,6 @@
 .settings/
 test-output/
 
-# IntelliJ project files
-.idea/
-*.iws
-*.iml
-*.ipr
-
 # Mac
 .DS_Store
 
