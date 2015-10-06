@@ -1,0 +1,28 @@
+<!--
+  ~ @author Adeel Ilyas <adeel.ilyas@aspose.com>
+  -->
+<idea-plugin version="2">
+    <id>com.aspose.barcode.java.intellij.maven</id>
+    <name>Aspose.Barcode Java for IntelliJ IDEA Maven</name>
+    <version>1.0.0.0</version>
+    <vendor email="barcode@aspose.com" url="http://www.aspose.com">Aspose Pty Ltd.</vendor>
+
+
+    <description><![CDATA[<br/><b>Aspose.Barcode for Java</b> is a robust and reliable barcode generation and recognition API, written in Java, it allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications. It is available for the Java SE, Java EE and Java ME platforms. The API supports most established barcode standards and barcode specifications. It has the ability to export to multiple image formats including: BMP, EMF, GIF, JPEG, PNG, TIFF and WMF.<br/><br/>The plugin's <b>Aspose.Barcode Maven Project</b> wizard lets you create a Aspose.Barcode Java API maven project by fetching / referencing the latest API mvn artifact from the Aspose Cloud Maven Repository.<br/><br/>Plugin provided wizards also gives you option to download / copy the examples source code for using Aspose.Barcode for Java API.<br/><br/>After the completion of wizard, project will be created and API examples are downloaded. All references and required resources will also be automatically added to the project.<br/><br/>You can then copy / use codes (using option <b>File-> New-> Aspose.Barcode Example</b>) from those examples for your project needs and enhance them as necessary.<br/>
+    ]]></description>
+
+
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="139"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <moduleBuilder builderClass="com.aspose.wizards.maven.AsposeMavenModuleBuilder"/>
+    </extensions>
+
+    <actions>
+        <action id="aspose.barcode.example" class="com.aspose.examples.AsposeExampleAction" text="Aspose.Barcode Example" icon="/resources/asposeSmall.png"
+                description="Aspose.Barcode Examples allow you to add Aspose sourcecode examples to demonstrate Aspose.Barcode Java API usage. Available samples are displayed in tree format from where you can select one. Selected category examples will be added to current project including source files and required data files.">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
