@@ -1,6 +1,6 @@
 ﻿## Aspose.Barcode Java for IntelliJ IDEA (Maven)
  
-The project is **Intellij IDEA (JetBrains IDE) plugin**  that lets you work the robust and reliable barcode generation and recognition API - **Aspose.Barcode for Java**.
+The project is **Intellij IDEA (JetBrains IDE) plugin**  that lets you work with the robust and reliable barcode generation and recognition API - **Aspose.Barcode for Java**.
 
 The plugins is for those who wants to utilize / use **Aspose.Barcode for Java API**. A robust and reliable barcode generation and recognition component, written in Java, which allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications.
 
