@@ -30,7 +30,7 @@ For the complete documentation of this Intellij IDEA plugin, [please go through 
 
 * [Latest Releases on Codeplex](https://asposebarcodejavaintellij.codeplex.com/releases/view/617769)
 
-## Clone Aspose.Barcode Java for IntelliJ Maven project?
+## Clone Plugin SourceCodes?
 
 This project is also hosted and maintained at CodePlex. To clone navigate to: 
 
