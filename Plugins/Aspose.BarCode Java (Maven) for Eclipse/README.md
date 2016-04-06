@@ -42,4 +42,4 @@ For more info about the **Aspose.BarCode for Java API**, [please check the api d
 
 ## Plugin Documentation
 
-For the most complete documentation,  [Please check this WIKI](http://www.aspose.com/docs/display/barcodejava/Aspose.BarCode+Java+%28Maven%29+for+Eclipse)
+For the most complete documentation,  [Please check this WIKI](http://www.aspose.com/docs/display/barcodejava/Aspose.BarCode+Java+for+Eclipse+-+Maven)
