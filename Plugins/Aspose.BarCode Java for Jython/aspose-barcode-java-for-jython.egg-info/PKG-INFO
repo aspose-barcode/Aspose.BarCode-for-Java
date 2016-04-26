@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: aspose-barcode-java-for-jython
+Version: 1.0
+Summary: Aspose.BarCode Java for Jython is a project that demonstrates / provides the Aspose.BarCode for Java API usage examples in Jython.
+Home-page: http://www.aspose.com/docs/display/barcodejava/Aspose.Barcode+Java+For+Jython
+Author: Fahad Adeel
+Author-email: barcode@aspose.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
