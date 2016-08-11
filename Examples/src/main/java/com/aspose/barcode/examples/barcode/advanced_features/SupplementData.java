@@ -1,0 +1,28 @@
+package com.aspose.barcode.examples.barcode.advanced_features;
+
+import com.aspose.barcode.BarCodeBuilder;
+import com.aspose.barcode.Symbology;
+import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
+
+public class SupplementData {
+
+	public static void main(String[] args) {
+		
+		// The path to the resource directory.
+    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/AdvancedFeatures/";
+    	
+		BarCodeBuilder bb = new BarCodeBuilder();
+		bb.setCodeText("123456789123");
+		bb.setSymbologyType(Symbology.EAN13);
+		
+		//Set the supplement data (5 Digit)
+		bb.setSupplementData("12345");
+		//Set space between the supplemental barcode and main barcode
+		bb.setSupplementSpace(2.0f);
+
+		//Save the Barcode image to file
+    	bb.save(dataDir + "supplementData.jpg");
+	}
+
+}

@@ -13,12 +13,11 @@ import com.aspose.barcode.examples.Utils;
 
 public class SetSizeUnitForBarcodeImage {
     public static void main(String[] args) {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(SetSizeUnitForBarcodeImage.class);
-
-        String dst = dataDir + "barcode-size-unit.jpg";
-
-        //Instantiate barcode object
+    	
+    	// The path to the resource directory.
+    	String dataDir = Utils.getDataDir(SetSizeUnitForBarcodeImage.class) + "BarcodeImage/UtilityFeatures/";
+    	
+    	//Instantiate barcode object
         BarCodeBuilder bb = new BarCodeBuilder();
 
         //Set the Code text for the barcode
@@ -34,8 +33,6 @@ public class SetSizeUnitForBarcodeImage {
         bb.setGraphicsUnit(GraphicsUnit.Point);
 
         // Save the image
-        bb.save(dst);
-
-        System.out.println("Barcode saved successfully.");
+        bb.save(dataDir + "barcode-size-unit.jpg");
     }
 }

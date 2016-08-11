@@ -9,32 +9,23 @@
 package com.aspose.barcode.examples.barcode_image.basic_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.ImageQualityMode;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class RotateBarcodeImage {
     public static void main(String[] args) {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(RotateBarcodeImage.class);
+    	// The path to the resource directory.
+    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeImage/BasicFeatures/";
 
-        String dst = dataDir + "barcode-image-rotate.jpg";
-
-        //Instantiate barcode object
-        BarCodeBuilder bb = new BarCodeBuilder();
-
-        //Set the Code text for the barcode
+    	BarCodeBuilder bb = new BarCodeBuilder();
         bb.setCodeText("1234567");
+        bb.setSymbologyType(Symbology.Code39Extended);
 
-        //Set the symbology type to code128
-        bb.setSymbologyType(Symbology.Code128);
-
-        // Set the rotation angle of the barcode to 180 degree
+        //Rotate clockwise for 180 degree (upside down)
         bb.setRotationAngleF(180);
 
         // Save the image
-        bb.save(dst);
-
-        System.out.println("Barcode saved successfully.");
+        bb.save(dataDir + "barcode-image-rotate.jpg");
     }
 }

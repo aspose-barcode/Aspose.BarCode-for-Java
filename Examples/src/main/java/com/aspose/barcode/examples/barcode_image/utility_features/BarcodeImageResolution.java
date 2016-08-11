@@ -13,13 +13,13 @@ import com.aspose.barcode.Resolution;
 import com.aspose.barcode.ResolutionMode;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class BarcodeImageResolution {
     public static void main(String[] args) {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(BarcodeImageResolution.class);
-
-        String dst = dataDir + "barcode-image-resolution.jpg";
+    	
+    	// The path to the resource directory.
+    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeImage/UtilityFeatures/";
 
         //Instantiate barcode object
         BarCodeBuilder bb = new BarCodeBuilder();
@@ -35,8 +35,7 @@ public class BarcodeImageResolution {
         bb.setResolution(new Resolution(200f, 400f, ResolutionMode.Customized));
 
         // Save the image
-        bb.save(dst);
-
-        System.out.println("Barcode saved successfully.");
+        bb.save(dataDir + "barcode-image-resolution.jpg");
+        
     }
 }
