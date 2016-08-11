@@ -9,7 +9,6 @@ import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class RecognizingMultipleSymbologiesInSingleImage {
 
@@ -17,7 +16,7 @@ public class RecognizingMultipleSymbologiesInSingleImage {
 		ApplyALicense.applyALicense();
 		
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/basic_features/";
+    	String dataDir = Utils.getDataDir(RecognizingMultipleSymbologiesInSingleImage.class) + "BarcodeReader/basic_features/";
 		BufferedImage img = ImageIO.read(new File(dataDir + "MultipleBarcodes.png"));
 		
 		// Initialize barcode reader

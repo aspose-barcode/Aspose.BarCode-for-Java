@@ -12,7 +12,7 @@ public class BarcodeCaption {
 
 	public static void main(String[] args) {
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/BasicFeatures/";
+    	String dataDir = Utils.getDataDir(BarcodeCaption.class) + "Barcode/BasicFeatures/";
     	
 		//Instantiate Barcode object
 		BarCodeBuilder bb = new BarCodeBuilder();

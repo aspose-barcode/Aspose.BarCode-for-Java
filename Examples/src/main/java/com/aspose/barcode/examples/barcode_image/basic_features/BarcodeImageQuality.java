@@ -4,13 +4,12 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.ImageQualityMode;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class BarcodeImageQuality {
     public static void main(String[] args) {
     	
     	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeImage/BasicFeatures/";
+    	String dataDir = Utils.getDataDir(BarcodeImageQuality.class) + "BarcodeImage/BasicFeatures/";
 
         BarCodeBuilder bb = new BarCodeBuilder();
         bb.setCodeText("1234567");

@@ -8,7 +8,6 @@ import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class ReadBarcodeFromSpecificRegionOfImage {
 
@@ -16,7 +15,7 @@ public class ReadBarcodeFromSpecificRegionOfImage {
 		ApplyALicense.applyALicense();
 		
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/advanced_features/";
+    	String dataDir = Utils.getDataDir(ReadBarcodeFromSpecificRegionOfImage.class) + "BarcodeReader/advanced_features/";
     	
 		// Open the stream. Read only access is enough for Aspose.BarCode to load an image.
 		InputStream stream = new FileInputStream(dataDir + "specificRegion.png");

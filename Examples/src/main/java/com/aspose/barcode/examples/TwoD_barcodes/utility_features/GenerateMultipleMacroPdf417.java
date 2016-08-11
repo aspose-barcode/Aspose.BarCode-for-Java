@@ -3,12 +3,11 @@ package com.aspose.barcode.examples.TwoD_barcodes.utility_features;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class GenerateMultipleMacroPdf417 {
 
 	public static void main(String[] args) {
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/UtilityFeatures/";
+		String dataDir = Utils.getDataDir(GenerateMultipleMacroPdf417.class) + "2DBarcode/UtilityFeatures/";
 		
 		BarCodeBuilder builder = new BarCodeBuilder();
 		builder.setSymbologyType(Symbology.MacroPdf417);

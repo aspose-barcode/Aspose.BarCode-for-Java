@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +13,6 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class GenerateMultipleBarcodesOnASingleImage {
 
@@ -22,7 +20,7 @@ public class GenerateMultipleBarcodesOnASingleImage {
 		ApplyALicense.applyALicense();
 
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/advanced_features/";
+		String dataDir = Utils.getDataDir(GenerateMultipleBarcodesOnASingleImage.class) + "BarcodeReader/advanced_features/";
 		
 		HashMap collection = new HashMap();
 		collection.put("ONE123", Symbology.Code39Standard);

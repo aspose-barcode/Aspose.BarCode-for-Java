@@ -4,13 +4,12 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.EnableChecksum;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class Checksum {
 
 	public static void main(String[] args) {
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/AdvancedFeatures/";
+    	String dataDir = Utils.getDataDir(Checksum.class) + "Barcode/AdvancedFeatures/";
     	
 		BarCodeBuilder bb = new BarCodeBuilder();
 		bb.setCodeText("1234567");

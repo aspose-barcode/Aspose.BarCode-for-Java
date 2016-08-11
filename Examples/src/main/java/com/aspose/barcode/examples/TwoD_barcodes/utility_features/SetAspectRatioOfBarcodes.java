@@ -3,12 +3,11 @@ package com.aspose.barcode.examples.TwoD_barcodes.utility_features;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class SetAspectRatioOfBarcodes {
 
 	public static void main(String[] args) {
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/UtilityFeatures/";
+		String dataDir = Utils.getDataDir(SetAspectRatioOfBarcodes.class) + "2DBarcode/UtilityFeatures/";
 		
 		// Create instance of BarCodeBuilder class
 		BarCodeBuilder builder = new BarCodeBuilder("1234567890", Symbology.Pdf417);

@@ -8,19 +8,19 @@ import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.DataMatrixEncodeMode;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class CreateDatamatrixBarcode {
 
 	public static void main(String[] args) throws IOException {
-		createADataMatrixBarcode();
-		encodeModeForDataMatrix();
-		customEncodingModeForDataMatrix();
+		// The path to the resource directory.
+    	String dataDir = Utils.getDataDir(CreateDatamatrixBarcode.class) + "2DBarcode/BasicFeatures/";
+    	
+		createADataMatrixBarcode(dataDir);
+		encodeModeForDataMatrix(dataDir);
+		customEncodingModeForDataMatrix(dataDir);
 	}
 	
-	public static void createADataMatrixBarcode() {
-		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
+	public static void createADataMatrixBarcode(String dataDir) {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
 		objBuilder.setSymbologyType(Symbology.DataMatrix);
@@ -29,9 +29,7 @@ public class CreateDatamatrixBarcode {
 		objBuilder.save(dataDir + "datamatrix.bmp");
 	}
 	
-	public static void encodeModeForDataMatrix() {
-		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
+	public static void encodeModeForDataMatrix(String dataDir) {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
 		objBuilder.setSymbologyType(Symbology.DataMatrix);
@@ -41,9 +39,7 @@ public class CreateDatamatrixBarcode {
 		objBuilder.save(dataDir + "encodeModeForDataMatrix.bmp");
 	}
 	
-	public static void customEncodingModeForDataMatrix() throws IOException {
-		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
+	public static void customEncodingModeForDataMatrix(String dataDir) throws IOException {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
 		objBuilder.setSymbologyType(Symbology.DataMatrix);

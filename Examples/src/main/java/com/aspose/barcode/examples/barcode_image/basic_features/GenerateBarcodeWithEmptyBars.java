@@ -6,13 +6,12 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class GenerateBarcodeWithEmptyBars {
 
 	public static void main(String[] args) throws IOException {
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeImage/BasicFeatures/";
+		String dataDir = Utils.getDataDir(GenerateBarcodeWithEmptyBars.class) + "BarcodeImage/BasicFeatures/";
 
 		//Create an instance of BarCodeBuilder and initialize it with CodeText and Symbology
 		BarCodeBuilder builder = new BarCodeBuilder("TEXT", Symbology.Code128);

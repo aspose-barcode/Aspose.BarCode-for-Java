@@ -15,7 +15,7 @@ import com.aspose.barcode.examples.Utils;
 public class SetCodeText {
     public static void main(String[] args) {
     	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/BasicFeatures/";
+    	String dataDir = Utils.getDataDir(SetCodeText.class) + "Barcode/BasicFeatures/";
     	
     	//Instantiate BarCodeBuilder object
     	BarCodeBuilder bb = new BarCodeBuilder();

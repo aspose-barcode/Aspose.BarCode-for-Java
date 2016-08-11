@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -13,13 +12,12 @@ import javax.imageio.ImageIO;
 import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class LoadingFromAStream {
 
 	public static void main(String[] args) throws IOException {
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/loading_images/";
+		String dataDir = Utils.getDataDir(LoadingFromAStream.class) + "BarcodeReader/loading_images/";
 				
 		// Open the stream. Read only access is enough for Aspose.BarCode to load an image.
 		InputStream stream = new FileInputStream(dataDir + "CodeText.jpg");

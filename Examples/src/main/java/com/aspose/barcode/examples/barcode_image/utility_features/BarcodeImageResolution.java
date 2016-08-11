@@ -13,13 +13,12 @@ import com.aspose.barcode.Resolution;
 import com.aspose.barcode.ResolutionMode;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class BarcodeImageResolution {
     public static void main(String[] args) {
     	
     	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeImage/UtilityFeatures/";
+    	String dataDir = Utils.getDataDir(BarcodeImageResolution.class) + "BarcodeImage/UtilityFeatures/";
 
         //Instantiate barcode object
         BarCodeBuilder bb = new BarCodeBuilder();

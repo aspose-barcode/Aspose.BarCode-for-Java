@@ -6,7 +6,6 @@ import com.aspose.barcode.barcoderecognition.ManualHint;
 import com.aspose.barcode.barcoderecognition.RecognitionMode;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class SwitchBarcodeRecognitionModes {
 
@@ -14,7 +13,7 @@ public class SwitchBarcodeRecognitionModes {
 		ApplyALicense.applyALicense();
 
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/advanced_features/";
+		String dataDir = Utils.getDataDir(SwitchBarcodeRecognitionModes.class) + "BarcodeReader/advanced_features/";
 		
 		// Create an instance of BarCodeReader and set image and symbology type to recognize
 		BarCodeReader reader = new BarCodeReader(dataDir + "code39Extended.jpg", BarCodeReadType.DataMatrix);

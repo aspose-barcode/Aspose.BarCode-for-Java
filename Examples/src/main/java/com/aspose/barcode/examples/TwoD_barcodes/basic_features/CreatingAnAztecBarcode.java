@@ -6,13 +6,12 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class CreatingAnAztecBarcode {
 
 	public static void main(String[] args) throws IOException {
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
+		String dataDir = Utils.getDataDir(CreatingAnAztecBarcode.class) + "2DBarcode/BasicFeatures/";
 		createAnAztecBarcode(dataDir);
 		errorCorrection(dataDir);
 	}

@@ -5,20 +5,20 @@ import com.aspose.barcode.Pdf417CompactionMode;
 import com.aspose.barcode.Pdf417ErrorLevel;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class CreatingAPdf417Barcode {
 
 	public static void main(String[] args) {
-		createAPdf417Barcode();
-		pdf417ErrorCorrectionLevel();
-		pdf417CompactionMode();
+		// The path to the resource directory.
+    	String dataDir = Utils.getDataDir(CreatingAPdf417Barcode.class) + "2DBarcode/BasicFeatures/";
+    	
+		createAPdf417Barcode(dataDir);
+		pdf417ErrorCorrectionLevel(dataDir);
+		pdf417CompactionMode(dataDir);
 	}
 	
-	public static void createAPdf417Barcode() {
-		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
-    	
+	public static void createAPdf417Barcode(String dataDir) {
+		
 		BarCodeBuilder b = new BarCodeBuilder();
 		b.setSymbologyType(Symbology.Pdf417);
 		b.setCodeText("1234567890");
@@ -26,9 +26,7 @@ public class CreatingAPdf417Barcode {
 		b.save(dataDir + "pdf417.bmp");
 	}
 	
-	public static void pdf417ErrorCorrectionLevel() {
-		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
+	public static void pdf417ErrorCorrectionLevel(String dataDir) {
     	
 		BarCodeBuilder b = new BarCodeBuilder();
 		b.setSymbologyType(Symbology.Pdf417);
@@ -38,9 +36,7 @@ public class CreatingAPdf417Barcode {
 		b.save(dataDir + "pdf417ErrorCorrectionLevel.bmp");
 	}
 	
-	public static void pdf417CompactionMode() {
-		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
+	public static void pdf417CompactionMode(String dataDir) {
     	
     	BarCodeBuilder builder = new BarCodeBuilder("This is text data", Symbology.Pdf417);
     	// Set Pdf417 Compaction Mode to Text

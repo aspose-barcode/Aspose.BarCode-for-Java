@@ -5,7 +5,6 @@ import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.RecognitionHints;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class FasterImageProcessingForBarcodeRecognition {
 
@@ -13,7 +12,7 @@ public class FasterImageProcessingForBarcodeRecognition {
 		ApplyALicense.applyALicense();
 		
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/advanced_features/";
+    	String dataDir = Utils.getDataDir(FasterImageProcessingForBarcodeRecognition.class) + "BarcodeReader/advanced_features/";
 		// Read code39 barcode from image
 		String imageFilePath = dataDir + "datamatrix.bmp";
 		

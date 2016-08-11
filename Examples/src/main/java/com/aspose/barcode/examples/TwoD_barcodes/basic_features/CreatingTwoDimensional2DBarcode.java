@@ -3,13 +3,12 @@ package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class CreatingTwoDimensional2DBarcode {
 
 	public static void main(String[] args) {
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/BasicFeatures/";
+    	String dataDir = Utils.getDataDir(CreatingTwoDimensional2DBarcode.class) + "2DBarcode/BasicFeatures/";
 		creatingAPdf417Barcode(dataDir);
 		creatingADataMatrixBarcode(dataDir);
 	}

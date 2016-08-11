@@ -4,13 +4,12 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.CodabarSymbol;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class SetStartAndStopSymbols {
 
 	public static void main(String[] args) {
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/AdvancedFeatures/";
+    	String dataDir = Utils.getDataDir(SetStartAndStopSymbols.class) + "Barcode/AdvancedFeatures/";
     	
 		// Create instance of BarCodeBuilder, specify codetext and symbology in the constructor
 		BarCodeBuilder builder = new BarCodeBuilder("12345678", Symbology.Codabar);

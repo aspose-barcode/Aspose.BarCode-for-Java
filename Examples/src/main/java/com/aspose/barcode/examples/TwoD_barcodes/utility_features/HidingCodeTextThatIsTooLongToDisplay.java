@@ -8,13 +8,12 @@ import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class HidingCodeTextThatIsTooLongToDisplay {
 
 	public static void main(String[] args) throws IOException {
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "2DBarcode/UtilityFeatures/";
+		String dataDir = Utils.getDataDir(HidingCodeTextThatIsTooLongToDisplay.class) + "2DBarcode/UtilityFeatures/";
 		hideTheBarcodeCodeText(dataDir);
 		reduceTheCodeTextFontSize(dataDir);
 	}

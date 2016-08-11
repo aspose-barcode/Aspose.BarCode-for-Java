@@ -6,7 +6,6 @@ import com.aspose.barcode.barcoderecognition.ManualHint;
 import com.aspose.barcode.barcoderecognition.RecognitionMode;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class UsingManualHintsToOptimizeScan {
 
@@ -14,7 +13,7 @@ public class UsingManualHintsToOptimizeScan {
 		ApplyALicense.applyALicense();
 
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/advanced_features/";
+		String dataDir = Utils.getDataDir(UsingManualHintsToOptimizeScan.class) + "BarcodeReader/advanced_features/";
 		
 		long s = System.currentTimeMillis();
 		String filename = dataDir + "datamatrix.bmp";

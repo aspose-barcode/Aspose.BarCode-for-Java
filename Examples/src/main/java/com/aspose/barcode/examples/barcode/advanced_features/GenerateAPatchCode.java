@@ -12,7 +12,6 @@ import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.MarginsF;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class GenerateAPatchCode {
 
@@ -23,7 +22,7 @@ public class GenerateAPatchCode {
 	
 	public static void generatePatchCode() {
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/AdvancedFeatures/";
+    	String dataDir = Utils.getDataDir(GenerateAPatchCode.class) + "Barcode/AdvancedFeatures/";
     	
 		BarCodeBuilder builder = new BarCodeBuilder();
 		// set Symbology type
@@ -58,7 +57,7 @@ public class GenerateAPatchCode {
 		graphics.drawImage(rigthtImg, topImg.getWidth() - rigthtImg.getWidth(), topImg.getHeight(), null);
 		
 		// save Patch code frame
-		File outputfile = new File(Utils.getDataDir(SpecifySymbology.class) + "Barcode/AdvancedFeatures/" +  "patch-code-frame.png");
+		File outputfile = new File(Utils.getDataDir(GenerateAPatchCode.class) + "Barcode/AdvancedFeatures/" +  "patch-code-frame.png");
 		ImageIO.write(frameImg, "png", outputfile);
 	}
 	

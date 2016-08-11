@@ -11,7 +11,7 @@ public class CodeTextLocation {
 	public static void main(String[] args) {
 		
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/BasicFeatures/";
+    	String dataDir = Utils.getDataDir(CodeTextLocation.class) + "Barcode/BasicFeatures/";
     	
 		BarCodeBuilder builder = new BarCodeBuilder("GTIN:898978777776665655 " + "UID: 121212121212121212 " + "Batch:GH768 " + "Exp.Date:150923", Symbology.DataMatrix);
 		builder.setCodeLocation(CodeLocation.Right);

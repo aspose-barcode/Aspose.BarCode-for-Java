@@ -14,7 +14,6 @@ import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeRegion;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class MarkingBarcodeRegionsInAnImage {
 
@@ -22,7 +21,7 @@ public class MarkingBarcodeRegionsInAnImage {
 		ApplyALicense.applyALicense();
 		
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/advanced_features/";
+    	String dataDir = Utils.getDataDir(MarkingBarcodeRegionsInAnImage.class) + "BarcodeReader/advanced_features/";
 		
 		// Create an instance of BarCodeReader class and specify the image and symbology
 		BarCodeReader reader = new BarCodeReader(dataDir + "Code39Std.png", BarCodeReadType.Code39Standard);

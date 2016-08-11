@@ -3,13 +3,12 @@ package com.aspose.barcode.examples.barcode_image.basic_features;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class BarcodeImageMargins {
     
 	public static void main(String[] args) {
     	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeImage/BasicFeatures/";
+    	String dataDir = Utils.getDataDir(BarcodeImageMargins.class) + "BarcodeImage/BasicFeatures/";
 
         BarCodeBuilder bb = new BarCodeBuilder();
         bb.setCodeText("1234567");

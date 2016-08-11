@@ -4,7 +4,6 @@ import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.examples.barcode.basic_features.SpecifySymbology;
 
 public class GetBarCodeRecognitionQualityInPercent {
 
@@ -12,7 +11,7 @@ public class GetBarCodeRecognitionQualityInPercent {
 		ApplyALicense.applyALicense();
 		
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecifySymbology.class) + "BarcodeReader/advanced_features/";
+    	String dataDir = Utils.getDataDir(GetBarCodeRecognitionQualityInPercent.class) + "BarcodeReader/advanced_features/";
     	
 		// Initialize the BarCodeReader object
 		BarCodeReader reader = new BarCodeReader(dataDir + "code39Extended.jpg", BarCodeReadType.AllSupportedTypes);
