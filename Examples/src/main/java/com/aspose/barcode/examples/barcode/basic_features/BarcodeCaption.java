@@ -22,7 +22,7 @@ public class BarcodeCaption {
 		bb.setSymbologyType(Symbology.Code128);
 
 		Caption caption = new Caption();
-		caption.setText("Captions");
+		caption.setText("Caption");
 		caption.setTextAlign(Alignment.Middle);
 
 		bb.setCaptionAbove(caption);
