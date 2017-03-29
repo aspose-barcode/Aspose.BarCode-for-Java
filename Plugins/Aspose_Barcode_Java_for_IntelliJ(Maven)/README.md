@@ -24,7 +24,7 @@ For more info about the **Aspose.Barcode for Java API**, [please check the api d
 
 ## Plugin Documentation
 
-For the complete documentation of this Intellij IDEA plugin, [please go through this wiki - click here](http://www.aspose.com/docs/display/barcodejava/4.+Aspose.Barcode+Java+for+IntelliJ+IDEA+%28Maven%29)
+For the complete documentation of this Intellij IDEA plugin, [please go through this wiki - click here](https://docs.aspose.com/display/barcodejava/Aspose.BarCode+Java+for+IntelliJ+IDEA+-+Maven)
 
 ## Download Latest Versions?
 

@@ -9,7 +9,7 @@ Aspose.BarCode Java for Jython is a project that demonstrates / provides the Asp
 
 ## Documentation
 
-For most complete documentation of the project, check [Aspose.BarCode Java For Jython confluence wiki](http://www.aspose.com/docs/display/barcodejava/Aspose.Barcode+Java+For+Jython).
+For most complete documentation of the project, check [Aspose.BarCode Java For Jython confluence wiki](https://docs.aspose.com/display/barcodejava/Aspose.BarCode+Java+For+Jython).
 
 ## Download Latest Versions?
 

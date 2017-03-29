@@ -10,5 +10,5 @@ You should have Apache Tomcat pre-installed. After building the project .war fil
 
 For complete documentation of the project, check Aspose.Barcode Java for Struts confluence wiki 
 
-http://www.aspose.com/docs/display/barcodejava/1.+Aspose.Barcode+Java+For+Struts
+https://docs.aspose.com/display/barcodejava/Aspose.Barcode+Java+For+Struts
 

@@ -9,13 +9,13 @@ Execute following command.
 
 To download Aspose.BarCode for Java API to be used with these examples through RJB, Please navigate to:
 
-http://www.aspose.com/community/files/72/java-components/aspose.barcode-for-java/
+https://downloads.aspose.com/barcode/java
 
 Note: Create jars folder at root of the gem folder and copy downloaded Aspose.BarCode for java component into it.
 
 For most complete documentation of the project, check Aspose.BarCode Java for Ruby confluence wiki link:
 
-http://www.aspose.com/docs/display/barcodejava/2.+Aspose.Barcode+Java+For+Ruby
+https://docs.aspose.com/display/barcodejava/Aspose.BarCode+Java+For+Ruby
 
 ## Usage
 

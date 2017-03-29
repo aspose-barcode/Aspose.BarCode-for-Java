@@ -10,9 +10,9 @@ http://php-java-bridge.sourceforge.net/pjb/index.php
 To download Aspose.Barcode for Java API to be used with these examples through PHP/Java Bridge
 Please navigate to:
 
-http://www.aspose.com/community/files/72/java-components/aspose.barcode-for-java/
+https://downloads.aspose.com/barcode/java
 
 For most complete documentation of the project, check Aspose.Barcode Java for PHP confluence wiki link:
 
-http://www.aspose.com/docs/display/barcodejava/3.+Aspose.Barcode+Java+For+PHP
+https://docs.aspose.com/display/barcodejava/Aspose.BarCode+Java+For+PHP
 
