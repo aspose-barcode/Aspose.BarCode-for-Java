@@ -19,9 +19,9 @@ Directory | Description
 
 ## Resources
 
-+ **Website:** [www.aspose.com](http://www.aspose.com)
++ **Website:** [www.aspose.com](https://www.aspose.com/)
 + **Product Home:** [Aspose.BarCode for Java](https://www.aspose.com/products/barcode/java)
 + **Download:** [Download Aspose.BarCode for Java](https://downloads.aspose.com/barcode/java)
 + **Documentation:** [Aspose.BarCode for Java Documentation](https://docs.aspose.com//display/barcodejava/Home)
 + **Forum:** [Aspose.BarCode for Java Forum](https://www.aspose.com/community/forums/aspose.barcode-product-family/193/showforum.aspx)
-+ **Blog:** [Aspose.BarCode for Java Blog](http://www.aspose.com/blogs/aspose-products/aspose-barcode-product-family.html)
++ **Blog:** [Aspose.BarCode for Java Blog](https://blog.aspose.com/category/aspose-products/aspose-barcode-product-family/)
