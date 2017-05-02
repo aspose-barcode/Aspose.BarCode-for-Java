@@ -9,6 +9,9 @@ public class ApplyingChecksumValidation
 {
 	public static void main(String[] args) 
         {
+
+		// ExStart:ApplyingChecksumValidation
+
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(ApplyingChecksumValidation.class) + "Barcode/AdvancedFeatures/";
 
@@ -49,6 +52,6 @@ public class ApplyingChecksumValidation
                     System.out.println(" Checksum: " + reader.getCheckSum());
                 }		
 
-
+		// ExEnd:ApplyingChecksumValidation
 	}
 }
