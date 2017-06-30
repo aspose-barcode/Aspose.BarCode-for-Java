@@ -1,4 +1,4 @@
-package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
+﻿package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -18,6 +18,7 @@ public class CreateDatamatrixBarcode {
 		createADataMatrixBarcode(dataDir);
 		encodeModeForDataMatrix(dataDir);
 		customEncodingModeForDataMatrix(dataDir);
+		createDataMatrixBarcodeWithC40Encoding(dataDir);
 	}
 	
 	public static void createADataMatrixBarcode(String dataDir) {
@@ -48,5 +49,19 @@ public class CreateDatamatrixBarcode {
 		objBuilder.setCodeText("Г¶Г¤ГјГ©Г ГЁ");
 
 		objBuilder.save(dataDir + "output_Utf8.bmp", BarCodeImageFormat.Bmp);
+	}
+
+
+	public static void createDataMatrixBarcodeWithC40Encoding(String dataDir) {
+    	
+	    // Create an instance of BarCodeBuilder class
+            // Set codetext value and EncodeType
+            com.aspose.barcode.BarCodeBuilder buidler = new com.aspose.barcode.BarCodeBuilder("ABCDEF123456", com.aspose.barcode.EncodeTypes.DATA_MATRIX);
+
+            // Set the DataMatrix encoding mode to C40
+            buidler.setDataMatrixEncodeMode(com.aspose.barcode.DataMatrixEncodeMode.C40);
+
+            // Save the barcode image
+            buidler.save("dataMatrixC40.png");
 	}
 }
