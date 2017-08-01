@@ -6,7 +6,8 @@ import com.aspose.barcode.examples.Utils;
 
 public class GetMinimumBarCodeSize 
 {
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
     	
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeCustomSize.class) + "BarcodeImage/UtilityFeatures/";
