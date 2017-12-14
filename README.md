@@ -20,7 +20,7 @@ Directory | Description
 ## Resources
 
 + **Website:** [www.aspose.com](https://www.aspose.com/)
-+ **Product Home:** [Aspose.BarCode for Java](https://www.aspose.com/products/barcode/java)
++ **Product Home:** [Aspose.BarCode for Java](https://products.aspose.com/barcode/java)
 + **Download:** [Download Aspose.BarCode for Java](https://downloads.aspose.com/barcode/java)
 + **Documentation:** [Aspose.BarCode for Java Documentation](https://docs.aspose.com//display/barcodejava/Home)
 + **Forum:** [Aspose.BarCode for Java Forum](https://forum.aspose.com/c/barcode)
