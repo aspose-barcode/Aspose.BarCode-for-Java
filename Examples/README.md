@@ -1,6 +1,6 @@
 ## Aspose.BarCode for Java Examples
 
-This directory contains examples for [Aspose.BarCode for Java](https://www.aspose.com/products/barcode/java).
+This directory contains examples for [Aspose.BarCode for Java](https://products.aspose.com/barcode/java).
 
 [How to use the Examples](https://docs.aspose.com/display/barcodejava/How+to+Run+the+Examples)
 

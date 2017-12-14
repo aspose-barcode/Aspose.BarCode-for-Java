@@ -4,7 +4,7 @@ Aspose.BarCode Java for Jython is a project that demonstrates / provides the Asp
 
 ## Download
 
-* To download Aspose.BarCode for Java API to be used with these examples, Please navigate to [Aspose.BarCode for Java](http://www.aspose.com/downloads/barcode-family/java) 
+* To download Aspose.BarCode for Java API to be used with these examples, Please navigate to [Aspose.BarCode for Java](https://downloads.aspose.com/barcode/java) 
 * Place downloaded jar file into "lib" directory. 
 
 ## Documentation

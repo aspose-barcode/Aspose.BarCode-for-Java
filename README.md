@@ -1,8 +1,8 @@
 ## Aspose.BarCode for Java
 
-[Aspose.BarCode for Java](https://www.aspose.com/products/barcode/java) is a robust and reliable barcode generation and recognition component, written in Java, it allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications.
+[Aspose.BarCode for Java](https://products.aspose.com/barcode/java) is a robust and reliable barcode generation and recognition component, written in Java, it allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications.
 
-This repository contains [Examples](Examples) and [Plugins](Plugins) for [Aspose.BarCode for Java](https://www.aspose.com/products/barcode/java) and will help you write your own applications.
+This repository contains [Examples](Examples) and [Plugins](Plugins) for [Aspose.BarCode for Java](https://products.aspose.com/barcode/java) and will help you write your own applications.
 
 <p align="center">
 
@@ -20,7 +20,7 @@ Directory | Description
 ## Resources
 
 + **Website:** [www.aspose.com](https://www.aspose.com/)
-+ **Product Home:** [Aspose.BarCode for Java](https://www.aspose.com/products/barcode/java)
++ **Product Home:** [Aspose.BarCode for Java](https://products.aspose.com/barcode/java)
 + **Download:** [Download Aspose.BarCode for Java](https://downloads.aspose.com/barcode/java)
 + **Documentation:** [Aspose.BarCode for Java Documentation](https://docs.aspose.com//display/barcodejava/Home)
 + **Forum:** [Aspose.BarCode for Java Forum](https://forum.aspose.com/c/barcode)
