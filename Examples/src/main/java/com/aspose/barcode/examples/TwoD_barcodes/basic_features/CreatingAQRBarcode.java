@@ -19,6 +19,7 @@ public class CreatingAQRBarcode {
 		errorCorrection(dataDir);
 		rotation(dataDir);
 		QRBarcodeWithImage(dataDir);
+		set_QR_version(dataDir);
 	}
 
 	public static void createAQRBarcode(String dataDir) throws IOException {
@@ -99,4 +100,29 @@ public class CreatingAQRBarcode {
             java.io.File imageFile = new java.io.File("qrcode_with_logo.png");
             javax.imageio.ImageIO.write(combined, "PNG", imageFile);
 	}
+
+
+	public static void set_QR_version(String dataDir) throws IOException 
+	{
+				
+		// Instantiate BarCodeBuilder object
+        	com.aspose.barcode.BarCodeBuilder builder = new com.aspose.barcode.BarCodeBuilder();
+
+	        // Set the Code text for the barcode
+        	builder.setCodeText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+	        // Set the symbology type to QR
+        	builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
+
+	        // Set the error level
+        	builder.setQRErrorLevel(com.aspose.barcode.QRErrorLevel.LevelQ);
+
+	        // Set the QR barcode version number
+        	builder.setQRVersion(com.aspose.barcode.QRVersion.VERSION_10);
+
+	        //Save the image
+        	builder.save(dataDir + "qr_version10_errorQ.png");
+	}
+
+
 }
