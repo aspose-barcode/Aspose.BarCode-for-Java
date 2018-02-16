@@ -3,7 +3,6 @@ package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 import java.io.File;
 import java.io.FileFilter;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
@@ -21,7 +20,7 @@ public class ReadMultipleMacropdf417BarcodeImages {
 		File[] files = dir.listFiles(new Filter(strFileID));
 		for (int nCount = 1 ; nCount <= files.length ; nCount++) {
 		    // We got list of all the files, now read barcodes
-		    BarCodeReader reader = new BarCodeReader(files[nCount-1].getAbsolutePath(), BarCodeReadType.MacroPdf417);
+		    BarCodeReader reader = new BarCodeReader(files[nCount-1].getAbsolutePath(), com.aspose.barcode.barcoderecognition.DecodeType.MACRO_PDF_417);
 		    if (reader.read() == true) {
 		        System.out.println("File: " + files[nCount-1].getAbsolutePath() + " == FileID: " + reader.getMacroPdf417FileID() +
 		            " == SegmentID: " + reader.getMacroPdf417SegmentID() +

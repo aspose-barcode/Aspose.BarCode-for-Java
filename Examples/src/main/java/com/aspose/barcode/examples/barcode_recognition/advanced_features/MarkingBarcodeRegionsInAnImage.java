@@ -9,7 +9,6 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeRegion;
 import com.aspose.barcode.examples.ApplyALicense;
@@ -24,12 +23,12 @@ public class MarkingBarcodeRegionsInAnImage {
     	String dataDir = Utils.getDataDir(MarkingBarcodeRegionsInAnImage.class) + "BarcodeReader/advanced_features/";
 		
 		// Create an instance of BarCodeReader class and specify the image and symbology
-		BarCodeReader reader = new BarCodeReader(dataDir + "Code39Std.png", BarCodeReadType.Code39Standard);
+		BarCodeReader reader = new BarCodeReader(dataDir + "Code39Std.png", com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
 
 		// Read all the barcodes from the images
 		while (reader.read()) {
 			// Display the symbology type
-			System.out.println("BarCode Type: " + reader.getReadTypeName());
+			System.out.println("BarCode Type: " + reader.getCodeType());
 			// Display the codetext
 			System.out.println("BarCode CodeText: " + reader.getCodeText());
 			// Get the barcode region

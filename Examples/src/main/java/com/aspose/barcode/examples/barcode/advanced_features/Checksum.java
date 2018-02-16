@@ -2,7 +2,6 @@ package com.aspose.barcode.examples.barcode.advanced_features;
 
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.EnableChecksum;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class Checksum {
@@ -13,7 +12,7 @@ public class Checksum {
     	
 		BarCodeBuilder bb = new BarCodeBuilder();
 		bb.setCodeText("1234567");
-		bb.setSymbologyType(Symbology.Code39Standard);
+                bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
 
 		//Make the checksum to be visible on the barcode
 		bb.setEnableChecksum(EnableChecksum.Default);

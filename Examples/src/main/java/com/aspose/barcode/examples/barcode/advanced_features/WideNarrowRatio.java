@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.barcode.advanced_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class WideNarrowRatio {
@@ -15,7 +14,8 @@ public class WideNarrowRatio {
 		//Set the code text of the barcode
 		bb.setCodeText("12345678");
 		//Set the symbology type to code39
-		bb.setSymbologyType(Symbology.Code39Extended);
+                bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_EXTENDED);
+
 		//Set the wide to narrow ratio for the barcode
 		bb.setWideNarrowRatio(3.0f);
 		

@@ -1,6 +1,5 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.ManualHint;
 import com.aspose.barcode.barcoderecognition.RecognitionMode;
@@ -16,7 +15,7 @@ public class SwitchBarcodeRecognitionModes {
 		String dataDir = Utils.getDataDir(SwitchBarcodeRecognitionModes.class) + "BarcodeReader/advanced_features/";
 		
 		// Create an instance of BarCodeReader and set image and symbology type to recognize
-		BarCodeReader reader = new BarCodeReader(dataDir + "code39Extended.jpg", BarCodeReadType.DataMatrix);
+		BarCodeReader reader = new BarCodeReader(dataDir + "code39Extended.jpg", com.aspose.barcode.barcoderecognition.DecodeType.DATA_MATRIX);
 
 		// Set recognition mode
 		reader.setRecognitionMode(RecognitionMode.ManualHints);

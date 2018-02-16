@@ -11,7 +11,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class RenderBarcodeToGraphicsObject {
@@ -37,7 +36,7 @@ class MyBarCode extends java.awt.Canvas {
     	String fileName = dataDir + "barcode.png";
     	
 		BarCodeBuilder bb = new BarCodeBuilder();
-		bb.setSymbologyType(Symbology.Code128);
+                bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 		bb.setCodeText("12345678");
 		bb.save(fileName);
 		

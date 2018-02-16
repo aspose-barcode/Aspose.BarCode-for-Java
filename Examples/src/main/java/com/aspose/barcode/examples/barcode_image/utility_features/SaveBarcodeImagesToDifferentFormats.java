@@ -18,7 +18,7 @@ public class SaveBarcodeImagesToDifferentFormats {
         bb.setCodeText("1234567");
 
         //Set the symbology type to code128
-        bb.setSymbologyType(Symbology.Code128);
+        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 
         //Save the image to your system and set its image format to Jpeg
         bb.save(dataDir + "barcode-image-format.jpg", ImageFormat.getJpeg());

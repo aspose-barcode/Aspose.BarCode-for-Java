@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class GenerateBarcodeWithEmptyBars {
@@ -14,7 +13,7 @@ public class GenerateBarcodeWithEmptyBars {
 		String dataDir = Utils.getDataDir(GenerateBarcodeWithEmptyBars.class) + "BarcodeImage/BasicFeatures/";
 
 		//Create an instance of BarCodeBuilder and initialize it with CodeText and Symbology
-		BarCodeBuilder builder = new BarCodeBuilder("TEXT", Symbology.Code128);
+		BarCodeBuilder builder = new BarCodeBuilder("TEXT", com.aspose.barcode.EncodeTypes.CODE_128);
 
 		//Set the FilledBars property to false
 		builder.setFilledBars(false);

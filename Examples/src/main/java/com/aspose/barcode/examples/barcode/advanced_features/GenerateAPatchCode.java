@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.MarginsF;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class GenerateAPatchCode {
@@ -26,14 +25,14 @@ public class GenerateAPatchCode {
     	
 		BarCodeBuilder builder = new BarCodeBuilder();
 		// set Symbology type
-		builder.setSymbologyType(com.aspose.barcode.Symbology.PatchCode);
+                builder.setEncodeType(com.aspose.barcode.EncodeTypes.PATCH_CODE);
 		builder.setCodeText("Patch T");
 		
 		builder.save(dataDir + "patch.bmp");
 	}
 	
 	public static void generateWholePage() throws IOException {
-		BarCodeBuilder builder = new BarCodeBuilder("Patch T", Symbology.PatchCode);
+		BarCodeBuilder builder = new BarCodeBuilder("Patch T", com.aspose.barcode.EncodeTypes.PATCH_CODE);
 		builder.setImageWidth(150); //in millimeters
 		builder.setMargins(new MarginsF(0.5f, 0.5f, 0.5f, 0.5f)); //make the same small margins
 		builder.setCodeLocation(CodeLocation.None); //to hide codetext

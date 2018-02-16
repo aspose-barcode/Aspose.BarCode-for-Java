@@ -6,12 +6,13 @@ import java.io.IOException;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.CodeLocation;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
-public class HidingCodeTextThatIsTooLongToDisplay {
+public class HidingCodeTextThatIsTooLongToDisplay 
+{
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException 
+        {
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(HidingCodeTextThatIsTooLongToDisplay.class) + "2DBarcode/UtilityFeatures/";
 		hideTheBarcodeCodeText(dataDir);
@@ -21,17 +22,18 @@ public class HidingCodeTextThatIsTooLongToDisplay {
 	public static void hideTheBarcodeCodeText(String dataDir) throws IOException {
 		
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.DataMatrix);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		b.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
 		b.setCodeLocation(CodeLocation.Below);
 		
 		b.save(dataDir + "datamatrix.bmp", BarCodeImageFormat.Bmp);
 	}
 	
-	public static void reduceTheCodeTextFontSize(String dataDir) throws IOException {
+	public static void reduceTheCodeTextFontSize(String dataDir) throws IOException 
+        {
 		
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.DataMatrix);
+		b.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		b.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
 		b.setCodeLocation(CodeLocation.None);
 		b.setCodeTextFont(new Font("Serif", Font.BOLD + Font.ITALIC, 20));

@@ -10,7 +10,7 @@ public class BarcodeImageBorders {
         
         BarCodeBuilder bb = new BarCodeBuilder();
         bb.setCodeText("1234567");
-        bb.setSymbologyType(Symbology.Code128);
+        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 
         //Set border style to solid
         bb.setBorderDashStyle(BorderDashStyle.Solid);

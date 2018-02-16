@@ -9,7 +9,6 @@
 package com.aspose.barcode.examples.barcode.basic_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class SpecifySymbology {
@@ -22,7 +21,7 @@ public class SpecifySymbology {
 		// Set code text
 		builder.setCodeText("test-123");
 		// Set Symbology type
-		builder.setSymbologyType(Symbology.Code39Standard);
+		builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
 		
 		builder.save(dataDir + "Code39Standard.jpg");
 	}

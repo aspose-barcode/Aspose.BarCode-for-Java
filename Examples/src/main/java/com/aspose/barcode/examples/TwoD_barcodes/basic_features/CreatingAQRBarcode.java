@@ -6,7 +6,6 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.QRErrorLevel;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class CreatingAQRBarcode {
@@ -25,7 +24,7 @@ public class CreatingAQRBarcode {
 	public static void createAQRBarcode(String dataDir) throws IOException {
 		
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.QR);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
 		b.setCodeText("1234567890");
 
 		b.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.Bmp);
@@ -34,7 +33,7 @@ public class CreatingAQRBarcode {
 	public static void errorCorrection(String dataDir) throws IOException {
 				
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.QR);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
 		b.setQRErrorLevel(QRErrorLevel.LevelH);
 		b.setCodeText("1234567890");
 		
@@ -44,7 +43,7 @@ public class CreatingAQRBarcode {
 	public static void rotation(String dataDir) throws IOException {
 				
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.QR);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
 		b.setCodeText("1234567890");
 
 		//Hide code text

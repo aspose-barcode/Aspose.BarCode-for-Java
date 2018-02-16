@@ -10,7 +10,6 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
@@ -23,18 +22,18 @@ public class GenerateMultipleBarcodesOnASingleImage {
 		String dataDir = Utils.getDataDir(GenerateMultipleBarcodesOnASingleImage.class) + "BarcodeReader/advanced_features/";
 		
 		HashMap collection = new HashMap();
-		collection.put("ONE123", Symbology.Code39Standard);
-		collection.put("Process Collection", Symbology.DataMatrix);
-		collection.put("Dictionary Collection", Symbology.QR);
-		collection.put("X06712AT", Symbology.Code128);
-		collection.put("979026000043", Symbology.EAN13);
-		collection.put("Aztec BarCode", Symbology.Aztec);
+		collection.put("ONE123", com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
+		collection.put("Process Collection", com.aspose.barcode.EncodeTypes.DATA_MATRIX);
+		collection.put("Dictionary Collection", com.aspose.barcode.EncodeTypes.QR);
+		collection.put("X06712AT", com.aspose.barcode.EncodeTypes.CODE_128);
+		collection.put("979026000043", com.aspose.barcode.EncodeTypes.EAN_13);
+		collection.put("Aztec BarCode", com.aspose.barcode.EncodeTypes.AZTEC);
 
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (Object key : collection.keySet()) {
 		    BarCodeBuilder bb = new BarCodeBuilder();
 		    bb.setCodeText((String) key);
-		    bb.setSymbologyType((Long) collection.get(key));
+		    //bb.setSymbologyType((Long) collection.get(key));
 		    images.add(bb.generateBarCodeImage());
 		}
 

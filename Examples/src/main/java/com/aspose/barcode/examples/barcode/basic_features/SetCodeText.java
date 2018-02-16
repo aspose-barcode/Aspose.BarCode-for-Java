@@ -9,7 +9,6 @@
 package com.aspose.barcode.examples.barcode.basic_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class SetCodeText {
@@ -22,7 +21,7 @@ public class SetCodeText {
     	//Set the code text for the barcode
     	bb.setCodeText("12345678");
     	//Set the symbology type to Code128
-    	bb.setSymbologyType(Symbology.Code128);
+    	bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
     	//Set the width of the bars to 0.5 millimeter
     	bb.setxDimension(0.5f);
     	

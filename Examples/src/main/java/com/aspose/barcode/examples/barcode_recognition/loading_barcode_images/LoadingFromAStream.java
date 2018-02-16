@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.imageio.ImageIO;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.Utils;
 
@@ -33,25 +31,27 @@ public class LoadingFromAStream {
 
 		// Create an instance of BarCodeReader class
 		// and pass InputStream object and bar code symbology type as parameters
-		BarCodeReader reader1 = new BarCodeReader(stream, BarCodeReadType.Code39Extended);
+		BarCodeReader reader1 = new BarCodeReader(stream, com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
 
 		//OR
 
 		// Open the stream. Read only access is enough for Aspose.BarCode to load an image.
 		InputStream stream2 = new FileInputStream(dataDir +"CodeText.jpg");
 
-		// Create an instance of BarCodeReader class
-		// and pass InputStream object, Rectangle object and bar code symbology type as parameters
-		BarCodeReader reader2 = new BarCodeReader(stream, new Rectangle(0, 0, 100, 50), BarCodeReadType.Code39Extended);
-
-		//OR
-
-		// Load the image. Read only access is enough for Aspose.BarCode to load an image.
+                // Load the image. Read only access is enough for Aspose.BarCode to load an image.
 		BufferedImage img3 = ImageIO.read(new File(dataDir + "CodeText.jpg"));
-
-		// Create an instance of BarCodeReader class
+                
+                // Create an instance of BarCodeReader class
 		// and pass BufferedImage object as parameter
 		BarCodeReader reader3 = new BarCodeReader(img3);
+                
+                //OR
+                
+		// Create an instance of BarCodeReader class
+		// and pass image object, Rectangle object and bar code symbology type as parameters
+		BarCodeReader reader2 = new BarCodeReader(img3, 
+                        new Rectangle(0, 0, 100, 50), 
+                        com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
 
 		//OR
 
@@ -59,7 +59,7 @@ public class LoadingFromAStream {
 		BufferedImage img4 = ImageIO.read(new File(dataDir + "CodeText.jpg"));
 		// Create an instance of BarCodeReader class
 		// and pass BufferedImage object and bar code symbology type as parameters
-		BarCodeReader reader4 = new BarCodeReader(img4, BarCodeReadType.Pdf417);
+		BarCodeReader reader4 = new BarCodeReader(img4, com.aspose.barcode.barcoderecognition.DecodeType.PDF_417);
 
 		//OR
 
@@ -68,7 +68,7 @@ public class LoadingFromAStream {
 
 		// Create an instance of BarCodeReader class
 		// and pass BufferedImage object, Rectangle object and bar code symbology type as parameters
-		BarCodeReader reader5 = new BarCodeReader(img5, new Rectangle(0, 0, 100, 50), BarCodeReadType.Code39Extended);
+		BarCodeReader reader5 = new BarCodeReader(img5, new Rectangle(0, 0, 100, 50), com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.barcode_image.basic_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class BarcodeImageMargins {
@@ -12,7 +11,7 @@ public class BarcodeImageMargins {
 
         BarCodeBuilder bb = new BarCodeBuilder();
         bb.setCodeText("1234567");
-        bb.setSymbologyType(Symbology.Code128);
+        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 
         bb.getMargins().setLeft(2f);
         bb.getMargins().setRight(2f);

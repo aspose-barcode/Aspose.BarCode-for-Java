@@ -1,4 +1,4 @@
-﻿package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
+package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.DataMatrixEncodeMode;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class CreateDatamatrixBarcode {
@@ -24,7 +23,7 @@ public class CreateDatamatrixBarcode {
 	public static void createADataMatrixBarcode(String dataDir) {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
-		objBuilder.setSymbologyType(Symbology.DataMatrix);
+		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		objBuilder.setCodeText("1234567890");
 		
 		objBuilder.save(dataDir + "datamatrix.bmp");
@@ -33,7 +32,7 @@ public class CreateDatamatrixBarcode {
 	public static void encodeModeForDataMatrix(String dataDir) {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
-		objBuilder.setSymbologyType(Symbology.DataMatrix);
+		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		objBuilder.setDataMatrixEncodeMode(DataMatrixEncodeMode.ASCII);
 		objBuilder.setCodeText("This is the data to be encoded");
 		
@@ -43,10 +42,10 @@ public class CreateDatamatrixBarcode {
 	public static void customEncodingModeForDataMatrix(String dataDir) throws IOException {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
-		objBuilder.setSymbologyType(Symbology.DataMatrix);
+		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		objBuilder.setDataMatrixEncodeMode(DataMatrixEncodeMode.Custom);
 		objBuilder.setCodeTextEncoding(Charset.forName("UTF-8"));
-		objBuilder.setCodeText("Г¶Г¤ГјГ©Г ГЁ");
+		objBuilder.setCodeText("Г¶Г¤ГјГ©Г Г�?");
 
 		objBuilder.save(dataDir + "output_Utf8.bmp", BarCodeImageFormat.Bmp);
 	}

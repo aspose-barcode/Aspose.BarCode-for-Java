@@ -1,12 +1,12 @@
 package com.aspose.barcode.examples.barcode_image.utility_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
+import java.io.IOException;
 
 public class GetMinimumBarCodeSize 
 {
-    public static void main(String[] args) 
+    public static void main(String[] args) throws IOException 
     {
     	
     	// The path to the resource directory.

@@ -1,6 +1,5 @@
 package com.aspose.barcode.examples.barcode_recognition.loading_barcode_images;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.Utils;
 
@@ -16,7 +15,7 @@ public class LoadingFromAFile {
 		//OR
 
 		// Initialize bar code reader
-		BarCodeReader barcodeReader = new BarCodeReader(dataDir + "CodeText.jpg", BarCodeReadType.Code39Extended);
+		BarCodeReader barcodeReader = new BarCodeReader(dataDir + "CodeText.jpg", com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
 	}
 
 }

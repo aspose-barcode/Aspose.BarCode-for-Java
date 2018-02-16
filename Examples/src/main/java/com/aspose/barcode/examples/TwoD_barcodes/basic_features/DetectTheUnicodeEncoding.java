@@ -4,8 +4,6 @@ import java.nio.charset.StandardCharsets;
 
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
-import com.aspose.barcode.Symbology;
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
@@ -23,11 +21,11 @@ public class DetectTheUnicodeEncoding {
 		BarCodeBuilder builder = new BarCodeBuilder();
 
 		builder.setCodeText("Слово");
-		builder.setSymbologyType(Symbology.QR);
+                builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
 		builder.setCodeTextEncoding(StandardCharsets.UTF_8);
 		builder.save(imageFilePath, BarCodeImageFormat.Png);
 
-		BarCodeReader reader = new BarCodeReader(imageFilePath, BarCodeReadType.QR);
+		BarCodeReader reader = new BarCodeReader(imageFilePath, com.aspose.barcode.barcoderecognition.DecodeType.QR);
 		reader.setDetectEncoding(true);
 
 		if (reader.read()) {

@@ -9,7 +9,6 @@
 package com.aspose.barcode.examples.barcode_image.basic_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class RotateBarcodeImage {
@@ -19,7 +18,7 @@ public class RotateBarcodeImage {
 
     	BarCodeBuilder bb = new BarCodeBuilder();
         bb.setCodeText("1234567");
-        bb.setSymbologyType(Symbology.Code39Extended);
+        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_EXTENDED);
 
         //Rotate clockwise for 180 degree (upside down)
         bb.setRotationAngleF(180);

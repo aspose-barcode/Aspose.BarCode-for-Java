@@ -2,7 +2,6 @@ package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 
 import com.aspose.barcode.AztecSymbolMode;
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class SetAztecSymbolMode {
@@ -16,7 +15,7 @@ public class SetAztecSymbolMode {
 		b.setCodeText("25");
 
 		// Set the barcode type.
-		b.setSymbologyType(Symbology.Aztec);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.AZTEC);
 
 		// set the AztecSymbolMode property.
 		b.setAztecSymbolMode(AztecSymbolMode.Rune);

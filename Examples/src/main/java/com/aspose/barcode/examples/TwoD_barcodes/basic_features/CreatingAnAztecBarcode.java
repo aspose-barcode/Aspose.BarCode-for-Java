@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class CreatingAnAztecBarcode {
@@ -19,7 +18,7 @@ public class CreatingAnAztecBarcode {
 	public static void createAnAztecBarcode(String dataDir) throws IOException {
 		
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.Aztec);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.AZTEC);
 		b.setCodeText("1234567890");
 		
 		b.save(dataDir + "aztec.bmp", BarCodeImageFormat.Bmp);
@@ -28,7 +27,7 @@ public class CreatingAnAztecBarcode {
 	public static void errorCorrection(String dataDir) throws IOException {
 		
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.Aztec);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.AZTEC);
 		b.setAztectErrorLevel(50);
 		b.setCodeText("1234567890");
 		

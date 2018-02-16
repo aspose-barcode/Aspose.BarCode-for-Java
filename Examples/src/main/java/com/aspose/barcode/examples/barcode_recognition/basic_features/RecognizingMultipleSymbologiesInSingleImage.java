@@ -26,7 +26,7 @@ public class RecognizingMultipleSymbologiesInSingleImage {
 			// Print the code text, if barcode found
 			System.out.println("CodeText: " + rd.getCodeText().toString());
 			// Print the symbology type
-			System.out.println("CodeText: " + rd.getReadType());
+			System.out.println("CodeText: " + rd.getCodeType());
 		}
 	}
 }

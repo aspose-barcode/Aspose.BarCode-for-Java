@@ -11,7 +11,7 @@ public class SaveBarcodeImageToStreams {
 	public static void main(String[] args) throws IOException {
     	
 		BarCodeBuilder builder = new BarCodeBuilder();
-		builder.setSymbologyType(com.aspose.barcode.Symbology.Code128);
+                builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 		builder.setCodeText("123456");
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		builder.save(outStream, BarCodeImageFormat.Jpeg);

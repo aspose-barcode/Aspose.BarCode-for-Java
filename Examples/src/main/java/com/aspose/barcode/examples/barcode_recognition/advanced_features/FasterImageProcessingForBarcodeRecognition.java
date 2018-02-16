@@ -1,6 +1,5 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.RecognitionHints;
 import com.aspose.barcode.examples.ApplyALicense;
@@ -17,10 +16,10 @@ public class FasterImageProcessingForBarcodeRecognition {
 		String imageFilePath = dataDir + "datamatrix.bmp";
 		
 		//Create an instance of BarCodeReader and set image and symbology type to recognize
-		BarCodeReader reader = new BarCodeReader(imageFilePath, BarCodeReadType.DataMatrix);
+		BarCodeReader reader = new BarCodeReader(imageFilePath, com.aspose.barcode.barcoderecognition.DecodeType.DATA_MATRIX);
 
 		//Set recognition hints
-		reader.setImageBinarizationHints(RecognitionHints.ImageBinarization.MedianSmoothing);
+		//reader.setImageBinarizationHints(RecognitionHints.ImageBinarization.MedianSmoothing);
 		reader.setMedianSmoothingWindowSize(4);
 
 		//Try to recognize the barcode from the image
