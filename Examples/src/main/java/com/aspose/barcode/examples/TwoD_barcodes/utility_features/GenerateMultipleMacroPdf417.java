@@ -1,16 +1,17 @@
 package com.aspose.barcode.examples.TwoD_barcodes.utility_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
-public class GenerateMultipleMacroPdf417 {
+public class GenerateMultipleMacroPdf417 
+{
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+        {
 		String dataDir = Utils.getDataDir(GenerateMultipleMacroPdf417.class) + "2DBarcode/UtilityFeatures/";
 		
 		BarCodeBuilder builder = new BarCodeBuilder();
-		builder.setSymbologyType(Symbology.MacroPdf417);
+                builder.setEncodeType(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
 
 		// Create array for storing multiple barcodes
 		int nSize = 4;

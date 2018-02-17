@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class CreatingTwoDimensional2DBarcode {
@@ -16,7 +15,7 @@ public class CreatingTwoDimensional2DBarcode {
 	public static void creatingAPdf417Barcode(String dataDir) {
 		
 		BarCodeBuilder b= new BarCodeBuilder();
-		b.setSymbologyType(Symbology.Pdf417);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.PDF_417);
 
 		// Width of each module
 		b.setxDimension(0.6f);
@@ -30,7 +29,7 @@ public class CreatingTwoDimensional2DBarcode {
 	public static void creatingADataMatrixBarcode(String dataDir) {
 		
 		BarCodeBuilder b = new BarCodeBuilder();
-		b.setSymbologyType(Symbology.DataMatrix);
+                b.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 
 		// Width of each module
 		b.setxDimension(0.6f);

@@ -24,7 +24,7 @@ public class SetSizeUnitForBarcodeImage {
         bb.setCodeText("1234567");
 
         //Set the symbology type to code128
-        bb.setSymbologyType(Symbology.Code128);
+        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 
         //Set the bar height to 3 points
         bb.setBarHeight(3.0f);

@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.barcode.advanced_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class ManageXAndYDimension {
@@ -17,7 +16,7 @@ public class ManageXAndYDimension {
     	
 		BarCodeBuilder bb = new BarCodeBuilder();
 		bb.setCodeText("12345678");
-		bb.setSymbologyType(Symbology.Code128);
+                bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 
 		//Set the x-dimension for the bars of the barcode
 		bb.setxDimension(0.5f);
@@ -32,7 +31,7 @@ public class ManageXAndYDimension {
     	
 		BarCodeBuilder bb = new BarCodeBuilder();
 		bb.setCodeText("12345678");
-		bb.setSymbologyType(Symbology.Pdf417);
+                bb.setEncodeType(com.aspose.barcode.EncodeTypes.PDF_417);
 
 		//Set the Y-Dimension for the bars of the barcode
 		bb.setyDimension(4);

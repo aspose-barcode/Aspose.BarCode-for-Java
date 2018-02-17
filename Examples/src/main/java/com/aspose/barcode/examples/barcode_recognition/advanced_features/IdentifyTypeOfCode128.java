@@ -1,6 +1,5 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.ManualHint;
 import com.aspose.barcode.barcoderecognition.RecognitionMode;
@@ -10,13 +9,14 @@ import com.aspose.barcode.examples.Utils;
 public class IdentifyTypeOfCode128 
 {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception 
+    {
             ApplyALicense.applyALicense();
 
         // The path to the resource directory.
         String dataDir = Utils.getDataDir(UsingManualHintsToOptimizeScan.class) + "BarcodeReader/advanced_features/";
 
-            // Create an instance of BarCodeReader class
+        // Create an instance of BarCodeReader class
         // Set file path
         // Set the recognition type
         com.aspose.barcode.barcoderecognition.BarCodeReader reader = 

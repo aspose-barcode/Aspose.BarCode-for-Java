@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.barcode_image.utility_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class BarcodeCustomSize {
@@ -17,7 +16,7 @@ public class BarcodeCustomSize {
         builder.setCodeText("1234567890");
 
         //Set the symbology type to Code39Standard
-        builder.setSymbologyType(Symbology.Code39Standard);
+        builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
 
         // Set auto size false
         builder.setAutoSize(false);

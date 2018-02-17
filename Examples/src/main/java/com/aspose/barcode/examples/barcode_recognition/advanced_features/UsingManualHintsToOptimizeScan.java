@@ -1,6 +1,5 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.ManualHint;
 import com.aspose.barcode.barcoderecognition.RecognitionMode;
@@ -18,24 +17,25 @@ public class UsingManualHintsToOptimizeScan {
 		long s = System.currentTimeMillis();
 		String filename = dataDir + "datamatrix.bmp";
 
-		BarCodeReader reader = new BarCodeReader(filename, BarCodeReadType.GS1DataMatrix);
+		BarCodeReader reader = new BarCodeReader(filename, com.aspose.barcode.barcoderecognition.DecodeType.GS_1_DATA_MATRIX);
 		System.out.println("Skip rotated barcodes");
 		reader.setRecognitionMode(RecognitionMode.ManualHints);
 		reader.setManualHints(ManualHint.SkipRotatedBarcodes);
 
-		while (reader.read()) {
-			System.out.println(reader.getReadTypeName() + ": " + reader.getCodeText() + " QA:" + reader.getRecognitionQuality());
+		while (reader.read()) 
+                {
+			System.out.println(reader.getCodeType() + ": " + reader.getCodeText() + " QA:" + reader.getRecognitionQuality());
 		}
 		long res1 = System.currentTimeMillis() - s;
 		System.out.println(res1);
 		System.out.println();
 
 		s = System.currentTimeMillis();
-		reader = new BarCodeReader(filename, BarCodeReadType.GS1DataMatrix);
+		reader = new BarCodeReader(filename, com.aspose.barcode.barcoderecognition.DecodeType.GS_1_DATA_MATRIX);
 		System.out.println("Not skip rotated barcodes");
 
 		while (reader.read()) {
-			System.out.println(reader.getReadTypeName() + ": " + reader.getCodeText() + " QA:" + reader.getRecognitionQuality());
+			System.out.println(reader.getCodeType() + ": " + reader.getCodeText() + " QA:" + reader.getRecognitionQuality());
 		}
 		long res2 = System.currentTimeMillis() - s;
 		System.out.println(res2);

@@ -4,7 +4,8 @@ import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
-public class Barcode_Recognition {
+public class Barcode_Recognition 
+{
 
 	public static void main(String[] args) throws Exception {
 		
@@ -21,7 +22,7 @@ public class Barcode_Recognition {
 	        // print the code text, if barcode found
 	        System.out.println("CodeText: " + rd.getCodeText().toString());
 	        // print the symbology type
-	        System.out.println("Symbology type: " + rd.getReadTypeName());
+	        System.out.println("Symbology type: " + rd.getCodeType());
 	    }
 	}
 }

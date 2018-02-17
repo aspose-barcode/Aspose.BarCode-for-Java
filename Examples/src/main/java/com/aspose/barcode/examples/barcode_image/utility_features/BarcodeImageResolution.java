@@ -11,7 +11,6 @@ package com.aspose.barcode.examples.barcode_image.utility_features;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.Resolution;
 import com.aspose.barcode.ResolutionMode;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class BarcodeImageResolution {
@@ -27,7 +26,7 @@ public class BarcodeImageResolution {
         bb.setCodeText("1234567");
 
         //Set the symbology type to code128
-        bb.setSymbologyType(Symbology.Code128);
+        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 
         //Create an instance of resolution and apply on the barcode image with
         //customized resolution settings

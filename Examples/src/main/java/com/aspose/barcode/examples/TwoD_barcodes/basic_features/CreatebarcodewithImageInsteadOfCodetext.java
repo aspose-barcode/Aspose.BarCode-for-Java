@@ -6,13 +6,12 @@ import java.nio.charset.Charset;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.DataMatrixEncodeMode;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 
 public class CreatebarcodewithImageInsteadOfCodetext 
 {
-    public static void main(String[] args) 
+    public static void main(String[] args) throws IOException 
     {
         // The path to the resource directory.
         String dataDir = Utils.getDataDir(SetAztecSymbolMode.class) + "TwoD_barcodes/BasicFeatures/";

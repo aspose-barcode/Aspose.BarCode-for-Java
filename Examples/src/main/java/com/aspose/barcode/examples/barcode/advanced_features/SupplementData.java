@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.barcode.advanced_features;
 
 import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Symbology;
 import com.aspose.barcode.examples.Utils;
 
 public class SupplementData {
@@ -13,7 +12,7 @@ public class SupplementData {
     	
 		BarCodeBuilder bb = new BarCodeBuilder();
 		bb.setCodeText("123456789123");
-		bb.setSymbologyType(Symbology.EAN13);
+                bb.setEncodeType(com.aspose.barcode.EncodeTypes.EAN_13);
 		
 		//Set the supplement data (5 Digit)
 		bb.setSupplementData("12345");

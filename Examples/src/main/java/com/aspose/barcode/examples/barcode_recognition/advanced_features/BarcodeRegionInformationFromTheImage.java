@@ -2,7 +2,6 @@ package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import java.awt.Point;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReadType;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeRegion;
 import com.aspose.barcode.examples.ApplyALicense;
@@ -18,7 +17,7 @@ public class BarcodeRegionInformationFromTheImage {
 		// Read code39 barcode from image
 		String imageFilePath = dataDir + "code39Extended.jpg";
 		
-		BarCodeReader reader = new BarCodeReader(imageFilePath, BarCodeReadType.Code39Standard);
+		BarCodeReader reader = new BarCodeReader(imageFilePath, com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
 
 		// Try to recognize all possible barcodes in the image
 		while (reader.read()) {

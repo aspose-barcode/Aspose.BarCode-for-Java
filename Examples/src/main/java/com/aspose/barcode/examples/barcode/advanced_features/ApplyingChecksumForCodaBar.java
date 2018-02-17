@@ -5,7 +5,7 @@ import com.aspose.barcode.barcoderecognition.ChecksumValidation;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 
-public class ApplyingChecksumValidation 
+public class ApplyingChecksumForCodaBar 
 {
 	public static void main(String[] args) 
         {
