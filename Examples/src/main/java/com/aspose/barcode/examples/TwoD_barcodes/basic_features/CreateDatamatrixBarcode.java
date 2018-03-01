@@ -20,13 +20,15 @@ public class CreateDatamatrixBarcode {
 		createDataMatrixBarcodeWithC40Encoding(dataDir);
 	}
 	
-	public static void createADataMatrixBarcode(String dataDir) {
+	public static void createADataMatrixBarcode(String dataDir) throws IOException {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
 		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		objBuilder.setCodeText("1234567890");
 		
 		objBuilder.save(dataDir + "datamatrix.bmp");
+                
+                objBuilder.save(dataDir + "datamatrix.emf", com.aspose.barcode.BarCodeImageFormat.Emf);
 	}
 	
 	public static void encodeModeForDataMatrix(String dataDir) {
