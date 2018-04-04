@@ -29,7 +29,7 @@
     <repositories>
         <repository>
             <id>aspose-maven-repository</id>
-            <url>http://maven.aspose.com/repository/repo/</url>
+            <url>http://artifact.aspose.com/repo/</url>
         </repository>
         <repository>
             <id>com.springsource.repository.bundles.external</id>
