@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.RecognitionHints.Orientation;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
@@ -16,8 +15,9 @@ public class BarcodeOrientation {
 		// Read code39 barcode from image
 		String image = dataDir + "code39Extended.jpg";
 		BarCodeReader reader = new BarCodeReader(image, com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
-		// Set orientation
-		reader.setOrientationHints(Orientation.Rotate90);
+
+		//Barcode orientation is detected automatically
+		
 		// Try to recognize all possible barcodes in the image
 		while (reader.read()) {
 			System.err.println("Codetext: " + reader.getCodeText());

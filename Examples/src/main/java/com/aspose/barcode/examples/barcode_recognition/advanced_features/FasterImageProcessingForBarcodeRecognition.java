@@ -1,7 +1,6 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.RecognitionHints;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
