@@ -14,7 +14,7 @@ public class ApplyingChecksumValidation {
 		BarCodeReader r = new BarCodeReader(dataDir + "onecode.png", DecodeType.ONE_CODE);
 
 		// Set the ChecksumValidation property to Off.
-		r.setChecksumValidation(ChecksumValidation.Off);
+		r.setChecksumValidation(ChecksumValidation.OFF);
 
 		while (r.read()) {
 			System.out.println(r.getCodeType() + ": " + r.getCodeText());

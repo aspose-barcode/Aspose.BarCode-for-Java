@@ -15,7 +15,7 @@ public class BarcodeImageQuality {
         bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 
         //Set the graphics drawing hint to be Anti Alias
-        bb.setImageQuality(ImageQualityMode.AntiAlias);
+        bb.setImageQuality(ImageQualityMode.ANTI_ALIAS);
 
         // Save the image
         bb.save(dataDir + "barcode-image-quality.jpg");

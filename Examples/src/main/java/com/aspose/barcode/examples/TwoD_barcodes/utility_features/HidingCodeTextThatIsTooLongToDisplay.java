@@ -26,7 +26,7 @@ public class HidingCodeTextThatIsTooLongToDisplay
 		b.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
 		b.setCodeLocation(CodeLocation.Below);
 		
-		b.save(dataDir + "datamatrix.bmp", BarCodeImageFormat.Bmp);
+		b.save(dataDir + "datamatrix.bmp", BarCodeImageFormat.BMP);
 	}
 	
 	public static void reduceTheCodeTextFontSize(String dataDir) throws IOException 
@@ -38,6 +38,6 @@ public class HidingCodeTextThatIsTooLongToDisplay
 		b.setCodeLocation(CodeLocation.None);
 		b.setCodeTextFont(new Font("Serif", Font.BOLD + Font.ITALIC, 20));
 		
-		b.save(dataDir + "reduceFontSize.bmp", BarCodeImageFormat.Bmp);
+		b.save(dataDir + "reduceFontSize.bmp", BarCodeImageFormat.BMP);
 	}
 }

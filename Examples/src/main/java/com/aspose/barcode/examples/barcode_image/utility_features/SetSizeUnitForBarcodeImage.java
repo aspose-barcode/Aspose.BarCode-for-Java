@@ -30,7 +30,7 @@ public class SetSizeUnitForBarcodeImage {
         bb.setBarHeight(3.0f);
 
         //Set the measuring unit of barcode to point
-        bb.setGraphicsUnit(GraphicsUnit.Point);
+        bb.setGraphicsUnit(GraphicsUnit.POINT);
 
         // Save the image
         bb.save(dataDir + "barcode-size-unit.jpg");

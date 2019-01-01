@@ -23,7 +23,7 @@ public class DetectTheUnicodeEncoding {
 		builder.setCodeText("Слово");
                 builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
 		builder.setCodeTextEncoding(StandardCharsets.UTF_8);
-		builder.save(imageFilePath, BarCodeImageFormat.Png);
+		builder.save(imageFilePath, BarCodeImageFormat.PNG);
 
 		BarCodeReader reader = new BarCodeReader(imageFilePath, com.aspose.barcode.barcoderecognition.DecodeType.QR);
 		reader.setDetectEncoding(true);

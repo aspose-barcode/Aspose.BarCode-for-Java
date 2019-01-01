@@ -21,7 +21,7 @@ public class CreatingAnAztecBarcode {
                 b.setEncodeType(com.aspose.barcode.EncodeTypes.AZTEC);
 		b.setCodeText("1234567890");
 		
-		b.save(dataDir + "aztec.bmp", BarCodeImageFormat.Bmp);
+		b.save(dataDir + "aztec.bmp", BarCodeImageFormat.BMP);
 	}
 	
 	public static void errorCorrection(String dataDir) throws IOException {
@@ -31,7 +31,7 @@ public class CreatingAnAztecBarcode {
 		b.setAztectErrorLevel(50);
 		b.setCodeText("1234567890");
 		
-		b.save(dataDir + "error_correction_aztec.bmp", BarCodeImageFormat.Bmp);
+		b.save(dataDir + "error_correction_aztec.bmp", BarCodeImageFormat.BMP);
 	}
 
 }

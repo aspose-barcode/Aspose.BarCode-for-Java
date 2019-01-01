@@ -28,7 +28,7 @@ public class CreatingAPdf417Barcode {
     	
 		BarCodeBuilder b = new BarCodeBuilder();
 		b.setEncodeType(com.aspose.barcode.EncodeTypes.PDF_417);
-		b.setPdf417ErrorLevel(Pdf417ErrorLevel.Level8);
+		b.setPdf417ErrorLevel(Pdf417ErrorLevel.LEVEL_8);
 		b.setCodeText("12345");
 		
 		b.save(dataDir + "pdf417ErrorCorrectionLevel.bmp");
@@ -38,7 +38,7 @@ public class CreatingAPdf417Barcode {
     	
     	BarCodeBuilder builder = new BarCodeBuilder("This is text data", com.aspose.barcode.EncodeTypes.PDF_417);
     	// Set Pdf417 Compaction Mode to Text
-    	builder.setPdf417CompactionMode(Pdf417CompactionMode.Text);
+    	builder.setPdf417CompactionMode(Pdf417CompactionMode.TEXT);
 
     	// Save the image to disk in PNG format
     	builder.save(dataDir + "pdf417CompactionMode.png");

@@ -19,7 +19,7 @@ public class GenerateBarcodeWithEmptyBars {
 		builder.setFilledBars(false);
 
 		//Save the resultant barcode image on disk
-		builder.save(dataDir + "barcodeWithEmptyBars.png", BarCodeImageFormat.Png);
+		builder.save(dataDir + "barcodeWithEmptyBars.png", BarCodeImageFormat.PNG);
 	}
 
 }

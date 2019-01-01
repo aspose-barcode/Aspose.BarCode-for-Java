@@ -1,5 +1,7 @@
 package com.aspose.barcode.examples.barcode.advanced_features;
 
+import com.aspose.barcode.CodabarChecksumMode;
+import com.aspose.barcode.EnableChecksum;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.ChecksumValidation;
 import com.aspose.barcode.barcoderecognition.DecodeType;
@@ -26,10 +28,10 @@ public class ApplyingChecksumForCodaBar
                 builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODABAR);
         
                 //Set the EnableChecksum property to yes
-                builder.setEnableChecksum(com.aspose.barcode.EnableChecksum.Yes);
+                builder.setEnableChecksum(EnableChecksum.YES);
         
                 //Set the CodabarChecksumMode
-                builder.setCodabarChecksumMode(com.aspose.barcode.CodabarChecksumMode.Mod10);
+                builder.setCodabarChecksumMode(CodabarChecksumMode.MOD_10);
         
                 //Save the image on the system
                 builder.save("Codabar_Mod10.png");
@@ -39,7 +41,7 @@ public class ApplyingChecksumForCodaBar
                 BarCodeReader reader = new BarCodeReader("Codabar_Mod10.png", com.aspose.barcode.barcoderecognition.DecodeType.CODABAR);
         
                 //Set ChecksumValidation property of the reader to On
-                reader.setChecksumValidation(com.aspose.barcode.barcoderecognition.ChecksumValidation.On);
+                reader.setChecksumValidation(ChecksumValidation.ON);
                 while (reader.read())
                 {
                      //Get code text

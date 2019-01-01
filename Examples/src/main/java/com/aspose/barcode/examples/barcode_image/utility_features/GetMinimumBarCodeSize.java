@@ -1,6 +1,7 @@
 package com.aspose.barcode.examples.barcode_image.utility_features;
 
 import com.aspose.barcode.BarCodeBuilder;
+import com.aspose.barcode.GraphicsUnit;
 import com.aspose.barcode.examples.Utils;
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ public class GetMinimumBarCodeSize
                 new com.aspose.barcode.BarCodeBuilder("1234567890", com.aspose.barcode.EncodeTypes.CODE_128);
         
         // Set graphic unit
-        builder.setGraphicsUnit(com.aspose.barcode.GraphicsUnit.Pixel);
+        builder.setGraphicsUnit(GraphicsUnit.PIXEL);
 
         // Call GetMinimumBarCodeSize method to get the minimum size required
         

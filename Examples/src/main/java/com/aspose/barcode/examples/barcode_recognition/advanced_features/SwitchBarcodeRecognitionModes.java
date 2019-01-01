@@ -21,7 +21,7 @@ public class SwitchBarcodeRecognitionModes {
 		reader.setRecognitionMode(RecognitionMode.ManualHints);
 
 		// Set manual hints
-		reader.setManualHints(ManualHint.InvertImage | ManualHint.IncorrectBarcodes);
+		reader.setManualHints(ManualHint.INVERT_IMAGE | ManualHint.INCORRECT_BARCODES);
 
 		// Try to recognize the barcode from the image
 		while (reader.read()) {

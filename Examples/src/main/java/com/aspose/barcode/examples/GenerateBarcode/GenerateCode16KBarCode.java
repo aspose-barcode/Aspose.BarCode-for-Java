@@ -21,7 +21,7 @@ public class GenerateCode16KBarCode {
 
         //ExStart: GenerateCode16KBarCode
         BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.CODE_16_K);
-        generator.setAutoSizeMode(AutoSizeMode.Nearest);
+        generator.setAutoSizeMode(AutoSizeMode.NEAREST);
         generator.getBarCodeWidth().setPixels(100);
         generator.getCodeTextStyle().setLocation(CodeLocation.None);
         generator.save("Code16K_Nearest.png");

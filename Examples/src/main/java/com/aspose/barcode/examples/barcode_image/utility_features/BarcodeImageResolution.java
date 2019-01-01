@@ -30,7 +30,7 @@ public class BarcodeImageResolution {
 
         //Create an instance of resolution and apply on the barcode image with
         //customized resolution settings
-        bb.setResolution(new Resolution(200f, 400f, ResolutionMode.Customized));
+        bb.setResolution(new Resolution(200f, 400f, ResolutionMode.CUSTOMIZED));
 
         // Save the image
         bb.save(dataDir + "barcode-image-resolution.jpg");

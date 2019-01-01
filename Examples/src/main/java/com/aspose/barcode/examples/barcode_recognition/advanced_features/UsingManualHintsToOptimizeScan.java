@@ -20,7 +20,7 @@ public class UsingManualHintsToOptimizeScan {
 		BarCodeReader reader = new BarCodeReader(filename, com.aspose.barcode.barcoderecognition.DecodeType.GS_1_DATA_MATRIX);
 		System.out.println("Skip rotated barcodes");
 		reader.setRecognitionMode(RecognitionMode.ManualHints);
-		reader.setManualHints(ManualHint.SkipRotatedBarcodes);
+		reader.setManualHints(ManualHint.SKIP_ROTATED_BARCODES);
 
 		while (reader.read()) 
                 {

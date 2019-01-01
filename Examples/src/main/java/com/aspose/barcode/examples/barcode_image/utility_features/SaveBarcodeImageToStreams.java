@@ -14,7 +14,7 @@ public class SaveBarcodeImageToStreams {
                 builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
 		builder.setCodeText("123456");
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		builder.save(outStream, BarCodeImageFormat.Jpeg);
+		builder.save(outStream, BarCodeImageFormat.JPEG);
 
 	}
 

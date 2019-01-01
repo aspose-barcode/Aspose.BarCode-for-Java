@@ -15,7 +15,7 @@ public class Checksum {
                 bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
 
 		//Make the checksum to be visible on the barcode
-		bb.setEnableChecksum(EnableChecksum.Default);
+		bb.setEnableChecksum(EnableChecksum.DEFAULT);
 
 		//Save the Barcode image to file
     	bb.save(dataDir + "checksum.jpg");

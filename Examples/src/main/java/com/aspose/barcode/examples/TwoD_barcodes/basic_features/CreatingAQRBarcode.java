@@ -27,17 +27,17 @@ public class CreatingAQRBarcode {
                 b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
 		b.setCodeText("1234567890");
 
-		b.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.Bmp);
+		b.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
 	}
 	
 	public static void errorCorrection(String dataDir) throws IOException {
 				
 		BarCodeBuilder b = new BarCodeBuilder();
                 b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
-		b.setQRErrorLevel(QRErrorLevel.LevelH);
+		b.setQRErrorLevel(QRErrorLevel.LEVEL_H);
 		b.setCodeText("1234567890");
 		
-		b.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.Bmp);
+		b.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
 	}
 	
 	public static void rotation(String dataDir) throws IOException {
@@ -50,7 +50,7 @@ public class CreatingAQRBarcode {
 		b.setCodeLocation(CodeLocation.None);
 		b.setRotationAngleF(90);
 		
-		b.save(dataDir + "rotation_qr.bmp", BarCodeImageFormat.Bmp);
+		b.save(dataDir + "rotation_qr.bmp", BarCodeImageFormat.BMP);
 	}
 
 	public static void QRBarcodeWithImage(String dataDir) throws IOException {
@@ -65,7 +65,7 @@ public class CreatingAQRBarcode {
             BarCodeBuilder builder = new BarCodeBuilder("123456789", com.aspose.barcode.EncodeTypes.QR);
 
             // Set the error level
-            builder.setQRErrorLevel(com.aspose.barcode.QRErrorLevel.LevelH);
+            builder.setQRErrorLevel(QRErrorLevel.LEVEL_H);
 
             // Set the Graphics Unit
             builder.setGraphicsUnit(2);
@@ -114,7 +114,7 @@ public class CreatingAQRBarcode {
         	builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
 
 	        // Set the error level
-        	builder.setQRErrorLevel(com.aspose.barcode.QRErrorLevel.LevelQ);
+        	builder.setQRErrorLevel(QRErrorLevel.LEVEL_Q);
 
 	        // Set the QR barcode version number
         	builder.setQRVersion(com.aspose.barcode.QRVersion.VERSION_10);

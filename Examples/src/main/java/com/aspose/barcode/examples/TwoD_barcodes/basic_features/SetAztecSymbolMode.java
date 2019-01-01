@@ -18,7 +18,7 @@ public class SetAztecSymbolMode {
                 b.setEncodeType(com.aspose.barcode.EncodeTypes.AZTEC);
 
 		// set the AztecSymbolMode property.
-		b.setAztecSymbolMode(AztecSymbolMode.Rune);
+		b.setAztecSymbolMode(AztecSymbolMode.RUNE);
 
 		// Save the barcode as PNG image.
 		b.save(dataDir + "testRune25.png");

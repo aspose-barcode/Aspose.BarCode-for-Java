@@ -28,7 +28,7 @@ public class CreateDatamatrixBarcode {
 		
 		objBuilder.save(dataDir + "datamatrix.bmp");
                 
-                objBuilder.save(dataDir + "datamatrix.emf", com.aspose.barcode.BarCodeImageFormat.Emf);
+                objBuilder.save(dataDir + "datamatrix.emf", BarCodeImageFormat.EMF);
 	}
 	
 	public static void encodeModeForDataMatrix(String dataDir) {
@@ -45,11 +45,11 @@ public class CreateDatamatrixBarcode {
     	
 		BarCodeBuilder objBuilder = new BarCodeBuilder();
 		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
-		objBuilder.setDataMatrixEncodeMode(DataMatrixEncodeMode.Custom);
+		objBuilder.setDataMatrixEncodeMode(DataMatrixEncodeMode.CUSTOM);
 		objBuilder.setCodeTextEncoding(Charset.forName("UTF-8"));
-		objBuilder.setCodeText("Г¶Г¤ГјГ©Г Г�?");
+		objBuilder.setCodeText("Г¶Г¤ГјГ©Г Г�?");
 
-		objBuilder.save(dataDir + "output_Utf8.bmp", BarCodeImageFormat.Bmp);
+		objBuilder.save(dataDir + "output_Utf8.bmp", BarCodeImageFormat.BMP);
 	}
 
 

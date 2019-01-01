@@ -17,7 +17,7 @@ public class GroupingPropertiesByBarcodeType {
 		//ExStart: GroupingPropertiesByBarcodeType
 		BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.QR);
 	    generator.getQR().setVersion(QRVersion.VERSION_18);
-	    generator.getQR().setErrorLevel(QRErrorLevel.LevelM);
+	    generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
 	    generator.save(dataDir + "GroupingPropertiesByBarcodeType_out.png");
 		//ExEnd: GroupingPropertiesByBarcodeType
 	}

@@ -17,7 +17,7 @@ public class GenerateBarcodeWithRestrictedBarcodeSize {
 		//ExStart: GenerateBarcodeWithRestrictedBarcodeSize
 		BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.QR, "Aspose.BarCode sample");
 		
-	    generator.setAutoSizeMode(AutoSizeMode.Nearest);
+	    generator.setAutoSizeMode(AutoSizeMode.NEAREST);
 	    generator.getBarCodeWidth().setPixels(200);
 	    generator.getBarCodeHeight().setPixels(200);
 	    generator.save(dataDir + "GenerateBarcodeWithRestrictedBarcodeSize_out.png");

@@ -20,7 +20,7 @@ public class ImplementInterpolationAutoSizemode {
 
         //ExStart: ImplementInterpolationAutoSizemode
         BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.DATA_MATRIX);
-        generator.setAutoSizeMode(AutoSizeMode.Interpolation);
+        generator.setAutoSizeMode(AutoSizeMode.INTERPOLATION);
         generator.getBarCodeWidth().setMillimeters(50);
         generator.getBarCodeHeight().setInches(1.3f);
 
