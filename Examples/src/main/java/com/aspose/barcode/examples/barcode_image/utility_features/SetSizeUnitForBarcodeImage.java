@@ -8,29 +8,23 @@
 
 package com.aspose.barcode.examples.barcode_image.utility_features;
 
+import java.io.IOException;
+
 import com.aspose.barcode.*;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SetSizeUnitForBarcodeImage {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
     	
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SetSizeUnitForBarcodeImage.class) + "BarcodeImage/UtilityFeatures/";
     	
-    	//Instantiate barcode object
-        BarCodeBuilder bb = new BarCodeBuilder();
-
-        //Set the Code text for the barcode
-        bb.setCodeText("1234567");
-
-        //Set the symbology type to code128
-        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
-
+    	//Instantiate barcode object, Set the symbology type to code128 and Set the Code text for the barcode
+        BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
+        
         //Set the bar height to 3 points
-        bb.setBarHeight(3.0f);
-
-        //Set the measuring unit of barcode to point
-        bb.setGraphicsUnit(GraphicsUnit.POINT);
+        bb.getBarHeight().setPoint(3.0f);
 
         // Save the image
         bb.save(dataDir + "barcode-size-unit.jpg");

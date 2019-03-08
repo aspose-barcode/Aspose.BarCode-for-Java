@@ -8,21 +8,20 @@
 
 package com.aspose.barcode.examples.barcode.basic_features;
 
+import java.io.IOException;
+
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SpecifySymbology {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/BasicFeatures/";
 				
-		// Generate and save the image to file
-		BarCodeBuilder builder = new BarCodeBuilder();
-		// Set code text
-		builder.setCodeText("test-123");
-		// Set Symbology type
-		builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
+		// Create instance of BarCodeGenerator, specify codetext and symbology in the constructor
+    	BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD, "Test-123");
 		
-		builder.save(dataDir + "Code39Standard.jpg");
+    	generator.save(dataDir + "Code39Standard.jpg");
 	}
 }

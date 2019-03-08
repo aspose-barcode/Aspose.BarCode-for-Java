@@ -6,7 +6,7 @@ import com.aspose.barcode.examples.Utils;
 
 public class BarcodeImageQuality {
     public static void main(String[] args) {
-    	
+    	//ExStart: BarcodeImageQuality
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeImageQuality.class) + "BarcodeImage/BasicFeatures/";
 
@@ -19,6 +19,6 @@ public class BarcodeImageQuality {
 
         // Save the image
         bb.save(dataDir + "barcode-image-quality.jpg");
-        
+      //ExStart: BarcodeImageQuality
     }
 }

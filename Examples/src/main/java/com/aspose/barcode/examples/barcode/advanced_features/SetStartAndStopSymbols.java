@@ -1,26 +1,27 @@
 package com.aspose.barcode.examples.barcode.advanced_features;
 
-import com.aspose.barcode.BarCodeBuilder;
+import java.io.IOException;
+
 import com.aspose.barcode.CodabarSymbol;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SetStartAndStopSymbols {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SetStartAndStopSymbols.class) + "Barcode/AdvancedFeatures/";
     	
-		// Create instance of BarCodeBuilder, specify codetext and symbology in the constructor
-		BarCodeBuilder builder = new BarCodeBuilder("12345678", com.aspose.barcode.EncodeTypes.CODABAR);
+		// Create instance of BarCodeGenerator, specify codetext and symbology in the constructor
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODABAR, "12345678");
 
 		// Set the codabar start symbol to A
-		builder.setCodabarStartSymbol(CodabarSymbol.A);
+		generator.getCodabar().setStartSymbol(CodabarSymbol.A);
 
 		// Set the codabar stop symbol to D
-		builder.setCodabarStopSymbol(CodabarSymbol.D);
+		generator.getCodabar().setStopSymbol(CodabarSymbol.D);
 
 		// Save the image to disk in PNG format
-		builder.save(dataDir + "startAndStopSymbols.png");
+		generator.save(dataDir + "startAndStopSymbols.png");
 	}
-
 }

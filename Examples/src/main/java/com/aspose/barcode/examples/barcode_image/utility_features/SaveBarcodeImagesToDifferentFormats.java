@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.aspose.barcode.*;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SaveBarcodeImagesToDifferentFormats {
     public static void main(String[] args) throws IOException {
@@ -11,17 +12,11 @@ public class SaveBarcodeImagesToDifferentFormats {
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SaveBarcodeImagesToDifferentFormats.class) + "BarcodeImage/UtilityFeatures/";
 
-        //Instantiate barcode object
-        BarCodeBuilder bb = new BarCodeBuilder();
-
-        //Set the Code text for the barcode
-        bb.setCodeText("1234567");
-
-        //Set the symbology type to code128
-        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
+    	//Instantiate barcode object, Set the symbology type to code128 and Set the Code text for the barcode
+        BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
+        
 
         //Save the image to your system and set its image format to Jpeg
-        bb.save(dataDir + "barcode-image-format.jpg", ImageFormat.getJpeg());
-      
+        bb.save(dataDir + "barcode-image-format.jpg", BarCodeImageFormat.JPEG);
     }
 }

@@ -8,22 +8,24 @@
 
 package com.aspose.barcode.examples.barcode_image.basic_features;
 
-import com.aspose.barcode.BarCodeBuilder;
+import java.io.IOException;
+
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class RotateBarcodeImage {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+    	//ExStart: RotateBarcodeImage
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(RotateBarcodeImage.class) + "BarcodeImage/BasicFeatures/";
 
-    	BarCodeBuilder bb = new BarCodeBuilder();
-        bb.setCodeText("1234567");
-        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_EXTENDED);
+    	BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_EXTENDED,"1234567");
 
         //Rotate clockwise for 180 degree (upside down)
-        bb.setRotationAngleF(180);
+        bb.setRotationAngle(180);
 
         // Save the image
         bb.save(dataDir + "barcode-image-rotate.jpg");
+        //ExEnd: RotateBarcodeImage
     }
 }

@@ -23,11 +23,11 @@ public class GS1DatamatrixBarcodeWithWrappingText {
                 "452287" + "\r\n" +
                 "005001T8" + "\r\n";
 
-        BarCodeBuilder builder = new BarCodeBuilder(CODICE, EncodeTypes.GS_1_DATA_MATRIX);
-        builder.setCodeLocation(CodeLocation.Right);
-        builder.setDisplay2DText(displayedText);
+        BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.GS_1_DATA_MATRIX, CODICE);
+        generator.getCodeTextStyle().setLocation(CodeLocation.ABOVE);
+        generator.getD2().setDisplayText(displayedText);
 
-        BufferedImage bitmap = builder.generateBarCodeImage();
+        BufferedImage bitmap = generator.generateBarCodeImage();
         File imageFile = new File("Display2DText.png");
         ImageIO.write(bitmap, "png", imageFile);
         //ExEnd: GS1DatamatrixBarcodeWithWrappingText

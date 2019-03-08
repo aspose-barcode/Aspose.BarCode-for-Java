@@ -7,6 +7,7 @@ import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class DetectTheUnicodeEncoding {
 
@@ -18,12 +19,10 @@ public class DetectTheUnicodeEncoding {
 		String dataDir = Utils.getDataDir(DetectTheUnicodeEncoding.class) + "2DBarcode/BasicFeatures/";
 		String imageFilePath = dataDir + "unicodeEncoding.png";
 
-		BarCodeBuilder builder = new BarCodeBuilder();
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "Слово");
 
-		builder.setCodeText("Слово");
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
-		builder.setCodeTextEncoding(StandardCharsets.UTF_8);
-		builder.save(imageFilePath, BarCodeImageFormat.PNG);
+		generator.getD2().setCodeTextEncoding(StandardCharsets.UTF_8);
+		generator.save(imageFilePath, BarCodeImageFormat.PNG);
 
 		BarCodeReader reader = new BarCodeReader(imageFilePath, com.aspose.barcode.barcoderecognition.DecodeType.QR);
 		reader.setDetectEncoding(true);

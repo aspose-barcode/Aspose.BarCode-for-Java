@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class RenderBarcodeToGraphicsObject {
 
@@ -35,10 +36,13 @@ class MyBarCode extends java.awt.Canvas {
     	String dataDir = Utils.getDataDir(MyBarCode.class) + "BarcodeImage/RenderingFeatures/";
     	String fileName = dataDir + "barcode.png";
     	
-		BarCodeBuilder bb = new BarCodeBuilder();
-                bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
-		bb.setCodeText("12345678");
-		bb.save(fileName);
+		BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
+		try {
+			bb.save(fileName);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		// Load and Draw the image on applet
 		MediaTracker tr = new MediaTracker(this);

@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class CreatingAnAztecBarcode {
 
@@ -17,21 +18,17 @@ public class CreatingAnAztecBarcode {
 
 	public static void createAnAztecBarcode(String dataDir) throws IOException {
 		
-		BarCodeBuilder b = new BarCodeBuilder();
-                b.setEncodeType(com.aspose.barcode.EncodeTypes.AZTEC);
-		b.setCodeText("1234567890");
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.AZTEC, "1234567890");
 		
-		b.save(dataDir + "aztec.bmp", BarCodeImageFormat.BMP);
+		generator.save(dataDir + "aztec.bmp", BarCodeImageFormat.BMP);
 	}
 	
 	public static void errorCorrection(String dataDir) throws IOException {
 		
-		BarCodeBuilder b = new BarCodeBuilder();
-                b.setEncodeType(com.aspose.barcode.EncodeTypes.AZTEC);
-		b.setAztectErrorLevel(50);
-		b.setCodeText("1234567890");
-		
-		b.save(dataDir + "error_correction_aztec.bmp", BarCodeImageFormat.BMP);
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.AZTEC, "1234567890");
+		generator.getAztec().setErrorLevel(50);
+
+		generator.save(dataDir + "error_correction_aztec.bmp", BarCodeImageFormat.BMP);
 	}
 
 }

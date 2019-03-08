@@ -9,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.aspose.barcode.BarCodeBuilder;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class RenderBarcodeToServlet extends HttpServlet 
 {
@@ -17,10 +18,8 @@ public class RenderBarcodeToServlet extends HttpServlet
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
-		BarCodeBuilder b = new BarCodeBuilder();
-                b.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
-		b.setCodeText("12345678");
-		BufferedImage image = b.getBarCodeImage();
+		BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
+		BufferedImage image = bb.generateBarCodeImage();
 
 		response.setContentType("image/png");
 		OutputStream outputStream = response.getOutputStream();

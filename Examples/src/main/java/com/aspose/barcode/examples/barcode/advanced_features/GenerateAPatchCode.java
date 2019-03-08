@@ -7,10 +7,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.MarginsF;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class GenerateAPatchCode {
 
@@ -19,31 +19,32 @@ public class GenerateAPatchCode {
 		generateWholePage();
 	}
 	
-	public static void generatePatchCode() {
+	public static void generatePatchCode() throws IOException {
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(GenerateAPatchCode.class) + "Barcode/AdvancedFeatures/";
     	
-		BarCodeBuilder builder = new BarCodeBuilder();
-		// set Symbology type
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.PATCH_CODE);
-		builder.setCodeText("Patch T");
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PATCH_CODE, "Patch T");
 		
-		builder.save(dataDir + "patch.bmp");
+		generator.save(dataDir + "patch.bmp");
 	}
 	
 	public static void generateWholePage() throws IOException {
-		BarCodeBuilder builder = new BarCodeBuilder("Patch T", com.aspose.barcode.EncodeTypes.PATCH_CODE);
-		builder.setImageWidth(150); //in millimeters
-		builder.setMargins(new MarginsF(0.5f, 0.5f, 0.5f, 0.5f)); //make the same small margins
-		builder.setCodeLocation(CodeLocation.None); //to hide codetext
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PATCH_CODE, "Patch T");
+		generator.getBarCodeWidth().setMillimeters(150); //in millimeters
+		generator.getMargins().getTop().setPixels(0.5f);//make the same small margins
+		generator.getMargins().getRight().setPixels(0.5f);
+		generator.getMargins().getLeft().setPixels(0.5f);
+		generator.getMargins().getBottom().setPixels(0.5f);
+		
+		generator.getCodeTextStyle().setLocation(CodeLocation.NONE); //to hide codetext
 
-		BufferedImage topImg = builder.generateBarCodeImage();
-		builder.rotate(90);
-		BufferedImage leftImg = builder.generateBarCodeImage();
-		builder.rotate(90);
-		BufferedImage bottomImg = builder.generateBarCodeImage();
-		builder.rotate(90);
-		BufferedImage rigthtImg = builder.generateBarCodeImage();
+		BufferedImage topImg = generator.generateBarCodeImage();
+		generator.setRotationAngle(90);
+		BufferedImage leftImg = generator.generateBarCodeImage();
+		generator.setRotationAngle(90);
+		BufferedImage bottomImg = generator.generateBarCodeImage();
+		generator.setRotationAngle(90);
+		BufferedImage rigthtImg = generator.generateBarCodeImage();
 				
 		BufferedImage frameImg = new BufferedImage(topImg.getWidth(), rigthtImg.getHeight() + 2 * topImg.getHeight(), rigthtImg.getType());
 

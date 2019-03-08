@@ -5,7 +5,7 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import com.aspose.barcode.BarCodeBuilder;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class RenderBarcodeToPrinter {
 
@@ -26,9 +26,7 @@ class RenderBarCode extends java.awt.Canvas {
 
 	public void paint(Graphics g) {
 
-		BarCodeBuilder bb = new BarCodeBuilder();
-                bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
-		bb.setCodeText("12345678");
+		BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
 
 		BufferedImage bimg = (BufferedImage) bb.generateBarCodeImage();
 		int w = bimg.getWidth();

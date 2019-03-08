@@ -1,29 +1,40 @@
 package com.aspose.barcode.examples.barcode_image.basic_features;
 
+import java.io.IOException;
+
 import com.aspose.barcode.*;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class BarcodeImageBorders {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+    	//ExStart: BarcodeImageBorders
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeImageBorders.class) + "BarcodeImage/BasicFeatures/";
         
-        BarCodeBuilder bb = new BarCodeBuilder();
-        bb.setCodeText("1234567");
-        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
-
+    	//Instantiate barcode object, Set the symbology type to code128 and Set the Code text for the barcode
+        BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
+        
         //Set border style to solid
-        bb.setBorderDashStyle(BorderDashStyle.Solid);
-        //Set border margins by assigning an instance of MarginsF
-        bb.setMargins(new MarginsF(2f, 2f, 2f, 2f));
+        bb.getBorder().setDashStyle(BorderDashStyle.SOLID);
+        
+        //Set border margins for Top, Right, Left and Bottom
+        bb.getMargins().getTop().setPixels(2f);
+        bb.getMargins().getRight().setPixels(2f);
+        bb.getMargins().getLeft().setPixels(2f);
+        bb.getMargins().getBottom().setPixels(2f);
+        
         //Set border width
-        bb.setBorderWidth(0.5f);
+        bb.getBorder().getWidth().setPixels(2.5f);
+        
         //Set the border's color to red
-        bb.setBorderColor(java.awt.Color.RED);
+        bb.getBorder().setColor(java.awt.Color.RED);
+        
         //Enable border to be shown in the barcode
-        bb.setBorderVisible(true);
+        bb.getBorder().setVisible(true);
         
         // Save the image
         bb.save(dataDir + "barcode-image-borders.jpg");
+        //ExEnd: BarcodeImageBorders
     }
 }

@@ -8,32 +8,24 @@
 
 package com.aspose.barcode.examples.barcode_image.utility_features;
 
-import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Resolution;
-import com.aspose.barcode.ResolutionMode;
+import java.io.IOException;
+
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class BarcodeImageResolution {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
     	
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeImageResolution.class) + "BarcodeImage/UtilityFeatures/";
 
-        //Instantiate barcode object
-        BarCodeBuilder bb = new BarCodeBuilder();
-
-        //Set the Code text for the barcode
-        bb.setCodeText("1234567");
-
-        //Set the symbology type to code128
-        bb.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
-
-        //Create an instance of resolution and apply on the barcode image with
+    	//Instantiate barcode object, Set the symbology type to code128 and Set the Code text for the barcode
+        BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
+        
         //customized resolution settings
-        bb.setResolution(new Resolution(200f, 400f, ResolutionMode.CUSTOMIZED));
+        bb.setResolution(200f);
 
         // Save the image
         bb.save(dataDir + "barcode-image-resolution.jpg");
-        
     }
 }

@@ -7,6 +7,7 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.DataMatrixEncodeMode;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class CreateDatamatrixBarcode {
 
@@ -22,47 +23,42 @@ public class CreateDatamatrixBarcode {
 	
 	public static void createADataMatrixBarcode(String dataDir) throws IOException {
     	
-		BarCodeBuilder objBuilder = new BarCodeBuilder();
-		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
-		objBuilder.setCodeText("1234567890");
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX, "1234567890");
 		
-		objBuilder.save(dataDir + "datamatrix.bmp");
-                
-                objBuilder.save(dataDir + "datamatrix.emf", BarCodeImageFormat.EMF);
+		generator.save(dataDir + "datamatrix.bmp");
+		generator.save(dataDir + "datamatrix.emf", BarCodeImageFormat.EMF);
 	}
 	
-	public static void encodeModeForDataMatrix(String dataDir) {
+	public static void encodeModeForDataMatrix(String dataDir) throws IOException {
     	
-		BarCodeBuilder objBuilder = new BarCodeBuilder();
-		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
-		objBuilder.setDataMatrixEncodeMode(DataMatrixEncodeMode.ASCII);
-		objBuilder.setCodeText("This is the data to be encoded");
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX, "This is the data to be encoded");
+		generator.getDataMatrix().setEncodeMode(DataMatrixEncodeMode.ASCII);
 		
-		objBuilder.save(dataDir + "encodeModeForDataMatrix.bmp");
+		generator.save(dataDir + "encodeModeForDataMatrix.bmp");
 	}
 	
 	public static void customEncodingModeForDataMatrix(String dataDir) throws IOException {
     	
-		BarCodeBuilder objBuilder = new BarCodeBuilder();
-		objBuilder.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
-		objBuilder.setDataMatrixEncodeMode(DataMatrixEncodeMode.CUSTOM);
-		objBuilder.setCodeTextEncoding(Charset.forName("UTF-8"));
-		objBuilder.setCodeText("Г¶Г¤ГјГ©Г Г�?");
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX, "Г¶Г¤ГјГ©Г Г�?");
+		generator.getDataMatrix().setEncodeMode(DataMatrixEncodeMode.CUSTOM);
+		
+		generator.getD2().setCodeTextEncoding(Charset.forName("UTF-8"));
 
-		objBuilder.save(dataDir + "output_Utf8.bmp", BarCodeImageFormat.BMP);
+		generator.save(dataDir + "output_Utf8.bmp", BarCodeImageFormat.BMP);
 	}
 
 
-	public static void createDataMatrixBarcodeWithC40Encoding(String dataDir) {
+	public static void createDataMatrixBarcodeWithC40Encoding(String dataDir) throws IOException {
     	
 	    // Create an instance of BarCodeBuilder class
-            // Set codetext value and EncodeType
-            com.aspose.barcode.BarCodeBuilder buidler = new com.aspose.barcode.BarCodeBuilder("ABCDEF123456", com.aspose.barcode.EncodeTypes.DATA_MATRIX);
+        // Set codetext value and EncodeType
+		
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX, "ABCDEF123456");
 
-            // Set the DataMatrix encoding mode to C40
-            buidler.setDataMatrixEncodeMode(com.aspose.barcode.DataMatrixEncodeMode.C40);
+        // Set the DataMatrix encoding mode to C40
+		generator.getDataMatrix().setEncodeMode(DataMatrixEncodeMode.C40);
 
-            // Save the barcode image
-            buidler.save("dataMatrixC40.png");
+        // Save the barcode image
+		generator.save("dataMatrixC40.png");
 	}
 }

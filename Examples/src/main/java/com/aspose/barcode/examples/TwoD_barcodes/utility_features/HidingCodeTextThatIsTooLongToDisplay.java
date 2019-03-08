@@ -7,6 +7,7 @@ import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class HidingCodeTextThatIsTooLongToDisplay 
 {
@@ -21,23 +22,21 @@ public class HidingCodeTextThatIsTooLongToDisplay
 
 	public static void hideTheBarcodeCodeText(String dataDir) throws IOException {
 		
-		BarCodeBuilder b = new BarCodeBuilder();
-                b.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
-		b.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
-		b.setCodeLocation(CodeLocation.Below);
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
+		generator.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
+		generator.getCodeTextStyle().setLocation(CodeLocation.BELOW);
 		
-		b.save(dataDir + "datamatrix.bmp", BarCodeImageFormat.BMP);
+		generator.save(dataDir + "datamatrix.bmp", BarCodeImageFormat.BMP);
 	}
 	
-	public static void reduceTheCodeTextFontSize(String dataDir) throws IOException 
-        {
+	public static void reduceTheCodeTextFontSize(String dataDir) throws IOException {
 		
-		BarCodeBuilder b = new BarCodeBuilder();
-		b.setEncodeType(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
-		b.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
-		b.setCodeLocation(CodeLocation.None);
-		b.setCodeTextFont(new Font("Serif", Font.BOLD + Font.ITALIC, 20));
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
+		generator.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
+		generator.getCodeTextStyle().setLocation(CodeLocation.NONE);
+		generator.getCodeTextStyle().getFont().setFamilyName("Serif");
+		generator.getCodeTextStyle().getFont().setStyle(20);
 		
-		b.save(dataDir + "reduceFontSize.bmp", BarCodeImageFormat.BMP);
+		generator.save(dataDir + "reduceFontSize.bmp", BarCodeImageFormat.BMP);
 	}
 }

@@ -7,6 +7,7 @@ import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.QRErrorLevel;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class CreatingAQRBarcode {
 
@@ -23,104 +24,89 @@ public class CreatingAQRBarcode {
 
 	public static void createAQRBarcode(String dataDir) throws IOException {
 		
-		BarCodeBuilder b = new BarCodeBuilder();
-                b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
-		b.setCodeText("1234567890");
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 
-		b.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
+		generator.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
 	}
 	
 	public static void errorCorrection(String dataDir) throws IOException {
 				
-		BarCodeBuilder b = new BarCodeBuilder();
-                b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
-		b.setQRErrorLevel(QRErrorLevel.LEVEL_H);
-		b.setCodeText("1234567890");
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 		
-		b.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
+		generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
+		
+		generator.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
 	}
 	
 	public static void rotation(String dataDir) throws IOException {
 				
-		BarCodeBuilder b = new BarCodeBuilder();
-                b.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
-		b.setCodeText("1234567890");
-
-		//Hide code text
-		b.setCodeLocation(CodeLocation.None);
-		b.setRotationAngleF(90);
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 		
-		b.save(dataDir + "rotation_qr.bmp", BarCodeImageFormat.BMP);
+		//Hide code text
+		generator.getCodeTextStyle().setLocation(CodeLocation.NONE);
+		generator.setRotationAngle(90);
+		
+		generator.save(dataDir + "rotation_qr.bmp", BarCodeImageFormat.BMP);
 	}
 
 	public static void QRBarcodeWithImage(String dataDir) throws IOException {
 				
 	    // Define barcode image height & width
-            int QRCODE_IMAGE_HEIGHT = 300;
-            int QRCODE_IMAGE_WIDTH = 300;
+		int QRCODE_IMAGE_HEIGHT = 300;
+        int QRCODE_IMAGE_WIDTH = 300;
 
-            // Create an instance of BarCodeBuilder class
-            // Set the barcode text
-            // Set the barcode symbology 
-            BarCodeBuilder builder = new BarCodeBuilder("123456789", com.aspose.barcode.EncodeTypes.QR);
+        // Create an instance of BarCodeBuilder class
+        // Set the barcode text
+        // Set the barcode symbology 
+        BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 
-            // Set the error level
-            builder.setQRErrorLevel(QRErrorLevel.LEVEL_H);
+        // Set the error level
+        generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
 
-            // Set the Graphics Unit
-            builder.setGraphicsUnit(2);
+        // Generate the barocde image and save it as image in an object of BufferedImage class
+        java.awt.image.BufferedImage image = generator.generateBarCodeImage();
+        System.out.println("ImageHeight: " + image.getHeight());
 
-            // Generate the barocde image and save it as image in an object of BufferedImage class
-            java.awt.image.BufferedImage image = builder.getCustomSizeBarCodeImage(QRCODE_IMAGE_WIDTH, QRCODE_IMAGE_HEIGHT, false);
-            System.out.println("ImageHeight: " + image.getHeight());
+        // Load the image in an object of BufferedImage class - this is the image that you want to embed into the barcode image.
+        java.awt.image.BufferedImage overlay = javax.imageio.ImageIO.read(new java.io.File("wifi_logo.jpg"));
 
-            // Load the image in an object of BufferedImage class - this is the image that you want to embed into the barcode image.
-            java.awt.image.BufferedImage overlay = javax.imageio.ImageIO.read(new java.io.File("wifi_logo.jpg"));
+        // Calculate the height & width
+        int deltaHeight = image.getHeight() - overlay.getHeight();
+        int deltaWidth  = image.getWidth()  - overlay.getWidth();
 
-            // Calculate the height & width
-            int deltaHeight = image.getHeight() - overlay.getHeight();
-            int deltaWidth  = image.getWidth()  - overlay.getWidth();
+        // Create a new empty image
+        java.awt.image.BufferedImage combined = new java.awt.image.BufferedImage(QRCODE_IMAGE_WIDTH, QRCODE_IMAGE_HEIGHT, 
+               java.awt.image.BufferedImage.TYPE_INT_ARGB);
 
-            // Create a new empty image
-            java.awt.image.BufferedImage combined = new java.awt.image.BufferedImage(QRCODE_IMAGE_WIDTH, QRCODE_IMAGE_HEIGHT, 
-                    java.awt.image.BufferedImage.TYPE_INT_ARGB);
+        // Get the Graphics2D object
+        java.awt.Graphics2D g = (java.awt.Graphics2D)combined.getGraphics();
 
-            // Get the Graphics2D object
-            java.awt.Graphics2D g = (java.awt.Graphics2D)combined.getGraphics();
+        // Draw the primary image (barcode image) on the canvas
+        g.drawImage(image, 0, 0, null);
+        g.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, 1f));
 
-            // Draw the primary image (barcode image) on the canvas
-            g.drawImage(image, 0, 0, null);
-            g.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, 1f));
+        // Draw the second image (logo image) on the canvas inside the barcode image
+        g.drawImage(overlay, (int)Math.round(deltaWidth/2), (int)Math.round(deltaHeight/2), null);
 
-            // Draw the second image (logo image) on the canvas inside the barcode image
-            g.drawImage(overlay, (int)Math.round(deltaWidth/2), (int)Math.round(deltaHeight/2), null);
-
-            // Create and save the final very of the image with barcode and logo inside it
-            java.io.File imageFile = new java.io.File("qrcode_with_logo.png");
-            javax.imageio.ImageIO.write(combined, "PNG", imageFile);
+        // Create and save the final very of the image with barcode and logo inside it
+        java.io.File imageFile = new java.io.File("qrcode_with_logo.png");
+        javax.imageio.ImageIO.write(combined, "PNG", imageFile);
 	}
 
 
 	public static void set_QR_version(String dataDir) throws IOException 
 	{
-				
 		// Instantiate BarCodeBuilder object
-        	com.aspose.barcode.BarCodeBuilder builder = new com.aspose.barcode.BarCodeBuilder();
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-	        // Set the Code text for the barcode
-        	builder.setCodeText("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	    // Set the error level
+		generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_Q);
 
-	        // Set the symbology type to QR
-        	builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
+	    // Set the QR barcode version number
+        generator.getQR().setVersion(com.aspose.barcode.QRVersion.VERSION_10);
 
-	        // Set the error level
-        	builder.setQRErrorLevel(QRErrorLevel.LEVEL_Q);
-
-	        // Set the QR barcode version number
-        	builder.setQRVersion(com.aspose.barcode.QRVersion.VERSION_10);
-
-	        //Save the image
-        	builder.save(dataDir + "qr_version10_errorQ.png");
+	    //Save the image
+        generator.save(dataDir + "qr_version10_errorQ.png");
 	}
 
 
