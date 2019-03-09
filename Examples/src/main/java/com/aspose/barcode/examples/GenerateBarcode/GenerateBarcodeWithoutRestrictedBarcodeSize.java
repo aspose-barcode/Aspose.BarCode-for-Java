@@ -18,6 +18,6 @@ public class GenerateBarcodeWithoutRestrictedBarcodeSize {
 	    generator.getMargins().getLeft().setPixels(20);
 	    generator.getMargins().getRight().setPixels(20);
 	    generator.save(dataDir + "GenerateBarcodeWithoutRestrictedBarcodeSize_out.png");
-		//ExEnd:GenerateBarcodeWithoutRestrictedBarcodeSize
+		//ExEnd: GenerateBarcodeWithoutRestrictedBarcodeSize
 	}
 }

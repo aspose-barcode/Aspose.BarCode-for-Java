@@ -13,6 +13,7 @@ public class ReadBarcodeFromSpecificRegionOfImage {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 		
+		//ExStart: ReadBarcodeFromSpecificRegionOfImage
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(ReadBarcodeFromSpecificRegionOfImage.class) + "BarcodeReader/advanced_features/";
     	
@@ -36,6 +37,7 @@ public class ReadBarcodeFromSpecificRegionOfImage {
 
 		// Close the reader
 		reader.close();
+		//ExEnd: ReadBarcodeFromSpecificRegionOfImage
 	}
 
 }

@@ -16,6 +16,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SetCodeText {
     public static void main(String[] args) throws IOException {
+    	//ExStart: SetCodeText
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SetCodeText.class) + "Barcode/BasicFeatures/";
     	
@@ -27,5 +28,6 @@ public class SetCodeText {
     	
     	//Save the barcode image to file
     	generator.save(dataDir + "setCodeText.jpg");
+    	//ExEnd: SetCodeText
     }
 }

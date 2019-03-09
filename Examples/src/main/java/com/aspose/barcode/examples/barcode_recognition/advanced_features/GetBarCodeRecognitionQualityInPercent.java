@@ -9,6 +9,7 @@ public class GetBarCodeRecognitionQualityInPercent {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 		
+		//ExStart: GetBarCodeRecognitionQualityInPercent
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(GetBarCodeRecognitionQualityInPercent.class) + "BarcodeReader/advanced_features/";
     	
@@ -22,6 +23,7 @@ public class GetBarCodeRecognitionQualityInPercent {
 			System.out.println("Percent: " + percent);
 		}
 		reader.close();
+		//ExEnd: GetBarCodeRecognitionQualityInPercent
 	}
 
 }

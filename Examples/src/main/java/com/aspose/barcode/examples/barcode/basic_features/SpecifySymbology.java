@@ -16,6 +16,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SpecifySymbology {
 	public static void main(String[] args) throws IOException {
+		//ExStart: SpecifySymbology
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/BasicFeatures/";
 				
@@ -23,5 +24,6 @@ public class SpecifySymbology {
     	BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD, "Test-123");
 		
     	generator.save(dataDir + "Code39Standard.jpg");
+    	//ExEnd: SpecifySymbology
 	}
 }

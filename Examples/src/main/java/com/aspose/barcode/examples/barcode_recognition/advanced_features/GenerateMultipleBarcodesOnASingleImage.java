@@ -10,14 +10,17 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import com.aspose.barcode.BarCodeBuilder;
+import com.aspose.barcode.BaseEncodeType;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class GenerateMultipleBarcodesOnASingleImage {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 
+		//ExStart: GenerateMultipleBarcodesOnASingleImage
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(GenerateMultipleBarcodesOnASingleImage.class) + "BarcodeReader/advanced_features/";
 		
@@ -31,7 +34,7 @@ public class GenerateMultipleBarcodesOnASingleImage {
 
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (Object key : collection.keySet()) {
-		    BarCodeBuilder bb = new BarCodeBuilder();
+		    BarCodeGenerator bb = new BarCodeGenerator((BaseEncodeType) collection.get(key));
 		    bb.setCodeText((String) key);
 		    //bb.setSymbologyType((Long) collection.get(key));
 		    images.add(bb.generateBarCodeImage());
@@ -62,6 +65,7 @@ public class GenerateMultipleBarcodesOnASingleImage {
 
 		File outputfile = new File(dataDir + "output.png");
 		ImageIO.write(resultBitmap, "png", outputfile);
+		//ExEnd: GenerateMultipleBarcodesOnASingleImage
 	}
 
 }

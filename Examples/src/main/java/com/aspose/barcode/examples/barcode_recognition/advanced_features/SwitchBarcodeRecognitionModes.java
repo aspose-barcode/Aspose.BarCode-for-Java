@@ -2,6 +2,7 @@ package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.ManualHint;
+import com.aspose.barcode.barcoderecognition.QualitySettings;
 import com.aspose.barcode.barcoderecognition.RecognitionMode;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
@@ -11,6 +12,7 @@ public class SwitchBarcodeRecognitionModes {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 
+		//ExStart: SwitchBarcodeRecognitionModes
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(SwitchBarcodeRecognitionModes.class) + "BarcodeReader/advanced_features/";
 		
@@ -18,10 +20,7 @@ public class SwitchBarcodeRecognitionModes {
 		BarCodeReader reader = new BarCodeReader(dataDir + "code39Extended.jpg", com.aspose.barcode.barcoderecognition.DecodeType.DATA_MATRIX);
 
 		// Set recognition mode
-		reader.setRecognitionMode(RecognitionMode.ManualHints);
-
-		// Set manual hints
-		reader.setManualHints(ManualHint.INVERT_IMAGE | ManualHint.INCORRECT_BARCODES);
+		reader.setQualitySettings(QualitySettings.getHighPerformance());
 
 		// Try to recognize the barcode from the image
 		while (reader.read()) {
@@ -31,6 +30,7 @@ public class SwitchBarcodeRecognitionModes {
 
 		// Close the reader
 		reader.close();
+		//ExEnd: SwitchBarcodeRecognitionModes
 	}
 
 }

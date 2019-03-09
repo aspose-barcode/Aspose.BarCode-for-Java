@@ -10,6 +10,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class BarcodeCaption {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: BarcodeCaption
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeCaption.class) + "Barcode/BasicFeatures/";
     	
@@ -32,6 +33,7 @@ public class BarcodeCaption {
 
 		//Save the Barcode image to file
     	bb.save(dataDir + "barcodeCaption.jpg");
+    	//ExEnd: BarcodeCaption
 	}
 
 }

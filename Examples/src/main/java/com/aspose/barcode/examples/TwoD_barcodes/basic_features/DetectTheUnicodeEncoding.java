@@ -14,7 +14,7 @@ public class DetectTheUnicodeEncoding {
 	public static void main(String[] args) throws Exception {
 		
 		ApplyALicense.applyALicense();
-		
+		//ExStart: DetectTheUnicodeEncoding
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(DetectTheUnicodeEncoding.class) + "2DBarcode/BasicFeatures/";
 		String imageFilePath = dataDir + "unicodeEncoding.png";
@@ -30,6 +30,7 @@ public class DetectTheUnicodeEncoding {
 		if (reader.read()) {
 			System.out.println(reader.getCodeText()); //"Слово"
 		}
+		//ExEnd: DetectTheUnicodeEncoding
 	}
 
 }

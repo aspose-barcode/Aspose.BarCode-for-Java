@@ -11,6 +11,7 @@ public class Barcode_Recognition
 		
 		ApplyALicense.applyALicense();
 		
+		//ExStart: Barcode_Recognition
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(Barcode_Recognition.class) + "BarcodeReader/basic_features/";
     	
@@ -24,5 +25,6 @@ public class Barcode_Recognition
 	        // print the symbology type
 	        System.out.println("Symbology type: " + rd.getCodeType());
 	    }
+	    //ExEnd: Barcode_Recognition
 	}
 }

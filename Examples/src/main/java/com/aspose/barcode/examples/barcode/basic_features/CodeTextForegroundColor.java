@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class CodeTextForegroundColor {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: CodeTextForegroundColor
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(CodeTextForegroundColor.class) + "Barcode/BasicFeatures/";
     	
@@ -20,6 +21,7 @@ public class CodeTextForegroundColor {
 		
 		//Save the Barcode image to file
     	generator.save(dataDir + "codeTextForegroundColor.jpg");
+    	//ExEnd: CodeTextForegroundColor
 	}
 
 }

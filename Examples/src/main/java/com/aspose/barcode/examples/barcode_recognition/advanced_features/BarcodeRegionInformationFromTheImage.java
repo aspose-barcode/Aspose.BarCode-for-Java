@@ -12,6 +12,7 @@ public class BarcodeRegionInformationFromTheImage {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 		
+		//ExStart: BarcodeRegionInformationFromTheImage
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeRegionInformationFromTheImage.class) + "BarcodeReader/advanced_features/";
 		// Read code39 barcode from image
@@ -37,6 +38,7 @@ public class BarcodeRegionInformationFromTheImage {
 
 		// Close the reader
 		reader.close();
+		//ExEnd: BarcodeRegionInformationFromTheImage
 	}
 
 }

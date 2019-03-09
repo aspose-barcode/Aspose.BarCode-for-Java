@@ -10,6 +10,7 @@ public class SetAspectRatioOfBarcodes
 {
     public static void main(String[] args) throws IOException 
     {
+    	//ExStart: SetAspectRatioOfBarcodes
         String dataDir = Utils.getDataDir(SetAspectRatioOfBarcodes.class) + "2DBarcode/UtilityFeatures/";
 
         // Create instance of BarCodeBuilder class
@@ -20,6 +21,7 @@ public class SetAspectRatioOfBarcodes
 
         // Save the barcode image to disk in PNG format
         generator.save(dataDir + "barcode_aspect_ratio.png");
+        //ExEnd: SetAspectRatioOfBarcodes
     }
 
 }

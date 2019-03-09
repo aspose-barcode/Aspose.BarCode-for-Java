@@ -10,6 +10,7 @@ public class GenerateAztecBarcode
 {
     public static void main(String[] args) throws IOException 
     {
+    		//ExStart: GenerateAztecBarcode
             // The path to the resource directory.
             String dataDir = Utils.getDataDir(GenerateAztecBarcode.class) + "TwoD_barcodes/BasicFeatures/";
 
@@ -18,5 +19,6 @@ public class GenerateAztecBarcode
 
             // save barcode
             generator.save(dataDir + "Aztec.png");
+            //ExEnd: GenerateAztecBarcode
     }
 }

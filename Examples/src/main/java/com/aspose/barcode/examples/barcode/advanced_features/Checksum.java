@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class Checksum {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: Checksum
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(Checksum.class) + "Barcode/AdvancedFeatures/";
     	
@@ -19,6 +20,7 @@ public class Checksum {
 
 		//Save the Barcode image to file
     	bb.save(dataDir + "checksum.jpg");
+    	//ExEnd: Checksum
 	}
 
 }

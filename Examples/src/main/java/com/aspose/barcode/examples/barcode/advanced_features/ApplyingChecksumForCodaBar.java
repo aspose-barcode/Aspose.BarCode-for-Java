@@ -14,7 +14,7 @@ public class ApplyingChecksumForCodaBar
 	public static void main(String[] args) throws IOException 
     {
 
-		// ExStart:ApplyingChecksumValidation
+		//ExStart: ApplyingChecksumForCodaBar
 
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(ApplyingChecksumValidation.class) + "Barcode/AdvancedFeatures/";
@@ -49,6 +49,6 @@ public class ApplyingChecksumForCodaBar
             //Get checksum value
             System.out.println(" Checksum: " + reader.getCheckSum());
         }		
-		// ExEnd:ApplyingChecksumValidation
+		//ExEnd: ApplyingChecksumForCodaBar
 	}
 }

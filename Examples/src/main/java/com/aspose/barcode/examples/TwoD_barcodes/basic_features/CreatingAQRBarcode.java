@@ -23,23 +23,25 @@ public class CreatingAQRBarcode {
 	}
 
 	public static void createAQRBarcode(String dataDir) throws IOException {
-		
+		//ExStart: createAQRBarcode
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 
 		generator.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: createAQRBarcode
 	}
 	
 	public static void errorCorrection(String dataDir) throws IOException {
-				
+		//ExStart: errorCorrection
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 		
 		generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
 		
 		generator.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: errorCorrection
 	}
 	
 	public static void rotation(String dataDir) throws IOException {
-				
+		//ExStart: rotation
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 		
 		//Hide code text
@@ -47,10 +49,11 @@ public class CreatingAQRBarcode {
 		generator.setRotationAngle(90);
 		
 		generator.save(dataDir + "rotation_qr.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: rotation
 	}
 
 	public static void QRBarcodeWithImage(String dataDir) throws IOException {
-				
+		//ExStart: QRBarcodeWithImage
 	    // Define barcode image height & width
 		int QRCODE_IMAGE_HEIGHT = 300;
         int QRCODE_IMAGE_WIDTH = 300;
@@ -91,11 +94,13 @@ public class CreatingAQRBarcode {
         // Create and save the final very of the image with barcode and logo inside it
         java.io.File imageFile = new java.io.File("qrcode_with_logo.png");
         javax.imageio.ImageIO.write(combined, "PNG", imageFile);
+        //ExEnd: QRBarcodeWithImage
 	}
 
 
 	public static void set_QR_version(String dataDir) throws IOException 
 	{
+		//ExStart: set_QR_version
 		// Instantiate BarCodeBuilder object
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
@@ -107,6 +112,7 @@ public class CreatingAQRBarcode {
 
 	    //Save the image
         generator.save(dataDir + "qr_version10_errorQ.png");
+        //ExEnd: set_QR_version
 	}
 
 

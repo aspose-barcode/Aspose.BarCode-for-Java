@@ -20,15 +20,18 @@ public class GenerateAPatchCode {
 	}
 	
 	public static void generatePatchCode() throws IOException {
+		//ExStart: generatePatchCode
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(GenerateAPatchCode.class) + "Barcode/AdvancedFeatures/";
     	
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PATCH_CODE, "Patch T");
 		
 		generator.save(dataDir + "patch.bmp");
+		//ExEnd: generatePatchCode
 	}
 	
 	public static void generateWholePage() throws IOException {
+		//ExStart: generateWholePage
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PATCH_CODE, "Patch T");
 		generator.getBarCodeWidth().setMillimeters(150); //in millimeters
 		generator.getMargins().getTop().setPixels(0.5f);//make the same small margins
@@ -59,6 +62,7 @@ public class GenerateAPatchCode {
 		// save Patch code frame
 		File outputfile = new File(Utils.getDataDir(GenerateAPatchCode.class) + "Barcode/AdvancedFeatures/" +  "patch-code-frame.png");
 		ImageIO.write(frameImg, "png", outputfile);
+		//ExEnd: generateWholePage
 	}
 	
 }

@@ -10,6 +10,7 @@ public class CodeTextLocation {
 
 	public static void main(String[] args) throws IOException {
 		
+		//ExStart: CodeTextLocation
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(CodeTextLocation.class) + "Barcode/BasicFeatures/";
     	
@@ -20,6 +21,7 @@ public class CodeTextLocation {
     	generator.getCodeTextStyle().setLocation(CodeLocation.ABOVE);
     	
     	generator.save(dataDir + "codetextAbove.png");
+    	//ExEnd: CodeTextLocation
 	}
 
 }

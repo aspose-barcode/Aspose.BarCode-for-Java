@@ -8,19 +8,17 @@ import com.aspose.barcode.examples.Utils;
 
 public class IdentifyTypeOfCode128 
 {
+    public static void main(String[] args) throws Exception {
+        ApplyALicense.applyALicense();
 
-    public static void main(String[] args) throws Exception 
-    {
-            ApplyALicense.applyALicense();
-
+        //ExStart: IdentifyTypeOfCode128
         // The path to the resource directory.
         String dataDir = Utils.getDataDir(UsingManualHintsToOptimizeScan.class) + "BarcodeReader/advanced_features/";
 
         // Create an instance of BarCodeReader class
         // Set file path
         // Set the recognition type
-        com.aspose.barcode.barcoderecognition.BarCodeReader reader = 
-                new com.aspose.barcode.barcoderecognition.BarCodeReader("1bc.png", com.aspose.barcode.barcoderecognition.DecodeType.CODE_128);
+        BarCodeReader reader = new BarCodeReader(dataDir + "1_1.png", com.aspose.barcode.barcoderecognition.DecodeType.CODE_128);
 
         // Perform read operation
         reader.read();
@@ -36,6 +34,7 @@ public class IdentifyTypeOfCode128
             System.out.println("Code128SubType: " + code128DataPortion.getCode128SubType());
             System.out.println("Data:" + code128DataPortion.getData());
         }
+        //ExEnd: IdentifyTypeOfCode128
     }
 
 }

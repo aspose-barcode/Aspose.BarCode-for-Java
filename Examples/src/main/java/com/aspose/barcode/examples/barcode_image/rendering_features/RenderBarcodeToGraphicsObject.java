@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarCodeGenerator;
-
+//ExStart: RenderBarcodeToGraphicsObject
 public class RenderBarcodeToGraphicsObject {
 
 	public static void main(String[] args) {
@@ -62,3 +62,4 @@ class MyBarCode extends java.awt.Canvas {
 		return new Dimension(300, 300);
 	}
 }
+//ExEnd: RenderBarcodeToGraphicsObject

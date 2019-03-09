@@ -15,6 +15,7 @@ public class RecognizingMultipleSymbologiesInSingleImage {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 		
+		//ExStart: RecognizingMultipleSymbologiesInSingleImage
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(RecognizingMultipleSymbologiesInSingleImage.class) + "BarcodeReader/basic_features/";
 		BufferedImage img = ImageIO.read(new File(dataDir + "MultipleBarcodes.png"));
@@ -28,5 +29,6 @@ public class RecognizingMultipleSymbologiesInSingleImage {
 			// Print the symbology type
 			System.out.println("CodeText: " + rd.getCodeType());
 		}
+		//ExEnd: RecognizingMultipleSymbologiesInSingleImage
 	}
 }

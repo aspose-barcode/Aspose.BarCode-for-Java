@@ -2,6 +2,7 @@ package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.ManualHint;
+import com.aspose.barcode.barcoderecognition.QualitySettings;
 import com.aspose.barcode.barcoderecognition.RecognitionMode;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
@@ -11,6 +12,7 @@ public class UsingManualHintsToOptimizeScan {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 
+		//ExStart: UsingManualHintsToOptimizeScan
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(UsingManualHintsToOptimizeScan.class) + "BarcodeReader/advanced_features/";
 		
@@ -19,8 +21,7 @@ public class UsingManualHintsToOptimizeScan {
 
 		BarCodeReader reader = new BarCodeReader(filename, com.aspose.barcode.barcoderecognition.DecodeType.GS_1_DATA_MATRIX);
 		System.out.println("Skip rotated barcodes");
-		reader.setRecognitionMode(RecognitionMode.ManualHints);
-		reader.setManualHints(ManualHint.SKIP_ROTATED_BARCODES);
+		reader.setQualitySettings(QualitySettings.getHighQuality());
 
 		while (reader.read()) 
                 {
@@ -39,6 +40,7 @@ public class UsingManualHintsToOptimizeScan {
 		}
 		long res2 = System.currentTimeMillis() - s;
 		System.out.println(res2);
+		//ExStart: UsingManualHintsToOptimizeScan
 	}
 
 }

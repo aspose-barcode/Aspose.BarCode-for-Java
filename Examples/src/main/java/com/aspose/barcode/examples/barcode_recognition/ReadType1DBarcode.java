@@ -5,9 +5,8 @@ import com.aspose.barcode.barcoderecognition.DecodeType;
 
 public class ReadType1DBarcode
 {
-
 	public static void main(String[] args) throws Exception {
-		//ExStart: ReadMostCommonTypeBarcode
+		//ExStart: ReadType1DBarcode
 		BarCodeReader reader = new BarCodeReader("test.png", DecodeType.TYPES_1D);
 		while (reader.read())
 		{
@@ -15,6 +14,6 @@ public class ReadType1DBarcode
 			String codeText = reader.getCodeText();
 			System.out.println(codeType + ", " + codeText);
 		}
-		//ExEnd:ReadMostCommonTypeBarcode
+		//ExEnd: ReadType1DBarcode
 	}
 }

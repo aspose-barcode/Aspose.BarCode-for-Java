@@ -12,8 +12,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class HidingCodeTextThatIsTooLongToDisplay 
 {
 
-	public static void main(String[] args) throws IOException 
-        {
+	public static void main(String[] args) throws IOException {
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(HidingCodeTextThatIsTooLongToDisplay.class) + "2DBarcode/UtilityFeatures/";
 		hideTheBarcodeCodeText(dataDir);
@@ -21,16 +20,17 @@ public class HidingCodeTextThatIsTooLongToDisplay
 	}
 
 	public static void hideTheBarcodeCodeText(String dataDir) throws IOException {
-		
+		//ExStart: hideTheBarcodeCodeText
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
 		generator.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
 		generator.getCodeTextStyle().setLocation(CodeLocation.BELOW);
 		
 		generator.save(dataDir + "datamatrix.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: hideTheBarcodeCodeText
 	}
 	
 	public static void reduceTheCodeTextFontSize(String dataDir) throws IOException {
-		
+		//ExStart: reduceTheCodeTextFontSize
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		generator.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
 		generator.getCodeTextStyle().setLocation(CodeLocation.NONE);
@@ -38,5 +38,6 @@ public class HidingCodeTextThatIsTooLongToDisplay
 		generator.getCodeTextStyle().getFont().setStyle(20);
 		
 		generator.save(dataDir + "reduceFontSize.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: reduceTheCodeTextFontSize
 	}
 }

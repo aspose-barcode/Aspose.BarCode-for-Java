@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.aspose.barcode.generation.BarCodeGenerator;
-
+//ExStart: RenderBarcodeToPrinter
 public class RenderBarcodeToPrinter {
 
 	public static void main(String[] args) {
@@ -44,3 +44,4 @@ class RenderBarCode extends java.awt.Canvas {
 		return new Dimension(300, 300);
 	}
 }
+//ExEnd: RenderBarcodeToPrinter

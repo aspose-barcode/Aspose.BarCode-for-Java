@@ -13,6 +13,7 @@ public class SpecificBarcodeSymbology {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 		
+		//ExStart: SpecificBarcodeSymbology
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SpecificBarcodeSymbology.class) + "BarcodeReader/basic_features/";
 		BufferedImage img = ImageIO.read(new File(dataDir + "CodeText.jpg"));
@@ -26,5 +27,6 @@ public class SpecificBarcodeSymbology {
 			// Print the symbology type
 			System.out.println("CodeText: " + rd.getCodeType());
 		}
+		//ExEnd: SpecificBarcodeSymbology
 	}
 }

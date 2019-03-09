@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class BarcodeCustomSize {
     public static void main(String[] args) throws IOException {
+    	//ExStart: BarcodeCustomSize
     	
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeCustomSize.class) + "BarcodeImage/UtilityFeatures/";
@@ -26,6 +27,6 @@ public class BarcodeCustomSize {
 
         // Save the image
         generator.save(dataDir + "barcode-custom-size.jpg");
-        
+        //ExEnd: BarcodeCustomSize
     }
 }

@@ -8,9 +8,8 @@ import java.io.IOException;
 
 public class GetMinimumBarCodeSize 
 {
-    public static void main(String[] args) throws IOException 
-    {
-    	
+    public static void main(String[] args) throws IOException {
+    	//ExStart: GetMinimumBarCodeSize
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeCustomSize.class) + "BarcodeImage/UtilityFeatures/";
 
@@ -26,6 +25,6 @@ public class GetMinimumBarCodeSize
         
         // Save the barcode image
         javax.imageio.ImageIO.write( bb.generateBarCodeImage(), "PNG", new java.io.File("minimumresult.png") );
-        
+        //ExEnd: GetMinimumBarCodeSize
     }
 }

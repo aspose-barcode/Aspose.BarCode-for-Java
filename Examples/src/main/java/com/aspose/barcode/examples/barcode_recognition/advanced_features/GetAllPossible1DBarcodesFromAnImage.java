@@ -10,7 +10,8 @@ public class GetAllPossible1DBarcodesFromAnImage {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-
+		
+		//ExStart: GetAllPossible1DBarcodesFromAnImage
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(GetAllPossible1DBarcodesFromAnImage.class) + "BarcodeReader/advanced_features/";
 
@@ -37,7 +38,7 @@ public class GetAllPossible1DBarcodesFromAnImage {
                     
                     iCount = iCount + 1;
                 }
-		
+        //ExEnd: GetAllPossible1DBarcodesFromAnImage
 	}
 
 }

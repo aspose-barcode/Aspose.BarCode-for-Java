@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class SupplementData {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: SupplementData
 		
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SupplementData.class) + "Barcode/AdvancedFeatures/";
@@ -24,6 +25,7 @@ public class SupplementData {
 
 		//Save the Barcode image to file
 		generator.save(dataDir + "supplementData.jpg");
+		//ExEnd: SupplementData
 	}
 
 }

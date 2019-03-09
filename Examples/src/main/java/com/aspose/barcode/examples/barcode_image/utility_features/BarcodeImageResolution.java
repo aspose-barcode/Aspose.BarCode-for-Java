@@ -15,7 +15,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class BarcodeImageResolution {
     public static void main(String[] args) throws IOException {
-    	
+    	//ExStart: BarcodeImageResolution
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeImageResolution.class) + "BarcodeImage/UtilityFeatures/";
 
@@ -27,5 +27,6 @@ public class BarcodeImageResolution {
 
         // Save the image
         bb.save(dataDir + "barcode-image-resolution.jpg");
+        //ExEnd: BarcodeImageResolution
     }
 }

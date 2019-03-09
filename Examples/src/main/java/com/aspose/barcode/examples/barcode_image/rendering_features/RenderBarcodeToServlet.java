@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.generation.BarCodeGenerator;
-
+//ExStart: RenderBarcodeToServlet
 public class RenderBarcodeToServlet extends HttpServlet 
 {
 
@@ -26,5 +26,5 @@ public class RenderBarcodeToServlet extends HttpServlet
 		ImageIO.write(image, "png", outputStream);
 		outputStream.close();
 	}
-
 }
+//ExEnd: RenderBarcodeToServlet

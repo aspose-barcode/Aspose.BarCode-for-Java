@@ -7,6 +7,7 @@ import com.aspose.barcode.examples.Utils;
 
 public class ApplyingChecksumValidation {
 	public static void main(String[] args) {
+		//ExStart: ApplyingChecksumValidation
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(ApplyingChecksumValidation.class) + "Barcode/AdvancedFeatures/";
 		// Create an instance of BarCodeReader class and load an existing
@@ -20,5 +21,6 @@ public class ApplyingChecksumValidation {
 			System.out.println(r.getCodeType() + ": " + r.getCodeText());
 			System.out.println("CheckSum: " + r.getCheckSum());
 		}
+		//ExEnd: ApplyingChecksumValidation
 	}
 }

@@ -13,6 +13,7 @@ public class ManageXAndYDimension {
 	}
 	
 	public static void setXDimension() throws IOException {
+		//ExStart: setXDimension
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(ManageXAndYDimension.class) + "Barcode/AdvancedFeatures/";
     	
@@ -23,9 +24,11 @@ public class ManageXAndYDimension {
 		
 		//Save the Barcode image to file
     	generator.save(dataDir + "xDimention.jpg");
+    	//ExEnd: setXDimension
 	}
 	
 	public static void setYDimension() throws IOException {
+		//ExStart: setYDimension
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(ManageXAndYDimension.class) + "Barcode/AdvancedFeatures/";
     	
@@ -36,6 +39,7 @@ public class ManageXAndYDimension {
 		
 		//Save the Barcode image to file
     	generator.save(dataDir + "yDimention.jpg");
+    	//ExEnd: setYDimension
 	}
 
 }

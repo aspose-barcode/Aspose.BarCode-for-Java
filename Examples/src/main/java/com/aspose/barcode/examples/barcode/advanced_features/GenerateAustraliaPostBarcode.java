@@ -8,6 +8,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class GenerateAustraliaPostBarcode {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: GenerateAustraliaPostBarcode
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(GenerateAustraliaPostBarcode.class) + "Barcode/AdvancedFeatures/";
     	
@@ -16,6 +17,7 @@ public class GenerateAustraliaPostBarcode {
 		
 		// Save the image to disk in PNG format
 		generator.save(dataDir + "australiaPostBarcode.png");
+		//ExEnd: GenerateAustraliaPostBarcode
 	}
 
 }

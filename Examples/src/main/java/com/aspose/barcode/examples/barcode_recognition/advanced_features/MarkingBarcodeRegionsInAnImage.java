@@ -19,6 +19,7 @@ public class MarkingBarcodeRegionsInAnImage {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 		
+		//ExStart: MarkingBarcodeRegionsInAnImage
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(MarkingBarcodeRegionsInAnImage.class) + "BarcodeReader/advanced_features/";
 		
@@ -48,6 +49,7 @@ public class MarkingBarcodeRegionsInAnImage {
 			}
 		}
 		reader.close();
+		//ExEnd: MarkingBarcodeRegionsInAnImage
 	}
 
 }

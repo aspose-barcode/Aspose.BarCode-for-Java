@@ -8,7 +8,7 @@ public class BarcodeOrientation {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-		
+		//ExStart: BarcodeOrientation
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeOrientation.class) + "BarcodeReader/advanced_features/";
     	
@@ -24,6 +24,7 @@ public class BarcodeOrientation {
 		}
 		// Close reader
 		reader.close();
+		//ExEnd: BarcodeOrientation
 	}
 
 }

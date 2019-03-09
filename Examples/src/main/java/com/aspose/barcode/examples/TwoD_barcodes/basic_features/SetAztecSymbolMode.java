@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SetAztecSymbolMode {
 	public static void main(String[] args) throws IOException {
+		//ExStart: SetAztecSymbolMode
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(SetAztecSymbolMode.class) + "TwoD_barcodes/BasicFeatures/";
 		
@@ -20,5 +21,6 @@ public class SetAztecSymbolMode {
 
 		// Save the barcode as PNG image.
 		generator.save(dataDir + "testRune25.png");
+		//ExEnd: SetAztecSymbolMode
 	}
 }

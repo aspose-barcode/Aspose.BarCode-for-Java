@@ -10,9 +10,10 @@ import com.aspose.barcode.EncodeTypes;
 public class SaveBarcodeImageToStreams {
 
 	public static void main(String[] args) throws IOException {
-    	
+		//ExStart: SaveBarcodeImageToStreams
 		BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.CODE_128,"123456");
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		generator.save(outStream, BarCodeImageFormat.JPEG);
+		//ExEnd: SaveBarcodeImageToStreams
 	}
 }

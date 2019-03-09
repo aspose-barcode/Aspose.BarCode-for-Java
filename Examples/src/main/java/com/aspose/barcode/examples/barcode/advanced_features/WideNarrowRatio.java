@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class WideNarrowRatio {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: WideNarrowRatio
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(WideNarrowRatio.class) + "Barcode/AdvancedFeatures/";
     	
@@ -21,6 +22,7 @@ public class WideNarrowRatio {
 		
 		// Save the image to disk in PNG format
     	generator.save(dataDir + "wideNarrowRatio.png");
+    	//ExEnd: WideNarrowRatio
 	}
 
 }

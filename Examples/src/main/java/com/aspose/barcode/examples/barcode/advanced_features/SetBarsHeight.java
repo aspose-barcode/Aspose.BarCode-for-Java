@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class SetBarsHeight {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: SetBarsHeight
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SetBarsHeight.class) + "Barcode/AdvancedFeatures/";
     	
@@ -20,6 +21,7 @@ public class SetBarsHeight {
          
 		//Save the Barcode image to file
     	generator.save(dataDir + "barsHeight.jpg");
+    	//ExEnd: SetBarsHeight
 	}
 
 }

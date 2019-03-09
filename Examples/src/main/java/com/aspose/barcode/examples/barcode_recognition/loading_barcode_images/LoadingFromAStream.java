@@ -14,6 +14,7 @@ import com.aspose.barcode.examples.Utils;
 public class LoadingFromAStream {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: LoadingFromAStream
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(LoadingFromAStream.class) + "BarcodeReader/loading_images/";
 				
@@ -69,6 +70,7 @@ public class LoadingFromAStream {
 		// Create an instance of BarCodeReader class
 		// and pass BufferedImage object, Rectangle object and bar code symbology type as parameters
 		BarCodeReader reader5 = new BarCodeReader(img5, new Rectangle(0, 0, 100, 50), com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
+		//ExEnd: LoadingFromAStream
 	}
 
 }

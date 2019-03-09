@@ -7,7 +7,7 @@ public class ReadPostalTypesBarcode
 {
 
 	public static void main(String[] args) throws Exception {
-		//ExStart: ReadMostCommonTypeBarcode
+		//ExStart: ReadPostalTypesBarcode
         BarCodeReader reader = new BarCodeReader("test.png", DecodeType.POSTAL_TYPES);
         while (reader.read())
         {
@@ -15,6 +15,6 @@ public class ReadPostalTypesBarcode
             String codeText = reader.getCodeText();
             System.out.println(codeType + ", " + codeText);
         }
-		//ExEnd:ReadMostCommonTypeBarcode
+		//ExEnd: ReadPostalTypesBarcode
 	}
 }

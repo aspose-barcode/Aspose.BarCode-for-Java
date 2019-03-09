@@ -6,7 +6,7 @@ import java.io.FileFilter;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-
+//ExStart: ReadMultipleMacropdf417BarcodeImages
 public class ReadMultipleMacropdf417BarcodeImages {
 
 	public static void main(String[] args) throws Exception {
@@ -45,3 +45,4 @@ class Filter implements FileFilter {
 		return file.getName().endsWith("png") && file.getName().startsWith(fileID + "_");
 	}
 }	
+//ExEnd: ReadMultipleMacropdf417BarcodeImages

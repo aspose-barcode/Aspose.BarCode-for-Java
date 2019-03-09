@@ -10,6 +10,7 @@ public class CreatebarcodewithImageInsteadOfCodetext
 {
     public static void main(String[] args) throws IOException 
     {
+    	//ExStart: CreatebarcodewithImageInsteadOfCodetext
         // The path to the resource directory.
         String dataDir = Utils.getDataDir(SetAztecSymbolMode.class) + "TwoD_barcodes/BasicFeatures/";
         
@@ -44,6 +45,7 @@ public class CreatebarcodewithImageInsteadOfCodetext
         // Save the final barcode image
         java.io.File imageFile = new java.io.File("output.png");
         javax.imageio.ImageIO.write(output, "PNG", imageFile);
+        //ExEnd: CreatebarcodewithImageInsteadOfCodetext
     }
 }
 

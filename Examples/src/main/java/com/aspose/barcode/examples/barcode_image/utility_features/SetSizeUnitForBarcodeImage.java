@@ -16,7 +16,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SetSizeUnitForBarcodeImage {
     public static void main(String[] args) throws IOException {
-    	
+    	//ExStart: SetSizeUnitForBarcodeImage
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SetSizeUnitForBarcodeImage.class) + "BarcodeImage/UtilityFeatures/";
     	
@@ -28,5 +28,6 @@ public class SetSizeUnitForBarcodeImage {
 
         // Save the image
         bb.save(dataDir + "barcode-size-unit.jpg");
+        //ExEnd: SetSizeUnitForBarcodeImage
     }
 }

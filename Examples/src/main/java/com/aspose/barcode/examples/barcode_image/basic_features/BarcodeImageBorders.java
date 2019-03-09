@@ -12,7 +12,7 @@ public class BarcodeImageBorders {
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeImageBorders.class) + "BarcodeImage/BasicFeatures/";
         
-    	//Instantiate barcode object, Set the symbology type to code128 and Set the Code text for the barcode
+    	//Instantiate Barcode object, Set the Symbology type to code128 and Set the Code text for the barcode
         BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
         
         //Set border style to solid

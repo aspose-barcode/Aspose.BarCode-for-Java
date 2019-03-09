@@ -9,8 +9,8 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class GenerateMultipleMacroPdf417 
 {
 
-	public static void main(String[] args) throws IOException 
-        {
+	public static void main(String[] args) throws IOException {
+		//ExStart: GenerateMultipleMacroPdf417
 		String dataDir = Utils.getDataDir(GenerateMultipleMacroPdf417.class) + "2DBarcode/UtilityFeatures/";
 		
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
@@ -33,5 +33,6 @@ public class GenerateMultipleMacroPdf417
 			// Save the barcode (fileid_segmentid.png)
 			generator.save(dataDir + strFileID + "_" + nCount + ".png");
 		}
+		//ExEnd: GenerateMultipleMacroPdf417
 	}
 }

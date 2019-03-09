@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 public class SetStartAndStopSymbols {
 
 	public static void main(String[] args) throws IOException {
+		//ExStart: SetStartAndStopSymbols
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SetStartAndStopSymbols.class) + "Barcode/AdvancedFeatures/";
     	
@@ -23,5 +24,6 @@ public class SetStartAndStopSymbols {
 
 		// Save the image to disk in PNG format
 		generator.save(dataDir + "startAndStopSymbols.png");
+		//ExEnd: SetStartAndStopSymbols
 	}
 }

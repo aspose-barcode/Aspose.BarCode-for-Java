@@ -8,7 +8,7 @@ import com.aspose.barcode.generation.BarCodeGenerator;
 
 public class SaveBarcodeImagesToDifferentFormats {
     public static void main(String[] args) throws IOException {
-    	
+    	//ExStart: SaveBarcodeImagesToDifferentFormats
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SaveBarcodeImagesToDifferentFormats.class) + "BarcodeImage/UtilityFeatures/";
 
@@ -18,5 +18,6 @@ public class SaveBarcodeImagesToDifferentFormats {
 
         //Save the image to your system and set its image format to Jpeg
         bb.save(dataDir + "barcode-image-format.jpg", BarCodeImageFormat.JPEG);
+        //ExEnd: SaveBarcodeImagesToDifferentFormats
     }
 }
