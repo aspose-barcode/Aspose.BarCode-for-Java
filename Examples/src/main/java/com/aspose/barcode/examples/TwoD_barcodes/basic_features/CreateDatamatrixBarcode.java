@@ -19,6 +19,7 @@ public class CreateDatamatrixBarcode {
 		encodeModeForDataMatrix(dataDir);
 		customEncodingModeForDataMatrix(dataDir);
 		createDataMatrixBarcodeWithC40Encoding(dataDir);
+		passCodeTextAndSymbologyTypeInConstructor(dataDir);
 	}
 	
 	public static void createADataMatrixBarcode(String dataDir) throws IOException {
@@ -53,7 +54,7 @@ public class CreateDatamatrixBarcode {
 
 	public static void createDataMatrixBarcodeWithC40Encoding(String dataDir) throws IOException {
     	//ExStart: createDataMatrixBarcodeWithC40Encoding
-	    // Create an instance of BarCodeBuilder class
+	    // Create an instance of BarCodeGenerator class
         // Set codetext value and EncodeType
 		
 		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX, "ABCDEF123456");
@@ -64,5 +65,13 @@ public class CreateDatamatrixBarcode {
         // Save the barcode image
 		generator.save("dataMatrixC40.png");
 		//ExEnd: createDataMatrixBarcodeWithC40Encoding
+	}
+	
+	public static void passCodeTextAndSymbologyTypeInConstructor(String dataDir) throws IOException{
+		//ExStart: passCodeTextAndSymbologyTypeInConstructor
+		// For complete examples and data files, please go to https://github.com/aspose-barcode/Aspose.BarCode-for-Java
+		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX, "1234567890");
+		generator.save("temp.png", com.aspose.barcode.BarCodeImageFormat.PNG);
+		//ExEnd: passCodeTextAndSymbologyTypeInConstructor
 	}
 }

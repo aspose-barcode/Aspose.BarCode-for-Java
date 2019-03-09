@@ -8,11 +8,10 @@ public class ApplyALicense {
 		//ExStart: ApplyALicense
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(ApplyALicense.class) + "License/";
-		String licFilePath = "D:\\Aspose\\Licenses\\Aspose.Total.Java.lic";
 
 		// Apply a license to avoid the evaluation WaterMark in the BarCode image. 
-		License licBarcode = new License();
-		licBarcode.setLicense(licFilePath);
+		License license = new License();
+		license.setLicense(dataDir + "Aspose.Total.Java.lic");
 		//ExEnd: ApplyALicense
 	}
 }
