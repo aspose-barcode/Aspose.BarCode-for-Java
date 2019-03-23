@@ -24,14 +24,18 @@ public class BarcodeImageBorders {
         bb.getMargins().getLeft().setPixels(2f);
         bb.getMargins().getBottom().setPixels(2f);
         
+        //ExStart: SetBorderWidth
         //Set border width
         bb.getBorder().getWidth().setPixels(2.5f);
+        //ExEnd: SetBorderWidth
         
         //Set the border's color to red
         bb.getBorder().setColor(java.awt.Color.RED);
         
+        //ExStart: EnableImageBorder
         //Enable border to be shown in the barcode
         bb.getBorder().setVisible(true);
+        //ExEnd: EnableImageBorder
         
         // Save the image
         bb.save(dataDir + "barcode-image-borders.jpg");

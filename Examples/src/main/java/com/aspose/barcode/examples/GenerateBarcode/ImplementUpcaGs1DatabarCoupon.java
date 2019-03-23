@@ -15,6 +15,10 @@ public class ImplementUpcaGs1DatabarCoupon {
 
         //ExStart: ImplementUpcaGs1DatabarCoupon
         BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.UPCA_GS_1_DATABAR_COUPON);
+        
+        // UPCA part is "514141100906", GS1Databar part is "(8110)001234502239811110555"
+        generator.setCodeText("512345678900(8110)001234502239811110555");
+         
         generator.save("UpcaGs1DatabarCoupon.png");
         //ExEnd: ImplementUpcaGs1DatabarCoupon
     }

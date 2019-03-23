@@ -40,7 +40,7 @@ public class UsingManualHintsToOptimizeScan {
 		}
 		long res2 = System.currentTimeMillis() - s;
 		System.out.println(res2);
-		//ExStart: UsingManualHintsToOptimizeScan
+		//ExEnd: UsingManualHintsToOptimizeScan
 	}
 
 }

@@ -15,7 +15,7 @@ public class WideNarrowRatio {
     	
 		//Instantiate barcode object
     	// Create instance of BarCodeGenerator, specify codetext and symbology in the constructor
-    	BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_EXTENDED, "12345678");
+    	BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
 
 		//Set the wide to narrow ratio for the barcode
     	generator.setWideNarrowRatio(3.0f);
