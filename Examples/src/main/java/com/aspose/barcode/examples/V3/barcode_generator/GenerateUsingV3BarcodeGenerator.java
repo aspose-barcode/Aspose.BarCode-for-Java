@@ -2,11 +2,16 @@ package com.aspose.barcode.examples.V3.barcode_generator;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
+import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.BorderDashStyle;
+import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.EncodeTypes;
+import com.aspose.barcode.QRErrorLevel;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.examples.barcode_image.basic_features.BarcodeImageQuality;
+import com.aspose.barcode.generation.BarCodeGenerator;
 import com.aspose.barcode.generation.v3.AutoSizeMode;
 import com.aspose.barcode.generation.v3.BarcodeGenerator;
 import com.aspose.barcode.generation.v3.StringAlignment;
@@ -26,6 +31,11 @@ public class GenerateUsingV3BarcodeGenerator {
 		GenerateBarcodeWithAutoSizeInterpolation(dataDir);
 		GenerateBarcodeWithCaptionAbove(dataDir);
 		GenerateBarcodeWithCaptionBelow(dataDir);
+		GenerateQRBarcode(dataDir);
+		SettingQRErrorLevel(dataDir);
+		SettingQRVersion(dataDir);
+		SettingCodeTextEncoding(dataDir);
+		SettingQRECIEncoding(dataDir);
 	}
 
 	public static void GenerateBarcode(String dataDir) throws IOException
@@ -140,5 +150,53 @@ public class GenerateUsingV3BarcodeGenerator {
         gen.save(dataDir + "GenerateBarcodeWithCaptionBelow_out.png");
         //ExEnd: GenerateBarcodeWithCaptionBelow
     }
-    
+
+    public static void GenerateQRBarcode(String dataDir) throws IOException {
+		//ExStart: GenerateQRBarcode
+    	BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "1234567890");
+
+		generator.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: GenerateQRBarcode
+	}
+    public static void SettingQRErrorLevel(String dataDir) throws IOException {
+		//ExStart: SettingQRErrorLevel
+    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+		
+		generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
+		
+		generator.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: SettingQRErrorLevel
+	}
+    public static void SettingQRVersion(String dataDir) throws IOException {
+		//ExStart: SettingQRVersion
+    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+		
+    	// Set the error level
+    	generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_Q);
+    	generator.getParameters().getBarcode().getQR().setQrVersion(com.aspose.barcode.QRVersion.VERSION_10);
+		
+		generator.save(dataDir + "QR_version.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: SettingQRVersion
+	}
+    public static void SettingCodeTextEncoding(String dataDir) throws IOException {
+		//ExStart: SettingCodeTextEncoding
+    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+		
+    	// Set the code text encoding
+    	generator.getParameters().getBarcode().getQR().setCodeTextEncoding(Charset.forName("UTF-8"));
+		
+		generator.save(dataDir + "code_text_encoding_qr.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: SettingCodeTextEncoding
+	}
+    public static void SettingQRECIEncoding(String dataDir) throws IOException {
+		//ExStart: SettingQRECIEncoding
+    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+		
+    	// Set the ECI Encoding
+    	generator.getParameters().getBarcode().getQR().setQrECIEncoding(1);
+    	
+    	generator.save(dataDir + "code_text_encoding_qr.bmp", BarCodeImageFormat.BMP);
+		//ExEnd: SettingQRECIEncoding
+	}
+
 }
