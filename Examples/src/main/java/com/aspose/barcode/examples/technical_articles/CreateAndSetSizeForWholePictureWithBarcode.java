@@ -19,22 +19,22 @@ public class CreateAndSetSizeForWholePictureWithBarcode {
 		String dataDir = Utils.getDataDir(CreateAndSetSizeForWholePictureWithBarcode.class) + "TechnicalArticles/";
 		// Generate the bar code
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.PDF_417);
-		
+
 		// Set the code text
 		generator.setCodeText("One thing 2 thing");
-		
+
 		// Set the code text location
 		generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
-		
+
 		// Set margins
 		generator.getParameters().getBarcode().getPadding().getBottom().setPixels(0);
 		generator.getParameters().getBarcode().getPadding().getLeft().setPixels(0);
 		generator.getParameters().getBarcode().getPadding().getRight().setPixels(0);
 		generator.getParameters().getBarcode().getPadding().getTop().setPixels(0);
-		
+
 		// Get BufferedImage with exact bar code only
 		BufferedImage img = generator.generateBarCodeImage();
-		
+
 		// Saving the buffered image
 		File outputfile = new File(dataDir + "custombarcode.png");
 		ImageIO.write(img, "png", outputfile);

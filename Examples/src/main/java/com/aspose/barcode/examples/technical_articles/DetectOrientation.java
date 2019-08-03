@@ -10,10 +10,9 @@ public class DetectOrientation {
 		// Instantiate BarCodeReader object
 		BarCodeReader reader = new BarCodeReader("rotatedbarcode.jpg", DecodeType.CODE_128);
 		// read Code128 bar code
-		while (reader.read())
-		{
-		    // detect bar code orientation
-		    System.out.println("Rotaion Angle: " + reader.getAngle());
+		while (reader.read()) {
+			// detect bar code orientation
+			System.out.println("Rotaion Angle: " + reader.getAngle());
 		}
 		reader.close();
 		// ExEnd: DetectOrientation

@@ -15,16 +15,16 @@ public class CreateAnImageWithExactBarcodeOnly {
 		String dataDir = Utils.getDataDir(CreateAnImageWithExactBarcodeOnly.class) + "TechnicalArticles/";
 		// Generate the barcode
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128);
-		
+
 		// Set the code text
 		generator.getParameters().getBarcode().getCodeTextParameters().setTwoDDisplayText("123456");
-		
+
 		// Get bitmap with exact barcode only
 		BufferedImage image = generator.generateBarCodeImage();
-		
+
 		// Saving the buffered image
 		File outputfile = new File(dataDir + "custombarcode.png");
 		ImageIO.write(image, "png", outputfile);
-		//ExEnd: CreateAnImageWithExactBarcodeOnly
+		// ExEnd: CreateAnImageWithExactBarcodeOnly
 	}
 }

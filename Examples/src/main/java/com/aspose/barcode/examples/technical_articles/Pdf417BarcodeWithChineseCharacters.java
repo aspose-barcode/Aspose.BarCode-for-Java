@@ -15,14 +15,14 @@ public class Pdf417BarcodeWithChineseCharacters {
 		String dataDir = Utils.getDataDir(Pdf417BarcodeWithChineseCharacters.class) + "TechnicalArticles/";
 		// Generate the barcode
 		BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.PDF_417);
-				 
+
 		// Set the code text
 		String codetext = "è¢«æ´ªæ°´å›°ä½�çš„";
 		ByteBuffer bytebuffer = Charset.forName("MS936").encode(codetext);
 		byte[] bytes = bytebuffer.array();
 		String codeText = new String(bytes);
 		gen.setCodeText(codeText);
-				 
+
 		// Set the display text
 		gen.getParameters().getBarcode().getCodeTextParameters().setTwoDDisplayText(codetext);
 		gen.save(dataDir + "barcode.png");
