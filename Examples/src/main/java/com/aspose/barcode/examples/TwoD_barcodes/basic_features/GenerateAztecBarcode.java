@@ -2,9 +2,8 @@ package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 
 import java.io.IOException;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class GenerateAztecBarcode 
 {
@@ -15,7 +14,7 @@ public class GenerateAztecBarcode
             String dataDir = Utils.getDataDir(GenerateAztecBarcode.class) + "TwoD_barcodes/BasicFeatures/";
 
             // Initialize BarCode builder class object
-            BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.AZTEC, "25");
+            BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.AZTEC, "25");
 
             // save barcode
             generator.save(dataDir + "Aztec.png");

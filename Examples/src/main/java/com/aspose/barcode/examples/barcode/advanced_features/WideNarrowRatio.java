@@ -2,9 +2,8 @@ package com.aspose.barcode.examples.barcode.advanced_features;
 
 import java.io.IOException;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class WideNarrowRatio {
 
@@ -14,11 +13,11 @@ public class WideNarrowRatio {
     	String dataDir = Utils.getDataDir(WideNarrowRatio.class) + "Barcode/AdvancedFeatures/";
     	
 		//Instantiate barcode object
-    	// Create instance of BarCodeGenerator, specify codetext and symbology in the constructor
-    	BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
+    	// Create instance of BarcodeGenerator, specify codetext and symbology in the constructor
+    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
 
 		//Set the wide to narrow ratio for the barcode
-    	generator.setWideNarrowRatio(3.0f);
+    	generator.getParameters().getBarcode().setWideNarrowRatio(3.0f);
 		
 		// Save the image to disk in PNG format
     	generator.save(dataDir + "wideNarrowRatio.png");

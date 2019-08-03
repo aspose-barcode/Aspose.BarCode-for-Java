@@ -7,7 +7,7 @@ import java.io.IOException;
 import com.aspose.barcode.*;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.AutoSizeMode;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 import javax.imageio.ImageIO;
 
@@ -17,10 +17,10 @@ public class ImplementDotCodeForBarcode {
         String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
 
         //ExStart: ImplementDotCodeForBarcode
-        BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.DOT_CODE);
-        generator.setDotCodeMask(2);
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.DOT_CODE);
+        generator.getParameters().getBarcode().getDotCode().setDotCodeMask(2);
         BufferedImage bitmap = generator.generateBarCodeImage();
-        File imageFile = new File("DotCode.png");
+        File imageFile = new File(dataDir + "DotCode.png");
         ImageIO.write(bitmap, "png", imageFile);
         //ExEnd: ImplementDotCodeForBarcode
     }

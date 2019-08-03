@@ -2,12 +2,11 @@ package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 
 import java.io.IOException;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
-import com.aspose.barcode.CodeLocation;
+import com.aspose.barcode.generation.CodeLocation;
 import com.aspose.barcode.QRErrorLevel;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class CreatingAQRBarcode {
 
@@ -24,7 +23,7 @@ public class CreatingAQRBarcode {
 
 	public static void createAQRBarcode(String dataDir) throws IOException {
 		//ExStart: createAQRBarcode
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 
 		generator.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: createAQRBarcode
@@ -32,9 +31,9 @@ public class CreatingAQRBarcode {
 	
 	public static void errorCorrection(String dataDir) throws IOException {
 		//ExStart: errorCorrection
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 		
-		generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
+		generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
 		
 		generator.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: errorCorrection
@@ -42,11 +41,11 @@ public class CreatingAQRBarcode {
 	
 	public static void rotation(String dataDir) throws IOException {
 		//ExStart: rotation
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 		
 		//Hide code text
-		generator.getCodeTextStyle().setLocation(CodeLocation.NONE);
-		generator.setRotationAngle(90);
+		generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
+		generator.getParameters().setRotationAngle(90);
 		
 		generator.save(dataDir + "rotation_qr.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: rotation
@@ -61,10 +60,10 @@ public class CreatingAQRBarcode {
         // Create an instance of BarCodeBuilder class
         // Set the barcode text
         // Set the barcode symbology 
-        BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
+        BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
 
         // Set the error level
-        generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
+        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
 
         // Generate the barocde image and save it as image in an object of BufferedImage class
         java.awt.image.BufferedImage image = generator.generateBarCodeImage();
@@ -102,13 +101,13 @@ public class CreatingAQRBarcode {
 	{
 		//ExStart: set_QR_version
 		// Instantiate BarCodeBuilder object
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.QR, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
 	    // Set the error level
-		generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_Q);
+		generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_Q);
 
 	    // Set the QR barcode version number
-        generator.getQR().setVersion(com.aspose.barcode.QRVersion.VERSION_10);
+        generator.getParameters().getBarcode().getQR().setQrVersion(com.aspose.barcode.QRVersion.VERSION_10);
 
 	    //Save the image
         generator.save(dataDir + "qr_version10_errorQ.png");

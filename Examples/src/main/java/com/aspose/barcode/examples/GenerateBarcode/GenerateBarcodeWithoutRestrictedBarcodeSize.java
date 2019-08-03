@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class GenerateBarcodeWithoutRestrictedBarcodeSize {
 
@@ -13,10 +13,10 @@ public class GenerateBarcodeWithoutRestrictedBarcodeSize {
 		
 		String dataDir = Utils.getDataDir(GenerateBarcodeWithRestrictedBarcodeSize.class) + "GenerateBarcode/";
 		//ExStart: GenerateBarcodeWithoutRestrictedBarcodeSize
-		BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.QR, "Aspose.BarCode sample");
-	    generator.getXDimension().setPixels(3);
-	    generator.getMargins().getLeft().setPixels(20);
-	    generator.getMargins().getRight().setPixels(20);
+		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "Aspose.BarCode sample");
+	    generator.getParameters().getBarcode().getXDimension().setPixels(3);
+	    generator.getParameters().getBarcode().getPadding().getLeft().setPixels(20);
+	    generator.getParameters().getBarcode().getPadding().getRight().setPixels(20);
 	    generator.save(dataDir + "GenerateBarcodeWithoutRestrictedBarcodeSize_out.png");
 		//ExEnd: GenerateBarcodeWithoutRestrictedBarcodeSize
 	}

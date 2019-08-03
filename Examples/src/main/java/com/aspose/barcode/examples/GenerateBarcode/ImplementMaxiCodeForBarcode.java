@@ -7,7 +7,7 @@ import java.io.IOException;
 import com.aspose.barcode.*;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.AutoSizeMode;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 import javax.imageio.ImageIO;
 
@@ -17,10 +17,10 @@ public class ImplementMaxiCodeForBarcode {
         String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
 
         //ExStart: ImplementMaxiCodeForBarcode
-        BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.MAXI_CODE);
-        generator.setMaxiCodeEncodeMode(5);
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.MAXI_CODE);
+        generator.getParameters().getBarcode().getMaxiCode().setMaxiCodeEncodeMode(5);
         BufferedImage bitmap = generator.generateBarCodeImage();
-        File imageFile = new File("MaxiCodeEncodeMode.png");
+        File imageFile = new File(dataDir + "MaxiCodeEncodeMode.png");
         ImageIO.write(bitmap, "png", imageFile);
         //ExEnd: ImplementMaxiCodeForBarcode
     }

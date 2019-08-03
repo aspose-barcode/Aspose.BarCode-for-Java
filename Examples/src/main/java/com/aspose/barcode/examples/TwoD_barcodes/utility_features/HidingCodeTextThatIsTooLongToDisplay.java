@@ -3,11 +3,10 @@ package com.aspose.barcode.examples.TwoD_barcodes.utility_features;
 import java.awt.Font;
 import java.io.IOException;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BarCodeImageFormat;
-import com.aspose.barcode.CodeLocation;
+import com.aspose.barcode.generation.CodeLocation;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class HidingCodeTextThatIsTooLongToDisplay 
 {
@@ -21,9 +20,9 @@ public class HidingCodeTextThatIsTooLongToDisplay
 
 	public static void hideTheBarcodeCodeText(String dataDir) throws IOException {
 		//ExStart: hideTheBarcodeCodeText
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
 		generator.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
-		generator.getCodeTextStyle().setLocation(CodeLocation.BELOW);
+		generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
 		
 		generator.save(dataDir + "datamatrix.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: hideTheBarcodeCodeText
@@ -31,11 +30,11 @@ public class HidingCodeTextThatIsTooLongToDisplay
 	
 	public static void reduceTheCodeTextFontSize(String dataDir) throws IOException {
 		//ExStart: reduceTheCodeTextFontSize
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.DATA_MATRIX);
 		generator.setCodeText("The quick brown fox jumps over the lazy dog\n The quick brown fox jumps over the lazy dog\n");
-		generator.getCodeTextStyle().setLocation(CodeLocation.NONE);
-		generator.getCodeTextStyle().getFont().setFamilyName("Serif");
-		generator.getCodeTextStyle().getFont().setStyle(20);
+		generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
+		generator.getParameters().getBarcode().getCodeTextParameters().getFont().setFamilyName("Serif");
+		generator.getParameters().getBarcode().getCodeTextParameters().getFont().setStyle(20);
 		
 		generator.save(dataDir + "reduceFontSize.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: reduceTheCodeTextFontSize

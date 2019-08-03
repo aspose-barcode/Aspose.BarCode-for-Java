@@ -4,16 +4,16 @@ import java.applet.Applet;
 import java.awt.*;
 import java.io.IOException;
 
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
  
 public class Test extends Applet {
 	public void paint(Graphics g)
 	{
 		// Instantiate a BarCodeBuilder
-		BarCodeGenerator b = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417);
+		BarcodeGenerator b = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417);
 		
 		// Small module's width to be 1 millimeter
-		b.getXDimension().setMillimeters(1);
+		b.getParameters().getBarcode().getXDimension().setMillimeters(1);
  
 		// Text to be encoded
 		b.setCodeText("This is a test.");

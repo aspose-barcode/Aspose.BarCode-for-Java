@@ -5,7 +5,8 @@ import java.io.IOException;
 
 import com.aspose.barcode.Caption;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
+import com.aspose.barcode.generation.TextAlignment;
 
 public class BarcodeCaption {
 
@@ -14,22 +15,22 @@ public class BarcodeCaption {
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(BarcodeCaption.class) + "Barcode/BasicFeatures/";
     	
-    	// Create instance of BarCodeGenerator, specify codetext and symbology in the constructor
-    	BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
+    	// Create instance of BarcodeGenerator, specify codetext and symbology in the constructor
+    	BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
 		
-		bb.getCaptionAbove().setAlignment(com.aspose.barcode.StringAlignment.CENTER);
-		bb.getCaptionAbove().setText("Aspose.Demo");
-		bb.getCaptionAbove().setVisible(true);
-		bb.getCaptionAbove().getFont().setFamilyName("Pristina");
-		bb.getCaptionAbove().getFont().getSize().setPoint(14);
-		bb.getCaptionAbove().setColor(java.awt.Color.RED);
+		bb.getParameters().getCaptionAbove().setAlignment(TextAlignment.CENTER);
+		bb.getParameters().getCaptionAbove().setText("Aspose.Demo");
+		bb.getParameters().getCaptionAbove().setVisible(true);
+		bb.getParameters().getCaptionAbove().getFont().setFamilyName("Pristina");
+		bb.getParameters().getCaptionAbove().getFont().getSize().setPoint(14);
+		bb.getParameters().getCaptionAbove().setTextColor(java.awt.Color.RED);
 		
-		bb.getCaptionBelow().setAlignment(com.aspose.barcode.StringAlignment.FAR);
-		bb.getCaptionBelow().setText("Aspose.Demo");
-		bb.getCaptionBelow().setVisible(true);
-		bb.getCaptionBelow().getFont().setFamilyName("Pristina");
-		bb.getCaptionBelow().getFont().getSize().setPoint(14);
-		bb.getCaptionBelow().setColor(java.awt.Color.RED);
+		bb.getParameters().getCaptionBelow().setAlignment(TextAlignment.CENTER);
+		bb.getParameters().getCaptionBelow().setText("Aspose.Demo");
+		bb.getParameters().getCaptionBelow().setVisible(true);
+		bb.getParameters().getCaptionBelow().getFont().setFamilyName("Pristina");
+		bb.getParameters().getCaptionBelow().getFont().getSize().setPoint(14);
+		bb.getParameters().getCaptionBelow().setTextColor(java.awt.Color.RED);
 
 		//Save the Barcode image to file
     	bb.save(dataDir + "barcodeCaption.jpg");

@@ -3,7 +3,7 @@ package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 import java.io.IOException;
 
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 
 public class CreatebarcodewithImageInsteadOfCodetext 
@@ -17,7 +17,7 @@ public class CreatebarcodewithImageInsteadOfCodetext
         // Create an instance of BarCodeGenerator class
         // Set the barcode text
         // Set the barcode symbology 
-        BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.EAN_13, "123456789012");
+        BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.EAN_13, "123456789012");
         
         // Generate Barcode image and store it
         java.awt.image.BufferedImage barcode = generator.generateBarCodeImage();
@@ -43,7 +43,7 @@ public class CreatebarcodewithImageInsteadOfCodetext
         g.drawImage(barcode, 0, picture.getHeight(), null);
   
         // Save the final barcode image
-        java.io.File imageFile = new java.io.File("output.png");
+        java.io.File imageFile = new java.io.File(dataDir + "output.png");
         javax.imageio.ImageIO.write(output, "PNG", imageFile);
         //ExEnd: CreatebarcodewithImageInsteadOfCodetext
     }

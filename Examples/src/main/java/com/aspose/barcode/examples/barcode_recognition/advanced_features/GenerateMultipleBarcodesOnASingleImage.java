@@ -9,11 +9,10 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.BaseEncodeType;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class GenerateMultipleBarcodesOnASingleImage {
 
@@ -34,7 +33,7 @@ public class GenerateMultipleBarcodesOnASingleImage {
 
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (Object key : collection.keySet()) {
-		    BarCodeGenerator bb = new BarCodeGenerator((BaseEncodeType) collection.get(key));
+		    BarcodeGenerator bb = new BarcodeGenerator((BaseEncodeType) collection.get(key));
 		    bb.setCodeText((String) key);
 		    //bb.setSymbologyType((Long) collection.get(key));
 		    images.add(bb.generateBarCodeImage());

@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 import com.aspose.barcode.EncodeTypes;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
  
 // This class will generate a barcode image, save it to file on disk
 // then create the stream from file and insert the image stream into DB (BLOB type column)
@@ -20,7 +20,7 @@ public class GenerateAndSaveBarCode
             // Step-1 - Generate barcode and save temporarily in a file
             String strBarCodeImage = "c:\\temp\\code39.jpg";
             String strCodeText = "NOK-E71";
-            BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.CODE_39_STANDARD);
+            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_39_STANDARD);
             generator.setCodeText(strCodeText);
             generator.save(strBarCodeImage);
  
@@ -65,7 +65,7 @@ public class GenerateAndSaveBarCode
             // Step-1 - Generate barcode and save temporarily in a file
             String strBarCodeImage = "c:\\temp\\code39.jpg";
             String strCodeText = "NOK-E71-UPDATED";
-            BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.CODE_39_STANDARD);
+            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_39_STANDARD);
             generator.setCodeText(strCodeText);
             generator.save(strBarCodeImage);
  

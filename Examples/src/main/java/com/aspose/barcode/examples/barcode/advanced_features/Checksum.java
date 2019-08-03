@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.aspose.barcode.EnableChecksum;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class Checksum {
 
@@ -13,10 +13,10 @@ public class Checksum {
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(Checksum.class) + "Barcode/AdvancedFeatures/";
     	
-		BarCodeGenerator bb = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD, "1234567");
+		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD, "1234567");
 
 		//Make the checksum to be visible on the barcode
-		bb.getChecksum().setEnable(EnableChecksum.DEFAULT);
+		bb.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.DEFAULT);
 
 		//Save the Barcode image to file
     	bb.save(dataDir + "checksum.jpg");

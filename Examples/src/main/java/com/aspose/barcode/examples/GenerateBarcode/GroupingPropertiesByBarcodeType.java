@@ -6,7 +6,7 @@ import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.QRErrorLevel;
 import com.aspose.barcode.QRVersion;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class GroupingPropertiesByBarcodeType {
 
@@ -15,9 +15,9 @@ public class GroupingPropertiesByBarcodeType {
 		String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
 
 		//ExStart: GroupingPropertiesByBarcodeType
-		BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.QR);
-	    generator.getQR().setVersion(QRVersion.VERSION_18);
-	    generator.getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
+		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
+	    generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_18);
+	    generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
 	    generator.save(dataDir + "GroupingPropertiesByBarcodeType_out.png");
 		//ExEnd: GroupingPropertiesByBarcodeType
 	}

@@ -10,9 +10,8 @@ package com.aspose.barcode.examples.barcode.basic_features;
 
 import java.io.IOException;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class SetCodeText {
     public static void main(String[] args) throws IOException {
@@ -20,11 +19,11 @@ public class SetCodeText {
     	// The path to the resource directory.
     	String dataDir = Utils.getDataDir(SetCodeText.class) + "Barcode/BasicFeatures/";
     	
-    	// Create instance of BarCodeGenerator, specify codetext and symbology in the constructor
-    	BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
+    	// Create instance of BarcodeGenerator, specify codetext and symbology in the constructor
+    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
 		
     	//Set the width of the bars to 0.5 millimeter
-    	generator.getXDimension().setMillimeters(0.5f);
+    	generator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
     	
     	//Save the barcode image to file
     	generator.save(dataDir + "setCodeText.jpg");

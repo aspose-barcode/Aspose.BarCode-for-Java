@@ -5,11 +5,9 @@ import java.io.File;
 import java.io.IOException;
 
 import com.aspose.barcode.EncodeTypes;
-import com.aspose.barcode.QRErrorLevel;
-import com.aspose.barcode.QRVersion;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.AutoSizeMode;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 import javax.imageio.ImageIO;
 
@@ -19,13 +17,13 @@ public class ImplementInterpolationAutoSizemode {
         String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
 
         //ExStart: ImplementInterpolationAutoSizemode
-        BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.DATA_MATRIX);
-        generator.setAutoSizeMode(AutoSizeMode.INTERPOLATION);
-        generator.getBarCodeWidth().setMillimeters(50);
-        generator.getBarCodeHeight().setInches(1.3f);
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.DATA_MATRIX);
+        generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.INTERPOLATION);
+        generator.getParameters().getBarcode().getBarCodeWidth().setMillimeters(50);
+        generator.getParameters().getBarcode().getBarCodeHeight().setInches(1.3f);
 
         BufferedImage bitmap = generator.generateBarCodeImage();
-        File imageFile = new File("DataMatrix.png");
+        File imageFile = new File(dataDir + "DataMatrix.png");
         ImageIO.write(bitmap, "png", imageFile);
         //ExEnd: ImplementInterpolationAutoSizemode
     }

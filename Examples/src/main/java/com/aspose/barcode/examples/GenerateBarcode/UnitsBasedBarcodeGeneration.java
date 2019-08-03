@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.AutoSizeMode;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class UnitsBasedBarcodeGeneration {
 
@@ -14,13 +14,13 @@ public class UnitsBasedBarcodeGeneration {
 
 		String dataDir = Utils.getDataDir(UnitsBasedBarcodeGeneration.class) + "GenerateBarcode/";
 		//ExStart: UnitsBasedBarcodeGeneration
-		BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.QR, "Aspose.BarCode sample");
-	    generator.setAutoSizeMode (AutoSizeMode.NEAREST);
-	    generator.getBarCodeWidth().setMillimeters(20);
-	    generator.getBarCodeHeight().setMillimeters(20);
+		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "Aspose.BarCode sample");
+	    generator.getParameters().getBarcode().setAutoSizeMode (AutoSizeMode.NEAREST);
+	    generator.getParameters().getBarcode().getBarCodeWidth().setMillimeters(20);
+	    generator.getParameters().getBarcode().getBarCodeHeight().setMillimeters(20);
 	    generator.save(dataDir + "for_display_out.png");
 
-	    generator.setResolution(300);
+	    generator.getParameters().setResolution(300);
 	    generator.save(dataDir + "for_printer_out.png");
 		//ExEnd: UnitsBasedBarcodeGeneration
 	}

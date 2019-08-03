@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class ImplementUpcaGs1Code128Coupon {
 
@@ -12,7 +12,7 @@ public class ImplementUpcaGs1Code128Coupon {
 		String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
 
         //ExStart: ImplementUpcaGs1Code128Coupon
-        BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.UPCA_GS_1_CODE_128_COUPON);
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.UPCA_GS_1_CODE_128_COUPON);
         
         // UPCA part is "514141100906", GS1Code128 part is "(8102)03"
         generator.setCodeText("514141100906(8102)03");

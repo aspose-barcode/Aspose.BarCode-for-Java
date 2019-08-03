@@ -6,15 +6,14 @@ import java.nio.charset.Charset;
 
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.BorderDashStyle;
-import com.aspose.barcode.CodeLocation;
+import com.aspose.barcode.generation.CodeLocation;
+import com.aspose.barcode.generation.TextAlignment;
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.QRErrorLevel;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.examples.barcode_image.basic_features.BarcodeImageQuality;
-import com.aspose.barcode.generation.BarCodeGenerator;
-import com.aspose.barcode.generation.v3.AutoSizeMode;
-import com.aspose.barcode.generation.v3.BarcodeGenerator;
-import com.aspose.barcode.generation.v3.StringAlignment;
+import com.aspose.barcode.generation.AutoSizeMode;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class GenerateUsingV3BarcodeGenerator {
 
@@ -43,7 +42,7 @@ public class GenerateUsingV3BarcodeGenerator {
         //ExStart: GenerateBarcode
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128);
 		generator.setCodeText("123ABC");
-		generator.save("code128.png");
+		generator.save(dataDir + "code128.png");
         //ExEnd: GenerateBarcode
     }
 	
@@ -128,7 +127,7 @@ public class GenerateUsingV3BarcodeGenerator {
         gen.getParameters().getCaptionAbove().setTextColor(Color.RED);
         gen.getParameters().getCaptionAbove().getFont().getSize().setPixels(28);
         gen.getParameters().getCaptionAbove().setVisible(true);
-        gen.getParameters().getCaptionAbove().setAlignment(StringAlignment.CENTER);
+        gen.getParameters().getCaptionAbove().setAlignment(TextAlignment.CENTER);
         gen.save(dataDir + "GenerateBarcodeWithCaptionAbove_out.png");
         //ExEnd: GenerateBarcodeWithCaptionAbove
     }
@@ -146,7 +145,7 @@ public class GenerateUsingV3BarcodeGenerator {
         gen.getParameters().getCaptionBelow().setTextColor(Color.RED);
         gen.getParameters().getCaptionBelow().getFont().getSize().setPixels(28);
         gen.getParameters().getCaptionBelow().setVisible(true);
-        gen.getParameters().getCaptionBelow().setAlignment(StringAlignment.CENTER);
+        gen.getParameters().getCaptionBelow().setAlignment(TextAlignment.CENTER);
         gen.save(dataDir + "GenerateBarcodeWithCaptionBelow_out.png");
         //ExEnd: GenerateBarcodeWithCaptionBelow
     }
@@ -154,17 +153,15 @@ public class GenerateUsingV3BarcodeGenerator {
     public static void GenerateQRBarcode(String dataDir) throws IOException {
 		//ExStart: GenerateQRBarcode
     	BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "1234567890");
-
-		generator.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
+    	generator.save(dataDir + "QRBarcode.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: GenerateQRBarcode
 	}
     public static void SettingQRErrorLevel(String dataDir) throws IOException {
 		//ExStart: SettingQRErrorLevel
     	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
-		
-		generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
-		
-		generator.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
+    	
+    	generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
+    	generator.save(dataDir + "errorCorrectionQRBarcode.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: SettingQRErrorLevel
 	}
     public static void SettingQRVersion(String dataDir) throws IOException {
@@ -174,8 +171,7 @@ public class GenerateUsingV3BarcodeGenerator {
     	// Set the error level
     	generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_Q);
     	generator.getParameters().getBarcode().getQR().setQrVersion(com.aspose.barcode.QRVersion.VERSION_10);
-		
-		generator.save(dataDir + "QR_version.bmp", BarCodeImageFormat.BMP);
+    	generator.save(dataDir + "QR_version.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: SettingQRVersion
 	}
     public static void SettingCodeTextEncoding(String dataDir) throws IOException {
@@ -184,8 +180,7 @@ public class GenerateUsingV3BarcodeGenerator {
 		
     	// Set the code text encoding
     	generator.getParameters().getBarcode().getQR().setCodeTextEncoding(Charset.forName("UTF-8"));
-		
-		generator.save(dataDir + "code_text_encoding_qr.bmp", BarCodeImageFormat.BMP);
+    	generator.save(dataDir + "code_text_encoding_qr.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: SettingCodeTextEncoding
 	}
     public static void SettingQRECIEncoding(String dataDir) throws IOException {
@@ -194,7 +189,6 @@ public class GenerateUsingV3BarcodeGenerator {
 		
     	// Set the ECI Encoding
     	generator.getParameters().getBarcode().getQR().setQrECIEncoding(1);
-    	
     	generator.save(dataDir + "code_text_encoding_qr.bmp", BarCodeImageFormat.BMP);
 		//ExEnd: SettingQRECIEncoding
 	}

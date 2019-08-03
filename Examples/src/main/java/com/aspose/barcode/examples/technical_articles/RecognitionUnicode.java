@@ -1,29 +1,34 @@
 package com.aspose.barcode.examples.technical_articles;
 //ExStart: RecognitionUnicode
 import com.aspose.barcode.*;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.DecodeType;
+import com.aspose.barcode.examples.Utils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
  
 public class RecognitionUnicode {
     public static void main(String[] args) throws IOException {
-        try
+    	
+    	String dataDir = Utils.getDataDir(Pdf417BarcodeWithTurkishCharacters.class) + "TechnicalArticles/";
+        
+    	try
         {
             License lic = new License();
-            lic.setLicense("D:\\ aspose.barcode.lic");
+            lic.setLicense("aspose.barcode.lic");
         }
         catch(Exception ex)
         {
             System.out.println(ex.getMessage());
         }
-        String file = "pdf417_un.png";
+        
+    	String file = dataDir + "pdf417_un.png";
         String scodeText = "منحة";
         System.out.println("codetext: " + scodeText);
         String codeText = getCodeTextFromUnicode(scodeText);
-        BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.PDF_417, codeText);
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.PDF_417, codeText);
         generator.save(file);
  
         BarCodeReader r = new BarCodeReader(file,DecodeType.PDF_417);

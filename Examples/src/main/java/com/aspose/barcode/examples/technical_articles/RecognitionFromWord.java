@@ -6,7 +6,8 @@ import java.text.MessageFormat;
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.DecodeType;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.words.ImageType;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
@@ -16,11 +17,13 @@ public class RecognitionFromWord {
     {
         try
         {
+        	String dataDir = Utils.getDataDir(RecognitionFromWord.class) + "TechnicalArticles/";
+        	
             // Generate barcode image
-            BarCodeGenerator generator = new BarCodeGenerator(EncodeTypes.CODE_39_STANDARD);
+            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_39_STANDARD);
 
             generator.setCodeText("test-123");
-            String strBarCodeImageSave = "D:\\img.jpg";
+            String strBarCodeImageSave = dataDir + "img.jpg";
             generator.save(strBarCodeImageSave);
  
             // Add the image to a Word doc
@@ -28,7 +31,7 @@ public class RecognitionFromWord {
             com.aspose.words.DocumentBuilder docBuilder = new com.aspose.words.DocumentBuilder(doc);
             docBuilder.insertImage(strBarCodeImageSave);
             String strWordFile = "docout.doc";
-            doc.save("D:\\" + strWordFile);
+            doc.save(dataDir + strWordFile);
  
             // Recognition part
             // Extract image from the Word document

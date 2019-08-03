@@ -2,11 +2,9 @@ package com.aspose.barcode.examples.TwoD_barcodes.basic_features;
 
 import java.io.IOException;
 
-import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.Pdf417CompactionMode;
 import com.aspose.barcode.Pdf417ErrorLevel;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class CreatingAPdf417Barcode {
 
@@ -22,15 +20,15 @@ public class CreatingAPdf417Barcode {
 	public static void createAPdf417Barcode(String dataDir) throws IOException 
     {
 		//ExStart: createAPdf417Barcode
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417, "1234567890");
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417, "1234567890");
 		generator.save(dataDir + "pdf417.bmp");
 		//ExEnd: createAPdf417Barcode
 	}
 	
 	public static void pdf417ErrorCorrectionLevel(String dataDir) throws IOException {
     	//ExStart: pdf417ErrorCorrectionLevel
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417, "1234567890");
-		generator.getPdf417().setErrorLevel(Pdf417ErrorLevel.LEVEL_8);
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417, "1234567890");
+		generator.getParameters().getBarcode().getPdf417().setPdf417ErrorLevel(Pdf417ErrorLevel.LEVEL_8);
 		
 		generator.save(dataDir + "pdf417ErrorCorrectionLevel.bmp");
 		//ExEnd: pdf417ErrorCorrectionLevel
@@ -38,9 +36,9 @@ public class CreatingAPdf417Barcode {
 	
 	public static void pdf417CompactionMode(String dataDir) throws IOException {
     	//ExStart: pdf417CompactionMode
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417, "This is text data.");
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417, "This is text data.");
     	// Set Pdf417 Compaction Mode to Text
-		generator.getPdf417().setErrorLevel(Pdf417ErrorLevel.LEVEL_0);
+		generator.getParameters().getBarcode().getPdf417().setPdf417ErrorLevel(Pdf417ErrorLevel.LEVEL_0);
 
 		// Save the image to disk in PNG format
 		generator.save(dataDir + "pdf417CompactionMode.png");

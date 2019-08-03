@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class CodeTextForegroundColor {
 
@@ -13,11 +13,11 @@ public class CodeTextForegroundColor {
 		// The path to the resource directory.
     	String dataDir = Utils.getDataDir(CodeTextForegroundColor.class) + "Barcode/BasicFeatures/";
     	
-    	// Create instance of BarCodeGenerator, specify codetext and symbology in the constructor
-    	BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
+    	// Create instance of BarcodeGenerator, specify codetext and symbology in the constructor
+    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
 		
     	//Set up code text color
-    	generator.getCodeTextStyle().setColor(Color.RED);
+    	generator.getParameters().getBarcode().getCodeTextParameters().setColor(Color.RED);
 		
 		//Save the Barcode image to file
     	generator.save(dataDir + "codeTextForegroundColor.jpg");

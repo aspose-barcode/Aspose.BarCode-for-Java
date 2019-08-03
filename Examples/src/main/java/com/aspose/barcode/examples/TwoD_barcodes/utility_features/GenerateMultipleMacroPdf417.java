@@ -2,9 +2,8 @@ package com.aspose.barcode.examples.TwoD_barcodes.utility_features;
 
 import java.io.IOException;
 
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.examples.Utils;
-import com.aspose.barcode.generation.BarCodeGenerator;
+import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class GenerateMultipleMacroPdf417 
 {
@@ -13,7 +12,7 @@ public class GenerateMultipleMacroPdf417
 		//ExStart: GenerateMultipleMacroPdf417
 		String dataDir = Utils.getDataDir(GenerateMultipleMacroPdf417.class) + "2DBarcode/UtilityFeatures/";
 		
-		BarCodeGenerator generator = new BarCodeGenerator(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.MACRO_PDF_417);
 
 		// Create array for storing multiple barcodes
 		int nSize = 4;
@@ -25,10 +24,10 @@ public class GenerateMultipleMacroPdf417
 			generator.setCodeText(lstCodeText[nCount - 1]);
 			
 			// fileID should be same for all the generated barcodes
-			generator.getPdf417().setMacroFileID(Integer.parseInt(strFileID));
+			generator.getParameters().getBarcode().getPdf417().setPdf417MacroFileID(Integer.parseInt(strFileID));
 			
 			// Assign segmentID in increasing order (1,2,3,....)
-			generator.getPdf417().setMacroSegmentID(nCount);
+			generator.getParameters().getBarcode().getPdf417().setPdf417MacroSegmentID(nCount);
 
 			// Save the barcode (fileid_segmentid.png)
 			generator.save(dataDir + strFileID + "_" + nCount + ".png");
