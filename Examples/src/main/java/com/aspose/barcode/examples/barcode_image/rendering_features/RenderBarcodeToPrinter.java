@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import com.aspose.barcode.generation.BarcodeGenerator;
 //ExStart: RenderBarcodeToPrinter
 public class RenderBarcodeToPrinter {
-
 	public static void main(String[] args) {
 		// Create frame instance
 		Frame f = new Frame();
@@ -19,13 +18,10 @@ public class RenderBarcodeToPrinter {
 		// Display frame
 		f.setVisible(true);
 	}
-
 }
 
 class RenderBarCode extends java.awt.Canvas {
-
 	public void paint(Graphics g) {
-
 		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
 
 		BufferedImage bimg = (BufferedImage) bb.generateBarCodeImage();

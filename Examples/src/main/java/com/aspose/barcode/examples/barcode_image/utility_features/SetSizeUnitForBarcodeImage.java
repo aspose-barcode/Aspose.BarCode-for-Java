@@ -15,19 +15,20 @@ import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class SetSizeUnitForBarcodeImage {
-    public static void main(String[] args) throws IOException {
-    	//ExStart: SetSizeUnitForBarcodeImage
-    	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SetSizeUnitForBarcodeImage.class) + "BarcodeImage/UtilityFeatures/";
-    	
-    	//Instantiate barcode object, Set the symbology type to code128 and Set the Code text for the barcode
-        BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
-        
-        //Set the bar height to 3 points
-        bb.getParameters().getBarcode().getBarHeight().setPoint(3.0f);
+	public static void main(String[] args) throws IOException {
+		// ExStart: SetSizeUnitForBarcodeImage
+		// The path to the resource directory.
+		String dataDir = Utils.getDataDir(SetSizeUnitForBarcodeImage.class) + "BarcodeImage/UtilityFeatures/";
 
-        // Save the image
-        bb.save(dataDir + "barcode-size-unit.jpg");
-        //ExEnd: SetSizeUnitForBarcodeImage
-    }
+		// Instantiate barcode object, Set the symbology type to code128 and Set the
+		// Code text for the barcode
+		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
+
+		// Set the bar height to 3 points
+		bb.getParameters().getBarcode().getBarHeight().setPoint(3.0f);
+
+		// Save the image
+		bb.save(dataDir + "barcode-size-unit.jpg");
+		// ExEnd: SetSizeUnitForBarcodeImage
+	}
 }

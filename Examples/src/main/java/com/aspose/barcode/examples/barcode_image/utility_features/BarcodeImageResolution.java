@@ -14,19 +14,20 @@ import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class BarcodeImageResolution {
-    public static void main(String[] args) throws IOException {
-    	//ExStart: BarcodeImageResolution
-    	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(BarcodeImageResolution.class) + "BarcodeImage/UtilityFeatures/";
+	public static void main(String[] args) throws IOException {
+		// ExStart: BarcodeImageResolution
+		// The path to the resource directory.
+		String dataDir = Utils.getDataDir(BarcodeImageResolution.class) + "BarcodeImage/UtilityFeatures/";
 
-    	//Instantiate barcode object, Set the symbology type to code128 and Set the Code text for the barcode
-        BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
-        
-        //customized resolution settings
-        bb.getParameters().setResolution(200f);
+		// Instantiate barcode object, Set the symbology type to code128 and Set the
+		// Code text for the barcode
+		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
 
-        // Save the image
-        bb.save(dataDir + "barcode-image-resolution.jpg");
-        //ExEnd: BarcodeImageResolution
-    }
+		// customized resolution settings
+		bb.getParameters().setResolution(200f);
+
+		// Save the image
+		bb.save(dataDir + "barcode-image-resolution.jpg");
+		// ExEnd: BarcodeImageResolution
+	}
 }

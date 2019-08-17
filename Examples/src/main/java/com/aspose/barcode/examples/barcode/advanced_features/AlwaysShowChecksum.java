@@ -8,16 +8,16 @@ import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class AlwaysShowChecksum {
 	public static void main(String[] args) throws IOException {
-		//ExStart: AlwaysShowChecksum
+		// ExStart: AlwaysShowChecksum
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(Checksum.class) + "Barcode/AdvancedFeatures/";
-    	
-    	BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128,"12345");
-        generator.getParameters().getBarcode().setChecksumAlwaysShow(true);
+		String dataDir = Utils.getDataDir(Checksum.class) + "Barcode/AdvancedFeatures/";
 
-		//Save the Barcode image to file
-        generator.save(dataDir + "checksum.jpg");
-    	//ExEnd: AlwaysShowChecksum
+		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, "12345");
+		generator.getParameters().getBarcode().setChecksumAlwaysShow(true);
+
+		// Save the Barcode image to file
+		generator.save(dataDir + "checksum.jpg");
+		// ExEnd: AlwaysShowChecksum
 	}
 
 }

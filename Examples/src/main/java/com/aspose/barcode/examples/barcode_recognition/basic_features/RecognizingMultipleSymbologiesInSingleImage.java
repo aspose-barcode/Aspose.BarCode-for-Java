@@ -14,12 +14,13 @@ public class RecognizingMultipleSymbologiesInSingleImage {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-		
-		//ExStart: RecognizingMultipleSymbologiesInSingleImage
+
+		// ExStart: RecognizingMultipleSymbologiesInSingleImage
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(RecognizingMultipleSymbologiesInSingleImage.class) + "BarcodeReader/basic_features/";
+		String dataDir = Utils.getDataDir(RecognizingMultipleSymbologiesInSingleImage.class)
+				+ "BarcodeReader/basic_features/";
 		BufferedImage img = ImageIO.read(new File(dataDir + "MultipleBarcodes.png"));
-		
+
 		// Initialize barcode reader
 		BarCodeReader rd = new BarCodeReader(img, DecodeType.ALL_SUPPORTED_TYPES);
 		// Read all types of barcode
@@ -29,6 +30,6 @@ public class RecognizingMultipleSymbologiesInSingleImage {
 			// Print the symbology type
 			System.out.println("CodeText: " + rd.getCodeType());
 		}
-		//ExEnd: RecognizingMultipleSymbologiesInSingleImage
+		// ExEnd: RecognizingMultipleSymbologiesInSingleImage
 	}
 }

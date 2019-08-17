@@ -12,12 +12,12 @@ public class SpecificBarcodeSymbology {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-		
-		//ExStart: SpecificBarcodeSymbology
+
+		// ExStart: SpecificBarcodeSymbology
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SpecificBarcodeSymbology.class) + "BarcodeReader/basic_features/";
+		String dataDir = Utils.getDataDir(SpecificBarcodeSymbology.class) + "BarcodeReader/basic_features/";
 		BufferedImage img = ImageIO.read(new File(dataDir + "CodeText.jpg"));
-		
+
 		// Initialize barcode reader
 		BarCodeReader rd = new BarCodeReader(img, com.aspose.barcode.barcoderecognition.DecodeType.CODE_128);
 		// Read barcode of type Code39Extended
@@ -27,6 +27,6 @@ public class SpecificBarcodeSymbology {
 			// Print the symbology type
 			System.out.println("CodeText: " + rd.getCodeType());
 		}
-		//ExEnd: SpecificBarcodeSymbology
+		// ExEnd: SpecificBarcodeSymbology
 	}
 }

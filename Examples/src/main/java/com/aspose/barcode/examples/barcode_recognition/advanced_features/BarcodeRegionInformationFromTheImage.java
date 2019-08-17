@@ -11,14 +11,16 @@ public class BarcodeRegionInformationFromTheImage {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-		
-		//ExStart: BarcodeRegionInformationFromTheImage
+
+		// ExStart: BarcodeRegionInformationFromTheImage
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(BarcodeRegionInformationFromTheImage.class) + "BarcodeReader/advanced_features/";
+		String dataDir = Utils.getDataDir(BarcodeRegionInformationFromTheImage.class)
+				+ "BarcodeReader/advanced_features/";
 		// Read code39 barcode from image
 		String imageFilePath = dataDir + "code39Extended.jpg";
-		
-		BarCodeReader reader = new BarCodeReader(imageFilePath, com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
+
+		BarCodeReader reader = new BarCodeReader(imageFilePath,
+				com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
 
 		// Try to recognize all possible barcodes in the image
 		while (reader.read()) {
@@ -38,7 +40,7 @@ public class BarcodeRegionInformationFromTheImage {
 
 		// Close the reader
 		reader.close();
-		//ExEnd: BarcodeRegionInformationFromTheImage
+		// ExEnd: BarcodeRegionInformationFromTheImage
 	}
 
 }

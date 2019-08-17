@@ -6,18 +6,19 @@ import com.aspose.barcode.examples.Utils;
 public class LoadingFromAFile {
 
 	public static void main(String[] args) {
-		//ExStart: LoadingFromAFile
+		// ExStart: LoadingFromAFile
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(LoadingFromAFile.class) + "BarcodeReader/loading_images/";
-				
+
 		// Initialize bar code reader
 		BarCodeReader reader = new BarCodeReader(dataDir + "CodeText.jpg");
 
-		//OR
+		// OR
 
 		// Initialize bar code reader
-		BarCodeReader barcodeReader = new BarCodeReader(dataDir + "CodeText.jpg", com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
-		//ExEnd: LoadingFromAFile
+		BarCodeReader barcodeReader = new BarCodeReader(dataDir + "CodeText.jpg",
+				com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
+		// ExEnd: LoadingFromAFile
 	}
 
 }

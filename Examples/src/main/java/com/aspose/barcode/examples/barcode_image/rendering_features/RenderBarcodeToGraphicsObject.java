@@ -14,7 +14,6 @@ import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarcodeGenerator;
 //ExStart: RenderBarcodeToGraphicsObject
 public class RenderBarcodeToGraphicsObject {
-
 	public static void main(String[] args) {
 		// Create frame instance
 		Frame f = new Frame();
@@ -28,13 +27,11 @@ public class RenderBarcodeToGraphicsObject {
 }
 
 class MyBarCode extends java.awt.Canvas {
-	
 	public void paint(Graphics g) {
-		
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(MyBarCode.class) + "BarcodeImage/RenderingFeatures/";
-    	String fileName = dataDir + "barcode.png";
-    	
+		String dataDir = Utils.getDataDir(MyBarCode.class) + "BarcodeImage/RenderingFeatures/";
+		String fileName = dataDir + "barcode.png";
+		
 		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "12345678");
 		try {
 			bb.save(fileName);

@@ -8,16 +8,17 @@ import com.aspose.barcode.generation.BarcodeGenerator;
 public class GenerateAustraliaPostBarcode {
 
 	public static void main(String[] args) throws IOException {
-		//ExStart: GenerateAustraliaPostBarcode
+		// ExStart: GenerateAustraliaPostBarcode
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(GenerateAustraliaPostBarcode.class) + "Barcode/AdvancedFeatures/";
-    	
-		// Create instance of BarCodeBuilder, specify code-text and Symbology in the constructor
-		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.AUSTRALIA_POST,"1234567890");
-		
+		String dataDir = Utils.getDataDir(GenerateAustraliaPostBarcode.class) + "Barcode/AdvancedFeatures/";
+
+		// Create instance of BarCodeBuilder, specify code-text and Symbology in the
+		// constructor
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.AUSTRALIA_POST, "1234567890");
+
 		// Save the image to disk in PNG format
 		generator.save(dataDir + "australiaPostBarcode.png");
-		//ExEnd: GenerateAustraliaPostBarcode
+		// ExEnd: GenerateAustraliaPostBarcode
 	}
 
 }

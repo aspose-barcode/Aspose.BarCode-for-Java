@@ -12,12 +12,14 @@ import com.aspose.barcode.examples.Utils;
 public class SupportedImageFormats {
 
 	public static void main(String[] args) throws Exception {
-		// For complete examples and data files, please go to https://github.com/aspose-barcode/Aspose.BarCode-for-Java
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-barcode/Aspose.BarCode-for-Java
 		ApplyALicense.applyALicense();
 
-		//ExStart: SupportedImageFormats
+		// ExStart: SupportedImageFormats
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(RecognizingMultipleSymbologiesInSingleImage.class) + "BarcodeReader/basic_features/";
+		String dataDir = Utils.getDataDir(RecognizingMultipleSymbologiesInSingleImage.class)
+				+ "BarcodeReader/basic_features/";
 		BufferedImage img = ImageIO.read(new File(dataDir + "MultipleBarcodes.png"));
 
 		// Initialize barcode reader
@@ -26,7 +28,7 @@ public class SupportedImageFormats {
 			// Print the code text, if barcode found
 			System.out.println("CodeText: " + rd.getCodeText().toString());
 		}
-		//ExEnd: SupportedImageFormats
+		// ExEnd: SupportedImageFormats
 	}
 
 }

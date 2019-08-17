@@ -13,19 +13,19 @@ import javax.imageio.ImageIO;
 
 public class ImplementInterpolationAutoSizemode {
 
-    public static void main(String[] args) throws IOException {
-        String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
+	public static void main(String[] args) throws IOException {
+		String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
 
-        //ExStart: ImplementInterpolationAutoSizemode
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.DATA_MATRIX);
-        generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.INTERPOLATION);
-        generator.getParameters().getBarcode().getBarCodeWidth().setMillimeters(50);
-        generator.getParameters().getBarcode().getBarCodeHeight().setInches(1.3f);
+		// ExStart: ImplementInterpolationAutoSizemode
+		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.DATA_MATRIX);
+		generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.INTERPOLATION);
+		generator.getParameters().getBarcode().getBarCodeWidth().setMillimeters(50);
+		generator.getParameters().getBarcode().getBarCodeHeight().setInches(1.3f);
 
-        BufferedImage bitmap = generator.generateBarCodeImage();
-        File imageFile = new File(dataDir + "DataMatrix.png");
-        ImageIO.write(bitmap, "png", imageFile);
-        //ExEnd: ImplementInterpolationAutoSizemode
-    }
+		BufferedImage bitmap = generator.generateBarCodeImage();
+		File imageFile = new File(dataDir + "DataMatrix.png");
+		ImageIO.write(bitmap, "png", imageFile);
+		// ExEnd: ImplementInterpolationAutoSizemode
+	}
 
 }

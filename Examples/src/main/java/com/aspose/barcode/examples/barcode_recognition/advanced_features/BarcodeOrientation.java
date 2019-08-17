@@ -8,23 +8,24 @@ public class BarcodeOrientation {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-		//ExStart: BarcodeOrientation
+		// ExStart: BarcodeOrientation
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(BarcodeOrientation.class) + "BarcodeReader/advanced_features/";
-    	
+		String dataDir = Utils.getDataDir(BarcodeOrientation.class) + "BarcodeReader/advanced_features/";
+
 		// Read code39 barcode from image
 		String image = dataDir + "code39Extended.jpg";
-		BarCodeReader reader = new BarCodeReader(image, com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
+		BarCodeReader reader = new BarCodeReader(image,
+				com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
 
-		//Barcode orientation is detected automatically
-		
+		// Barcode orientation is detected automatically
+
 		// Try to recognize all possible barcodes in the image
 		while (reader.read()) {
 			System.err.println("Codetext: " + reader.getCodeText());
 		}
 		// Close reader
 		reader.close();
-		//ExEnd: BarcodeOrientation
+		// ExEnd: BarcodeOrientation
 	}
 
 }

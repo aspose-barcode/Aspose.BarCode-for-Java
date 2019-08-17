@@ -14,12 +14,12 @@ public class GroupingPropertiesByBarcodeType {
 		// TODO Auto-generated method stub
 		String dataDir = Utils.getDataDir(GroupingPropertiesByBarcodeType.class) + "GenerateBarcode/";
 
-		//ExStart: GroupingPropertiesByBarcodeType
+		// ExStart: GroupingPropertiesByBarcodeType
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
-	    generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_18);
-	    generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
-	    generator.save(dataDir + "GroupingPropertiesByBarcodeType_out.png");
-		//ExEnd: GroupingPropertiesByBarcodeType
+		generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_18);
+		generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+		generator.save(dataDir + "GroupingPropertiesByBarcodeType_out.png");
+		// ExEnd: GroupingPropertiesByBarcodeType
 	}
 
 }

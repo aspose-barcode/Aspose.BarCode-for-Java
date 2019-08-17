@@ -8,13 +8,15 @@ public class GetBarCodeRecognitionQualityInPercent {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-		
-		//ExStart: GetBarCodeRecognitionQualityInPercent
+
+		// ExStart: GetBarCodeRecognitionQualityInPercent
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(GetBarCodeRecognitionQualityInPercent.class) + "BarcodeReader/advanced_features/";
-    	
+		String dataDir = Utils.getDataDir(GetBarCodeRecognitionQualityInPercent.class)
+				+ "BarcodeReader/advanced_features/";
+
 		// Initialize the BarCodeReader object
-		BarCodeReader reader = new BarCodeReader(dataDir + "code39Extended.jpg", com.aspose.barcode.barcoderecognition.DecodeType.ALL_SUPPORTED_TYPES);
+		BarCodeReader reader = new BarCodeReader(dataDir + "code39Extended.jpg",
+				com.aspose.barcode.barcoderecognition.DecodeType.ALL_SUPPORTED_TYPES);
 
 		// Call read method
 		while (reader.read()) {
@@ -23,7 +25,7 @@ public class GetBarCodeRecognitionQualityInPercent {
 			System.out.println("Percent: " + percent);
 		}
 		reader.close();
-		//ExEnd: GetBarCodeRecognitionQualityInPercent
+		// ExEnd: GetBarCodeRecognitionQualityInPercent
 	}
 
 }

@@ -15,17 +15,17 @@ import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class RotateBarcodeImage {
     public static void main(String[] args) throws IOException {
-    	//ExStart: RotateBarcodeImage
-    	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(RotateBarcodeImage.class) + "BarcodeImage/BasicFeatures/";
-
-    	BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_EXTENDED,"1234567");
-
-        //Rotate clockwise for 180 degree (upside down)
-        bb.getParameters().setRotationAngle(180);
-
-        // Save the image
-        bb.save(dataDir + "barcode-image-rotate.jpg");
-        //ExEnd: RotateBarcodeImage
+		//ExStart: RotateBarcodeImage
+		// The path to the resource directory.
+		String dataDir = Utils.getDataDir(RotateBarcodeImage.class) + "BarcodeImage/BasicFeatures/";
+		
+		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_EXTENDED,"1234567");
+		
+		//Rotate clockwise for 180 degree (upside down)
+		bb.getParameters().setRotationAngle(180);
+		
+		// Save the image
+		bb.save(dataDir + "barcode-image-rotate.jpg");
+		//ExEnd: RotateBarcodeImage
     }
 }

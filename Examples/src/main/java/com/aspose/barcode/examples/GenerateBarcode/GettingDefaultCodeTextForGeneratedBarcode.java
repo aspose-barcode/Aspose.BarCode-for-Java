@@ -10,15 +10,15 @@ public class GettingDefaultCodeTextForGeneratedBarcode {
 		// TODO Auto-generated method stub
 
 		String dataDir = Utils.getDataDir(GettingDefaultCodeTextForGeneratedBarcode.class) + "GenerateBarcode/";
-		//ExStart: GettingDefaultCodeTextForGeneratedBarcode
+		// ExStart: GettingDefaultCodeTextForGeneratedBarcode
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.AUSTRALIAN_POSTE_PARCEL);
-		    
-		String codetext = generator.getCodeText(); //99712345678901234567890103456
+
+		String codetext = generator.getCodeText(); // 99712345678901234567890103456
 
 		generator = new BarcodeGenerator(EncodeTypes.EAN_13);
-		     
-		codetext = generator.getCodeText(); //590123412345
-		//ExEnd: GettingDefaultCodeTextForGeneratedBarcode
+
+		codetext = generator.getCodeText(); // 590123412345
+		// ExEnd: GettingDefaultCodeTextForGeneratedBarcode
 	}
 
 }

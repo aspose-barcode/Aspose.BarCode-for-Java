@@ -16,20 +16,20 @@ public class CreatingAnAztecBarcode {
 	}
 
 	public static void createAnAztecBarcode(String dataDir) throws IOException {
-		//ExStart: createAnAztecBarcode
+		// ExStart: createAnAztecBarcode
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.AZTEC, "1234567890");
-		
+
 		generator.save(dataDir + "aztec.bmp", BarCodeImageFormat.BMP);
-		//ExEnd: createAnAztecBarcode
+		// ExEnd: createAnAztecBarcode
 	}
-	
+
 	public static void errorCorrection(String dataDir) throws IOException {
-		//ExStart: errorCorrection
+		// ExStart: errorCorrection
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.AZTEC, "1234567890");
 		generator.getParameters().getBarcode().getAztec().setAztecErrorLevel(50);
 
 		generator.save(dataDir + "error_correction_aztec.bmp", BarCodeImageFormat.BMP);
-		//ExEnd: errorCorrection
+		// ExEnd: errorCorrection
 	}
 
 }

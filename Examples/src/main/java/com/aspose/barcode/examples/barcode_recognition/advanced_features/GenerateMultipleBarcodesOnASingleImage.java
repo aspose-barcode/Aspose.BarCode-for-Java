@@ -19,10 +19,11 @@ public class GenerateMultipleBarcodesOnASingleImage {
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
 
-		//ExStart: GenerateMultipleBarcodesOnASingleImage
+		// ExStart: GenerateMultipleBarcodesOnASingleImage
 		// The path to the resource directory.
-		String dataDir = Utils.getDataDir(GenerateMultipleBarcodesOnASingleImage.class) + "BarcodeReader/advanced_features/";
-		
+		String dataDir = Utils.getDataDir(GenerateMultipleBarcodesOnASingleImage.class)
+				+ "BarcodeReader/advanced_features/";
+
 		HashMap collection = new HashMap();
 		collection.put("ONE123", com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
 		collection.put("Process Collection", com.aspose.barcode.EncodeTypes.DATA_MATRIX);
@@ -33,38 +34,37 @@ public class GenerateMultipleBarcodesOnASingleImage {
 
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (Object key : collection.keySet()) {
-		    BarcodeGenerator bb = new BarcodeGenerator((BaseEncodeType) collection.get(key));
-		    bb.setCodeText((String) key);
-		    //bb.setSymbologyType((Long) collection.get(key));
-		    images.add(bb.generateBarCodeImage());
+			BarcodeGenerator bb = new BarcodeGenerator((BaseEncodeType) collection.get(key));
+			bb.setCodeText((String) key);
+			// bb.setSymbologyType((Long) collection.get(key));
+			images.add(bb.generateBarCodeImage());
 		}
 
 		int maxWidth = 0;
 		int sumHeight = 0;
-		for (BufferedImage bmp : images)
-		{
-		    sumHeight += bmp.getHeight();
-		    if (maxWidth < bmp.getWidth())
-		        maxWidth = bmp.getWidth();
+		for (BufferedImage bmp : images) {
+			sumHeight += bmp.getHeight();
+			if (maxWidth < bmp.getWidth())
+				maxWidth = bmp.getWidth();
 		}
 		int offset = 10;
-		BufferedImage resultBitmap = new BufferedImage(maxWidth + offset * 2, sumHeight + offset * images.size(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage resultBitmap = new BufferedImage(maxWidth + offset * 2, sumHeight + offset * images.size(),
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics g = resultBitmap.getGraphics();
 		g.setColor(Color.white);
-		//g.drawRect(0, 0, width, height);
+		// g.drawRect(0, 0, width, height);
 		g.fillRect(0, 0, resultBitmap.getWidth(), resultBitmap.getHeight());
 
 		int yPosition = offset;
-		for (int i = 0; i < images.size(); ++i)
-		{
-		    BufferedImage currentBitmap = images.get(i);
-		    g.drawImage(currentBitmap, offset, yPosition, null);
-		    yPosition += currentBitmap.getHeight() + offset;
+		for (int i = 0; i < images.size(); ++i) {
+			BufferedImage currentBitmap = images.get(i);
+			g.drawImage(currentBitmap, offset, yPosition, null);
+			yPosition += currentBitmap.getHeight() + offset;
 		}
 
 		File outputfile = new File(dataDir + "output.png");
 		ImageIO.write(resultBitmap, "png", outputfile);
-		//ExEnd: GenerateMultipleBarcodesOnASingleImage
+		// ExEnd: GenerateMultipleBarcodesOnASingleImage
 	}
 
 }

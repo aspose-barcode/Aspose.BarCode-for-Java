@@ -3,17 +3,15 @@ package com.aspose.barcode.examples.barcode_recognition;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 
-public class ReadType1DBarcode
-{
+public class ReadType1DBarcode {
 	public static void main(String[] args) throws Exception {
-		//ExStart: ReadType1DBarcode
+		// ExStart: ReadType1DBarcode
 		BarCodeReader reader = new BarCodeReader("test.png", DecodeType.TYPES_1D);
-		while (reader.read())
-		{
+		while (reader.read()) {
 			String codeType = reader.getCodeType().toString();
 			String codeText = reader.getCodeText();
 			System.out.println(codeType + ", " + codeText);
 		}
-		//ExEnd: ReadType1DBarcode
+		// ExEnd: ReadType1DBarcode
 	}
 }

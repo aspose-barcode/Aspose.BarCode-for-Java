@@ -15,14 +15,15 @@ import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class SpecifySymbology {
 	public static void main(String[] args) throws IOException {
-		//ExStart: SpecifySymbology
+		// ExStart: SpecifySymbology
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(SpecifySymbology.class) + "Barcode/BasicFeatures/";
-				
-		// Create instance of BarcodeGenerator, specify codetext and symbology in the constructor
-    	BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD, "Test-123");
-		
-    	generator.save(dataDir + "Code39Standard.jpg");
-    	//ExEnd: SpecifySymbology
+
+		// Create instance of BarcodeGenerator, specify codetext and symbology in the
+		// constructor
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD, "Test-123");
+
+		generator.save(dataDir + "Code39Standard.jpg");
+		// ExEnd: SpecifySymbology
 	}
 }

@@ -8,26 +8,26 @@ import java.io.IOException;
 
 public class ColorizeBarcodeImage {
     public static void main(String[] args) throws IOException {
-    	//ExStart: ColorizeBarcodeImage
-    	// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(ColorizeBarcodeImage.class) + "BarcodeImage/BasicFeatures/";
-
-        BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128,"1234567");
-
-        //Set background color of the barcode
-        bb.getParameters().setBackColor(Color.YELLOW);
-        
-        //Set the foreground color of the barcode
-        bb.getParameters().getBarcode().setForeColor(Color.BLUE);
-        
-        //Set border's color
-        bb.getParameters().getBorder().setColor(Color.RED);
-        
-        //Set the code text's color
-        bb.getParameters().getBarcode().getCodeTextParameters().setColor(Color.RED);
-        
-        // Save the image
-        bb.save(dataDir + "colorizeBarcode.png");
-        //ExEnd: ColorizeBarcodeImage
+		//ExStart: ColorizeBarcodeImage
+		// The path to the resource directory.
+		String dataDir = Utils.getDataDir(ColorizeBarcodeImage.class) + "BarcodeImage/BasicFeatures/";
+		
+		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128,"1234567");
+		
+		//Set background color of the barcode
+		bb.getParameters().setBackColor(Color.YELLOW);
+		
+		//Set the foreground color of the barcode
+		bb.getParameters().getBarcode().setForeColor(Color.BLUE);
+		
+		//Set border's color
+		bb.getParameters().getBorder().setColor(Color.RED);
+		
+		//Set the code text's color
+		bb.getParameters().getBarcode().getCodeTextParameters().setColor(Color.RED);
+		
+		// Save the image
+		bb.save(dataDir + "colorizeBarcode.png");
+		//ExEnd: ColorizeBarcodeImage
     }
 }

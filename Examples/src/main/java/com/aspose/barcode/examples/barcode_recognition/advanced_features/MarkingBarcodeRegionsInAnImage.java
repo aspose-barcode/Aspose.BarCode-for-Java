@@ -18,13 +18,14 @@ public class MarkingBarcodeRegionsInAnImage {
 
 	public static void main(String[] args) throws Exception {
 		ApplyALicense.applyALicense();
-		
-		//ExStart: MarkingBarcodeRegionsInAnImage
+
+		// ExStart: MarkingBarcodeRegionsInAnImage
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(MarkingBarcodeRegionsInAnImage.class) + "BarcodeReader/advanced_features/";
-		
+		String dataDir = Utils.getDataDir(MarkingBarcodeRegionsInAnImage.class) + "BarcodeReader/advanced_features/";
+
 		// Create an instance of BarCodeReader class and specify the image and symbology
-		BarCodeReader reader = new BarCodeReader(dataDir + "Code39Std.png", com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
+		BarCodeReader reader = new BarCodeReader(dataDir + "Code39Std.png",
+				com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_STANDARD);
 
 		// Read all the barcodes from the images
 		while (reader.read()) {
@@ -49,7 +50,7 @@ public class MarkingBarcodeRegionsInAnImage {
 			}
 		}
 		reader.close();
-		//ExEnd: MarkingBarcodeRegionsInAnImage
+		// ExEnd: MarkingBarcodeRegionsInAnImage
 	}
 
 }

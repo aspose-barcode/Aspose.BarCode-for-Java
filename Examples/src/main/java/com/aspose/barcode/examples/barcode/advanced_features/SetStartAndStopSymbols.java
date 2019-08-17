@@ -9,11 +9,12 @@ import com.aspose.barcode.generation.BarcodeGenerator;
 public class SetStartAndStopSymbols {
 
 	public static void main(String[] args) throws IOException {
-		//ExStart: SetStartAndStopSymbols
+		// ExStart: SetStartAndStopSymbols
 		// The path to the resource directory.
-    	String dataDir = Utils.getDataDir(SetStartAndStopSymbols.class) + "Barcode/AdvancedFeatures/";
-    	
-		// Create instance of BarcodeGenerator, specify codetext and symbology in the constructor
+		String dataDir = Utils.getDataDir(SetStartAndStopSymbols.class) + "Barcode/AdvancedFeatures/";
+
+		// Create instance of BarcodeGenerator, specify codetext and symbology in the
+		// constructor
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODABAR, "12345678");
 
 		// Set the Codabar start symbol to A
@@ -24,6 +25,6 @@ public class SetStartAndStopSymbols {
 
 		// Save the image to disk in PNG format
 		generator.save(dataDir + "startAndStopSymbols.png");
-		//ExEnd: SetStartAndStopSymbols
+		// ExEnd: SetStartAndStopSymbols
 	}
 }
