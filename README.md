@@ -18,7 +18,7 @@ Directory | Description
 
 ## How to Run Examples
 <ul>
-	<li>You can either clone the repository using your favourite GitHub client or download the ZIP file from <a title="Download complete Aspose.Note for Java source code" href="https://github.com/asposebarcode/Aspose_BarCode_Java/archive/master.zip">here</a>.</li>
+	<li>You can either clone the repository using your favourite GitHub client or download the ZIP file from <a title="Download complete Aspose.BarCode for Java source code" href="https://github.com/asposebarcode/Aspose_BarCode_Java/archive/master.zip">here</a>.</li>
 	<li>Extract the contents of the ZIP file to any folder on your computer. All the examples are located in the Examples folder.</li>
 	<li>You can run/execute these examples with any IDE of your choice.</li>
 	<li>Open the project in your selected IDE.
