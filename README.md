@@ -16,6 +16,19 @@ Directory | Description
 [Examples](Examples)  | A collection of Java examples that help you learn the product features
 [Plugins](Plugins) | Plugins that will demonstrate one or more features of Aspose.BarCode for Java
 
+## How to Run Examples
+<ul>
+	<li>You can either clone the repository using your favourite GitHub client or download the ZIP file from <a title="Download complete Aspose.BarCode for Java source code" href="https://github.com/asposebarcode/Aspose_BarCode_Java/archive/master.zip">here</a>.</li>
+	<li>Extract the contents of the ZIP file to any folder on your computer. All the examples are located in the Examples folder.</li>
+	<li>You can run/execute these examples with any IDE of your choice.</li>
+	<li>Open the project in your selected IDE.
+</li>
+	<li>Open the example file that you want to run.</li>
+	<li>Run the file in your IDE (method may vary depending on the IDE you use).
+</li>
+	<li>The resources folder in the Examples/src folder contains input files used in the examples. It is mandatory that you download this folder along with the examples project.</li>
+</ul>
+<p>Please find more details on how to run the examples <a title="How to Run the Examples" href="https://docs.aspose.com/display/barcodejava/How+to+Run+the+Examples">here</a>.</p>
 
 ## Resources
 
