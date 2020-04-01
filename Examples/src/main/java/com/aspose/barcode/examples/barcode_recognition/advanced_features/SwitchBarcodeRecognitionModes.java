@@ -1,6 +1,7 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.QualitySettings;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
@@ -23,13 +24,10 @@ public class SwitchBarcodeRecognitionModes {
 		reader.setQualitySettings(QualitySettings.getHighPerformance());
 
 		// Try to recognize the barcode from the image
-		while (reader.read()) {
-			// Display the CodeText
-			System.out.println("Codetext: " + reader.getCodeText());
+		for (BarCodeResult result : reader.readBarCodes()) {
+			System.out.println("CodeText: " + result.getCodeText());
+			System.out.println("Symbology type: " + result.getCodeType());
 		}
-
-		// Close the reader
-		reader.close();
 		// ExEnd: SwitchBarcodeRecognitionModes
 	}
 

@@ -1,20 +1,22 @@
 package com.aspose.barcode.examples.technical_articles;
 
+import com.aspose.barcode.barcoderecognition.BarCodeRegionParameters;
+
 // ExStart: FoundBarCodes
 public class FoundBarCodes {
 	String CodeText;
-	com.aspose.barcode.barcoderecognition.BarCodeRegion BarCodeRegion;
+	BarCodeRegionParameters BarCodeRegion;
 
-	public FoundBarCodes(String cText, com.aspose.barcode.barcoderecognition.BarCodeRegion region) {
+	public FoundBarCodes(String cText, BarCodeRegionParameters barCodeRegionParameters) {
 		this.CodeText = cText;
-		this.BarCodeRegion = region;
+		this.BarCodeRegion = barCodeRegionParameters;
 	}
 
 	public String getCodeText() {
 		return CodeText;
 	}
 
-	public com.aspose.barcode.barcoderecognition.BarCodeRegion getRegion() {
+	public com.aspose.barcode.barcoderecognition.BarCodeRegionParameters getRegion() {
 		return BarCodeRegion;
 	}
 }

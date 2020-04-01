@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarcodeGenerator;
@@ -50,8 +51,9 @@ public class RecognitionFromWord {
 					// Toolkit.getDefaultToolkit().getImage(strBarCodeImageExtracted);
 
 					BarCodeReader reader = new BarCodeReader(strBarCodeImageSave, DecodeType.CODE_39_STANDARD);
-					while (reader.read()) {
-						System.out.println("codetext: " + reader.getCodeText());
+					for (BarCodeResult result : reader.readBarCodes()) {
+						System.out.println("CodeText: " + result.getCodeText());
+						System.out.println("Symbology type: " + result.getCodeType());
 					}
 					imageIndex++;
 				}

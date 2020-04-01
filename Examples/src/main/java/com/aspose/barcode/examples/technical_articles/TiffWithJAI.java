@@ -1,8 +1,9 @@
 package com.aspose.barcode.examples.technical_articles;
 
-//ExStart: TiffWithJAI
+
 import com.aspose.barcode.*;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 import com.sun.media.jai.codec.ImageCodec;
@@ -25,6 +26,8 @@ public class TiffWithJAI {
 
 	public static void main(String[] args) throws Exception {
 		String dataDir = Utils.getDataDir(TiffWithJAI.class) + "TechnicalArticles/";
+		
+		//ExStart: TiffWithJAI
 		String fileName = dataDir + "multi_page.tiff";
 		Iterator readers = javax.imageio.ImageIO.getImageReadersBySuffix("tiff");
 		if (readers.hasNext()) {
@@ -32,23 +35,28 @@ public class TiffWithJAI {
 			ImageInputStream iis = javax.imageio.ImageIO.createImageInputStream(fi);
 			TIFFDecodeParam param = null;
 			ImageDecoder dec = ImageCodec.createImageDecoder("tiff", fi, param);
+
 			// Get the page count of the TIFF image
 			int pageCount = dec.getNumPages();
+
 			ImageReader _imageReader = (ImageReader) (readers.next());
 			if (_imageReader != null) {
+
 				_imageReader.setInput(iis, true);
+
 				// Feed each page to the BarCodeReader
 				for (int i = 0; i < pageCount; i++) {
 					BufferedImage _bufferedImage = _imageReader.read(i);
 					BarCodeReader reader = new BarCodeReader(_bufferedImage, DecodeType.DATA_MATRIX);
+
 					// Read the barcodes in a single page
-					while (reader.read()) {
-						System.out.println(reader.getCodeText());
+					for (BarCodeResult result : reader.readBarCodes()) {
+						System.out.println(result.getCodeText());
 					}
 				}
 
 			}
 		}
+		//ExEnd: TiffWithJAI
 	}
 }
-//ExEnd: TiffWithJAI

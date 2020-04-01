@@ -11,7 +11,7 @@ public class ApplyALicense {
 
 		// Apply a license to avoid the evaluation WaterMark in the BarCode image. 
 		License license = new License();
-		license.setLicense(dataDir + "Aspose.Total.Java.lic");
+		license.setLicense("D:\\Aspose\\Licenses\\Aspose.Total.Product.Family.lic");
 		//ExEnd: ApplyALicense
 	}
 }

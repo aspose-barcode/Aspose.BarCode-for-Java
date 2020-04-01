@@ -5,7 +5,9 @@ import java.io.IOException;
 import com.aspose.barcode.CodabarChecksumMode;
 import com.aspose.barcode.EnableChecksum;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.ChecksumValidation;
+import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarcodeGenerator;
 
@@ -32,20 +34,17 @@ public class ApplyingChecksumForCodaBar {
 
 		// Recognition
 		// Initialize reader object
-		BarCodeReader reader = new BarCodeReader(dataDir + "Codabar_Mod10.png",
-				com.aspose.barcode.barcoderecognition.DecodeType.CODABAR);
+		BarCodeReader reader = new BarCodeReader(dataDir + "Codabar_Mod10.png", DecodeType.CODABAR);
 
 		// Set ChecksumValidation property of the reader to On
 		reader.setChecksumValidation(ChecksumValidation.ON);
-		while (reader.read()) {
-			// Get code text
-			System.out.println(" codetext: " + reader.getCodeText());
 
-			// Get type of barcode
-			System.out.println(" type: " + reader.getCodeType());
+		for (BarCodeResult result : reader.readBarCodes()) {
+			System.out.println("CodeText: " + result.getCodeText());
+			System.out.println("Symbology type: " + result.getCodeType());
 
 			// Get checksum value
-			System.out.println(" Checksum: " + reader.getCheckSum());
+			System.out.println("Checksum:" + result.getExtended().getOneD().getCheckSum());
 		}
 		// ExEnd: ApplyingChecksumForCodaBar
 	}

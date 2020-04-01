@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 
@@ -19,10 +20,12 @@ public class ReadAndSortBarcodesInSpecificOrder {
 		List<FoundBarCodes> found = new ArrayList<FoundBarCodes>();
 
 		BarCodeReader reader = new BarCodeReader(path, DecodeType.CODE_128);
-
-		while (reader.read())
-			found.add(new FoundBarCodes(reader.getCodeText(), reader.getRegion()));
-
+		
+		for (BarCodeResult result : reader.readBarCodes())
+		{
+			found.add(new FoundBarCodes(result.getCodeText(), result.getRegion()));
+		}
+		
 		Comparator<FoundBarCodes> foundComparator = new Comparator<FoundBarCodes>() {
 			@Override
 			public int compare(FoundBarCodes e1, FoundBarCodes e2) {

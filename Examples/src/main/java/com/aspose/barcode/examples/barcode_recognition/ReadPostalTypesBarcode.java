@@ -8,10 +8,11 @@ public class ReadPostalTypesBarcode {
 	public static void main(String[] args) throws Exception {
 		// ExStart: ReadPostalTypesBarcode
 		BarCodeReader reader = new BarCodeReader("test.png", DecodeType.POSTAL_TYPES);
-		while (reader.read()) {
-			String codeType = reader.getCodeType().toString();
-			String codeText = reader.getCodeText();
-			System.out.println(codeType + ", " + codeText);
+
+		reader.readBarCodes();
+		for (int i = 0; reader.getFoundCount() > i; ++i) {
+			System.out.println("BarCode CodeText: " + reader.getFoundBarCodes()[i].getCodeText());
+			System.out.println("BarCode CodeType: " + reader.getFoundBarCodes()[i].getCodeTypeName());
 		}
 		// ExEnd: ReadPostalTypesBarcode
 	}

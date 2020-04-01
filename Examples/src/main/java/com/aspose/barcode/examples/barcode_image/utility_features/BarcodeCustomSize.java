@@ -19,13 +19,13 @@ public class BarcodeCustomSize {
 				"1234567890");
 
 		// Set auto size false
-		generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.NEAREST);
+		generator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
 
 		// Set height
-		generator.getParameters().getBarcode().getBarCodeHeight().setMillimeters(50);
+		generator.getParameters().getImageHeight().setMillimeters(50);
 
 		// Set width
-		generator.getParameters().getBarcode().getBarCodeWidth().setMillimeters(120);
+		generator.getParameters().getImageWidth().setMillimeters(120);
 
 		// Save the image
 		generator.save(dataDir + "barcode-custom-size.jpg");

@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 
@@ -14,16 +15,15 @@ public class RecognizePdf417BarcodeWithTurkishCharacters {
 		// ExStart: RecognizePdf417BarcodeWithTurkishCharacters
 		String dataDir = Utils.getDataDir(RecognizePdf417BarcodeWithTurkishCharacters.class) + "TechnicalArticles/";
 		// Load barcode image
-		BarCodeReader reader = new BarCodeReader(dataDir + "c:\\temp\\barcode.png", DecodeType.PDF_417);
+		BarCodeReader reader = new BarCodeReader(dataDir + "barcode.png", DecodeType.PDF_417);
 
 		// Read barcode
-		while (reader.read()) {
+		for (BarCodeResult result : reader.readBarCodes()) {
 			// Get byte array and decode
-			byte[] bytes = reader.getCodeBytes();
+			byte[] bytes = result.getCodeBytes();
 			ByteBuffer bytebuf = ByteBuffer.wrap(bytes);
 			System.out.println(Charset.forName("windows-1254").decode(bytebuf).toString());
 		}
-		reader.close();
 		// ExEnd: RecognizePdf417BarcodeWithTurkishCharacters
 	}
 

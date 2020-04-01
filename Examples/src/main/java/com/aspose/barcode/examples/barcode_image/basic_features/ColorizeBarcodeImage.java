@@ -18,7 +18,7 @@ public class ColorizeBarcodeImage {
 		bb.getParameters().setBackColor(Color.YELLOW);
 		
 		//Set the foreground color of the barcode
-		bb.getParameters().getBarcode().setForeColor(Color.BLUE);
+		bb.getParameters().getBarcode().setBarColor(Color.BLUE);
 		
 		//Set border's color
 		bb.getParameters().getBorder().setColor(Color.RED);

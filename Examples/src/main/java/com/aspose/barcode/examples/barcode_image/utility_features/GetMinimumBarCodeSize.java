@@ -16,11 +16,11 @@ public class GetMinimumBarCodeSize {
 		// Code text for the barcode
 		BarcodeGenerator bb = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.CODE_128, "1234567");
 
-		bb.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.NONE);
+		bb.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
 
 		// Set image height & width to minimum
-		bb.getParameters().getBarcode().getBarCodeWidth().setMillimeters(1);
-		bb.getParameters().getBarcode().getBarCodeHeight().setMillimeters(1);
+		bb.getParameters().getImageWidth().setMillimeters(1);
+		bb.getParameters().getImageHeight().setMillimeters(1);
 
 		// Save the barcode image
 		javax.imageio.ImageIO.write(bb.generateBarCodeImage(), "PNG", new java.io.File(dataDir + "minimumresult.png"));

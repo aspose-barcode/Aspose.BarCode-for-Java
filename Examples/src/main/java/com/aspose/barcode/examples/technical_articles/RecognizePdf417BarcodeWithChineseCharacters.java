@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 
@@ -17,13 +18,12 @@ public class RecognizePdf417BarcodeWithChineseCharacters {
 		BarCodeReader reader = new BarCodeReader(dataDir + "barcode.png", DecodeType.PDF_417);
 
 		// Read barcode
-		while (reader.read()) {
+		for (BarCodeResult result : reader.readBarCodes()) {
 			// Get byte array and decode
-			byte[] bytes = reader.getCodeBytes();
+			byte[] bytes = result.getCodeBytes();
 			ByteBuffer bytebuf = ByteBuffer.wrap(bytes);
 			System.out.println(Charset.forName("MS936").decode(bytebuf).toString());
 		}
-		reader.close();
 		// ExEnd: RecognizePdf417BarcodeWithChineseCharacters
 	}
 

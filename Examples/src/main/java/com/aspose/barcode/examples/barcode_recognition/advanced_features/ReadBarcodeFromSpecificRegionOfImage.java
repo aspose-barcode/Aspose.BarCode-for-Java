@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
+import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
@@ -27,17 +29,13 @@ public class ReadBarcodeFromSpecificRegionOfImage {
 
 		// Create an instance of BarCodeReader class
 		// and specify an area to look for the barcode
-		BarCodeReader reader = new BarCodeReader(img, new Rectangle(0, 0, 100, 50),
-				com.aspose.barcode.barcoderecognition.DecodeType.PDF_417);
+		BarCodeReader reader = new BarCodeReader(img, new Rectangle(0, 0, 100, 50), DecodeType.PDF_417);
 
 		// Read all barcodes in the provided area
-		while (reader.read()) {
+		for (BarCodeResult result : reader.readBarCodes()) {
 			// Display the codetext and symbology type of the barcode found
-			System.out.println("Codetext: " + reader.getCodeText() + " Symbology: " + reader.getCodeType());
+			System.out.println("Codetext: " + result.getCodeText() + " Symbology: " + result.getCodeType());
 		}
-
-		// Close the reader
-		reader.close();
 		// ExEnd: ReadBarcodeFromSpecificRegionOfImage
 	}
 

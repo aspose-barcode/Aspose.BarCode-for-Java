@@ -1,6 +1,7 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
@@ -19,12 +20,11 @@ public class GetBarCodeRecognitionQualityInPercent {
 				com.aspose.barcode.barcoderecognition.DecodeType.ALL_SUPPORTED_TYPES);
 
 		// Call read method
-		while (reader.read()) {
-			System.out.println(reader.getCodeText() + " Type: " + reader.getCodeType());
-			float percent = reader.getRecognitionQuality();
+		for (BarCodeResult result : reader.readBarCodes()) {
+			System.out.println(result.getCodeText() + " Type: " + result.getCodeType());
+			double percent = result.getReadingQuality();
 			System.out.println("Percent: " + percent);
 		}
-		reader.close();
 		// ExEnd: GetBarCodeRecognitionQualityInPercent
 	}
 

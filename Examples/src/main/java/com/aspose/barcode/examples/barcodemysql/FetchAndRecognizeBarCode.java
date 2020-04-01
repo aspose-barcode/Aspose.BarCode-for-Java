@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 
 // This class will select the records from MySQL DB
@@ -58,8 +59,9 @@ public class FetchAndRecognizeBarCode {
 				// Now that we have got the image from the database
 				// read the barcode from the image
 				BarCodeReader reader = new BarCodeReader(strBarCodeImage, DecodeType.CODE_39_STANDARD);
-				while (reader.read()) {
-					System.out.println("BarCode found: Code Text: " + reader.getCodeText());
+				for (BarCodeResult result : reader.readBarCodes()) {
+					System.out.println("CodeText: " + result.getCodeText());
+					System.out.println("Symbology type: " + result.getCodeType());
 				}
 
 				nCount++;

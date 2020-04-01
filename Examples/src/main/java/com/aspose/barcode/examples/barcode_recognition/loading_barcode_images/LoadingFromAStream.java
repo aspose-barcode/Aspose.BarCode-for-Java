@@ -9,6 +9,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 
 public class LoadingFromAStream {
@@ -34,8 +35,7 @@ public class LoadingFromAStream {
 
 		// Create an instance of BarCodeReader class
 		// and pass InputStream object and bar code symbology type as parameters
-		BarCodeReader reader1 = new BarCodeReader(stream,
-				com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
+		BarCodeReader reader1 = new BarCodeReader(stream, DecodeType.CODE_39_EXTENDED);
 
 		// OR
 
@@ -56,17 +56,17 @@ public class LoadingFromAStream {
 		// Create an instance of BarCodeReader class
 		// and pass image object, Rectangle object and bar code symbology type as
 		// parameters
-		BarCodeReader reader2 = new BarCodeReader(img3, new Rectangle(0, 0, 100, 50),
-				com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
+		BarCodeReader reader2 = new BarCodeReader(img3, new Rectangle(0, 0, 100, 50), DecodeType.CODE_39_EXTENDED);
 
 		// OR
 
 		// Load the image. Read only access is enough for Aspose.BarCode to load an
 		// image.
 		BufferedImage img4 = ImageIO.read(new File(dataDir + "CodeText.jpg"));
+		
 		// Create an instance of BarCodeReader class
 		// and pass BufferedImage object and bar code symbology type as parameters
-		BarCodeReader reader4 = new BarCodeReader(img4, com.aspose.barcode.barcoderecognition.DecodeType.PDF_417);
+		BarCodeReader reader4 = new BarCodeReader(img4, DecodeType.PDF_417);
 
 		// OR
 
@@ -77,8 +77,7 @@ public class LoadingFromAStream {
 		// Create an instance of BarCodeReader class
 		// and pass BufferedImage object, Rectangle object and bar code symbology type
 		// as parameters
-		BarCodeReader reader5 = new BarCodeReader(img5, new Rectangle(0, 0, 100, 50),
-				com.aspose.barcode.barcoderecognition.DecodeType.CODE_39_EXTENDED);
+		BarCodeReader reader5 = new BarCodeReader(img5, new Rectangle(0, 0, 100, 50), DecodeType.CODE_39_EXTENDED);
 		// ExEnd: LoadingFromAStream
 	}
 

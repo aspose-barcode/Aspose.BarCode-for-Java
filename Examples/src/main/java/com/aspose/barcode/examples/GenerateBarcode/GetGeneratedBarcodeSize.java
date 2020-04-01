@@ -2,6 +2,7 @@ package com.aspose.barcode.examples.GenerateBarcode;
 
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.examples.Utils;
+import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class GetGeneratedBarcodeSize {
@@ -15,8 +16,8 @@ public class GetGeneratedBarcodeSize {
 		generator.getParameters().getBarcode().getXDimension().setPixels(3);
 		generator.getParameters().getBarcode().getQR().setAspectRatio(1.5f);
 
-		System.out.println("Width = " + generator.getParameters().getBarcode().getBarCodeWidth().getPixels());
-		System.out.println("Height = " + generator.getParameters().getBarcode().getBarCodeHeight().getPixels());
+		System.out.println("Width = " + generator.getParameters().getImageWidth().getPixels());
+		System.out.println("Height = " + generator.getParameters().getImageHeight().getPixels());
 		// ExEnd: GetGeneratedBarcodeSize
 	}
 

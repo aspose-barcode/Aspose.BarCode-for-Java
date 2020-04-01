@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 
 import com.aspose.barcode.BarCodeImageFormat;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarcodeGenerator;
@@ -26,8 +27,8 @@ public class DetectTheUnicodeEncoding {
 		BarCodeReader reader = new BarCodeReader(imageFilePath, com.aspose.barcode.barcoderecognition.DecodeType.QR);
 		reader.setDetectEncoding(true);
 
-		if (reader.read()) {
-			System.out.println(reader.getCodeText()); // "Слово"
+		for (BarCodeResult result : reader.readBarCodes()) {
+			System.out.println("CodeText: " + result.getCodeText());
 		}
 		// ExEnd: DetectTheUnicodeEncoding
 	}

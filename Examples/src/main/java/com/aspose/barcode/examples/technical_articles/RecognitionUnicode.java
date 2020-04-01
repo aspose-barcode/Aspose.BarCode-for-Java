@@ -4,6 +4,7 @@ package com.aspose.barcode.examples.technical_articles;
 import com.aspose.barcode.*;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 
@@ -29,16 +30,16 @@ public class RecognitionUnicode {
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.PDF_417, codeText);
 		generator.save(file);
 
-		BarCodeReader r = new BarCodeReader(file, DecodeType.PDF_417);
-		boolean rb = r.read();
-		String rc = r.getCodeText();
-		try {
-			String s = getUnicodeFromCodeText(rc);
-			System.out.println(s);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		BarCodeReader reader = new BarCodeReader(file, DecodeType.PDF_417);
+		for (BarCodeResult result : reader.readBarCodes()) {
+			String rc = result.getCodeText();
+			try {
+				String s = getUnicodeFromCodeText(rc);
+				System.out.println(s);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
-		r.close();
 	}
 
 	private static String getCodeTextFromUnicode(String s) throws UnsupportedEncodingException {

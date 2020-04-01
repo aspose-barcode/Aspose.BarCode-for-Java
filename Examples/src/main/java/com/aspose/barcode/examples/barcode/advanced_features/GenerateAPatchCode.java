@@ -33,7 +33,7 @@ public class GenerateAPatchCode {
 	public static void generateWholePage() throws IOException {
 		// ExStart: generateWholePage
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PATCH_CODE, "Patch T");
-		generator.getParameters().getBarcode().getBarCodeWidth().setMillimeters(150); // in millimeters
+		generator.getParameters().getImageWidth().setMillimeters(150); // in millimeters
 		generator.getParameters().getBarcode().getPadding().getTop().setPixels(0.5f);// make the same small margins
 		generator.getParameters().getBarcode().getPadding().getRight().setPixels(0.5f);
 		generator.getParameters().getBarcode().getPadding().getLeft().setPixels(0.5f);

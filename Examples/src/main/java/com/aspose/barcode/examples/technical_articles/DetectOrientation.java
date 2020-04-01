@@ -1,6 +1,7 @@
 package com.aspose.barcode.examples.technical_articles;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 
 public class DetectOrientation {
@@ -10,11 +11,10 @@ public class DetectOrientation {
 		// Instantiate BarCodeReader object
 		BarCodeReader reader = new BarCodeReader("rotatedbarcode.jpg", DecodeType.CODE_128);
 		// read Code128 bar code
-		while (reader.read()) {
+		for (BarCodeResult result : reader.readBarCodes()) {
 			// detect bar code orientation
-			System.out.println("Rotaion Angle: " + reader.getAngle());
+			System.out.println("Rotaion Angle: " +  result.getRegion().getAngle());
 		}
-		reader.close();
 		// ExEnd: DetectOrientation
 	}
 

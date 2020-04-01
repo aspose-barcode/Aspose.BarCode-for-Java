@@ -15,9 +15,9 @@ public class UnitsBasedBarcodeGeneration {
 		String dataDir = Utils.getDataDir(UnitsBasedBarcodeGeneration.class) + "GenerateBarcode/";
 		// ExStart: UnitsBasedBarcodeGeneration
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "Aspose.BarCode sample");
-		generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.NEAREST);
-		generator.getParameters().getBarcode().getBarCodeWidth().setMillimeters(20);
-		generator.getParameters().getBarcode().getBarCodeHeight().setMillimeters(20);
+		generator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
+		generator.getParameters().getImageWidth().setMillimeters(20);
+		generator.getParameters().getImageHeight().setMillimeters(20);
 		generator.save(dataDir + "for_display_out.png");
 
 		generator.getParameters().setResolution(300);

@@ -5,6 +5,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
@@ -19,13 +20,12 @@ public class SpecificBarcodeSymbology {
 		BufferedImage img = ImageIO.read(new File(dataDir + "CodeText.jpg"));
 
 		// Initialize barcode reader
-		BarCodeReader rd = new BarCodeReader(img, com.aspose.barcode.barcoderecognition.DecodeType.CODE_128);
+		BarCodeReader reader = new BarCodeReader(img, com.aspose.barcode.barcoderecognition.DecodeType.CODE_128);
+		
 		// Read barcode of type Code39Extended
-		while (rd.read()) {
-			// Print the code text, if barcode found
-			System.out.println("CodeText: " + rd.getCodeText().toString());
-			// Print the symbology type
-			System.out.println("CodeText: " + rd.getCodeType());
+		for (BarCodeResult result : reader.readBarCodes()) {
+			System.out.println("CodeText: " + result.getCodeText());
+			System.out.println("Symbology type: " + result.getCodeType());
 		}
 		// ExEnd: SpecificBarcodeSymbology
 	}

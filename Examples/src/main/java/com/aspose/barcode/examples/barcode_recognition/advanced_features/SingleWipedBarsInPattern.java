@@ -1,6 +1,7 @@
 package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.Utils;
 
@@ -20,12 +21,10 @@ public class SingleWipedBarsInPattern {
 		// Perform read operation
 		reader.getQualitySettings().setAllowOneDWipedBarsRestoration(true);
 
-		while (reader.read()) {
-			System.out.println("codetext: " + reader.getCodeText());
-			System.out.println("Symbology type: " + reader.getCodeType());
+		for (BarCodeResult result : reader.readBarCodes()) {
+			System.out.println("CodeText: " + result.getCodeText());
+			System.out.println("Symbology type: " + result.getCodeType());
 		}
-
-		reader.close();
 		// ExEnd:SingleWipedBarsInPattern
 	}
 

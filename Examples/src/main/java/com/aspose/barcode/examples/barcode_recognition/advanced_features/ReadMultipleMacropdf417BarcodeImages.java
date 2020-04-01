@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileFilter;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
+import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 
@@ -22,14 +24,15 @@ public class ReadMultipleMacropdf417BarcodeImages {
 		File[] files = dir.listFiles(new Filter(strFileID));
 		for (int nCount = 1; nCount <= files.length; nCount++) {
 			// We got list of all the files, now read barcodes
-			BarCodeReader reader = new BarCodeReader(files[nCount - 1].getAbsolutePath(),
-					com.aspose.barcode.barcoderecognition.DecodeType.MACRO_PDF_417);
-			if (reader.read() == true) {
-				System.out.println("File: " + files[nCount - 1].getAbsolutePath() + " == FileID: "
-						+ reader.getMacroPdf417FileID() + " == SegmentID: " + reader.getMacroPdf417SegmentID()
-						+ " == CodeText: " + reader.getCodeText());
-			}
-			reader.close();
+			BarCodeReader reader = new BarCodeReader(files[nCount - 1].getAbsolutePath(), DecodeType.MACRO_PDF_417);
+			
+			for (BarCodeResult result : reader.readBarCodes())
+            {
+				System.out.println("File: " + files[nCount - 1].getAbsolutePath() 
+                    + " == FileID: " + result.getExtended().getPdf417().getMacroPdf417FileID()
+                    + " == SegmentID: " + result.getExtended().getPdf417().getMacroPdf417SegmentID()
+                    + "  == CodeText: " + result.getCodeText());
+            }
 		}
 	}
 }

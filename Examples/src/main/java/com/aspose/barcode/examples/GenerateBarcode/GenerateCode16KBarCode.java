@@ -15,8 +15,8 @@ public class GenerateCode16KBarCode {
 
 		// ExStart: GenerateCode16KBarCode
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_16_K);
-		generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.NEAREST);
-		generator.getParameters().getBarcode().getBarCodeWidth().setPixels(100);
+		generator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
+		generator.getParameters().getImageWidth().setPixels(100);
 		generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
 		generator.save(dataDir + "Code16K_Nearest.png");
 		// ExEnd: GenerateCode16KBarCode

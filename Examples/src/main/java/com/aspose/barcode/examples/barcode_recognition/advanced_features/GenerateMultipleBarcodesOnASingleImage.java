@@ -10,6 +10,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import com.aspose.barcode.BaseEncodeType;
+import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
 import com.aspose.barcode.generation.BarcodeGenerator;
@@ -25,12 +26,12 @@ public class GenerateMultipleBarcodesOnASingleImage {
 				+ "BarcodeReader/advanced_features/";
 
 		HashMap collection = new HashMap();
-		collection.put("ONE123", com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
-		collection.put("Process Collection", com.aspose.barcode.EncodeTypes.DATA_MATRIX);
-		collection.put("Dictionary Collection", com.aspose.barcode.EncodeTypes.QR);
-		collection.put("X06712AT", com.aspose.barcode.EncodeTypes.CODE_128);
-		collection.put("979026000043", com.aspose.barcode.EncodeTypes.EAN_13);
-		collection.put("Aztec BarCode", com.aspose.barcode.EncodeTypes.AZTEC);
+		collection.put("ONE123", EncodeTypes.CODE_39_STANDARD);
+		collection.put("Process Collection", EncodeTypes.DATA_MATRIX);
+		collection.put("Dictionary Collection", EncodeTypes.QR);
+		collection.put("X06712AT", EncodeTypes.CODE_128);
+		collection.put("979026000043", EncodeTypes.EAN_13);
+		collection.put("Aztec BarCode", EncodeTypes.AZTEC);
 
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (Object key : collection.keySet()) {
