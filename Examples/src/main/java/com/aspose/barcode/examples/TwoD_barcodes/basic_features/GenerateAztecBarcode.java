@@ -11,7 +11,7 @@ public class GenerateAztecBarcode {
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(GenerateAztecBarcode.class) + "TwoD_barcodes/BasicFeatures/";
 
-		// Initialize BarCode builder class object
+		// Initialize BarcodeGenerator class object
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.AZTEC, "25");
 
 		// save barcode

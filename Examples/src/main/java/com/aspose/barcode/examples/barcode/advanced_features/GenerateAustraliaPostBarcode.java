@@ -13,7 +13,7 @@ public class GenerateAustraliaPostBarcode {
 		// The path to the resource directory.
 		String dataDir = Utils.getDataDir(GenerateAustraliaPostBarcode.class) + "Barcode/AdvancedFeatures/";
 
-		// Create instance of BarCodeBuilder, specify code-text and Symbology in the
+		// Create instance of BarcodeGenerator, specify code-text and Symbology in the
 		// constructor
 		BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.AUSTRALIA_POST, "1234567890");
 

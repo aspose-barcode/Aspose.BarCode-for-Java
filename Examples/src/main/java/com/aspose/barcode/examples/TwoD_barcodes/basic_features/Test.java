@@ -9,7 +9,7 @@ import com.aspose.barcode.generation.BarcodeGenerator;
 
 public class Test extends Applet {
 	public void paint(Graphics g) {
-		// Instantiate a BarCodeBuilder
+		// Instantiate a BarcodeGenerator
 		BarcodeGenerator b = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417);
 
 		// Small module's width to be 1 millimeter

@@ -68,7 +68,7 @@ public class CreatingAQRBarcode {
 		int QRCODE_IMAGE_HEIGHT = 300;
 		int QRCODE_IMAGE_WIDTH = 300;
 
-		// Create an instance of BarCodeBuilder class
+		// Create an instance of BarcodeGenerator class
 		// Set the barcode text
 		// Set the barcode symbology
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "1234567890");
@@ -112,7 +112,7 @@ public class CreatingAQRBarcode {
 
 	public static void set_QR_version(String dataDir) throws IOException {
 		// ExStart: set_QR_version
-		// Instantiate BarCodeBuilder object
+		// Instantiate BarcodeGenerator object
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR,
 				"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 

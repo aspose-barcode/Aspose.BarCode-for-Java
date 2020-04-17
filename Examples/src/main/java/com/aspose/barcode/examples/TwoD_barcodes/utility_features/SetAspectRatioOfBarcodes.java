@@ -10,7 +10,7 @@ public class SetAspectRatioOfBarcodes {
 		// ExStart: SetAspectRatioOfBarcodes
 		String dataDir = Utils.getDataDir(SetAspectRatioOfBarcodes.class) + "2DBarcode/UtilityFeatures/";
 
-		// Create instance of BarCodeBuilder class
+		// Create instance of BarcodeGenerator class
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PDF_417, "12345678");
 
 		// Set Aspect Ratio to 3:2 or 1.5
