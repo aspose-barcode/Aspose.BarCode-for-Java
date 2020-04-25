@@ -27,6 +27,8 @@ public class CreatingAQRBarcode {
 		QRBarcodeWithImage(dataDir);
 		set_QR_version(dataDir);
 		EncodeQRCodEInECIMode(dataDir);
+		EncodeQRCode(dataDir);
+		EncodeMicroQRCode(dataDir);
 	}
 
 	public static void createAQRBarcode(String dataDir) throws IOException {
@@ -148,6 +150,45 @@ public class CreatingAQRBarcode {
 		javax.imageio.ImageIO.write(combined, "PNG", imageFile);
 		// ExEnd: EncodeQRCodEInECIMode
 		System.out.println("File saved at:" + dataDir + "EncodeQRCodEInECIMode_out.png");
+	}
+	public static void EncodeQRCode(String dataDir) throws IOException {
+		// ExStart: EncodeQRCode
+		// initialize a BarcodeGenerator class object
+		// Set its CodeText & Symbology Type
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "12345TEXT");
+
+		// Set ForceQR (default) for standard QR and Code text
+		generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.AUTO);
+		generator.getParameters().getBarcode().getQR().setQrEncodeType(QREncodeType.FORCE_QR);
+		generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_L);
+
+		// Get barcode image Bitmap & Save QR code
+		java.awt.image.BufferedImage combined = generator.generateBarCodeImage();
+
+		java.io.File imageFile = new java.io.File(dataDir + "EncodeQR_out.png");
+		javax.imageio.ImageIO.write(combined, "PNG", imageFile);
+		// ExEnd: EncodeQRCode
+		System.out.println("File saved at:" + dataDir + "EncodeQR_out.png");
+	}
+	
+	public static void EncodeMicroQRCode(String dataDir) throws IOException {
+		// ExStart: EncodeMicroQRCode
+		// initialize a BarcodeGenerator class object
+		// Set its CodeText & Symbology Type
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.QR, "12345TEXT");
+
+		// Set encoding mode, Auto for Micro QR, error correction level     
+		generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.AUTO);
+		generator.getParameters().getBarcode().getQR().setQrEncodeType(QREncodeType.AUTO);
+		generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_L);
+
+		// Get barcode image Bitmap & Save QR code
+		java.awt.image.BufferedImage combined = generator.generateBarCodeImage();
+
+		java.io.File imageFile = new java.io.File(dataDir + "EncodeMicroQR_out.png");
+		javax.imageio.ImageIO.write(combined, "PNG", imageFile);
+		// ExEnd: EncodeMicroQRCode
+		System.out.println("File saved at:" + dataDir + "EncodeMicroQR_out.png");
 	}
 
 }
