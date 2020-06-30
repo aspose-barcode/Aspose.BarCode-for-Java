@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.aspose.barcode.generation.PatchFormat;
 import com.aspose.barcode.generation.CodeLocation;
 import com.aspose.barcode.MarginsF;
 import com.aspose.barcode.examples.Utils;
@@ -17,6 +18,7 @@ public class GenerateAPatchCode {
 	public static void main(String[] args) throws IOException {
 		generatePatchCode();
 		generateWholePage();
+		setPatchFormat();
 	}
 
 	public static void generatePatchCode() throws IOException {
@@ -25,9 +27,21 @@ public class GenerateAPatchCode {
 		String dataDir = Utils.getDataDir(GenerateAPatchCode.class) + "Barcode/AdvancedFeatures/";
 
 		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PATCH_CODE, "Patch T");
-
+		
 		generator.save(dataDir + "patch.bmp");
 		// ExEnd: generatePatchCode
+	}
+	
+	public static void setPatchFormat() throws IOException {
+		// ExStart: setPatchFormat
+		// The path to the resource directory.
+		String dataDir = Utils.getDataDir(GenerateAPatchCode.class) + "Barcode/AdvancedFeatures/";
+
+		BarcodeGenerator generator = new BarcodeGenerator(com.aspose.barcode.EncodeTypes.PATCH_CODE, "Patch T");
+		generator.getParameters().getBarcode().getPatchCode().setPatchFormat(PatchFormat.US_LETTER);
+		
+		generator.save(dataDir + "patch.bmp");
+		// ExEnd: setPatchFormat
 	}
 
 	public static void generateWholePage() throws IOException {
