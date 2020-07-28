@@ -10,7 +10,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.BarCodeRegion;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.examples.ApplyALicense;

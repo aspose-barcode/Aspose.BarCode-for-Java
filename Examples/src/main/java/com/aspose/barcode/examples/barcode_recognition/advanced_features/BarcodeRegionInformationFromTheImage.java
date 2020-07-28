@@ -3,7 +3,6 @@ package com.aspose.barcode.examples.barcode_recognition.advanced_features;
 import java.awt.Point;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.BarCodeRegion;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.examples.ApplyALicense;
 import com.aspose.barcode.examples.Utils;
