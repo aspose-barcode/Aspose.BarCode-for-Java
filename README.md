@@ -1,4 +1,4 @@
-# Barcode Generation & Recognition Library for Java
+# Barcode Generation & Recognition Library for Java Applications
 
 [Aspose.BarCode for Java](https://products.aspose.com/barcode/java) is a robust and reliable barcode generation and recognition component, written in Java, it allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications.
 
@@ -43,7 +43,7 @@ Directory | Description
 
 ## Get Started with Aspose.BarCode for Java
 
-Aspose hosts all Java APIs at the [Aspose Repository](https://repository.aspose.com/webapp/#/artifacts/browse/tree/General/repo/com/aspose/aspose-barcode). You can easily use Aspose.BarCode for Java API directly in your Maven projects with simple configurations. For the detailed instructions please visit [Installing Aspose.BarCode for Java from Maven Repository](https://docs.aspose.com/display/barcodejava/Installation#Installation-InstallingAspose.BarCodeforJavafromMavenRepository) documentation page.
+Aspose hosts all Java APIs at the [Aspose Repository](https://repository.aspose.com/webapp/#/artifacts/browse/tree/General/repo/com/aspose/aspose-barcode). You can easily use Aspose.BarCode for Java API directly in your Maven projects with simple configurations. For the detailed instructions please visit [Installing Aspose.BarCode for Java from Maven Repository](https://docs.aspose.com/barcode/java/installation/) documentation page.
 
 ## Scanning a Barcode from a Picture via Java
 
@@ -61,4 +61,4 @@ for (BarCodeResult result : reader.readBarCodes()) {
 }
 ```
 
-[Product Page](https://products.aspose.com/barcode/java) | [Docs](https://docs.aspose.com/display/barcodejava/Home) | [Demos](https://products.aspose.app/barcode/family) | [API Reference](https://apireference.aspose.com/java/barcode) | [Examples](https://github.com/aspose-barcode/Aspose.BarCode-for-Java) | [Blog](https://blog.aspose.com/category/barcode/) | [Free Support](https://forum.aspose.com/c/barcode) | [Temporary License](https://purchase.aspose.com/temporary-license)
+[Home](https://www.aspose.com/) | [Product Page](https://products.aspose.com/barcode/java) | [Docs](https://docs.aspose.com/barcode/java/) | [Demos](https://products.aspose.app/barcode/family) | [API Reference](https://apireference.aspose.com/java/barcode) | [Examples](https://github.com/aspose-barcode/Aspose.BarCode-for-Java) | [Blog](https://blog.aspose.com/category/barcode/) | [Free Support](https://forum.aspose.com/c/barcode) | [Temporary License](https://purchase.aspose.com/temporary-license)
