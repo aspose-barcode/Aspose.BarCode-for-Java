@@ -1,11 +1,11 @@
-# Barcode Generation & Recognition Library for Java Applications
+# Barcode Library for Java Applications
 
 [Aspose.BarCode for Java](https://products.aspose.com/barcode/java) is a robust and reliable barcode generation and recognition component, written in Java, it allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications.
 
 Directory | Description
 --------- | -----------
 [Examples](https://github.com/aspose-barcode/Aspose.BarCode-for-Java/tree/master/Examples) | A collection of Java examples that help you learn the product features.
-[Plugins](https://github.com/aspose-barcode/Aspose.BarCode-for-Java/tree/master/Plugins) | Plugins that will demonstrate one or more features of Aspose.BarCode for Java.
+[Plugins](https://github.com/aspose-barcode/Aspose.BarCode-for-Java/tree/master/Plugins) | Plugins related to Aspose.BarCode for Java.
 
 <p align="center">
     <a title="Download complete Aspose.BarCode for Java source code" href="https://github.com/asposebarcode/Aspose_BarCode_Java/archive/master.zip">
@@ -23,14 +23,14 @@ Directory | Description
 
 **Numeric Only:** EAN13, EAN8, UPCA, UPCE, BooklandEAN, Interleaved2of5, Standard2of5, MSI, Code11, Codabar, Postnet, Planet, EAN14(SCC14), SSCC18, ITF14, Leticode, OPC\
 **Alpha-Numeric:** Code128, EAN128, Code39 Extended, Code39 Standard, Code93, Extended, Code93 Standard, Matrix 2 of 5, PZN, Deutsche Post Identcode, VIN\
-**2D Symbologies:** PDF417, DataMatrix, QR, Swiss QR (QR Bill)
+**2D Symbologies:** PDF417, DataMatrix, QR, Swiss QR (QR Bill)\
 **Encoding Only Support:** Australia Post, Aztec
 
-## Barcode Generation & Recognition Formats
+## Read & Write Barcode Labels
 
 **Images:** JPEG, TIFF, PNG, BMP, GIF, EXIF
 
-## Save BarCode Labels As
+## Save Barcodes As
 
 **Images:** JPEG, TIFF, PNG, BMP, GIF, EXIF, EMF, SVG
 
