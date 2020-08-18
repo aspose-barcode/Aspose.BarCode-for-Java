@@ -18,7 +18,7 @@ This page contains release notes information for [Aspose.BarCode for Java 20.8](
 |BARCODENET-37489|Barcode values were not read correctly|Bug|
 |BARCODENET-37554|Unable to read barcodes in the image|Bug|
 
-# **Public API and Backward Incompatible Changes**
+## **Public API and Backward Incompatible Changes**
 - added method com.aspose.barcode.barcoderecognition.QualitySettings.getReadTinyBarcodes:boolean
 - added method com.aspose.barcode.barcoderecognition.QualitySettings.setReadTinyBarcodes(boolean)
 - added method com.aspose.barcode.generation.Pdf417Parameters.isReaderInitialization:boolean
