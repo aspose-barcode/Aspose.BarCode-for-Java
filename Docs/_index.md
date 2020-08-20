@@ -16,7 +16,7 @@ Aspose.BarCode for Java is a robust and reliable barcode generation and recognit
 
 Aspose.BarCode for Java supports most established barcode standards and barcode specifications. It has the ability to export to multiple image formats including: BMP, GIF, JPEG, PNG and TIFF.
 
-This section introduces Aspose.BarCode for Java and its features, gives examples as case studies and lists some customers who choose to use Aspose.BarCode in their solutions. This section also includes information about Aspose.BarCode for Java [installation](/barcode/java/installation-html/), [evaluation](/barcode/java/installation-html/) and [licensing](/barcode/java/licensing-html/).
+This section introduces Aspose.BarCode for Java and its features, gives examples as case studies and lists some customers who choose to use Aspose.BarCode in their solutions. This section also includes information about Aspose.BarCode for Java [installation](/barcode/java/installation/), [evaluation](/barcode/java/installation/) and [licensing](/barcode/java/licensing/).
 
 {{% /alert %}} 
 ## **Aspose.BarCode for Java Resources**
