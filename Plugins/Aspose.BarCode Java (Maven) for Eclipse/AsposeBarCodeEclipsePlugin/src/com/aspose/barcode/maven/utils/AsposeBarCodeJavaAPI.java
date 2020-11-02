@@ -24,8 +24,8 @@ package com.aspose.barcode.maven.utils;
 public class AsposeBarCodeJavaAPI extends AsposeJavaAPI {
 
     private final String _name = AsposeConstants.API_NAME;
-    private final String _mavenRepositoryURL = "http://maven.aspose.com/repository/ext-release-local/com/aspose/aspose-barcode/";
-    private final String _remoteExamplesRepository = "https://github.com/asposebarcode/Aspose_BarCode_Java";
+    private final String _mavenRepositoryURL = "https://repository.aspose.com/repo/com/aspose/aspose-barcode/";
+    private final String _remoteExamplesRepository = "https://github.com/aspose-barcode/Aspose.BarCode-for-Java";
 
     /**
      * @return the _name

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="Aspose.BarCode Java (Maven) for Eclipse - Eclipse Update Site" url="http://cdn.aspose.com/marketplace/eclipse/java/maven/asposebarcode/">
+   <description name="Aspose.BarCode Java (Maven) for Eclipse - Eclipse Update Site" url="https://repository.aspose.com/plugins/aspose-barcode/eclipse/barcode-maven/20.10/site.xml">
       Aspose.BarCode Maven Project wizard creates Maven Project for using Aspose.BarCode for Java API within Eclipse IDE.
 Aspose.BarCode for Java is a robust and reliable barcode generation and recognition component, written in Java, it allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications. It is available for the Java SE, Java EE and Java ME platforms.
 Aspose.BarCode for Java supports most established barcode standards and barcode specifications. It has the ability to export to multiple image formats including: BMP, EMF, GIF, JPEG, PNG, TIFF and WMF.
 Aspose.BarCode Maven Project wizard fetch and configures the latest Maven dependency reference of Aspose.BarCode for Java from the Aspose Cloud Maven Repository.
 The wizard also gives you option to download the Code Examples to use Aspose.BarCode for Java API.
    </description>
-   <feature url="features/com.aspose.barcode.java.maven_1.0.0.jar" id="com.aspose.barcode.java.maven" version="1.0">
+   <feature url="features/com.aspose.barcode.java.maven_20.10.0.jar" id="com.aspose.barcode.java.maven" version="20.10">
       <category name="com.aspose.barcode.java.maven.category"/>
    </feature>
    <category-def name="com.aspose.barcode.java.maven.category" label="Aspose.BarCode Java (Maven) for Eclipse"/>
