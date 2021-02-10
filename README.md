@@ -1,3 +1,4 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/aspose-barcode-cloud/aspose-barcode-cloud-java) ![GitHub all releases](https://img.shields.io/github/downloads/aspose-barcode/Aspose.barcode-for-Java/total) ![GitHub](https://img.shields.io/github/license/aspose-barcode/Aspose.barcode-for-java)
 # Barcode Library for Java Applications
 
 [Aspose.BarCode for Java](https://products.aspose.com/barcode/java) is a robust and reliable barcode generation and recognition component, written in Java, it allows developers to quickly and easily add barcode generation and recognition functionality to their Java applications.
