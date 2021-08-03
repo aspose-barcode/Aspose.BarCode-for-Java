@@ -13,6 +13,12 @@ Directory | Description
 [Examples](https://github.com/aspose-barcode/Aspose.BarCode-for-Java/tree/master/Examples) | A collection of Java examples that help you learn the product features.
 [Plugins](https://github.com/aspose-barcode/Aspose.BarCode-for-Java/tree/master/Plugins) | Plugins related to Aspose.BarCode for Java.
 
+## Demo applications
+
+[Generate Barcode](https://products.aspose.app/barcode/generate) | [Recognize Barcode](https://products.aspose.app/barcode/recognize) | [Embed Barcode](https://products.aspose.app/barcode/embed)
+:---: | :---: | :---:
+[![Generate](https://products.aspose.app/barcode/generate/img/aspose_generate-app-48.png)](https://products.aspose.app/barcode/generate) | [![Recognize](https://products.aspose.app/barcode/recognize/img/aspose_recognize-app-48.png)](https://products.aspose.app/barcode/recognize) | [![Embed](https://products.aspose.app/barcode/embed/img/aspose_embed-app-48.png)](https://products.aspose.app/barcode/embed)
+
 ## Barcode API Features
 
 - Specify different kinds of symbologies.
