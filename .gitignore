@@ -32,3 +32,4 @@ Out*/
 *.lic
 Data/*Out*
 /dist/
+/.idea/

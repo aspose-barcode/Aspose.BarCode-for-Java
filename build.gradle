@@ -1,0 +1,15 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "plugins.gradle.org/m2/"
+        }
+        maven {
+            url "mvnrepository.com/artifact/"
+        }
+    }
+
+
+
+compileJava.dependsOn 'echoBuildParameters'
+
