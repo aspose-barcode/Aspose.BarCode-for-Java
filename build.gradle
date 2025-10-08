@@ -29,9 +29,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 test {
-    useJUnitPlatform()  // Если используете JUnit
-    // или
-    useTestNG()  // Если используете TestNG
+    useTestNG()
 }
 
 dependencies {
