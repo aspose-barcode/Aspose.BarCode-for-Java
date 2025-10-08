@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class GenerateQRCode
 {
-    private static final String folder = ExampleAssist.getResourcePath("generation");
+    private static final String folder = ExampleAssist.getResourceFolderPath("generation", "generate-qr-code");
     @BeforeClass
     public void setUp()
     {
