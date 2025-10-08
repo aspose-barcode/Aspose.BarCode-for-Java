@@ -8,8 +8,60 @@ buildscript {
             url "mvnrepository.com/artifact/"
         }
     }
+}
+
+plugins {
+    id 'java'                 // Core Java support
+    id 'application'          // For `run` task
+    id 'checkstyle'           // Code style checks
+}
+
+group = 'com.aspose.barcode.java.example'
+version = '1.0.0'
+
+// Centralized versions (adjust as needed)
+ext {
+    javaTarget = JavaVersion.VERSION_17
+    junitVersion      = '5.10.3'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = javaTarget
+    targetCompatibility = javaTarget
+}
+
+// Common compiler and test configuration
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()  // Enable JUnit 5
+    testLogging {
+            // Show System.out/err only for failed tests:
+            showStandardStreams = false
+
+            exceptionFormat = 'full'
+
+            // Detailed log only for failed tests
+            events 'failed'
+            // For rest --info/--debug:
+            info.events = ['passed', 'skipped', 'failed']
+            info.exceptionFormat = 'full'
+    }
+}
+
+dependencies {
+    // JUnit BOM keeps JUnit artifacts in sync
+    testImplementation platform("org.junit:junit-bom:${junitVersion}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
 
 
 
-compileJava.dependsOn 'echoBuildParameters'
+
 
