@@ -1,9 +1,8 @@
 package com.aspose.barcode.guide.generation;
 
-import com.aspose.barcode.LicenseAssistant;
-import com.aspose.barcode.auxiliary.Global;
-import com.aspose.barcode.generation.BarcodeGenerator;
-import com.aspose.barcode.generation.EncodeTypes;
+import com.aspose.barcode.generation.*;
+import com.aspose.barcode.guide.common.ExampleAssist;
+import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -11,12 +10,11 @@ import java.io.IOException;
 
 public class GenerateCode128
 {
-    private static final String folder = Global.getTestDataFolder("developer-guide\\barcode-generation");
-
+    private static final String folder = ExampleAssist.getResourceFolderPath("generation");
     @BeforeClass
     public void setUp()
     {
-        LicenseAssistant.setupLicense();
+        LicenseAssist.setupLicense();
     }
 
     @Test
