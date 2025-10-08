@@ -17,7 +17,7 @@ plugins {
 }
 
 group = 'com.aspose.barcode.java.example'
-version = '1.0.0'
+version = '25.9.0'
 
 // Centralized versions (adjust as needed)
 ext {
@@ -34,31 +34,32 @@ java {
     targetCompatibility = javaTarget
 }
 
+//sourceSets {
+//    examples {
+//        java.srcDir 'src/examples/java'
+//        resources.srcDir 'src/examples/resources'
+//        compileClasspath += sourceSets.main.output + configurations.runtimeClasspath
+//        runtimeClasspath += output + compileClasspath
+//    }
+//}
+//
+//configurations {
+//    examplesImplementation.extendsFrom implementation
+//    examplesRuntimeOnly.extendsFrom runtimeOnly
+//}
+
 // Common compiler and test configuration
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
 test {
-    useJUnitPlatform()  // Enable JUnit 5
-    testLogging {
-            // Show System.out/err only for failed tests:
-            showStandardStreams = false
-
-            exceptionFormat = 'full'
-
-            // Detailed log only for failed tests
-            events 'failed'
-            // For rest --info/--debug:
-            info.events = ['passed', 'skipped', 'failed']
-            info.exceptionFormat = 'full'
-    }
+    useTestNG()
 }
 
 dependencies {
-    // JUnit BOM keeps JUnit artifacts in sync
-    testImplementation platform("org.junit:junit-bom:${junitVersion}")
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'com.aspose:aspose-barcode:25.9'
+    testImplementation 'org.testng:testng:7.10.2'
 }
 
 
