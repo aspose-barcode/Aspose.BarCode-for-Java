@@ -1,31 +1,21 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            url "plugins.gradle.org/m2/"
-        }
-        maven {
-            url "mvnrepository.com/artifact/"
-        }
-    }
-}
-
 plugins {
-    id 'java'                 // Core Java support
-    id 'application'          // For `run` task
-    id 'checkstyle'           // Code style checks
+    id 'java'
+    id 'application'
+    id 'checkstyle'
 }
 
 group = 'com.aspose.barcode.java.example'
 version = '25.9.0'
 
-// Centralized versions (adjust as needed)
 ext {
     javaTarget = JavaVersion.VERSION_17
-    junitVersion      = '5.10.3'
+    junitVersion = '5.10.3'
 }
 
 repositories {
+    maven {
+        url "https://releases.aspose.com/java/repo/"
+    }
     mavenCentral()
 }
 
@@ -34,35 +24,18 @@ java {
     targetCompatibility = javaTarget
 }
 
-//sourceSets {
-//    examples {
-//        java.srcDir 'src/examples/java'
-//        resources.srcDir 'src/examples/resources'
-//        compileClasspath += sourceSets.main.output + configurations.runtimeClasspath
-//        runtimeClasspath += output + compileClasspath
-//    }
-//}
-//
-//configurations {
-//    examplesImplementation.extendsFrom implementation
-//    examplesRuntimeOnly.extendsFrom runtimeOnly
-//}
-
-// Common compiler and test configuration
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
 test {
-    useTestNG()
+    useJUnitPlatform()  // Если используете JUnit
+    // или
+    useTestNG()  // Если используете TestNG
 }
 
 dependencies {
     implementation 'com.aspose:aspose-barcode:25.9'
+    testImplementation 'com.aspose:aspose-barcode:25.9'
     testImplementation 'org.testng:testng:7.10.2'
 }
-
-
-
-
-
