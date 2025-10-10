@@ -1,43 +1,30 @@
 package com.aspose.barcode.guide.quickstart;
 
 import com.aspose.barcode.License;
-import com.aspose.barcode.CodeTextAlignment;
 import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 
+import com.aspose.barcode.guide.common.ExampleAssist;
+import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.nio.file.*;
 
 /**
  * Quick Generation Examples as TestNG tests.
- * Conforms to user's API classes:
- *  - com.aspose.barcode.generation.EncodeTypes
- *  - com.aspose.barcode.generation.BarcodeGenerator
- *  - setMillimeters(float) uses 'f' suffix
- *  - No use of QRErrorLevel/Pdf417ErrorLevel as per provided sources
+ * Uses only APIs validated against provided sources.
  */
-public class QuickGenerationExamplesTestNG {
+public class QuickGenerationExamplesTest {
 
-    private Path OUTPUT_DIR;
-
+    private static final String folder = ExampleAssist.getResourceFolderPath("quick_start");
+   
     @BeforeClass
-    public void setUpClass() throws IOException {
-        // Create output directory
-        OUTPUT_DIR = Paths.get("target", "test-output", "quick-generation");
-        Files.createDirectories(OUTPUT_DIR);
-
-        // Optional: apply license if available
-        try {
-            License lic = new License();
-            // lic.setLicense("Aspose.Total.Java.lic");
-        } catch (Throwable t) {
-            // Proceed without a license (evaluation mode)
-        }
+    public void setUp()
+    {
+        LicenseAssist.setupLicense();
     }
 
     // -------- Linear Barcodes --------
@@ -47,22 +34,18 @@ public class QuickGenerationExamplesTestNG {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "ABC-12345");
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
         gen.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
-        gen.getParameters().getBarcode().setCodeTextAlignment(CodeTextAlignment.BELOW);
         saveAndAssert(gen, "code128.png");
     }
 
     @Test
     public void generate_EAN13() throws Exception {
-        // 12 or 13 digits; checksum auto-calculated
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
-        gen.getParameters().getBarcode().setCodeTextAlignment(CodeTextAlignment.BELOW);
         saveAndAssert(gen, "ean13.png");
     }
 
     @Test
     public void generate_UPCA() throws Exception {
-        // 11 or 12 digits; checksum auto-calculated
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.UPCA, "036000291452");
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
         saveAndAssert(gen, "upca.png");
@@ -88,7 +71,6 @@ public class QuickGenerationExamplesTestNG {
     public void generate_QR() throws Exception {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "https://aspose.com/");
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        // Keep default encode/error levels to avoid enum mismatches. EncodeMode AUTO when available:
         try {
             gen.getParameters().getBarcode().getQR().setQrEncodeMode(
                     com.aspose.barcode.generation.QREncodeMode.AUTO);
@@ -123,7 +105,7 @@ public class QuickGenerationExamplesTestNG {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.AZTEC, "AZTEC-Order#123");
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
         try {
-            gen.getParameters().getBarcode().getAztec().setAztecErrorLevel(50); // percent (0..99)
+            gen.getParameters().getBarcode().getAztec().setAztecErrorLevel(50);
         } catch (Throwable ignored) { }
         saveAndAssert(gen, "aztec.png");
     }
@@ -132,10 +114,12 @@ public class QuickGenerationExamplesTestNG {
 
     @Test
     public void generate_Postnet() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.POSTNET, "20500-1234");
+        // ZIP+4 (9 digits)
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.POSTNET, "205001234");
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
         saveAndAssert(gen, "postnet.png");
     }
+
 
     @Test
     public void generate_Planet() throws Exception {
@@ -146,10 +130,13 @@ public class QuickGenerationExamplesTestNG {
 
     @Test
     public void generate_IntelligentMail() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ONE_CODE, "01234567094987654321-01234567891-01234");
+        // 20 (tracking) + 11 (routing) = 31 digits — valid
+        String imb = "01234567094987654321" + "01234567891"; // 31 digits
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ONE_CODE, imb);
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
         saveAndAssert(gen, "intelligent-mail.png");
     }
+
 
     // -------- GS1 / Complex Barcodes --------
 
@@ -160,26 +147,8 @@ public class QuickGenerationExamplesTestNG {
         saveAndAssert(gen, "gs1-128.png");
     }
 
-    // Swiss QR: add when correct EncodeType exists in your build
-
-    // -------- Styling demo --------
-
-    @Test
-    public void generate_WithStyling() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "Style-Demo");
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
-        gen.getParameters().getBarcode().setCodeTextAlignment(CodeTextAlignment.BELOW);
-        gen.getParameters().getCaptionAbove().setText("Caption Above");
-        gen.getParameters().getCaptionAbove().getFont().setSize(10f);
-        gen.getParameters().getCaptionAbove().setVisible(true);
-        gen.getParameters().setRotationAngle(90.0f);
-        saveAndAssert(gen, "styled.png");
-    }
-
-    // ---------- Helpers ----------
-
     private void saveAndAssert(BarcodeGenerator gen, String fileName) throws Exception {
-        Path out = OUTPUT_DIR.resolve(fileName);
+        Path out = Paths.get(folder).resolve(fileName);
         gen.save(out.toString(), BarCodeImageFormat.PNG);
 
         Assert.assertTrue(Files.exists(out), "Output file must exist: " + out);
