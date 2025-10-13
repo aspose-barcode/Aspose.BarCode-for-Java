@@ -134,6 +134,23 @@ public class GenerateCode128 {
         saveAndAssert(gen, "code128_lowercase.png");
     }
 
+    @Test
+    public void sizeControl() throws Exception {
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "SIZE-DEMO-123");
+
+        gen.getParameters().getBarcode().getXDimension().setPixels(2);
+        gen.getParameters().getBarcode().getBarHeight().setPixels(16);
+        gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
+        gen.getParameters().getBarcode().getPadding().getTop().setPixels(1);
+        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(1);
+
+        gen.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
+        gen.getParameters().getImageWidth().setPixels(300);
+        gen.getParameters().getImageHeight().setPixels(60);
+
+        saveAndAssert(gen, "code128_tiny_no_text.png");
+    }
+
     // ----------------- Helpers -----------------
     private void saveAndAssert(BarcodeGenerator gen, String fileName) throws Exception {
         Path out = Paths.get(folder).resolve(fileName);
