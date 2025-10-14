@@ -1,7 +1,11 @@
 package com.aspose.barcode.guide.common;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -17,6 +21,33 @@ public class ExampleAssist
         for (String part : pathParts)
         {
             basePath = basePath.resolve(part);
+        }
+
+        return basePath.toString() + File.separator;
+    }
+
+    public static String getOrCreateResourceFolderPath(String... pathParts)
+    {
+        Path basePath = Paths.get("src", "test", "resources");
+
+        for (String part : pathParts)
+        {
+            basePath = basePath.resolve(part);
+        }
+
+        try
+        {
+            // Создаст только отсутствующие директории, существующие не тронет
+            Files.createDirectories(basePath);
+        }
+        catch (FileAlreadyExistsException e)
+        {
+            // Случай: по этому пути уже существует файл (не директория)
+            throw new IllegalStateException("Path exists but is not a directory: " + basePath, e);
+        }
+        catch (IOException e)
+        {
+            throw new UncheckedIOException("Failed to create directory: " + basePath, e);
         }
 
         return basePath.toString() + File.separator;
