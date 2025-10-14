@@ -116,10 +116,10 @@ public class GenerateGS1_128 {
         gen.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f); // минимально допустимо для печати
         gen.getParameters().setResolution(300.0f);
 
-        // Отключаем код-текст, чтобы сэкономить высоту
+        //Disable code-text to save height
         gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
 
-        // Урезаем верх/низ тихие зоны
+        // Cut off the top/bottom quiet zones
         gen.getParameters().getBarcode().getPadding().getTop().setMillimeters(1.0f);
         gen.getParameters().getBarcode().getPadding().getBottom().setMillimeters(1.0f);
 
