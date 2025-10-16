@@ -11,20 +11,15 @@ import java.awt.*;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.List;
 
 /**
  * Quick Recognition Examples Class
  * Demonstrates basic settings and work with various barcode types.
- *
- * @author Aspose Examples Team
- * @version 1.0
  */
 public class QuickRecognitionExamples
 {
 
-    private static final String TEST_IMAGES_FOLDER =
-            Paths.get(ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "input_images")).toString();
+    private static final String TEST_IMAGES_FOLDER = Paths.get(ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "input_images")).toString();
 
     @BeforeClass
     public void setUp()
@@ -490,8 +485,7 @@ public class QuickRecognitionExamples
         if (results.length > 0)
         {
             System.out.println("    - Data: " + results[0].getCodeText());
-            System.out.println("    - Confidence: " +
-                    String.format("%.1f", results[0].getConfidence()) + "%");
+            System.out.println("    - Confidence: " + results[0].getConfidence() + "%");
         }
         System.out.println();
     }
@@ -520,7 +514,7 @@ public class QuickRecognitionExamples
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
         gen.getParameters().getBarcode().getBarHeight().setMillimeters(25f); // Ignored for 2D
 
-        String imagePath = TEST_IMAGES_FOLDER + filename;
+        String imagePath = TEST_IMAGES_FOLDER + File.separator + filename;
         gen.save(imagePath, BarCodeImageFormat.PNG);
 
         return imagePath;
