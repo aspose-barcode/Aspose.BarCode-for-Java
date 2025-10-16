@@ -27,7 +27,6 @@ public class QuickRecognitionExamples
         LicenseAssist.setupLicense();
     }
 
-
     // ==================== BASIC EXAMPLES ====================
 
     /**
@@ -487,6 +486,67 @@ public class QuickRecognitionExamples
             System.out.println("    - Data: " + results[0].getCodeText());
             System.out.println("    - Confidence: " + results[0].getConfidence() + "%");
         }
+        System.out.println();
+    }
+
+    // ==================== MULTIPLE FILES ====================
+    /**
+     * Test 8: Batch recognition from multiple files
+     * Process multiple images in a loop.
+     */
+    @Test(priority = 13, description = "Batch recognition from multiple files")
+    public void test13_BatchRecognition() throws Exception
+    {
+        System.out.println("Test 8: Batch Recognition from Multiple Files");
+
+        // Generate multiple test images
+        String[] testImages = new String[5];
+        for (int i = 0; i < testImages.length; i++)
+        {
+            testImages[i] = generateTestBarcode(EncodeTypes.CODE_128, "BATCH-" + (i + 1), "batch_test_" + i + ".png");
+        }
+
+        System.out.println("  [INFO] Processing " + testImages.length + " images...\n");
+
+        int successCount = 0;
+        long totalTime = 0;
+
+        // Process each image
+        for (int i = 0; i < testImages.length; i++)
+        {
+            long start = System.currentTimeMillis();
+
+            BarCodeReader reader = new BarCodeReader(
+                    testImages[i],
+                    DecodeType.CODE_128
+            );
+            BarCodeResult[] results = reader.readBarCodes();
+
+            long end = System.currentTimeMillis();
+            totalTime += (end - start);
+
+            if (results.length > 0)
+            {
+                successCount++;
+                System.out.println("  [OK] Image " + (i + 1) + ": " +
+                        results[0].getCodeText() + " (" + (end - start) + " ms)");
+            }
+            else
+            {
+                System.out.println("  [FAIL] Image " + (i + 1) + ": No barcode found");
+            }
+        }
+
+        System.out.println("\n  [SUMMARY] Batch Recognition:");
+        System.out.println("    - Total images: " + testImages.length);
+        System.out.println("    - Successfully recognized: " + successCount);
+        System.out.println("    - Failed: " + (testImages.length - successCount));
+        System.out.println("    - Total time: " + totalTime + " ms");
+        System.out.println("    - Average time: " + (totalTime / testImages.length) + " ms/image");
+
+        Assert.assertEquals(successCount, testImages.length,
+                "All images should be recognized");
+
         System.out.println();
     }
 
