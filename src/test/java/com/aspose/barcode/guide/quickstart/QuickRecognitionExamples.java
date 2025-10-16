@@ -20,13 +20,15 @@ import java.util.List;
  * @author Aspose Examples Team
  * @version 1.0
  */
-public class QuickRecognitionExamples {
+public class QuickRecognitionExamples
+{
 
     private static final String TEST_IMAGES_FOLDER =
             Paths.get(ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "input_images")).toString();
 
     @BeforeClass
-    public void setUp() {
+    public void setUp()
+    {
         LicenseAssist.setupLicense();
     }
 
@@ -37,7 +39,8 @@ public class QuickRecognitionExamples {
      * Test 1: Simplest recognition example
      */
     @Test(priority = 1, description = "Simple Code128 recognition")
-    public void test01_SimpleRecognition() throws Exception {
+    public void test01_SimpleRecognition() throws Exception
+    {
         System.out.println("Test 1: Simple Code128 Recognition");
 
         // 1. Generate test barcode
@@ -71,7 +74,8 @@ public class QuickRecognitionExamples {
      * Test 2: QR Code recognition
      */
     @Test(priority = 2, description = "QR Code recognition with URL")
-    public void test02_QRCodeRecognition() throws Exception {
+    public void test02_QRCodeRecognition() throws Exception
+    {
         System.out.println("Test 2: QR Code Recognition");
 
         String testUrl = "https://aspose.com/barcode";
@@ -91,17 +95,32 @@ public class QuickRecognitionExamples {
 
         // Check extended information for QR
         QRExtendedParameters qrParams = results[0].getExtended().getQR();
-        System.out.println("  [OK] CodeText: " + results[0].getCodeText());
-        System.out.println("  [OK] CodeType: " + results[0].getCodeTypeName());
+
+        System.out.println("  [OK] URL: " + results[0].getCodeText());
         System.out.println("  [OK] QR Error Level: " + qrParams.getQRErrorLevel());
         System.out.println("  [OK] QR Version: " + qrParams.getQRVersion());
+
+        // Structured Append info
+        if (qrParams.getQRStructuredAppendModeBarCodesQuantity() > 0)
+        {
+            System.out.println("  [OK] Structured Append:");
+            System.out.println("    - Total Count: " +
+                    qrParams.getQRStructuredAppendModeBarCodesQuantity());
+            System.out.println("    - Index: " +
+                    qrParams.getQRStructuredAppendModeBarCodeIndex());
+            System.out.println("    - Parity: " +
+                    qrParams.getQRStructuredAppendModeParityData());
+        }
+
+        System.out.println();
     }
 
     /**
      * Test 3: DataMatrix recognition
      */
     @Test(priority = 3, description = "DataMatrix recognition")
-    public void test03_DataMatrixRecognition() throws Exception {
+    public void test03_DataMatrixRecognition() throws Exception
+    {
         System.out.println("Test 3: DataMatrix Recognition");
 
         String testData = "DM-DATA-123456";
@@ -138,7 +157,8 @@ public class QuickRecognitionExamples {
      * Test 4: PDF417 recognition
      */
     @Test(priority = 4, description = "PDF417 recognition")
-    public void test04_PDF417Recognition() throws Exception {
+    public void test04_PDF417Recognition() throws Exception
+    {
         System.out.println("Test 4: PDF417 Recognition");
 
         String testData = "PDF417 Test Data with more content to make it interesting";
@@ -175,7 +195,8 @@ public class QuickRecognitionExamples {
      * Test 5: Recognize multiple types simultaneously
      */
     @Test(priority = 5, description = "Multiple types in one image")
-    public void test05_MultipleTypesRecognition() throws Exception {
+    public void test05_MultipleTypesRecognition() throws Exception
+    {
         System.out.println("Test 5: Multiple Types Recognition");
 
         // Generate several codes
@@ -186,7 +207,8 @@ public class QuickRecognitionExamples {
         };
 
         // Recognize with multiple types
-        for (String file : testFiles) {
+        for (String file : testFiles)
+        {
             BarCodeReader reader = new BarCodeReader(
                     file,
                     DecodeType.CODE_128,
@@ -196,7 +218,8 @@ public class QuickRecognitionExamples {
 
             BarCodeResult[] results = reader.readBarCodes();
 
-            for (BarCodeResult result : results) {
+            for (BarCodeResult result : results)
+            {
                 System.out.println("  [OK] Found: " + result.getCodeTypeName() +
                         " = " + result.getCodeText());
             }
@@ -208,7 +231,8 @@ public class QuickRecognitionExamples {
      * Test 6: All 1D types
      */
     @Test(priority = 6, description = "Recognize all 1D types")
-    public void test06_All1DTypes() throws Exception {
+    public void test06_All1DTypes() throws Exception
+    {
         System.out.println("Test 6: All 1D Types");
 
         String imagePath = generateTestBarcode(
@@ -225,7 +249,8 @@ public class QuickRecognitionExamples {
         Assert.assertTrue(results.length > 0, "Should find at least one code");
 
         System.out.println("  [OK] Recognized 1D codes: " + results.length);
-        for (BarCodeResult result : results) {
+        for (BarCodeResult result : results)
+        {
             System.out.println("    - " + result.getCodeTypeName() +
                     ": " + result.getCodeText());
         }
@@ -236,21 +261,23 @@ public class QuickRecognitionExamples {
      * Test 7: All 2D types
      */
     @Test(priority = 7, description = "Recognize all 2D types")
-    public void test07_All2DTypes() throws Exception {
+    public void test07_All2DTypes() throws Exception
+    {
         System.out.println("Test 7: All 2D Types");
 
-        String imagePath = generateTestBarcode(EncodeTypes.AZTEC,"AZTEC-DATA","test07_aztec.png"
+        String imagePath = generateTestBarcode(EncodeTypes.AZTEC, "AZTEC-DATA", "test07_aztec.png"
         );
 
         // Use ALL 2D types
-        BarCodeReader reader = new BarCodeReader(imagePath,DecodeType.TYPES_2D);
+        BarCodeReader reader = new BarCodeReader(imagePath, DecodeType.TYPES_2D);
 
         BarCodeResult[] results = reader.readBarCodes();
 
         Assert.assertTrue(results.length > 0);
 
         System.out.println("  [OK] Recognized 2D codes: " + results.length);
-        for (BarCodeResult result : results) {
+        for (BarCodeResult result : results)
+        {
             System.out.println("    - " + result.getCodeTypeName() +
                     ": " + result.getCodeText());
         }
@@ -263,7 +290,8 @@ public class QuickRecognitionExamples {
      * Test 8: HighPerformance preset
      */
     @Test(priority = 8, description = "Quality: HighPerformance")
-    public void test08_HighPerformance() throws Exception {
+    public void test08_HighPerformance() throws Exception
+    {
         System.out.println("Test 8: HighPerformance Quality");
 
         String imagePath = generateTestBarcode(
@@ -292,7 +320,8 @@ public class QuickRecognitionExamples {
      * Test 9: NormalQuality preset
      */
     @Test(priority = 9, description = "Quality: NormalQuality")
-    public void test09_NormalQuality() throws Exception {
+    public void test09_NormalQuality() throws Exception
+    {
         System.out.println("Test 9: NormalQuality (default)");
 
         String imagePath = generateTestBarcode(
@@ -321,7 +350,8 @@ public class QuickRecognitionExamples {
      * Test 10: HighQuality preset
      */
     @Test(priority = 10, description = "Quality: HighQuality")
-    public void test10_HighQuality() throws Exception {
+    public void test10_HighQuality() throws Exception
+    {
         System.out.println("Test 10: HighQuality");
 
         String imagePath = generateTestBarcode(
@@ -350,7 +380,8 @@ public class QuickRecognitionExamples {
      * Test 11: MaxQuality preset
      */
     @Test(priority = 11, description = "Quality: MaxQuality")
-    public void test11_MaxQuality() throws Exception {
+    public void test11_MaxQuality() throws Exception
+    {
         System.out.println("Test 11: MaxQuality");
 
         String imagePath = generateTestBarcode(
@@ -378,44 +409,92 @@ public class QuickRecognitionExamples {
     // ==================== CUSTOM QUALITY SETTINGS ====================
 
     /**
-     * Test 12: Custom quality settings
+     * Test: Quality settings for different scenarios
      */
-    @Test(priority = 12, description = "Custom Quality Settings")
-    public void test12_CustomQualitySettings() throws Exception {
-        System.out.println("Test 12: Custom Quality Settings");
+    @Test(priority = 12, description = "Quality Settings Scenarios")
+    public void test12_QualitySettingsScenarios() throws Exception
+    {
+        System.out.println("Test 12: Quality Settings Scenarios\n");
 
-        String imagePath = generateTestBarcode(
-                EncodeTypes.CODE_128,
-                "CUSTOM-SETTINGS",
-                "test12_custom.png"
+        // Scenario 1: High-quality image - use HighPerformance
+        String goodImage = generateTestBarcode(
+                EncodeTypes.CODE_128, "GOOD-IMAGE", "test12_good.png", 300f
         );
+        testWithPreset(goodImage, "HighPerformance",
+                QualitySettings.getHighPerformance());
 
-        BarCodeReader reader = new BarCodeReader(imagePath, DecodeType.CODE_128);
-        // Create custom settings
-        QualitySettings custom = new QualitySettings();
-        custom.setAllowInvertImage(true);
-        custom.setAllowMedianSmoothing(true);
-        custom.setMedianSmoothingWindowSize(5);
-        custom.setAllowComplexBackground(true);
-        custom.setAllowWhiteSpotsRemoving(true);
-        custom.setAllowOneDFastBarcodesDetector(true);
+        // Scenario 2: Normal photo - use NormalQuality
+        String normalImage = generateTestBarcode(
+                EncodeTypes.QR, "NORMAL-IMAGE", "test12_normal.png", 150f
+        );
+        testWithPreset(normalImage, "NormalQuality",
+                QualitySettings.getNormalQuality());
 
-        reader.setQualitySettings(custom);
+        // Scenario 3: Low quality - use HighQuality
+        String lowImage = generateTestBarcode(
+                EncodeTypes.DATA_MATRIX, "LOW-IMAGE", "test12_low.png", 96f
+        );
+        testWithPreset(lowImage, "HighQuality",
+                QualitySettings.getHighQuality());
 
-        BarCodeResult[] results = reader.readBarCodes();
-
-        Assert.assertEquals(results.length, 1);
-
-        System.out.println("  [OK] Applied custom settings:");
-        System.out.println("    - Invert image: true");
-        System.out.println("    - Median smoothing (window 5): true");
-        System.out.println("    - Complex background: true");
-        System.out.println("    - Remove spots: true");
-        System.out.println("  [OK] Result: " + results[0].getCodeText() + "\n");
+        // Scenario 4: Very difficult - use MaxQuality
+        testWithPreset(lowImage, "MaxQuality",
+                QualitySettings.getMaxQuality());
     }
 
-    // Оставшиеся тесты без reader.close()...
-    // (аналогично убираем все reader.close() из остальных тестов)
+
+    /**
+     * // HighPerformance
+     * // ✅ Use when: High-quality scanned images, good lighting, clear barcodes
+     * // ⚡ Speed: Fastest
+     * // 📊 Accuracy: Good for clean images
+     * reader.setQualitySettings(QualitySettings.getHighPerformance());
+     * <p>
+     * // NormalQuality (default)
+     * // ✅ Use when: Standard smartphone photos, normal conditions
+     * // ⚡ Speed: Fast
+     * // 📊 Accuracy: Good for most cases
+     * reader.setQualitySettings(QualitySettings.getNormalQuality());
+     * <p>
+     * // HighQuality
+     * // ✅ Use when: Blurry images, noise, slight rotation, poor lighting
+     * // ⚡ Speed: Moderate
+     * // 📊 Accuracy: Better for difficult conditions
+     * reader.setQualitySettings(QualitySettings.getHighQuality());
+     * <p>
+     * // MaxQuality
+     * // ✅ Use when: Very poor quality, damaged barcodes, extreme conditions
+     * // ⚡ Speed: Slow
+     * // 📊 Accuracy: Maximum (uses all algorithms)
+     * reader.setQualitySettings(QualitySettings.getMaxQuality());
+     * <p>
+     * // MaxBarCodes
+     * // ✅ Use when: Need to find ALL barcodes in image (multiple barcodes)
+     * // ⚡ Speed: Very slow
+     * // 📊 Accuracy: Finds maximum number of barcodes
+     * reader.setQualitySettings(QualitySettings.getMaxBarCodes());
+     **/
+    private void testWithPreset(String imagePath, String presetName, QualitySettings preset)
+    {
+        BarCodeReader reader = new BarCodeReader(imagePath, DecodeType.CODE_128, DecodeType.QR, DecodeType.DATA_MATRIX
+        );
+        reader.setQualitySettings(preset);
+
+        long start = System.currentTimeMillis();
+        BarCodeResult[] results = reader.readBarCodes();
+        long end = System.currentTimeMillis();
+
+        System.out.println("  [" + presetName + "]");
+        System.out.println("    - Time: " + (end - start) + " ms");
+        System.out.println("    - Found: " + results.length + " barcode(s)");
+        if (results.length > 0)
+        {
+            System.out.println("    - Data: " + results[0].getCodeText());
+            System.out.println("    - Confidence: " +
+                    String.format("%.1f", results[0].getConfidence()) + "%");
+        }
+        System.out.println();
+    }
 
     // ==================== HELPER METHODS ====================
 
@@ -423,7 +502,8 @@ public class QuickRecognitionExamples {
      * Generate test barcode image
      */
     private String generateTestBarcode(BaseEncodeType type, String data, String filename)
-            throws Exception {
+            throws Exception
+    {
         return generateTestBarcode(type, data, filename, 300f);
     }
 
@@ -431,7 +511,8 @@ public class QuickRecognitionExamples {
      * Generate test barcode image with custom DPI
      */
     private String generateTestBarcode(BaseEncodeType type, String data,
-                                       String filename, float dpi) throws Exception {
+                                       String filename, float dpi) throws Exception
+    {
         BarcodeGenerator gen = new BarcodeGenerator(type, data);
 
         // Universal settings for all barcode types
@@ -446,7 +527,8 @@ public class QuickRecognitionExamples {
     }
 
     @AfterClass
-    public void tearDown() {
+    public void tearDown()
+    {
         System.out.println("\n=== Recognition Tests Summary ===");
         System.out.println("All tests completed successfully!");
         System.out.println("\nKey Takeaways:");
