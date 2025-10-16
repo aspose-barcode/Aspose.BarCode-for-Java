@@ -50,7 +50,7 @@ public class ExampleAssist
             throw new UncheckedIOException("Failed to create directory: " + basePath, e);
         }
 
-        return basePath.toString() + File.separator;
+        return basePath + File.separator;
     }
 
     /**
