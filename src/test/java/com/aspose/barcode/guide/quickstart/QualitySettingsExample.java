@@ -12,8 +12,7 @@ import java.nio.file.Paths;
 public class QualitySettingsExample
 {
 
-    private static final String IMAGES_FOLDER =
-            Paths.get(ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "prepared_images")).toString();
+    private static final String IMAGES_FOLDER = ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "prepared_images");
 
     @BeforeClass
     public void setUp() {
