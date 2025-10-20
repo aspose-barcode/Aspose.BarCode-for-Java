@@ -28,30 +28,42 @@ public class ExampleAssist
         return basePath.toString() + File.separator;
     }
 
-    public static String getOrCreateResourceFolderPath(String... pathParts)
+    public static void main(String[] args)
     {
-        Path basePath = Paths.get("src", "test", "resources");
+        getOrCreateResourceFolderPath("quick_start", "recognition", "Recognition_Symbology");
+    }
 
-        for (String part : pathParts)
-        {
+    public static String getOrCreateResourceFolderPath(String... pathParts) {
+        Path basePath = Paths.get("src","test", "resources");
+
+        for (String part : pathParts) {
             basePath = basePath.resolve(part);
         }
 
-        try
-        {
+        try {
+            // Create all directories if they don't exist
             Files.createDirectories(basePath);
-        }
-        catch (FileAlreadyExistsException e)
-        {
+
+            // Build readable message
+            System.out.println("[ExampleAssist] Created or verified folder structure:");
+            Path current = Paths.get("test", "resources");
+            for (String part : pathParts) {
+                current = current.resolve(part);
+                if (Files.exists(current)) {
+                    System.out.println("  - " + current.toAbsolutePath());
+                }
+            }
+
+        } catch (FileAlreadyExistsException e) {
             throw new IllegalStateException("Path exists but is not a directory: " + basePath, e);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new UncheckedIOException("Failed to create directory: " + basePath, e);
         }
 
         return basePath + File.separator;
     }
+
+
 
     /**
      * Gets path to resource file or nested folders
