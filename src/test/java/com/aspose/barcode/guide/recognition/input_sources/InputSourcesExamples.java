@@ -183,9 +183,9 @@ public class InputSourcesExamples {
     // 8. Recognition from Processed Image
     // -----------------------------------------------------------------------------------------
     /**
-     * Demonstrates recognition after performing preprocessing (e.g. copying or filtering).
-     * This shows that {@link BarCodeReader} can work with any {@link BufferedImage},
-     * even if modified or re-rendered.
+     * Demonstrates that BarCodeReader correctly recognizes barcodes from images that have been preprocessed or re-rendered,
+     * such as those copied into a new BufferedImage, converted between color formats, or modified by image filters.
+     * This ensures reliability of barcode recognition in real-world pipelines where images are frequently transformed before analysis.
      */
     @Test(priority = 8, description = "Recognition from processed image")
     public void readFromProcessedImage() throws Exception {
