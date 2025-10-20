@@ -581,29 +581,4 @@ public class InputSourcesExamples
 
         return imagePath;
     }
-
-    @AfterClass
-    public void tearDown()
-    {
-        System.out.println("\n=== Input Sources Tests Summary ===");
-        System.out.println("All input source tests completed successfully!");
-        System.out.println("\nSupported Input Sources:");
-        System.out.println("1. ✅ File path (String) - Most common");
-        System.out.println("2. ✅ File object");
-        System.out.println("3. ✅ InputStream (File, Buffered, ByteArray)");
-        System.out.println("4. ✅ BufferedImage");
-        System.out.println("5. ✅ Byte array (via InputStream)");
-        System.out.println("6. ✅ Base64 string (via decoding)");
-        System.out.println("7. ✅ Multiple files (batch)");
-        System.out.println("8. ✅ Resource stream (embedded)");
-        System.out.println("9. ✅ Memory stream");
-        System.out.println("10. ✅ Processed images");
-        System.out.println("\nPractical Use Cases:");
-        System.out.println("- HTTP API responses");
-        System.out.println("- Database BLOBs");
-        System.out.println("- File uploads");
-        System.out.println("- Real-time camera feeds");
-        System.out.println("\nTest images location: " + TEST_IMAGES_FOLDER);
-        System.out.println("=====================================\n");
-    }
 }
