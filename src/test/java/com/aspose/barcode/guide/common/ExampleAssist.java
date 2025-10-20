@@ -1,5 +1,7 @@
 package com.aspose.barcode.guide.common;
 
+import org.testng.Assert;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,12 +39,10 @@ public class ExampleAssist
 
         try
         {
-            // Создаст только отсутствующие директории, существующие не тронет
             Files.createDirectories(basePath);
         }
         catch (FileAlreadyExistsException e)
         {
-            // Случай: по этому пути уже существует файл (не директория)
             throw new IllegalStateException("Path exists but is not a directory: " + basePath, e);
         }
         catch (IOException e)
@@ -87,4 +87,16 @@ public class ExampleAssist
     {
         throw new UnsupportedOperationException("Utility class");
     }
+
+    public static void checkOrCreateImage(String imagesFolder, String fileName, Generator generator) throws Exception {
+        Path p = Paths.get(imagesFolder, fileName);
+        Files.createDirectories(p.getParent());
+        if (!Files.exists(p)) {
+            generator.generate(p.toString());
+            Assert.assertTrue(Files.exists(p), "Failed to create fixture: " + p);
+            Assert.assertTrue(Files.size(p) > 0, "Fixture is empty: " + p);
+        }
+    }
+
+
 }
