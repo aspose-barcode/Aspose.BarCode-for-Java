@@ -116,25 +116,28 @@ public class ExampleAssist {
         }
     }
 
-    /**
-     * Asserts that barcodes are recognized correctly according to expectations.
-     */
-    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, SingleDecodeType expectedType) throws Exception {
+    public static void assertRecognized(BarCodeReader reader,String tag,int minCount,SingleDecodeType expectedType) throws Exception {
+
+        // Auto-detect test name if tag not provided
+        if (tag == null || tag.isEmpty()) {
+            tag = Thread.currentThread().getStackTrace()[2].getMethodName();
+        }
+
         BarCodeResult[] results = reader.readBarCodes();
 
+        System.out.println("=== [" + tag + "] ===");
         for (BarCodeResult result : results) {
-            System.out.println("[" + tag + "] " + result.getCodeTypeName() + " | " + result.getCodeText());
+            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
         }
 
         Assert.assertTrue(
                 results.length >= minCount,
-                "Expected at least " + minCount + " result(s) for " + tag + ", but got " + results.length
+                "Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length
         );
 
         if (expectedType != null && results.length > 0) {
             boolean hasExpectedType = false;
             for (BarCodeResult result : results) {
-                // Compare SingleDecodeType instances directly
                 if (result.getCodeType().equals(expectedType)) {
                     hasExpectedType = true;
                     break;
@@ -143,10 +146,11 @@ public class ExampleAssist {
 
             Assert.assertTrue(
                     hasExpectedType,
-                    "Expected to find type " + expectedType.getTypeName() + " in " + tag
+                    "Expected to find type " + expectedType.getTypeName() + " in test '" + tag + "'"
             );
         }
     }
+
 
 
     /**
