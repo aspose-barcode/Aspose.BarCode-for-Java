@@ -1,5 +1,9 @@
 package com.aspose.barcode.guide.common;
 
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
+import com.aspose.barcode.barcoderecognition.DecodeType;
+import com.aspose.barcode.barcoderecognition.SingleDecodeType;
 import org.testng.Assert;
 
 import java.io.File;
@@ -107,23 +111,48 @@ public class ExampleAssist {
 
         if (!Files.exists(path)) {
             generator.generate(path.toString());
-
             Assert.assertTrue(Files.exists(path), "Failed to create fixture: " + path);
             Assert.assertTrue(Files.size(path) > 0, "Fixture is empty: " + path);
         }
     }
 
     /**
+     * Asserts that barcodes are recognized correctly according to expectations.
+     */
+    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, SingleDecodeType expectedType) throws Exception {
+        BarCodeResult[] results = reader.readBarCodes();
+
+        for (BarCodeResult result : results) {
+            System.out.println("[" + tag + "] " + result.getCodeTypeName() + " | " + result.getCodeText());
+        }
+
+        Assert.assertTrue(
+                results.length >= minCount,
+                "Expected at least " + minCount + " result(s) for " + tag + ", but got " + results.length
+        );
+
+        if (expectedType != null && results.length > 0) {
+            boolean hasExpectedType = false;
+            for (BarCodeResult result : results) {
+                // Compare SingleDecodeType instances directly
+                if (result.getCodeType().equals(expectedType)) {
+                    hasExpectedType = true;
+                    break;
+                }
+            }
+
+            Assert.assertTrue(
+                    hasExpectedType,
+                    "Expected to find type " + expectedType.getTypeName() + " in " + tag
+            );
+        }
+    }
+
+
+    /**
      * Private constructor to prevent instantiation.
      */
     private ExampleAssist() {
         throw new UnsupportedOperationException("Utility class");
-    }
-
-    /**
-     * Quick manual test for debugging.
-     */
-    public static void main(String[] args) {
-        getOrCreateResourceFolderPath("quick_start", "recognition", "Recognition_Symbology");
     }
 }
