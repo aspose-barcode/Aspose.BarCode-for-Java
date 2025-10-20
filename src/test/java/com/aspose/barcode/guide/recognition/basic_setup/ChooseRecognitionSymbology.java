@@ -21,16 +21,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.aspose.barcode.guide.common.ExampleAssist.checkOrCreateImage;
+
 public class ChooseRecognitionSymbology
 {
 
     private static final String IMAGES_FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "prepared_images");
+            ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "Recognition_Symbology");
 
     @BeforeClass
     public void setUp() throws Exception {
         LicenseAssist.setupLicense();
-        Files.createDirectories(Paths.get(IMAGES_FOLDER));
     }
 
     // --- Single symbology: Code 128 ---
@@ -117,7 +118,7 @@ public class ChooseRecognitionSymbology
     // ---------------- Fixture generators (private) ----------------
 
     private void ensure_code128_png() throws Exception {
-        checkOrCreateImage("code128.png", (fullPath) -> {
+        checkOrCreateImage(IMAGES_FOLDER,"code128.png", (fullPath) -> {
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.CODE_128, "ASPOSE-CODE128");
             g.getParameters().getBarcode().getXDimension().setPixels(2);
             g.getParameters().getBarcode().getBarHeight().setPixels(60);
@@ -126,7 +127,7 @@ public class ChooseRecognitionSymbology
     }
 
     private void ensure_qrcode_png() throws Exception {
-        checkOrCreateImage("qrcode.png", (fullPath) -> {
+        checkOrCreateImage(IMAGES_FOLDER,"qrcode.png", (fullPath) -> {
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "https://aspose.com");
             g.getParameters().getBarcode().getXDimension().setPixels(4);
             g.save(fullPath, BarCodeImageFormat.PNG);
@@ -134,7 +135,7 @@ public class ChooseRecognitionSymbology
     }
 
     private void ensure_ean13_png() throws Exception {
-        checkOrCreateImage("ean13.png", (fullPath) -> {
+        checkOrCreateImage(IMAGES_FOLDER,"ean13.png", (fullPath) -> {
             // Valid 13-digit EAN (GTIN-13). If 12 digits are provided, engine will calculate checksum.
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
             g.getParameters().getBarcode().getXDimension().setPixels(2);
@@ -143,7 +144,7 @@ public class ChooseRecognitionSymbology
     }
 
     private void ensure_datamatrix_png() throws Exception {
-        checkOrCreateImage("datamatrix.png", (fullPath) -> {
+        checkOrCreateImage(IMAGES_FOLDER,"datamatrix.png", (fullPath) -> {
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.DATA_MATRIX, "DMX-DEMO-001");
             g.getParameters().getBarcode().getXDimension().setPixels(4);
             g.save(fullPath, BarCodeImageFormat.PNG);
@@ -151,7 +152,7 @@ public class ChooseRecognitionSymbology
     }
 
     private void ensure_gs1_128_png() throws Exception {
-        checkOrCreateImage("gs1_128.png", (fullPath) -> {
+        checkOrCreateImage(IMAGES_FOLDER,"gs1_128.png", (fullPath) -> {
             String gs1 = "(01)09501101530008(17)251231(10)BATCH-42";
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.GS_1_CODE_128, gs1);
             g.getParameters().getBarcode().getXDimension().setPixels(2);
@@ -162,64 +163,53 @@ public class ChooseRecognitionSymbology
 
 
     private void ensure_multi_png() throws Exception {
-            // Create two separate barcodes and compose them into one image.
-            String tmp1 = getFullPath("tmp_multi_code128.png");
-            String tmp2 = getFullPath("tmp_multi_qr.png");
-            Path p = Paths.get(IMAGES_FOLDER, tmp1);
-            Files.createDirectories(p.getParent());
+        // Create two separate barcodes and compose them into one image.
+        String tmp1 = getFullPath("tmp_multi_code128.png");
+        String tmp2 = getFullPath("tmp_multi_qr.png");
 
-            BarcodeGenerator g1 = new BarcodeGenerator(EncodeTypes.CODE_128, "MULTI-1-C128");
-            g1.getParameters().getBarcode().getXDimension().setPixels(2);
-            g1.getParameters().getBarcode().getBarHeight().setPixels(60);
-            g1.save(tmp1, BarCodeImageFormat.PNG);
+        // Create parent folder only once
+        Files.createDirectories(Paths.get(IMAGES_FOLDER));
 
-            BarcodeGenerator g2 = new BarcodeGenerator(EncodeTypes.QR, "MULTI-2-QR");
-            g2.getParameters().getBarcode().getXDimension().setPixels(4);
-            g2.save(tmp2, BarCodeImageFormat.PNG);
+        // Generate first barcode
+        BarcodeGenerator g1 = new BarcodeGenerator(EncodeTypes.CODE_128, "MULTI-1-C128");
+        g1.getParameters().getBarcode().getXDimension().setPixels(2);
+        g1.getParameters().getBarcode().getBarHeight().setPixels(60);
+        g1.save(tmp1, BarCodeImageFormat.PNG);
 
-            try {
-                BufferedImage left = ImageIO.read(Paths.get(tmp1).toFile());
-                BufferedImage right = ImageIO.read(Paths.get(tmp2).toFile());
+        // Generate second barcode
+        BarcodeGenerator g2 = new BarcodeGenerator(EncodeTypes.QR, "MULTI-2-QR");
+        g2.getParameters().getBarcode().getXDimension().setPixels(4);
+        g2.save(tmp2, BarCodeImageFormat.PNG);
 
-                int gap = 20;
-                int w = left.getWidth() + gap + right.getWidth();
-                int h = Math.max(left.getHeight(), right.getHeight());
+        try {
+            BufferedImage left = ImageIO.read(Paths.get(tmp1).toFile());
+            BufferedImage right = ImageIO.read(Paths.get(tmp2).toFile());
 
-                BufferedImage canvas = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-                Graphics2D g = canvas.createGraphics();
-                g.drawImage(left, 0, 0, null);
-                g.drawImage(right, left.getWidth() + gap, 0, null);
-                g.dispose();
+            int gap = 20;
+            int w = left.getWidth() + gap + right.getWidth();
+            int h = Math.max(left.getHeight(), right.getHeight());
 
-                ImageIO.write(canvas, "PNG", Paths.get(getFullPath("multi.png")).toFile());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally {
-                try { Files.deleteIfExists(Paths.get(tmp1)); } catch (Exception ignored) {}
-                try { Files.deleteIfExists(Paths.get(tmp2)); } catch (Exception ignored) {}
-            }
+            BufferedImage canvas = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = canvas.createGraphics();
+            g.drawImage(left, 0, 0, null);
+            g.drawImage(right, left.getWidth() + gap, 0, null);
+            g.dispose();
+
+            ImageIO.write(canvas, "PNG", Paths.get(getFullPath("multi.png")).toFile());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try { Files.deleteIfExists(Paths.get(tmp1)); } catch (Exception ignored) {}
+            try { Files.deleteIfExists(Paths.get(tmp2)); } catch (Exception ignored) {}
+        }
     }
 
+
     private void ensureMixedPng() throws Exception {
-        checkOrCreateImage("mixed.png", (fullPath) -> {
+        checkOrCreateImage(IMAGES_FOLDER,"mixed.png", (fullPath) -> {
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "MIXED-SAMPLE");
             g.getParameters().getBarcode().getXDimension().setPixels(4);
             g.save(fullPath, BarCodeImageFormat.PNG);
         });
     }
-
-    private void checkOrCreateImage(String fileName, Generator generator) throws Exception {
-        Path p = Paths.get(IMAGES_FOLDER, fileName);
-        Files.createDirectories(p.getParent());
-        if (!Files.exists(p)) {
-            generator.generate(p.toString());
-            Assert.assertTrue(Files.exists(p), "Failed to create fixture: " + p);
-            Assert.assertTrue(Files.size(p) > 0, "Fixture is empty: " + p);
-        }
-    }
-
-//    @FunctionalInterface
-//    interface Generator {
-//        void generate(String fullPath) throws IOException;
-//    }
 }
