@@ -29,10 +29,10 @@ import java.nio.file.Paths;
  */
 public class InputSourcesExamples
 {
-    private static final String TEST_IMAGES_FOLDER = ExampleAssist.getOrCreateResourceFolderPath("quick_start", "input_sources", "test_images");
+    private static final String TEST_IMAGES_FOLDER = ExampleAssist.getOrCreateResourceFolderPath("quick_start", "input_sources");
 
     private static String testImagePath;
-    private static final String TEST_DATA = "INPUT-SOURCE-TEST";
+    private static final String TEST_DATA = "INPUT-SOURCES-TEST";
 
     @BeforeClass
     public void setUp() throws Exception
