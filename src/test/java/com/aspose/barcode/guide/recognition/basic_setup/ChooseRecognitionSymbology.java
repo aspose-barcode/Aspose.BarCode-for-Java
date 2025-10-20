@@ -93,7 +93,7 @@ public class ChooseRecognitionSymbology
     // --- Multiple barcodes in one image (expect >= 2) ---
     @Test
     public void read_MultipleInOneImage_AllSupported() throws Exception {
-        ensure_multi_png(); // collage with two barcodes
+        createMultiImage(); // collage with two barcodes
         BarCodeReader reader = new BarCodeReader(getFullPath("multi.png"), DecodeType.ALL_SUPPORTED_TYPES);
         assertRecognized(reader, "multi.png", 2);
     }
@@ -162,7 +162,7 @@ public class ChooseRecognitionSymbology
     }
 
 
-    private void ensure_multi_png() throws Exception {
+    private void createMultiImage() throws Exception {
         // Create two separate barcodes and compose them into one image.
         String tmp1 = getFullPath("tmp_multi_code128.png");
         String tmp2 = getFullPath("tmp_multi_qr.png");
