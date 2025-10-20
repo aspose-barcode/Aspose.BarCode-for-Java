@@ -11,48 +11,56 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ExampleAssist
-{
+/**
+ * Utility helper for example tests and resource management.
+ */
+public class ExampleAssist {
+
     /**
-     * Gets path to resource folder with trailing separator
+     * Gets the path to a resource folder with a trailing separator.
      */
-    public static String getResourceFolderPath(String... pathParts)
-    {
+    public static String getResourceFolderPath(String... pathParts) {
         Path basePath = Paths.get("src", "test", "resources");
 
-        for (String part : pathParts)
-        {
+        for (String part : pathParts) {
             basePath = basePath.resolve(part);
         }
 
         return basePath.toString() + File.separator;
     }
 
-    public static void main(String[] args)
-    {
-        getOrCreateResourceFolderPath("quick_start", "recognition", "Recognition_Symbology");
-    }
-
+    /**
+     * Gets or creates a resource folder path and prints created structure.
+     */
     public static String getOrCreateResourceFolderPath(String... pathParts) {
-        Path basePath = Paths.get("src","test", "resources");
+        Path basePath;
 
-        for (String part : pathParts) {
-            basePath = basePath.resolve(part);
+        // Detect if the first part already includes src/test/resources to avoid duplication
+        if (pathParts.length > 0 && pathParts[0].contains("src" + File.separator + "test" + File.separator + "resources")) {
+            basePath = Paths.get(pathParts[0]);
+            for (int i = 1; i < pathParts.length; i++) {
+                basePath = basePath.resolve(pathParts[i]);
+            }
+        } else {
+            basePath = Paths.get("src", "test", "resources");
+            for (String part : pathParts) {
+                basePath = basePath.resolve(part);
+            }
         }
 
         try {
-            // Create all directories if they don't exist
             Files.createDirectories(basePath);
 
-            // Build readable message
             System.out.println("[ExampleAssist] Created or verified folder structure:");
-            Path current = Paths.get("test", "resources");
+            Path current = Paths.get("src", "test", "resources");
             for (String part : pathParts) {
                 current = current.resolve(part);
                 if (Files.exists(current)) {
                     System.out.println("  - " + current.toAbsolutePath());
                 }
             }
+
+            System.out.println("[ExampleAssist] Final resource path: " + basePath.toAbsolutePath());
 
         } catch (FileAlreadyExistsException e) {
             throw new IllegalStateException("Path exists but is not a directory: " + basePath, e);
@@ -63,17 +71,13 @@ public class ExampleAssist
         return basePath + File.separator;
     }
 
-
-
     /**
-     * Gets path to resource file or nested folders
+     * Gets path to a resource file or nested folders.
      */
-    public static String getResourceFilePath(String... pathParts)
-    {
+    public static String getResourceFilePath(String... pathParts) {
         Path basePath = Paths.get("src", "test", "resources");
 
-        for (String part : pathParts)
-        {
+        for (String part : pathParts) {
             basePath = basePath.resolve(part);
         }
 
@@ -81,10 +85,9 @@ public class ExampleAssist
     }
 
     /**
-     * Gets input stream for reading resource files
+     * Gets input stream for reading resource files from classpath.
      */
-    public static InputStream getResourceAsStream(String resourcePath)
-    {
+    public static InputStream getResourceAsStream(String resourcePath) {
         InputStream stream = ExampleAssist.class.getClassLoader()
                 .getResourceAsStream(resourcePath);
 
@@ -95,20 +98,32 @@ public class ExampleAssist
         return stream;
     }
 
-    private ExampleAssist()
-    {
-        throw new UnsupportedOperationException("Utility class");
-    }
-
+    /**
+     * Checks if the given image exists, or creates it using the provided generator.
+     */
     public static void checkOrCreateImage(String imagesFolder, String fileName, Generator generator) throws Exception {
-        Path p = Paths.get(imagesFolder, fileName);
-        Files.createDirectories(p.getParent());
-        if (!Files.exists(p)) {
-            generator.generate(p.toString());
-            Assert.assertTrue(Files.exists(p), "Failed to create fixture: " + p);
-            Assert.assertTrue(Files.size(p) > 0, "Fixture is empty: " + p);
+        Path path = Paths.get(imagesFolder, fileName);
+        Files.createDirectories(path.getParent());
+
+        if (!Files.exists(path)) {
+            generator.generate(path.toString());
+
+            Assert.assertTrue(Files.exists(path), "Failed to create fixture: " + path);
+            Assert.assertTrue(Files.size(path) > 0, "Fixture is empty: " + path);
         }
     }
 
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private ExampleAssist() {
+        throw new UnsupportedOperationException("Utility class");
+    }
 
+    /**
+     * Quick manual test for debugging.
+     */
+    public static void main(String[] args) {
+        getOrCreateResourceFolderPath("quick_start", "recognition", "Recognition_Symbology");
+    }
 }
