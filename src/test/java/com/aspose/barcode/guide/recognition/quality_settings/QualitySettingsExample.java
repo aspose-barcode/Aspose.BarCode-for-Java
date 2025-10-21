@@ -3,8 +3,8 @@ package com.aspose.barcode.guide.recognition.quality_settings;
 import com.aspose.barcode.barcoderecognition.*;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
+import com.aspose.barcode.guide.common.Generator;
 import com.aspose.barcode.guide.common.LicenseAssist;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -13,10 +13,11 @@ import java.nio.file.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-import static com.aspose.barcode.guide.common.ExampleAssist.assertRecognized;
+import static com.aspose.barcode.guide.common.ExampleAssist.checkOrCreateImage;
 
 /**
- * Demonstrates various QualitySettings presets and customization in Aspose.BarCode recognition.
+ * Demonstrates various QualitySettings presets and custom configurations
+ * for Aspose.BarCode recognition.
  */
 public class QualitySettingsExample {
 
@@ -32,105 +33,90 @@ public class QualitySettingsExample {
     // --- Code128 with NormalQuality ---
     @Test
     public void readCode128NormalQuality() throws Exception {
-        checkOrCreateImage("code128.png", this::generateCode128);
+        checkOrCreateImage(IMAGES_FOLDER, "code128.png", this::generateCode128);
         QualitySettings qs = QualitySettings.getNormalQuality();
-        BarCodeReader reader = new BarCodeReader(path("code128.png"), DecodeType.CODE_128);
+        BarCodeReader reader = new BarCodeReader(getPath("code128.png"), DecodeType.CODE_128);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "code128.png", 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, "code128.png", 1, DecodeType.CODE_128);
     }
 
     // --- QR with HighPerformance ---
     @Test
     public void readQrHighPerformance() throws Exception {
-        checkOrCreateImage("qrcode.png", this::generateQr);
+        checkOrCreateImage(IMAGES_FOLDER, "qrcode.png", this::generateQr);
         QualitySettings qs = QualitySettings.getHighPerformance();
-        BarCodeReader reader = new BarCodeReader(path("qrcode.png"), DecodeType.QR);
+        BarCodeReader reader = new BarCodeReader(getPath("qrcode.png"), DecodeType.QR);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "qrcode.png", 1, DecodeType.QR);
+        ExampleAssist.assertRecognized(reader, "qrcode.png", 1, DecodeType.QR);
     }
 
     // --- DataMatrix with HighQuality ---
     @Test
     public void readDataMatrixHighQuality() throws Exception {
-        checkOrCreateImage("datamatrix.png", this::generateDataMatrix);
+        checkOrCreateImage(IMAGES_FOLDER, "datamatrix.png", this::generateDataMatrix);
         QualitySettings qs = QualitySettings.getHighQuality();
-        BarCodeReader reader = new BarCodeReader(path("datamatrix.png"), DecodeType.DATA_MATRIX);
+        BarCodeReader reader = new BarCodeReader(getPath("datamatrix.png"), DecodeType.DATA_MATRIX);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "datamatrix.png", 1, DecodeType.DATA_MATRIX);
+        ExampleAssist.assertRecognized(reader, "datamatrix.png", 1, DecodeType.DATA_MATRIX);
     }
 
     // --- PDF417 with MaxQuality ---
     @Test
     public void readPdf417MaxQuality() throws Exception {
-        checkOrCreateImage("pdf417.png", this::generatePdf417);
+        checkOrCreateImage(IMAGES_FOLDER, "pdf417.png", this::generatePdf417);
         QualitySettings qs = QualitySettings.getMaxQuality();
-        BarCodeReader reader = new BarCodeReader(path("pdf417.png"), DecodeType.PDF_417);
+        BarCodeReader reader = new BarCodeReader(getPath("pdf417.png"), DecodeType.PDF_417);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "pdf417.png", 1, DecodeType.PDF_417);
+        ExampleAssist.assertRecognized(reader, "pdf417.png", 1, DecodeType.PDF_417);
     }
 
-    // --- EAN13 via TYPES_1D ---
+    // --- EAN-13 via TYPES_1D ---
     @Test
     public void readEan13All1dNormalQuality() throws Exception {
-        checkOrCreateImage("ean13.png", this::generateEan13);
+        checkOrCreateImage(IMAGES_FOLDER, "ean13.png", this::generateEan13);
         QualitySettings qs = QualitySettings.getNormalQuality();
-        BarCodeReader reader = new BarCodeReader(path("ean13.png"), DecodeType.TYPES_1D);
+        BarCodeReader reader = new BarCodeReader(getPath("ean13.png"), DecodeType.TYPES_1D);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "ean13.png", 1, DecodeType.EAN_13);
+        ExampleAssist.assertRecognized(reader, "ean13.png", 1, DecodeType.EAN_13);
     }
 
     // --- Aztec via TYPES_2D ---
     @Test
     public void readAztecAll2dNormalQuality() throws Exception {
-        checkOrCreateImage("aztec.png", this::generateAztec);
+        checkOrCreateImage(IMAGES_FOLDER, "aztec.png", this::generateAztec);
         QualitySettings qs = QualitySettings.getNormalQuality();
-        BarCodeReader reader = new BarCodeReader(path("aztec.png"), DecodeType.TYPES_2D);
+        BarCodeReader reader = new BarCodeReader(getPath("aztec.png"), DecodeType.TYPES_2D);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "aztec.png", 1, DecodeType.AZTEC);
+        ExampleAssist.assertRecognized(reader, "aztec.png", 1, DecodeType.AZTEC);
     }
 
     // --- Custom: NormalQuality + InverseImage (for inverted QR) ---
     @Test
     public void readQrNormalQualityInverseEnabled() throws Exception {
-        checkOrCreateImage("qrcode_inverted.png", this::generateQrInverted);
+        checkOrCreateImage(IMAGES_FOLDER, "qrcode_inverted.png", this::generateQrInverted);
         QualitySettings qs = QualitySettings.getNormalQuality();
         qs.setInverseImage(InverseImageMode.ENABLED);
-        BarCodeReader reader = new BarCodeReader(path("qrcode_inverted.png"), DecodeType.QR);
+        BarCodeReader reader = new BarCodeReader(getPath("qrcode_inverted.png"), DecodeType.QR);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "qrcode_inverted.png", 1, DecodeType.QR);
+        ExampleAssist.assertRecognized(reader, "qrcode_inverted.png", 1, DecodeType.QR);
     }
 
-    // --- Custom: HighPerformance + Small XDimension for tiny barcode ---
+    // --- Custom: HighPerformance + Small XDimension for tiny barcodes ---
     @Test
     public void readCode128HighPerformanceTinyX() throws Exception {
-        checkOrCreateImage("code128_small.png", this::generateCode128Small);
+        checkOrCreateImage(IMAGES_FOLDER, "code128_small.png", this::generateCode128Small);
         QualitySettings qs = QualitySettings.getHighPerformance();
         qs.setXDimension(XDimensionMode.SMALL);
         qs.setMinimalXDimension(1);
-        BarCodeReader reader = new BarCodeReader(path("code128_small.png"), DecodeType.CODE_128);
+        BarCodeReader reader = new BarCodeReader(getPath("code128_small.png"), DecodeType.CODE_128);
         reader.setQualitySettings(qs);
-        assertRecognized(reader, "code128_small.png", 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, "code128_small.png", 1, DecodeType.CODE_128);
     }
 
     // ====================== Helpers ======================
 
-    private String path(String fileName) {
+    private String getPath(String fileName) {
         return Paths.get(IMAGES_FOLDER, fileName).toString();
-    }
-
-    private interface Generator {
-        void generate(String fullPath) throws IOException;
-    }
-
-    private void checkOrCreateImage(String fileName, Generator generator) throws Exception {
-        Path filePath = Paths.get(IMAGES_FOLDER, fileName);
-        Files.createDirectories(filePath.getParent());
-        if (!Files.exists(filePath)) {
-            generator.generate(filePath.toString());
-        }
-        if (!Files.exists(filePath) || Files.size(filePath) == 0) {
-            throw new IllegalStateException("Failed to create image: " + filePath);
-        }
     }
 
     // ====================== Image Generators ======================
