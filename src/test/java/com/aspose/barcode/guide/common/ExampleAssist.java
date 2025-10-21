@@ -4,6 +4,9 @@ import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.barcoderecognition.SingleDecodeType;
+import com.aspose.barcode.generation.BarCodeImageFormat;
+import com.aspose.barcode.generation.BarcodeGenerator;
+import com.aspose.barcode.generation.BaseEncodeType;
 import org.testng.Assert;
 
 import java.io.File;
@@ -151,7 +154,16 @@ public class ExampleAssist {
         }
     }
 
+    public static String generateTestBarcode(String data, String imagesFolder, String fileName, BaseEncodeType type) throws Exception {
+        BarcodeGenerator gen = new BarcodeGenerator(type, data);
+        gen.getParameters().setResolution(300f);
+        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
+        gen.getParameters().getBarcode().getBarHeight().setMillimeters(25f);
 
+        String fullPath = imagesFolder + File.separator + fileName;
+        gen.save(fullPath, BarCodeImageFormat.PNG);
+        return fullPath;
+    }
 
     /**
      * Private constructor to prevent instantiation.

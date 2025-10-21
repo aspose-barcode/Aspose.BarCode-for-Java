@@ -1,4 +1,4 @@
-package com.aspose.barcode.guide.quickstart;
+package com.aspose.barcode.guide.recognition.quality_settings;
 
 import com.aspose.barcode.barcoderecognition.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
@@ -6,8 +6,6 @@ import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.nio.file.Paths;
 
 public class QualitySettingsExample
 {
