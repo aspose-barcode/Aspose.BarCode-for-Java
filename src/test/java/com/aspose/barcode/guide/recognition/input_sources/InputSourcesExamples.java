@@ -29,7 +29,7 @@ import static com.aspose.barcode.guide.common.ExampleAssist.generateTestBarcode;
 public class InputSourcesExamples {
 
     private static final String IMAGES_FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "input_sources");
+            ExampleAssist.getOrCreateResourceFolderPath("recognition", "input_sources");
 
     private static final String TEST_DATA = "INPUT-SOURCES-TEST";
     private static String testImagePath;
