@@ -33,7 +33,7 @@ public class ExampleAssist {
             basePath = basePath.resolve(part);
         }
 
-        return basePath.toString() + File.separator;
+        return basePath + File.separator;
     }
 
     /**
