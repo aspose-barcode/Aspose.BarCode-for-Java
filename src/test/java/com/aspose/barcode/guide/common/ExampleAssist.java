@@ -171,4 +171,9 @@ public class ExampleAssist {
     private ExampleAssist() {
         throw new UnsupportedOperationException("Utility class");
     }
+
+    public static String pathCombine(String folder, String image)
+    {
+        return folder + "/" + image;
+    }
 }
