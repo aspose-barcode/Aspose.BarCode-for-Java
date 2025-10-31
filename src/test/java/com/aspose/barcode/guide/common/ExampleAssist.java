@@ -108,7 +108,8 @@ public class ExampleAssist {
     /**
      * Checks if the given image exists, or creates it using the provided generator.
      */
-    public static void checkOrCreateImage(String imagesFolder, String fileName, Generator generator) throws Exception {
+    public static void checkOrCreateImage(String imagesFolder, String fileName, Generator generator) throws IOException
+    {
         Path path = Paths.get(imagesFolder, fileName);
         Files.createDirectories(path.getParent());
 

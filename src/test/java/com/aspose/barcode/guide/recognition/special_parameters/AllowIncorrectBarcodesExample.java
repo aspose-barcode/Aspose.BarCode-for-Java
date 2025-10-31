@@ -115,7 +115,8 @@ public class AllowIncorrectBarcodesExample {
     @Test
     public void compare_AllowIncorrect_Toggle() throws Exception {
         String fileName = "code39_compare.png";
-        ExampleAssist.checkOrCreateImage(FOLDER, fileName, path -> generateDamagedCode39(path));
+
+        ExampleAssist.checkOrCreateImage(FOLDER, fileName, this::generateDamagedCode39);
 
         // Without allowance
         BarCodeReader reader1 = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_39);
