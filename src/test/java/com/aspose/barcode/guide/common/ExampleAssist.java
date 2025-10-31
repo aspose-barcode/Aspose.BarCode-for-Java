@@ -114,7 +114,20 @@ public class ExampleAssist {
         Files.createDirectories(path.getParent());
 
         if (!Files.exists(path)) {
-            generator.generate(path.toString());
+            String fullPath = path.toString();
+            generator.generate(fullPath);
+            Assert.assertTrue(Files.exists(path), "Failed to create fixture: " + path);
+            Assert.assertTrue(Files.size(path) > 0, "Fixture is empty: " + path);
+        }
+    }
+
+    public static void checkOrCreateImage(String imagesFolder, String fileName, BarcodeGenerator barcodeGenerator) throws IOException
+    {
+        Path path = Paths.get(imagesFolder, fileName);
+        Files.createDirectories(path.getParent());
+
+        if (!Files.exists(path)) {
+            barcodeGenerator.save(path.toString());
             Assert.assertTrue(Files.exists(path), "Failed to create fixture: " + path);
             Assert.assertTrue(Files.size(path) > 0, "Fixture is empty: " + path);
         }
@@ -155,7 +168,7 @@ public class ExampleAssist {
         }
     }
 
-    public static String generateTestBarcode(String data, String imagesFolder, String fileName, BaseEncodeType type) throws Exception {
+    public static String generateTestBarcode(String data, String imagesFolder, String fileName, BaseEncodeType type) throws IOException {
         BarcodeGenerator gen = new BarcodeGenerator(type, data);
         gen.getParameters().setResolution(300f);
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
