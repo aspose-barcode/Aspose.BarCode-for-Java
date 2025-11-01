@@ -2,7 +2,6 @@ package com.aspose.barcode.guide.common;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
-import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.barcoderecognition.SingleDecodeType;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
@@ -108,14 +107,14 @@ public class ExampleAssist {
     /**
      * Checks if the given image exists, or creates it using the provided generator.
      */
-    public static void checkOrCreateImage(String imagesFolder, String fileName, Generator generator) throws IOException
+    public static void checkOrCreateImage(String imagesFolder, String fileName, ImageSupplier generator) throws IOException
     {
         Path path = Paths.get(imagesFolder, fileName);
         Files.createDirectories(path.getParent());
 
         if (!Files.exists(path)) {
             String fullPath = path.toString();
-            generator.generate(fullPath);
+            generator.supply(fullPath);
             Assert.assertTrue(Files.exists(path), "Failed to create fixture: " + path);
             Assert.assertTrue(Files.size(path) > 0, "Fixture is empty: " + path);
         }

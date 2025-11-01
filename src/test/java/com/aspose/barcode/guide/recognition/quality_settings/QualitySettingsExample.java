@@ -3,7 +3,6 @@ package com.aspose.barcode.guide.recognition.quality_settings;
 import com.aspose.barcode.barcoderecognition.*;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
-import com.aspose.barcode.guide.common.Generator;
 import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

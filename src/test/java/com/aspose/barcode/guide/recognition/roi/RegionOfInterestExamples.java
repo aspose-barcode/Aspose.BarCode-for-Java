@@ -7,7 +7,7 @@ import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
-import com.aspose.barcode.guide.common.Generator;
+import com.aspose.barcode.guide.common.ImageSupplier;
 import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -185,11 +185,11 @@ public class RegionOfInterestExamples {
         });
     }
 
-    private void ensureImage(String fileName, Generator generator) throws Exception {
+    private void ensureImage(String fileName, ImageSupplier generator) throws Exception {
         Path p = Paths.get(IMAGES_FOLDER, fileName);
         Files.createDirectories(p.getParent());
         if (!Files.exists(p)) {
-            generator.generate(p.toString());
+            generator.supply(p.toString());
             Assert.assertTrue(Files.exists(p), "Failed to create fixture: " + p);
             Assert.assertTrue(Files.size(p) > 0, "Fixture is empty: " + p);
         }

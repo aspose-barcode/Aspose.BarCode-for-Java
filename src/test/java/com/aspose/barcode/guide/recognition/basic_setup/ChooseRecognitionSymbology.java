@@ -7,7 +7,6 @@ import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
-import com.aspose.barcode.guide.common.Generator;
 import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
