@@ -2,6 +2,7 @@ package com.aspose.barcode.guide.common;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
+import com.aspose.barcode.barcoderecognition.BaseDecodeType;
 import com.aspose.barcode.barcoderecognition.SingleDecodeType;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
@@ -132,7 +133,7 @@ public class ExampleAssist {
         }
     }
 
-    public static void assertRecognized(BarCodeReader reader,String tag,int minCount,SingleDecodeType expectedType) throws Exception {
+    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType expectedType) throws Exception {
 
         // Auto-detect test name if tag not provided
         if (tag == null || tag.isEmpty()) {
@@ -146,10 +147,7 @@ public class ExampleAssist {
             System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
         }
 
-        Assert.assertTrue(
-                results.length >= minCount,
-                "Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length
-        );
+        Assert.assertTrue(results.length >= minCount,"Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length);
 
         if (expectedType != null && results.length > 0) {
             boolean hasExpectedType = false;
@@ -162,7 +160,7 @@ public class ExampleAssist {
 
             Assert.assertTrue(
                     hasExpectedType,
-                    "Expected to find type " + expectedType.getTypeName() + " in test '" + tag + "'"
+                    "Expected to find type " + expectedType.toString() + " in test '" + tag + "'"
             );
         }
     }
