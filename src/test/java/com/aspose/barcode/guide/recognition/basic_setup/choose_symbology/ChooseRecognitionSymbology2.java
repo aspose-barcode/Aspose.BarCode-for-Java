@@ -1,4 +1,4 @@
-package com.aspose.barcode.guide.recognition.basic_setup;
+package com.aspose.barcode.guide.recognition.basic_setup.choose_symbology;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
@@ -21,10 +21,11 @@ import java.nio.file.Paths;
 
 import static com.aspose.barcode.guide.common.ExampleAssist.checkOrCreateImage;
 
-public class ChooseRecognitionSymbology {
+public class ChooseRecognitionSymbology2
+{
 
     private static final String IMAGES_FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "Recognition_Symbology");
+            ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "basic_setup", "recognition_symbology");
 
     @BeforeClass
     public void setUp() throws Exception {

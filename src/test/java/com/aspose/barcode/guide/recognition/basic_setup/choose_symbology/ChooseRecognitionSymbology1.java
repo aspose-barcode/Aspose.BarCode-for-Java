@@ -1,4 +1,4 @@
-package com.aspose.barcode.guide.recognition.basic_setup;
+package com.aspose.barcode.guide.recognition.basic_setup.choose_symbology;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
