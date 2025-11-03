@@ -4,17 +4,17 @@ import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.barcoderecognition.QualitySettings;
+import com.aspose.barcode.generation.BarCodeImageFormat;
+import com.aspose.barcode.generation.BarcodeGenerator;
+import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
+public class ChooseRecognitionSymbology {
 
-public class ChooseRecognitionSymbology1 {
-
-    private static final String IMAGES_FOLDER =
+    private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "basic_setup", "choose_symbology");
 
     @BeforeClass
@@ -22,113 +22,89 @@ public class ChooseRecognitionSymbology1 {
         LicenseAssist.setupLicense();
     }
 
-    // ------------------------ Helpers ------------------------
-
-    // Ensures we always build a correct file path and dispose the reader.
-    private BarCodeReader newReader(String fileName, DecodeType... types) {
-        String path = IMAGES_FOLDER.endsWith(File.separator)
-                ? IMAGES_FOLDER + fileName
-                : IMAGES_FOLDER + File.separator + fileName;
-        return new BarCodeReader(path, types);
-    }
-
-    private void assertRecognized(BarCodeReader barCodeReader, String imageName, int count) throws Exception {
-        BarCodeResult[] results = barCodeReader.readBarCodes();
-
-        System.out.println("Results for " + imageName + ":");
-        for (BarCodeResult result : results) {
-            System.out.println("  Code Type: " + result.getCodeTypeName() +
-                    " | Code Text: " + result.getCodeText() +
-                    " | Quality: " + result.getReadingQuality());
-        }
-
-        Assert.assertTrue(
-                results.length >= count,
-                "Expected at least " + count + " result(s) in " + imageName + ", but got " + results.length
-        );
-    }
-
     // ==================== 1D Barcodes ====================
 
     // --- Code 128 ---
     @Test
     public void read_Code128_NormalQuality() throws Exception {
-        try (BarCodeReader reader = newReader("code128.png", DecodeType.CODE_128)) {
-            assertRecognized(reader, "code128.png", 1);
-        }
+        String fileName = "code128.png";
+        ExampleAssist.checkOrCreateImage(FOLDER, fileName, path -> {
+            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, "123456789");
+            generator.save(path, BarCodeImageFormat.PNG);
+        });
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
     }
 
     // --- Code 39 ---
     @Test
     public void read_Code39() throws Exception {
-        try (BarCodeReader reader = newReader("code39.png", DecodeType.CODE_39)) {
-            assertRecognized(reader, "code39.png", 1);
-        }
+        String fileName = "code39.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_39);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_39);
     }
 
     @Test
     public void read_Code39FullASCII() throws Exception {
-        // Note: using a dedicated Full ASCII sample image name
-        try (BarCodeReader reader = newReader("code39_full_ascii.png", DecodeType.CODE_39_FULL_ASCII)) {
-            assertRecognized(reader, "code39_full_ascii.png", 1);
-        }
+        String fileName = "code39_full_ascii.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_39_FULL_ASCII);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_39_FULL_ASCII);
     }
 
     // --- EAN-13 ---
     @Test
     public void read_EAN13() throws Exception {
-        try (BarCodeReader reader = newReader("ean13.png", DecodeType.EAN_13)) {
-            assertRecognized(reader, "ean13.png", 1);
-        }
+        String fileName = "ean13.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.EAN_13);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.EAN_13);
     }
 
     @Test
     public void read_EAN13_WithSupplement() throws Exception {
-        try (BarCodeReader reader = newReader("ean13_supplement.png", DecodeType.EAN_13)) {
-            // Optional: keep DetectEncoding if your code text may include non-ASCII chars
-            reader.getBarcodeSettings().setDetectEncoding(true);
-            assertRecognized(reader, "ean13_supplement.png", 1);
-        }
+        String fileName = "ean13_supplement.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.EAN_13);
+        reader.getBarcodeSettings().setDetectEncoding(true);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.EAN_13);
     }
 
     // --- EAN-8 ---
     @Test
     public void read_EAN8() throws Exception {
-        try (BarCodeReader reader = newReader("ean8.png", DecodeType.EAN_8)) {
-            assertRecognized(reader, "ean8.png", 1);
-        }
+        String fileName = "ean8.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.EAN_8);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.EAN_8);
     }
 
     // --- UPC-A ---
     @Test
     public void read_UPCA() throws Exception {
-        try (BarCodeReader reader = newReader("upca.png", DecodeType.UPCA)) {
-            assertRecognized(reader, "upca.png", 1);
-        }
+        String fileName = "upca.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.UPCA);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.UPCA);
     }
 
     // --- UPC-E ---
     @Test
     public void read_UPCE() throws Exception {
-        try (BarCodeReader reader = newReader("upce.png", DecodeType.UPCE)) {
-            assertRecognized(reader, "upce.png", 1);
-        }
+        String fileName = "upce.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.UPCE);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.UPCE);
     }
 
     // --- Codabar ---
     @Test
     public void read_Codabar() throws Exception {
-        try (BarCodeReader reader = newReader("codabar.png", DecodeType.CODABAR)) {
-            assertRecognized(reader, "codabar.png", 1);
-        }
+        String fileName = "codabar.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODABAR);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODABAR);
     }
 
     // --- ITF-14 ---
     @Test
     public void read_ITF14() throws Exception {
-        try (BarCodeReader reader = newReader("itf14.png", DecodeType.ITF_14)) {
-            assertRecognized(reader, "itf14.png", 1);
-        }
+        String fileName = "itf14.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.ITF_14);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.ITF_14);
     }
 
     // ==================== 2D Barcodes ====================
@@ -136,124 +112,127 @@ public class ChooseRecognitionSymbology1 {
     // --- QR Code ---
     @Test
     public void read_QRCode_Standard() throws Exception {
-        try (BarCodeReader reader = newReader("qrcode.png", DecodeType.QR)) {
-            assertRecognized(reader, "qrcode.png", 1);
-        }
+        String fileName = "qrcode.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
     }
 
     @Test
     public void read_QRCode_Micro() throws Exception {
-        try (BarCodeReader reader = newReader("microqr.png", DecodeType.MICRO_QR)) {
-            assertRecognized(reader, "microqr.png", 1);
-        }
+        String fileName = "microqr.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.MICRO_QR);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.MICRO_QR);
     }
 
     @Test
     public void read_QRCode_Damaged() throws Exception {
-        try (BarCodeReader reader = newReader("qrcode_damaged.png", DecodeType.QR)) {
-            reader.setQualitySettings(QualitySettings.getHighQuality());
-            assertRecognized(reader, "qrcode_damaged.png", 1);
-        }
+        String fileName = "qrcode_damaged.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+        reader.setQualitySettings(QualitySettings.getHighQuality());
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
     }
 
     // --- Data Matrix ---
     @Test
     public void read_DataMatrix_Standard() throws Exception {
-        try (BarCodeReader reader = newReader("datamatrix.png", DecodeType.DATA_MATRIX)) {
-            assertRecognized(reader, "datamatrix.png", 1);
-        }
+        String fileName = "datamatrix.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.DATA_MATRIX);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.DATA_MATRIX);
     }
 
     @Test
     public void read_DataMatrix_GS1() throws Exception {
-        try (BarCodeReader reader = newReader("datamatrix_gs1.png", DecodeType.GS_1_DATA_MATRIX)) {
-            assertRecognized(reader, "datamatrix_gs1.png", 1);
-        }
+        String fileName = "datamatrix_gs1.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.GS_1_DATA_MATRIX);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.GS_1_DATA_MATRIX);
     }
 
     // --- PDF417 ---
     @Test
     public void read_PDF417_Standard() throws Exception {
-        try (BarCodeReader reader = newReader("pdf417.png", DecodeType.PDF_417)) {
-            assertRecognized(reader, "pdf417.png", 1);
-        }
+        String fileName = "pdf417.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.PDF_417);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.PDF_417);
     }
 
     @Test
     public void read_PDF417_Compact() throws Exception {
-        try (BarCodeReader reader = newReader("pdf417_compact.png", DecodeType.COMPACT_PDF_417)) {
-            assertRecognized(reader, "pdf417_compact.png", 1);
-        }
+        String fileName = "pdf417_compact.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.COMPACT_PDF_417);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.COMPACT_PDF_417);
     }
 
     @Test
     public void read_PDF417_Macro() throws Exception {
-        try (BarCodeReader reader = newReader("pdf417_macro.png", DecodeType.MACRO_PDF_417)) {
-            assertRecognized(reader, "pdf417_macro.png", 1);
-        }
+        String fileName = "pdf417_macro.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.MACRO_PDF_417);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.MACRO_PDF_417);
     }
 
     // --- Aztec ---
     @Test
     public void read_Aztec() throws Exception {
-        try (BarCodeReader reader = newReader("aztec.png", DecodeType.AZTEC)) {
-            assertRecognized(reader, "aztec.png", 1);
-        }
+        String fileName = "aztec.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.AZTEC);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.AZTEC);
     }
 
     // ==================== Postal Barcodes ====================
 
     @Test
     public void read_Postnet() throws Exception {
-        try (BarCodeReader reader = newReader("postnet.png", DecodeType.POSTNET)) {
-            assertRecognized(reader, "postnet.png", 1);
-        }
+        String fileName = "postnet.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.POSTNET);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.POSTNET);
     }
 
     @Test
     public void read_Planet() throws Exception {
-        try (BarCodeReader reader = newReader("planet.png", DecodeType.PLANET)) {
-            assertRecognized(reader, "planet.png", 1);
-        }
+        String fileName = "planet.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.PLANET);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.PLANET);
     }
 
     @Test
     public void read_AustraliaPost() throws Exception {
-        try (BarCodeReader reader = newReader("australia_post.png", DecodeType.AUSTRALIA_POST)) {
-            assertRecognized(reader, "australia_post.png", 1);
-        }
+        String fileName = "australia_post.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.AUSTRALIA_POST);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.AUSTRALIA_POST);
     }
 
     // ==================== Multiple Types ====================
 
     @Test
     public void read_AllTypes() throws Exception {
-        try (BarCodeReader reader = newReader("mixed_barcodes.png", DecodeType.ALL_SUPPORTED_TYPES)) {
-            assertRecognized(reader, "mixed_barcodes.png", 1);
-        }
+        String fileName = "mixed_barcodes.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.ALL_SUPPORTED_TYPES);
+        // For a mixed image, we only check the quantity
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.ALL_SUPPORTED_TYPES);
     }
 
     @Test
     public void read_1D_Types() throws Exception {
-        try (BarCodeReader reader = newReader("types_1D_barcodes.png", DecodeType.TYPES_1D)) {
-            assertRecognized(reader, "types_1D_barcodes.png", 1);
-        }
+        String fileName = "types_1D_barcodes.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.TYPES_1D);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.TYPES_1D);
     }
 
     @Test
     public void read_2D_Types() throws Exception {
-        try (BarCodeReader reader = newReader("types_2D_barcodes.png", DecodeType.TYPES_2D)) {
-            assertRecognized(reader, "types_2D_barcodes.png", 1);
-        }
+        String fileName = "types_2D_barcodes.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.TYPES_2D);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.TYPES_2D);
+
     }
 
     @Test
     public void read_SpecificTypes() throws Exception {
-        try (BarCodeReader reader = newReader(
-                "mixed_barcodes.png",
-                DecodeType.CODE_128, DecodeType.QR, DecodeType.DATA_MATRIX
-        )) {
-            assertRecognized(reader, "mixed_barcodes.png", 1);
-        }
+        String fileName = "mixed_barcodes.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.ALL_SUPPORTED_TYPES);
+        reader.setBarCodeReadType(DecodeType.CODE_128, DecodeType.QR, DecodeType.DATA_MATRIX);
+
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.DATA_MATRIX);
     }
+
+
 }
