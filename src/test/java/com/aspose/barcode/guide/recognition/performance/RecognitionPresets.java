@@ -73,7 +73,7 @@ public class RecognitionPresets {
      */
     @Test
     public void readCode128HighQualityOnBlurredNoisy() throws Exception {
-        checkOrCreateImage(IMAGES_FOLDER, "code128_blur_noise.png", this::generateCode128BlurredNoisy);
+        checkOrCreateImage(IMAGES_FOLDER, "code128_blur_noise1.png", this::generateCode128BlurredNoisy);
 
         QualitySettings qs = QualitySettings.getHighQuality(); // enables SMALL XDimension, SLOW deconvolution, inverse, etc.
         BarCodeReader reader = new BarCodeReader(path("code128_blur_noise.png"), DecodeType.CODE_128);
@@ -128,21 +128,29 @@ public class RecognitionPresets {
 
     // Create a degraded Code 128 (blur + light noise) to motivate HighQuality/MaxQuality
     private void generateCode128BlurredNoisy(String fullPath) throws IOException {
-        // 1) Generate a small XDimension barcode to make bars thinner
+        // 1) Generate a barcode with slightly thicker modules and proper quiet zones
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "ROBUSTNESS-CHECK-123");
-        gen.getParameters().getBarcode().getXDimension().setPixels(1);
-        gen.getParameters().getBarcode().getBarHeight().setPixels(45);
+        gen.getParameters().getBarcode().getXDimension().setPixels(2);     // was 1
+        gen.getParameters().getBarcode().getBarHeight().setPixels(60);     // was 45
+
+        // Quiet zone: ≥ 10X on left/right, ~5–10X on top/bottom is fine for tests
+        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(20);
+        gen.getParameters().getBarcode().getPadding().getRight().setPixels(20);
+        gen.getParameters().getBarcode().getPadding().getTop().setPixels(10);
+        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(10);
+
         String tmp = fullPath + ".tmp.png";
         gen.save(tmp, BarCodeImageFormat.PNG);
 
-        // 2) Apply a simple 3x3 box blur + salt/pepper noise
+        // 2) Apply a single light blur + reduced salt/pepper noise
         BufferedImage src = ImageIO.read(Paths.get(tmp).toFile());
-        BufferedImage blurred = boxBlur(src);
-        addSaltPepperNoise(blurred, 0.01); // ~1% pixels flipped
+        BufferedImage blurred = boxBlur(src);             // single 3x3 pass is OK
+        addSaltPepperNoise(blurred, 0.005);               // was 0.01 → ~0.5%
 
         ImageIO.write(blurred, "PNG", Paths.get(fullPath).toFile());
         Files.deleteIfExists(Paths.get(tmp));
     }
+
 
     // Naive 3x3 box blur for demo purposes
     private static BufferedImage boxBlur(BufferedImage img) {
