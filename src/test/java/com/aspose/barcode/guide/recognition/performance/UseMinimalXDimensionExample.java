@@ -12,8 +12,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.aspose.barcode.guide.common.ExampleAssist.checkOrCreateImage;
-import static com.aspose.barcode.guide.common.ExampleAssist.getCurrentMethodName;
+import static com.aspose.barcode.guide.common.ExampleAssist.*;
 
 public class UseMinimalXDimensionExample
 {
@@ -73,7 +72,7 @@ public class UseMinimalXDimensionExample
         qs.setMinimalXDimension(1.0f);                            // accept modules as small as 1 px
         reader.setQualitySettings(qs);
 //        ExampleAssist.assertRecognized(reader, "read_Code128_X1_with_MinimalX_1px", 1, DecodeType.CODE_128);
-        ExampleAssist.assertRecognized(reader, getCurrentMethodName(), 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, currentMethodName(), 1, DecodeType.CODE_128);
     }
 
     @Test
@@ -91,7 +90,7 @@ public class UseMinimalXDimensionExample
         qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
         qs.setMinimalXDimension(2.0f); // require at least 2 px bars
         reader.setQualitySettings(qs);
-        ExampleAssist.assertRecognized(reader, getCurrentMethodName(), 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, currentMethodName(), 1, DecodeType.CODE_128);
     }
 
     @Test
@@ -109,7 +108,7 @@ public class UseMinimalXDimensionExample
         qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
         qs.setMinimalXDimension(2.0f);
         reader.setQualitySettings(qs);
-        ExampleAssist.assertRecognized(reader, getCurrentMethodName(), 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, currentMethodName(), 1, DecodeType.CODE_128);
 
     }
 }

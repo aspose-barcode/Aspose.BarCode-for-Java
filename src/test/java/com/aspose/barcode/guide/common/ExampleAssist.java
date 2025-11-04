@@ -220,6 +220,27 @@ public class ExampleAssist {
     }
 
     public static String getCurrentMethodName() {
-        return Thread.currentThread().getStackTrace()[2].getMethodName();
+        StackTraceElement[] st = Thread.currentThread().getStackTrace();
+        for (int i = 0; i < st.length; i++) {
+            if (ExampleAssist.class.getName().equals(st[i].getClassName()) &&
+                    "getCurrentMethodName".equals(st[i].getMethodName())) {
+                return (i + 1 < st.length) ? st[i + 1].getMethodName() : "unknown";
+            }
+        }
+        return "unknown";
     }
+
+    // Returns the first frame outside ExampleAssist (robust against wrappers)
+    public static String currentMethodName() {
+        String helperClass = ExampleAssist.class.getName();
+        return StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .walk(stream -> stream
+                        .dropWhile(f -> f.getClassName().equals(helperClass))      // skip helper
+                        .filter(f -> !f.getClassName().startsWith("org.testng."))  // skip TestNG internals
+                        .findFirst()
+                        .map(StackWalker.StackFrame::getMethodName)
+                        .orElse("unknown"));
+    }
+
+
 }
