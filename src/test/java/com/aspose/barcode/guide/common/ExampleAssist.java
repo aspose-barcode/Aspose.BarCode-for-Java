@@ -1,13 +1,12 @@
 package com.aspose.barcode.guide.common;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.BarCodeResult;
-import com.aspose.barcode.barcoderecognition.BaseDecodeType;
-import com.aspose.barcode.barcoderecognition.SingleDecodeType;
+import com.aspose.barcode.barcoderecognition.*;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.BaseEncodeType;
+import com.aspose.barcode.generation.EncodeTypes;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -176,6 +175,38 @@ public class ExampleAssist {
         return fullPath;
     }
 
+    public static void generateAndRead(String folder, String fileName, String codeText, BaseEncodeType encodeType, BaseDecodeType decodeType) throws Exception
+    {
+        BarcodeGenerator g = new BarcodeGenerator(encodeType, codeText);
+        String path = folder + "/" +  fileName;
+        g.save(path, BarCodeImageFormat.PNG);
+        BarCodeReader reader = new BarCodeReader(path, decodeType);
+        reader.setQualitySettings(QualitySettings.getHighPerformance());
+        BarCodeResult[] results = reader.readBarCodes();
+        for (BarCodeResult result : results)
+        {
+            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+        }
+    }
+
+
+/**
+    @Test
+    public void read_QR_HighPerformance1() throws Exception
+    {
+        // Purpose: Recognize a clean QR using High Performance preset.
+        String fileName = "qr_hp123.png";
+        BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "HP-QR");
+        String path = FOLDER + "/" +  fileName;
+        g.save(path, BarCodeImageFormat.PNG);
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+        BarCodeResult[] results = reader.readBarCodes();
+        for (BarCodeResult result : results)
+        {
+            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+        }
+    }
+**/
     /**
      * Private constructor to prevent instantiation.
      */

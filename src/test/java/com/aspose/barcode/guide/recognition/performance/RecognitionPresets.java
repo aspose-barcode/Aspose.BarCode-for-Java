@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,13 +57,14 @@ public class RecognitionPresets {
      */
     @Test
     public void readCode128MaxQualityOnClean() throws Exception {
-        checkOrCreateImage(IMAGES_FOLDER, "code128_clean.png", this::generateCode128Clean);
+        String fileName = "code128_max_quality.png";
+        checkOrCreateImage(IMAGES_FOLDER, fileName, this::generateCode128Clean);
 
         QualitySettings qs = QualitySettings.getMaxQuality();
-        BarCodeReader reader = new BarCodeReader(path("code128_clean.png"), DecodeType.CODE_128);
+        BarCodeReader reader = new BarCodeReader(path(fileName), DecodeType.CODE_128);
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertRecognized(reader, "code128_clean.png", 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
     }
 
     /**
@@ -73,13 +75,14 @@ public class RecognitionPresets {
      */
     @Test
     public void readCode128HighQualityOnBlurredNoisy() throws Exception {
-        checkOrCreateImage(IMAGES_FOLDER, "code128_blur_noise1.png", this::generateCode128BlurredNoisy);
+        String fileName = "code128_blur_noise.png";
+        checkOrCreateImage(IMAGES_FOLDER, fileName, this::generateCode128BlurredNoisy);
 
         QualitySettings qs = QualitySettings.getHighQuality(); // enables SMALL XDimension, SLOW deconvolution, inverse, etc.
-        BarCodeReader reader = new BarCodeReader(path("code128_blur_noise.png"), DecodeType.CODE_128);
+        BarCodeReader reader = new BarCodeReader(path(fileName), DecodeType.CODE_128);
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertRecognized(reader, "code128_blur_noise.png", 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
     }
 
     /**
@@ -91,20 +94,21 @@ public class RecognitionPresets {
      */
     @Test
     public void compareTimingHighPerformanceVsMaxQuality() throws Exception {
-        checkOrCreateImage(IMAGES_FOLDER, "code128_clean.png", this::generateCode128Clean);
+        String fileName = "compare_timing_high_quality.png";
+        checkOrCreateImage(IMAGES_FOLDER, fileName, this::generateCode128Clean);
 
         // HighPerformance timing
-        BarCodeReader fastReader = new BarCodeReader(path("code128_clean.png"), DecodeType.CODE_128);
+        BarCodeReader fastReader = new BarCodeReader(path(fileName), DecodeType.CODE_128);
         fastReader.setQualitySettings(QualitySettings.getHighPerformance());
         long t1 = System.nanoTime();
-        ExampleAssist.assertRecognized(fastReader, "timing_fast", 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(fastReader, "HighPerformance timing", 1, DecodeType.CODE_128);
         long fastMs = (System.nanoTime() - t1) / 1_000_000;
 
         // MaxQuality timing
-        BarCodeReader thoroughReader = new BarCodeReader(path("code128_clean.png"), DecodeType.CODE_128);
+        BarCodeReader thoroughReader = new BarCodeReader(path(fileName), DecodeType.CODE_128);
         thoroughReader.setQualitySettings(QualitySettings.getMaxQuality());
         long t2 = System.nanoTime();
-        ExampleAssist.assertRecognized(thoroughReader, "timing_thorough", 1, DecodeType.CODE_128);
+        ExampleAssist.assertRecognized(thoroughReader, "MaxQuality timing", 1, DecodeType.CODE_128);
         long thoroughMs = (System.nanoTime() - t2) / 1_000_000;
 
         System.out.println("[Speed vs Quality] HighPerformance: " + fastMs + " ms; MaxQuality: " + thoroughMs + " ms");
@@ -128,28 +132,38 @@ public class RecognitionPresets {
 
     // Create a degraded Code 128 (blur + light noise) to motivate HighQuality/MaxQuality
     private void generateCode128BlurredNoisy(String fullPath) throws IOException {
-        // 1) Generate a barcode with slightly thicker modules and proper quiet zones
+        // Render larger to preserve bar geometry, then downscale for soft edges
+        final int scale = 2; // 2x render
+
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "ROBUSTNESS-CHECK-123");
-        gen.getParameters().getBarcode().getXDimension().setPixels(2);     // was 1
-        gen.getParameters().getBarcode().getBarHeight().setPixels(60);     // was 45
+        gen.getParameters().getBarcode().getXDimension().setPixels(3 * scale);  // effectively ~1.5 px after downscale
+        gen.getParameters().getBarcode().getBarHeight().setPixels(70 * scale);
 
-        // Quiet zone: ≥ 10X on left/right, ~5–10X on top/bottom is fine for tests
-        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(20);
-        gen.getParameters().getBarcode().getPadding().getRight().setPixels(20);
-        gen.getParameters().getBarcode().getPadding().getTop().setPixels(10);
-        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(10);
+        int qx = 10 * (3 * scale); // quiet zone ≈ 10X
+        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(qx);
+        gen.getParameters().getBarcode().getPadding().getRight().setPixels(qx);
+        gen.getParameters().getBarcode().getPadding().getTop().setPixels(5 * (3 * scale));
+        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(5 * (3 * scale));
 
-        String tmp = fullPath + ".tmp.png";
-        gen.save(tmp, BarCodeImageFormat.PNG);
+        String hi = fullPath + ".hi.png";
+        gen.save(hi, BarCodeImageFormat.PNG);
 
-        // 2) Apply a single light blur + reduced salt/pepper noise
-        BufferedImage src = ImageIO.read(Paths.get(tmp).toFile());
-        BufferedImage blurred = boxBlur(src);             // single 3x3 pass is OK
-        addSaltPepperNoise(blurred, 0.005);               // was 0.01 → ~0.5%
+        BufferedImage src = ImageIO.read(Paths.get(hi).toFile());
+        BufferedImage blurred = boxBlur(src);             // light 3x3 blur
+        addSaltPepperNoise(blurred, 0.004);               // ~0.4%
 
-        ImageIO.write(blurred, "PNG", Paths.get(fullPath).toFile());
-        Files.deleteIfExists(Paths.get(tmp));
+        // Downscale back by 2x (bilinear) to get soft but readable bars
+        int w = blurred.getWidth() / scale, h = blurred.getHeight() / scale;
+        BufferedImage out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = out.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(blurred, 0, 0, w, h, null);
+        g2.dispose();
+
+        ImageIO.write(out, "PNG", Paths.get(fullPath).toFile());
+        Files.deleteIfExists(Paths.get(hi));
     }
+
 
 
     // Naive 3x3 box blur for demo purposes
