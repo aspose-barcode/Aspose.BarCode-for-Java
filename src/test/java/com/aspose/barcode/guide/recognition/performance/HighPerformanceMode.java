@@ -9,6 +9,7 @@ import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -117,9 +118,10 @@ public class HighPerformanceMode
         BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "HP-QR");
         String path = FOLDER + "/" +  fileName;
         g.save(path, BarCodeImageFormat.PNG);
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.TYPES_2D);
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
         reader.setQualitySettings(QualitySettings.getHighPerformance());
         BarCodeResult[] results = reader.readBarCodes();
+        Assert.assertEquals(results.length, 1);
         for (BarCodeResult result : results)
         {
             System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
