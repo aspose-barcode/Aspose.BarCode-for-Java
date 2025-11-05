@@ -359,16 +359,26 @@ public class ExampleAssist
      * @param inputFullPath  full path to source image
      * @param outputFullPath full path to output image (PNG)
      */
-    public static void blur(String inputFullPath, String outputFullPath, float sigma) throws IOException {
+    public static void blur(String inputFullPath, String outputFullPath, float sigma) throws IOException
+    {
         // Separable Gaussian blur: one horizontal pass followed by one vertical pass.
         // Use sigma ≈ 0.9–1.2 to simulate a degraded but still recognizable image.
 
         // Clamp sigma to a sensible range: too small -> no visible effect; too large -> overly "soapy" blur.
-        if (sigma < 0.6f) sigma = 0.6f;
-        if (sigma > 2.0f) sigma = 2.0f;
+        if (sigma < 0.6f)
+        {
+            sigma = 0.6f;
+        }
+        if (sigma > 2.0f)
+        {
+            sigma = 2.0f;
+        }
 
         BufferedImage src = ImageIO.read(new File(inputFullPath));
-        if (src == null) throw new IOException("Cannot read image: " + inputFullPath);
+        if (src == null)
+        {
+            throw new IOException("Cannot read image: " + inputFullPath);
+        }
 
         // Kernel size from the 3σ rule: cover ±3σ and keep it odd (≈ 6σ + 1). Result is typically 3..13 here.
         int size = Math.max(3, 2 * (int) Math.ceil(3 * sigma) + 1);
@@ -389,18 +399,23 @@ public class ExampleAssist
     }
 
 
-    private static float[] gaussianKernel1D(int size, float sigma) {
+    private static float[] gaussianKernel1D(int size, float sigma)
+    {
         float[] k = new float[size];
         int r = size / 2;
         float twoSigma2 = 2.0f * sigma * sigma;
         float sum = 0f;
-        for (int i = -r, j = 0; i <= r; i++, j++) {
+        for (int i = -r, j = 0; i <= r; i++, j++)
+        {
             float v = (float) Math.exp(-(i * i) / twoSigma2);
             k[j] = v;
             sum += v;
         }
         // normalize
-        for (int i = 0; i < size; i++) k[i] /= sum;
+        for (int i = 0; i < size; i++)
+        {
+            k[i] /= sum;
+        }
         return k;
     }
 
@@ -445,6 +460,10 @@ public class ExampleAssist
         return new Kernel(5, 5, m);
     }
 
+    /**
+     * Ensure that parent directories exist for the given file path.
+     * Safe to call for already-existing directories.
+     */
     private static void ensureParentDirs(String fullPath) throws IOException
     {
         File f = new File(fullPath);
@@ -483,10 +502,13 @@ public class ExampleAssist
      * Inverts pixel colors (RGB) of the source image and writes to outPath.
      * Alpha channel is preserved.
      */
-    public static void invertColors(String srcPath, String outPath) {
-        try {
+    public static void invertColors(String srcPath, String outPath)
+    {
+        try
+        {
             BufferedImage src = ImageIO.read(new File(srcPath));
-            if (src == null) {
+            if (src == null)
+            {
                 throw new IOException("Unsupported image format: " + srcPath);
             }
 
@@ -494,8 +516,10 @@ public class ExampleAssist
             int h = src.getHeight();
             BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
-            for (int y = 0; y < h; y++) {
-                for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++)
+            {
+                for (int x = 0; x < w; x++)
+                {
                     int argb = src.getRGB(x, y);
                     int a = (argb >> 24) & 0xFF;
                     int r = (argb >> 16) & 0xFF;
@@ -511,13 +535,70 @@ public class ExampleAssist
             // Ensure parent dir exists
             File outFile = new File(outPath);
             File parent = outFile.getParentFile();
-            if (parent != null && !parent.exists()) {
+            if (parent != null && !parent.exists())
+            {
                 parent.mkdirs();
             }
             ImageIO.write(dst, fmt, outFile);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException("invertColors failed: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Downscale an image using nearest-neighbor interpolation to a target width
+     * while preserving aspect ratio. Output is always written as PNG.
+     * <p>
+     * Why nearest:
+     * - It preserves "pixelation" and avoids blur, which better simulates tiny barcodes
+     * captured with limited sensor resolution (important for low-res tests).
+     *
+     * @param inPath        absolute or relative path to the input image
+     * @param outPath       target path for the output image (PNG will be written)
+     * @param targetWidthPx desired width in pixels (>= 1)
+     * @throws IOException if read/write fails
+     */
+    public static void downscaleNearest(String inPath, String outPath, int targetWidthPx) throws IOException
+    {
+        if (targetWidthPx < 1)
+        {
+            throw new IllegalArgumentException("targetWidthPx must be >= 1");
+        }
+
+        BufferedImage src = ImageIO.read(new File(inPath));
+        if (src == null)
+        {
+            throw new IOException("Cannot read image: " + inPath);
+        }
+
+        int srcW = Math.max(1, src.getWidth());
+        int srcH = Math.max(1, src.getHeight());
+
+        double scale = (double) targetWidthPx / (double) srcW;
+        int targetHeightPx = Math.max(1, (int) Math.round(srcH * scale));
+
+        BufferedImage dst = new BufferedImage(targetWidthPx, targetHeightPx, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g = dst.createGraphics();
+        try
+        {
+            // Nearest-neighbor to keep sharp, blocky pixels (no smoothing).
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+            g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+
+            g.drawImage(src, 0, 0, targetWidthPx, targetHeightPx, null);
+        }
+        finally
+        {
+            g.dispose();
+        }
+
+        ensureParentDirs(outPath);
+        ImageIO.write(dst, "png", new File(outPath));
     }
 
 }
