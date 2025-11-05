@@ -358,25 +358,45 @@ public class ExampleAssist
      *
      * @param inputFullPath  full path to source image
      * @param outputFullPath full path to output image (PNG)
-     * @param radius         blur radius (use ~1.0..3.0). Internally mapped to 3x3 or 5x5 kernel.
      */
-    public static void blur(String inputFullPath, String outputFullPath, float radius) throws IOException
-    {
+    public static void blur(String inputFullPath, String outputFullPath, float sigma) throws IOException {
+        // Mild blur: single separable Gaussian pass (H then V).
+        // Use sigma ~ 0.9..1.2 for bad but recognizable image.
+        if (sigma < 0.6f) sigma = 0.6f;      // guard: too little - almost no effect
+        if (sigma > 2.0f) sigma = 2.0f;      // guard: don't give soap
+
         BufferedImage src = ImageIO.read(new File(inputFullPath));
-        if (src == null)
-        {
-            throw new IOException("Cannot read image: " + inputFullPath);
-        }
+        if (src == null) throw new IOException("Cannot read image: " + inputFullPath);
 
-        // Choose kernel size based on radius
-        Kernel kernel = (radius <= 1.0f) ? gaussian3x3() : gaussian5x5();
+        int size = Math.max(3, 2 * (int) Math.ceil(3 * sigma) + 1); // 3σ правило: 3..13
+        float[] k1d = gaussianKernel1D(size, sigma);
 
-        ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-        BufferedImage tmp = op.filter(src, null);
-        BufferedImage dst = op.filter(tmp, null); // apply twice for a slightly stronger blur
+        Kernel hKernel = new Kernel(size, 1, k1d);
+        Kernel vKernel = new Kernel(1, size, k1d);
+
+        ConvolveOp hOp = new ConvolveOp(hKernel, ConvolveOp.EDGE_NO_OP, null);
+        ConvolveOp vOp = new ConvolveOp(vKernel, ConvolveOp.EDGE_NO_OP, null);
+
+        BufferedImage tmp = hOp.filter(src, null);
+        BufferedImage dst = vOp.filter(tmp, null);   // ВАЖНО: только один проход (H+V), без «повторно»
 
         ensureParentDirs(outputFullPath);
         ImageIO.write(dst, "png", new File(outputFullPath));
+    }
+
+    private static float[] gaussianKernel1D(int size, float sigma) {
+        float[] k = new float[size];
+        int r = size / 2;
+        float twoSigma2 = 2.0f * sigma * sigma;
+        float sum = 0f;
+        for (int i = -r, j = 0; i <= r; i++, j++) {
+            float v = (float) Math.exp(-(i * i) / twoSigma2);
+            k[j] = v;
+            sum += v;
+        }
+        // normalize
+        for (int i = 0; i < size; i++) k[i] /= sum;
+        return k;
     }
 
 // ---- helpers (put them as private static inside ExampleAssist) ----
@@ -429,12 +449,18 @@ public class ExampleAssist
             throw new IOException("Cannot create directories for: " + fullPath);
         }
     }
-    public static void upscaleBicubic(String inputFullPath, String outputFullPath, double scale) throws IOException {
-        BufferedImage src = ImageIO.read(new File(inputFullPath));
-        if (src == null) throw new IOException("Cannot read image: " + inputFullPath);
 
-        int w = (int)Math.round(src.getWidth() * scale);
-        int h = (int)Math.round(src.getHeight() * scale);
+
+    public static void upscaleBicubic(String inputFullPath, String outputFullPath, double scale) throws IOException
+    {
+        BufferedImage src = ImageIO.read(new File(inputFullPath));
+        if (src == null)
+        {
+            throw new IOException("Cannot read image: " + inputFullPath);
+        }
+
+        int w = (int) Math.round(src.getWidth() * scale);
+        int h = (int) Math.round(src.getHeight() * scale);
         BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g = dst.createGraphics();
