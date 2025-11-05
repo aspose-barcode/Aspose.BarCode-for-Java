@@ -56,7 +56,7 @@ public class BarcodeQualityModeExample
         String noisy = "code128_noisy.png";
         ExampleAssist.checkOrCreateImage(FOLDER, noisy, outPath -> {
             String inPath = ExampleAssist.pathCombine(FOLDER, src);
-            ImageSupplier.addGaussianNoise(inPath, outPath, 12.0); // std-dev ~12 (tune if needed)
+//            ImageSupplier.addGaussianNoise(inPath, outPath, 12.0); // std-dev ~12 (tune if needed)
         });
     }
 
