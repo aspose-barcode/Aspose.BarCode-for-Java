@@ -9,7 +9,6 @@ import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
-import com.aspose.barcode.guide.common.ImageSupplier;
 import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -25,8 +24,7 @@ import org.testng.annotations.Test;
  * - A clean, synthetic CODE_128 is generated once.
  * - Low-res variants are produced via nearest-neighbor downscale to preserve "pixelation".
  */
-public class ReadingLowResolution
-{
+public class ReadingLowResolution {
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "reading_low_resolution");
@@ -46,7 +44,6 @@ public class ReadingLowResolution
         final String file = "code128_clean_600.png";
         ExampleAssist.checkOrCreateImage(FOLDER, file, path -> {
             BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "LowRes:CODE128");
-            // Default generator settings are fine; saved at PNG for lossless baseline.
             gen.save(path, BarCodeImageFormat.PNG);
         });
     }
@@ -54,21 +51,18 @@ public class ReadingLowResolution
     /**
      * Produces low-resolution variants using nearest-neighbor downscale.
      * We keep multiple target widths to probe the "failure cliff".
-     * Notes:
-     * - NN downscale preserves hard pixel edges and minimizes blur (more realistic for tiny captures / thumbnails).
-     * - If your ImageSupplier supports height-only or scale factor, adapt the calls accordingly.
      */
     private void generateLowResVariants() throws Exception {
         final String src = ExampleAssist.pathCombine(FOLDER, "code128_clean_600.png");
 
         ExampleAssist.checkOrCreateImage(FOLDER, "code128_lr_150.png",
-                out -> ImageSupplier.downscaleNearest(src, out, /*targetWidthPx*/150));
+                out -> ExampleAssist.downscaleNearest(src, out, /*targetWidthPx*/150));
 
         ExampleAssist.checkOrCreateImage(FOLDER, "code128_lr_80.png",
-                out -> ImageSupplier.downscaleNearest(src, out, /*targetWidthPx*/80));
+                out -> ExampleAssist.downscaleNearest(src, out, /*targetWidthPx*/80));
 
         ExampleAssist.checkOrCreateImage(FOLDER, "code128_lr_40.png",
-                out -> ImageSupplier.downscaleNearest(src, out, /*targetWidthPx*/40));
+                out -> ExampleAssist.downscaleNearest(src, out, /*targetWidthPx*/40));
     }
 
     // ── CLEAN baseline (sanity check) ──────────────────────────────────────────
@@ -162,7 +156,7 @@ public class ReadingLowResolution
 
         QualitySettings qs = QualitySettings.getHighPerformance();
         qs.setXDimension(XDimensionMode.SMALL);
-        qs.setMinimalXDimension(1.0f);              // suggest minimal module width in pixels
+        qs.setMinimalXDimension(1.0f);
         qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
         reader.setQualitySettings(qs);
 
@@ -174,10 +168,10 @@ public class ReadingLowResolution
      * - Contrast: same ~80 px input but with NORMAL quality and no X-dimension hints.
      *
      * Demonstrates:
-     * - Balanced settings might still pass, but are more sensitive to font/quiet zone/quantization.
+     * - Balanced settings might still pass, but are more sensitive to quiet zone/quantization.
      *
      * Expectation:
-     * - ≥1 CODE_128 result (if your environment is stricter, lower minCount or switch to "negative" for this case).
+     * - ≥1 CODE_128 result (if your environment is stricter, lower minCount or flip to negative).
      */
     @Test
     public void read_Code128_LR80_NormalQuality_NoHints() throws Exception {
@@ -202,20 +196,19 @@ public class ReadingLowResolution
      * - There exists a practical lower bound in resolution. This negative test documents it.
      *
      * Expectation:
-     * - 0 results (documenting a known limitation for tiny inputs).
+     * - 0 results.
      */
     @Test
     public void read_Code128_LR40_Negative_TooSmall() throws Exception {
         final String file = "code128_lr_40.png";
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.CODE_128);
 
-        QualitySettings qs = QualitySettings.getHighQuality();  // even quality-biased preset…
+        QualitySettings qs = QualitySettings.getHighQuality();
         qs.setXDimension(XDimensionMode.SMALL);
         qs.setMinimalXDimension(1.0f);
-        qs.setBarcodeQuality(BarcodeQualityMode.HIGH);          // …and max quality might still be insufficient
+        qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
         reader.setQualitySettings(qs);
 
-        // Negative expectation: nothing should be recognized at this extreme size.
         ExampleAssist.assertNotRecognized(reader, file);
     }
 
