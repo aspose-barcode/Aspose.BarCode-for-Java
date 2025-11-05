@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
  * <p>
  * Test images are generated idempotently in @BeforeClass.
  */
-public class ReadingDamagedBarcodeExample
+public class ReadingDamagedBarcode
 {
 
     private static final String FOLDER =

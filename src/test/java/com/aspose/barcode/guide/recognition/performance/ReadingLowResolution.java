@@ -25,7 +25,8 @@ import org.testng.annotations.Test;
  * - A clean, synthetic CODE_128 is generated once.
  * - Low-res variants are produced via nearest-neighbor downscale to preserve "pixelation".
  */
-public class ReadingLowResolutionExample {
+public class ReadingLowResolution
+{
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "reading_low_resolution");
