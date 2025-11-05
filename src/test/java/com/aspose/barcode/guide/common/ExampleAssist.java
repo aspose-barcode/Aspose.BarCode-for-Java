@@ -479,5 +479,45 @@ public class ExampleAssist
         ImageIO.write(dst, "png", new File(outputFullPath));
     }
 
+    /**
+     * Inverts pixel colors (RGB) of the source image and writes to outPath.
+     * Alpha channel is preserved.
+     */
+    public static void invertColors(String srcPath, String outPath) {
+        try {
+            BufferedImage src = ImageIO.read(new File(srcPath));
+            if (src == null) {
+                throw new IOException("Unsupported image format: " + srcPath);
+            }
+
+            int w = src.getWidth();
+            int h = src.getHeight();
+            BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    int argb = src.getRGB(x, y);
+                    int a = (argb >> 24) & 0xFF;
+                    int r = (argb >> 16) & 0xFF;
+                    int g = (argb >> 8) & 0xFF;
+                    int b = argb & 0xFF;
+                    // invert RGB, keep alpha
+                    int inv = (a << 24) | ((255 - r) << 16) | ((255 - g) << 8) | (255 - b);
+                    dst.setRGB(x, y, inv);
+                }
+            }
+
+            String fmt = outPath.toLowerCase().endsWith(".jpg") || outPath.toLowerCase().endsWith(".jpeg") ? "jpg" : "png";
+            // Ensure parent dir exists
+            File outFile = new File(outPath);
+            File parent = outFile.getParentFile();
+            if (parent != null && !parent.exists()) {
+                parent.mkdirs();
+            }
+            ImageIO.write(dst, fmt, outFile);
+        } catch (IOException e) {
+            throw new RuntimeException("invertColors failed: " + e.getMessage(), e);
+        }
+    }
 
 }
