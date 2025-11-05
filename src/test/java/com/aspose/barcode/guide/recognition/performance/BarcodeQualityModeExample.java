@@ -22,7 +22,8 @@ import org.testng.annotations.Test;
  *  - How LOW profile helps on noisy/low-quality printing (simulated with Gaussian noise).
  *  - A "preset + overrides" example for very small modules with low quality.
  */
-public class BarcodeQualityModeExamples {
+public class BarcodeQualityModeExample
+{
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "barcode_quality");
