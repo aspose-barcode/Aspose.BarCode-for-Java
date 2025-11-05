@@ -8,6 +8,11 @@ import com.aspose.barcode.generation.EncodeTypes;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,19 +21,23 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Random;
 
 /**
  * Utility helper for example tests and resource management.
  */
-public class ExampleAssist {
+public class ExampleAssist
+{
 
     /**
      * Gets the path to a resource folder with a trailing separator.
      */
-    public static String getResourceFolderPath(String... pathParts) {
+    public static String getResourceFolderPath(String... pathParts)
+    {
         Path basePath = Paths.get("src", "test", "resources");
 
-        for (String part : pathParts) {
+        for (String part : pathParts)
+        {
             basePath = basePath.resolve(part);
         }
 
@@ -38,39 +47,52 @@ public class ExampleAssist {
     /**
      * Gets or creates a resource folder path and prints created structure.
      */
-    public static String getOrCreateResourceFolderPath(String... pathParts) {
+    public static String getOrCreateResourceFolderPath(String... pathParts)
+    {
         Path basePath;
 
         // Detect if the first part already includes src/test/resources to avoid duplication
-        if (pathParts.length > 0 && pathParts[0].contains("src" + File.separator + "test" + File.separator + "resources")) {
+        if (pathParts.length > 0 && pathParts[0].contains("src" + File.separator + "test" + File.separator + "resources"))
+        {
             basePath = Paths.get(pathParts[0]);
-            for (int i = 1; i < pathParts.length; i++) {
+            for (int i = 1; i < pathParts.length; i++)
+            {
                 basePath = basePath.resolve(pathParts[i]);
             }
-        } else {
+        }
+        else
+        {
             basePath = Paths.get("src", "test", "resources");
-            for (String part : pathParts) {
+            for (String part : pathParts)
+            {
                 basePath = basePath.resolve(part);
             }
         }
 
-        try {
+        try
+        {
             Files.createDirectories(basePath);
 
             System.out.println("[ExampleAssist] Created or verified folder structure:");
             Path current = Paths.get("src", "test", "resources");
-            for (String part : pathParts) {
+            for (String part : pathParts)
+            {
                 current = current.resolve(part);
-                if (Files.exists(current)) {
+                if (Files.exists(current))
+                {
                     System.out.println("  - " + current.toAbsolutePath());
                 }
             }
 
             System.out.println("[ExampleAssist] Final resource path: " + basePath.toAbsolutePath());
 
-        } catch (FileAlreadyExistsException e) {
+        }
+        catch (FileAlreadyExistsException e)
+        {
             throw new IllegalStateException("Path exists but is not a directory: " + basePath, e);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new UncheckedIOException("Failed to create directory: " + basePath, e);
         }
 
@@ -80,10 +102,12 @@ public class ExampleAssist {
     /**
      * Gets path to a resource file or nested folders.
      */
-    public static String getResourceFilePath(String... pathParts) {
+    public static String getResourceFilePath(String... pathParts)
+    {
         Path basePath = Paths.get("src", "test", "resources");
 
-        for (String part : pathParts) {
+        for (String part : pathParts)
+        {
             basePath = basePath.resolve(part);
         }
 
@@ -93,11 +117,13 @@ public class ExampleAssist {
     /**
      * Gets input stream for reading resource files from classpath.
      */
-    public static InputStream getResourceAsStream(String resourcePath) {
+    public static InputStream getResourceAsStream(String resourcePath)
+    {
         InputStream stream = ExampleAssist.class.getClassLoader()
                 .getResourceAsStream(resourcePath);
 
-        if (stream == null) {
+        if (stream == null)
+        {
             throw new IllegalArgumentException("Resource not found: " + resourcePath);
         }
 
@@ -112,7 +138,8 @@ public class ExampleAssist {
         Path path = Paths.get(imagesFolder, fileName);
         Files.createDirectories(path.getParent());
 
-        if (!Files.exists(path)) {
+        if (!Files.exists(path))
+        {
             String fullPath = path.toString();
             generator.supply(fullPath);
             Assert.assertTrue(Files.exists(path), "Failed to create fixture: " + path);
@@ -125,33 +152,40 @@ public class ExampleAssist {
         Path path = Paths.get(imagesFolder, fileName);
         Files.createDirectories(path.getParent());
 
-        if (!Files.exists(path)) {
+        if (!Files.exists(path))
+        {
             barcodeGenerator.save(path.toString());
             Assert.assertTrue(Files.exists(path), "Failed to create fixture: " + path);
             Assert.assertTrue(Files.size(path) > 0, "Fixture is empty: " + path);
         }
     }
 
-    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType expectedType) throws Exception {
+    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType expectedType) throws Exception
+    {
 
         // Auto-detect test name if tag not provided
-        if (tag == null || tag.isEmpty()) {
+        if (tag == null || tag.isEmpty())
+        {
             tag = Thread.currentThread().getStackTrace()[2].getMethodName();
         }
 
         BarCodeResult[] results = reader.readBarCodes();
 
         System.out.println("=== [" + tag + "] ===");
-        for (BarCodeResult result : results) {
+        for (BarCodeResult result : results)
+        {
             System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
         }
 
-        Assert.assertTrue(results.length >= minCount,"Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length);
+        Assert.assertTrue(results.length >= minCount, "Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length);
 
-        if (expectedType != null && results.length > 0) {
+        if (expectedType != null && results.length > 0)
+        {
             boolean hasExpectedType = false;
-            for (BarCodeResult result : results) {
-                if (result.getCodeType().equals(expectedType)) {
+            for (BarCodeResult result : results)
+            {
+                if (result.getCodeType().equals(expectedType))
+                {
                     hasExpectedType = true;
                     break;
                 }
@@ -164,7 +198,40 @@ public class ExampleAssist {
         }
     }
 
-    public static String generateTestBarcode(String data, String imagesFolder, String fileName, BaseEncodeType type) throws IOException {
+    public static void assertNotRecognized(BarCodeReader reader, String tag) throws Exception
+    {
+        // Auto-detect test name if tag not provided
+        if (tag == null || tag.isEmpty())
+        {
+            tag = Thread.currentThread().getStackTrace()[2].getMethodName();
+        }
+
+        BarCodeResult[] results = reader.readBarCodes();
+
+        System.out.println("=== [" + tag + "] ===");
+        if (results.length == 0)
+        {
+            System.out.println(" No barcodes recognized.");
+        }
+        else
+        {
+            for (BarCodeResult result : results)
+            {
+                System.out.println(" Code Type: " + result.getCodeTypeName()
+                        + " - Code Text: " + result.getCodeText());
+            }
+        }
+
+        // Expect exactly zero results
+        Assert.assertTrue(
+                results.length == 0,
+                "Expected no barcodes in test '" + tag + "', but got " + results.length
+        );
+    }
+
+
+    public static String generateTestBarcode(String data, String imagesFolder, String fileName, BaseEncodeType type) throws IOException
+    {
         BarcodeGenerator gen = new BarcodeGenerator(type, data);
         gen.getParameters().setResolution(300f);
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
@@ -178,7 +245,7 @@ public class ExampleAssist {
     public static void generateAndRead(String folder, String fileName, String codeText, BaseEncodeType encodeType, BaseDecodeType decodeType) throws Exception
     {
         BarcodeGenerator g = new BarcodeGenerator(encodeType, codeText);
-        String path = folder + "/" +  fileName;
+        String path = folder + "/" + fileName;
         g.save(path, BarCodeImageFormat.PNG);
         BarCodeReader reader = new BarCodeReader(path, decodeType);
         reader.setQualitySettings(QualitySettings.getHighPerformance());
@@ -191,26 +258,26 @@ public class ExampleAssist {
 
 
 /**
-    @Test
-    public void read_QR_HighPerformance1() throws Exception
-    {
-        // Purpose: Recognize a clean QR using High Performance preset.
-        String fileName = "qr_hp123.png";
-        BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "HP-QR");
-        String path = FOLDER + "/" +  fileName;
-        g.save(path, BarCodeImageFormat.PNG);
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
-        BarCodeResult[] results = reader.readBarCodes();
-        for (BarCodeResult result : results)
-        {
-            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
-        }
-    }
-**/
+ @Test public void read_QR_HighPerformance1() throws Exception
+ {
+ // Purpose: Recognize a clean QR using High Performance preset.
+ String fileName = "qr_hp123.png";
+ BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "HP-QR");
+ String path = FOLDER + "/" +  fileName;
+ g.save(path, BarCodeImageFormat.PNG);
+ BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+ BarCodeResult[] results = reader.readBarCodes();
+ for (BarCodeResult result : results)
+ {
+ System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+ }
+ }
+ **/
     /**
      * Private constructor to prevent instantiation.
      */
-    private ExampleAssist() {
+    private ExampleAssist()
+    {
         throw new UnsupportedOperationException("Utility class");
     }
 
@@ -219,11 +286,14 @@ public class ExampleAssist {
         return folder + "/" + image;
     }
 
-    public static String getCurrentMethodName() {
+    public static String getCurrentMethodName()
+    {
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
-        for (int i = 0; i < st.length; i++) {
+        for (int i = 0; i < st.length; i++)
+        {
             if (ExampleAssist.class.getName().equals(st[i].getClassName()) &&
-                    "getCurrentMethodName".equals(st[i].getMethodName())) {
+                    "getCurrentMethodName".equals(st[i].getMethodName()))
+            {
                 return (i + 1 < st.length) ? st[i + 1].getMethodName() : "unknown";
             }
         }
@@ -231,7 +301,8 @@ public class ExampleAssist {
     }
 
     // Returns the first frame outside ExampleAssist (robust against wrappers)
-    public static String currentMethodName() {
+    public static String currentMethodName()
+    {
         String helperClass = ExampleAssist.class.getName();
         return StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
                 .walk(stream -> stream
@@ -240,6 +311,141 @@ public class ExampleAssist {
                         .findFirst()
                         .map(StackWalker.StackFrame::getMethodName)
                         .orElse("unknown"));
+    }
+
+    /**
+     * Adds zero-mean Gaussian noise to an image and writes the result.
+     *
+     * @param inputFullPath  full path to source image (PNG/JPG)
+     * @param outputFullPath full path to output image (PNG)
+     * @param stdDev         standard deviation of noise (e.g., 8..16). Higher → stronger noise.
+     */
+    public static void addGaussianNoise(String inputFullPath, String outputFullPath, double stdDev) throws IOException
+    {
+        BufferedImage src = ImageIO.read(new File(inputFullPath));
+        if (src == null)
+        {
+            throw new IOException("Cannot read image: " + inputFullPath);
+        }
+
+        BufferedImage dst = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Random rnd = new Random(12345L); // deterministic for tests
+
+        for (int y = 0; y < src.getHeight(); y++)
+        {
+            for (int x = 0; x < src.getWidth(); x++)
+            {
+                int argb = src.getRGB(x, y);
+                int a = (argb >>> 24) & 0xFF;
+                int r = (argb >>> 16) & 0xFF;
+                int g = (argb >>> 8) & 0xFF;
+                int b = (argb) & 0xFF;
+
+                // Gaussian noise per channel
+                int nr = clampToByte(r + (int) Math.round(rnd.nextGaussian() * stdDev));
+                int ng = clampToByte(g + (int) Math.round(rnd.nextGaussian() * stdDev));
+                int nb = clampToByte(b + (int) Math.round(rnd.nextGaussian() * stdDev));
+
+                dst.setRGB(x, y, (a << 24) | (nr << 16) | (ng << 8) | nb);
+            }
+        }
+        ensureParentDirs(outputFullPath);
+        ImageIO.write(dst, "png", new File(outputFullPath));
+    }
+
+    /**
+     * Applies a small Gaussian-like blur via separable convolution and writes the result.
+     *
+     * @param inputFullPath  full path to source image
+     * @param outputFullPath full path to output image (PNG)
+     * @param radius         blur radius (use ~1.0..3.0). Internally mapped to 3x3 or 5x5 kernel.
+     */
+    public static void blur(String inputFullPath, String outputFullPath, float radius) throws IOException
+    {
+        BufferedImage src = ImageIO.read(new File(inputFullPath));
+        if (src == null)
+        {
+            throw new IOException("Cannot read image: " + inputFullPath);
+        }
+
+        // Choose kernel size based on radius
+        Kernel kernel = (radius <= 1.0f) ? gaussian3x3() : gaussian5x5();
+
+        ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        BufferedImage tmp = op.filter(src, null);
+        BufferedImage dst = op.filter(tmp, null); // apply twice for a slightly stronger blur
+
+        ensureParentDirs(outputFullPath);
+        ImageIO.write(dst, "png", new File(outputFullPath));
+    }
+
+// ---- helpers (put them as private static inside ExampleAssist) ----
+
+    private static int clampToByte(int v)
+    {
+        return (v < 0) ? 0 : (v > 255 ? 255 : v);
+    }
+
+    private static Kernel gaussian3x3()
+    {
+        // Simple normalized 3x3 Gaussian approximation
+        float[] m = {
+                1f / 16f, 2f / 16f, 1f / 16f,
+                2f / 16f, 4f / 16f, 2f / 16f,
+                1f / 16f, 2f / 16f, 1f / 16f
+        };
+        return new Kernel(3, 3, m);
+    }
+
+    private static Kernel gaussian5x5()
+    {
+        // Simple normalized 5x5 Gaussian approximation
+        float[] row = {1, 4, 6, 4, 1};
+        float sum = 0;
+        float[] m = new float[25];
+        int k = 0;
+        for (float v1 : row)
+        {
+            for (float v2 : row)
+            {
+                float v = v1 * v2;
+                m[k++] = v;
+                sum += v;
+            }
+        }
+        for (int i = 0; i < m.length; i++)
+        {
+            m[i] /= sum;
+        }
+        return new Kernel(5, 5, m);
+    }
+
+    private static void ensureParentDirs(String fullPath) throws IOException
+    {
+        File f = new File(fullPath);
+        File p = f.getParentFile();
+        if (p != null && !p.exists() && !p.mkdirs())
+        {
+            throw new IOException("Cannot create directories for: " + fullPath);
+        }
+    }
+    public static void upscaleBicubic(String inputFullPath, String outputFullPath, double scale) throws IOException {
+        BufferedImage src = ImageIO.read(new File(inputFullPath));
+        if (src == null) throw new IOException("Cannot read image: " + inputFullPath);
+
+        int w = (int)Math.round(src.getWidth() * scale);
+        int h = (int)Math.round(src.getHeight() * scale);
+        BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g = dst.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.drawImage(src, 0, 0, w, h, null);
+        g.dispose();
+
+        ensureParentDirs(outputFullPath);
+        ImageIO.write(dst, "png", new File(outputFullPath));
     }
 
 

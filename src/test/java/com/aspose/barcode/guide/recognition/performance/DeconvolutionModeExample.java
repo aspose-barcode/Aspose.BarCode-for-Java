@@ -1,6 +1,9 @@
 package com.aspose.barcode.guide.recognition.performance;
 
-import com.aspose.barcode.barcoderecognition.*;
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.DecodeType;
+import com.aspose.barcode.barcoderecognition.QualitySettings;
+import com.aspose.barcode.barcoderecognition.DeconvolutionMode;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
@@ -17,192 +20,135 @@ import org.testng.annotations.Test;
  *
  * Test data (Code 128 and QR) is generated once in @BeforeClass.
  */
-public class DeconvolutionModeExample
-{
-    private static final String FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "barcode_quality_deconvolution");
+public class DeconvolutionModeExample {
 
-    /**
-     * Initializes license and ensures demo images exist before tests run.
-     * Images are created once (idempotently) to keep tests deterministic and self-contained.
-     */
+    private static final String FOLDER =
+            ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "deconvolution_mode");
+
     @BeforeClass
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         LicenseAssist.setupLicense();
-        generateCode128AndQR();
+        generateQRBase();
+        generateQRBlurred();
+        generateQRBlurredUpscaled();
     }
 
-    // ==================== Test data generation ====================
-
-    /**
-     * Generates two images used by tests:
-     *  - qset_code128.png: Code 128 for BarcodeQualityMode experiments
-     *  - qset_qr.png: QR Code for DeconvolutionMode experiments
-     *
-     * Note: ExampleAssist.checkOrCreateImage(...) will reuse existing files if present.
-     */
-    private void generateCode128AndQR() throws Exception
-    {
-        // Code128 for BarcodeQuality tests
-        String code128 = "qset_code128.png";
-        ExampleAssist.checkOrCreateImage(FOLDER, code128, path -> {
-            BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "QualitySettings:BarcodeQuality");
-            gen.save(path, BarCodeImageFormat.PNG);
-        });
-
-        // QR for Deconvolution tests
-        String qr = "qset_qr.png";
-        ExampleAssist.checkOrCreateImage(FOLDER, qr, path -> {
+    private void generateQRBase() throws Exception {
+        String file = "qr_clean.png";
+        ExampleAssist.checkOrCreateImage(FOLDER, file, path -> {
             BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "QualitySettings:Deconvolution");
             gen.save(path, BarCodeImageFormat.PNG);
         });
     }
 
-    // ==================== BarcodeQualityMode ====================
-
-    /**
-     * Demonstrates BarcodeQualityMode.HIGH on a clean Code 128:
-     *  - Starts from HighPerformance preset.
-     *  - Forces HIGH quality profile: fastest path for high-quality barcodes.
-     *  - Expected behavior: quick recognition when the image is good.
-     */
-    @Test
-    public void read_Code128_BarcodeQuality_HIGH() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
-
-        QualitySettings qs = QualitySettings.getHighPerformance();
-        qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
-        reader.setQualitySettings(qs);
-
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
+    private void generateQRBlurred() throws Exception {
+        String src = "qr_clean.png";
+        String blurred = "qr_blurred.png";
+        ExampleAssist.checkOrCreateImage(FOLDER, blurred, outPath -> {
+            String inPath = ExampleAssist.pathCombine(FOLDER, src);
+            // Gaussian-like blur (radius ~2.0). Increase for heavier blur.
+            ExampleAssist.blur(inPath, outPath, 1.5f);
+        });
     }
 
-    /**
-     * Demonstrates BarcodeQualityMode.NORMAL on a clean Code 128:
-     *  - Starts from NormalQuality preset (balanced speed/accuracy).
-     *  - Forces NORMAL quality profile: standard methods enabled.
-     *  - Expected behavior: robust for most regular-quality inputs.
-     */
-    @Test
-    public void read_Code128_BarcodeQuality_NORMAL() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
-
-        QualitySettings qs = QualitySettings.getNormalQuality();
-        qs.setBarcodeQuality(BarcodeQualityMode.NORMAL);
-        reader.setQualitySettings(qs);
-
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
+    private void generateQRBlurredUpscaled() throws Exception {
+        String blurred = "qr_blurred.png";
+        String upscaled = "qr_blurred_x2.png";
+        ExampleAssist.checkOrCreateImage(FOLDER, upscaled, outPath -> {
+            String inPath = ExampleAssist.pathCombine(FOLDER, blurred);
+            ExampleAssist.upscaleBicubic(inPath, outPath, 2.0); // x2 обычно достаточно; при необходимости x3
+        });
     }
 
-    /**
-     * Demonstrates BarcodeQualityMode.LOW on a clean Code 128:
-     *  - Starts from HighQuality preset (heavier processing).
-     *  - Forces LOW quality profile: enables extra/hard methods for damaged or low-contrast bars.
-     *  - Expected behavior: the slowest but most tolerant path when quality is poor.
-     */
+
+    // --- CLEAN image tests ---
+
     @Test
-    public void read_Code128_BarcodeQuality_LOW() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
-
-        QualitySettings qs = QualitySettings.getHighQuality();
-        qs.setBarcodeQuality(BarcodeQualityMode.LOW);
-        reader.setQualitySettings(qs);
-
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
-    }
-
-    // ==================== DeconvolutionMode ====================
-
-    /**
-     * Demonstrates DeconvolutionMode.FAST on a clean QR code:
-     *  - Uses HighQuality preset but forces FAST deconvolution (light-weight restoration).
-     *  - Intended for images with minimal blur/shake.
-     *  - Expected behavior: fastest restoration stage, enough for high-quality captures.
-     */
-    @Test
-    public void read_QR_Deconvolution_FAST() throws Exception
-    {
-        String fileName = "qset_qr.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+    public void read_QR_Clean_Deconvolution_FAST() throws Exception {
+        String file = "qr_clean.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.QR);
 
         QualitySettings qs = QualitySettings.getHighQuality();
         qs.setDeconvolution(DeconvolutionMode.FAST);
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
+        ExampleAssist.assertRecognized(reader, file, 1, DecodeType.QR);
     }
 
-    /**
-     * Demonstrates DeconvolutionMode.NORMAL on a clean QR code:
-     *  - Uses NormalQuality preset with NORMAL deconvolution.
-     *  - Balanced option when some mild blur/noise may exist.
-     *  - Expected behavior: moderate cost, good default for typical mobile photos.
-     */
     @Test
-    public void read_QR_Deconvolution_NORMAL() throws Exception
-    {
-        String fileName = "qset_qr.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+    public void read_QR_Clean_Deconvolution_NORMAL() throws Exception {
+        String file = "qr_clean.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.QR);
 
         QualitySettings qs = QualitySettings.getNormalQuality();
         qs.setDeconvolution(DeconvolutionMode.NORMAL);
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
+        ExampleAssist.assertRecognized(reader, file, 1, DecodeType.QR);
     }
 
-    /**
-     * Demonstrates DeconvolutionMode.SLOW on a clean QR code:
-     *  - Uses HighQuality preset with the strongest (SLOW) restoration methods.
-     *  - Intended for heavily blurred/low-quality inputs; slowest but most powerful.
-     *  - Expected behavior: the most robust deconvolution pipeline.
-     */
     @Test
-    public void read_QR_Deconvolution_SLOW() throws Exception
-    {
-        String fileName = "qset_qr.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+    public void read_QR_Clean_Deconvolution_SLOW() throws Exception {
+        String file = "qr_clean.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.QR);
 
         QualitySettings qs = QualitySettings.getHighQuality();
         qs.setDeconvolution(DeconvolutionMode.SLOW);
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
+        ExampleAssist.assertRecognized(reader, file, 1, DecodeType.QR);
     }
 
-    // ==================== Preset + targeted overrides ====================
+    // --- BLURRED image tests ---
 
     /**
-     * Demonstrates starting from a fast preset and then applying targeted overrides:
-     *  - Base: HighPerformance (aims for speed on clean inputs).
-     *  - Overrides:
-     *      XDimension = SMALL           -> look for smaller bars/cells (tiny modules)
-     *      MinimalXDimension = 1.0 px   -> minimal expected module size in pixels
-     *      BarcodeQuality = LOW         -> enable heavy methods for low-quality / damaged bars
-     *      Deconvolution = SLOW         -> strongest restoration for blur/degradation
-     *  - Intended use: when you expect very small and/or degraded 1D symbols.
-     *  - Trade-off: slower but more tolerant than pure HighPerformance.
+     * Blurred input + Deconvolution=FAST (negative test)
+     *
+     * Purpose:
+     *  - Show that the light-weight restoration (FAST) is not sufficient for motion/out-of-focus blur
+     *    of this strength (produced by ExampleAssist.blur(...)).
+     *  - This test intentionally expects NO recognition to emphasize the difference to SLOW mode.
+     * Expectations:
+     *  - Reader should fail to detect a QR on this blurred sample with FAST deconvolution.
+     * Notes:
+     *  - If you reduce blur radius in ExampleAssist.blur(...), FAST may start passing; in that case
+     *    either weaken the blur again (to keep this test negative) or switch this check back to
+     *    assertRecognized and move the negative case to a stronger blur sample.
      */
     @Test
-    public void read_Code128_PresetWithOverrides_forSmallAndLowQuality() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
+    public void read_QR_Blurred_Deconvolution_FAST() throws Exception {
+        String file = "qr_blurred.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.QR);
 
-        QualitySettings qs = QualitySettings.getHighPerformance();
-        qs.setXDimension(XDimensionMode.SMALL);
-        qs.setMinimalXDimension(1.0f);
-        qs.setBarcodeQuality(BarcodeQualityMode.LOW);
-        qs.setDeconvolution(DeconvolutionMode.SLOW);
+        QualitySettings qs = QualitySettings.getHighQuality();
+        qs.setDeconvolution(DeconvolutionMode.FAST); // light, speed-first restoration
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
+        ExampleAssist.assertNotRecognized(reader, file);
     }
+
+    /**
+     * Blurred input + Deconvolution=SLOW (positive test)
+     *
+     * Purpose:
+     *  - Demonstrate the strongest restoration path that is designed for heavy blur.
+     *  - Complements the FAST negative test to show practical tuning: if FAST fails, try SLOW.
+     * Expectations:
+     *  - Reader should recognize the QR code on the same blurred image when SLOW is used.
+     * Trade-off:
+     *  - SLOW is slower than FAST but significantly more tolerant to blur.
+     */
+    @Test
+    public void read_QR_Blurred_Deconvolution_SLOW() throws Exception {
+        String file = "qr_blurred.png";
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.QR);
+
+        QualitySettings qs = QualitySettings.getHighQuality();
+        qs.setDeconvolution(DeconvolutionMode.SLOW); // strongest restoration
+        reader.setQualitySettings(qs);
+
+        ExampleAssist.assertRecognized(reader, file, 1, DecodeType.QR);
+    }
+
+
 }
