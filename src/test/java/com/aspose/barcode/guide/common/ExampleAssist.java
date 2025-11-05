@@ -360,29 +360,34 @@ public class ExampleAssist
      * @param outputFullPath full path to output image (PNG)
      */
     public static void blur(String inputFullPath, String outputFullPath, float sigma) throws IOException {
-        // Mild blur: single separable Gaussian pass (H then V).
-        // Use sigma ~ 0.9..1.2 for bad but recognizable image.
-        if (sigma < 0.6f) sigma = 0.6f;      // guard: too little - almost no effect
-        if (sigma > 2.0f) sigma = 2.0f;      // guard: don't give soap
+        // Separable Gaussian blur: one horizontal pass followed by one vertical pass.
+        // Use sigma ≈ 0.9–1.2 to simulate a degraded but still recognizable image.
+
+        // Clamp sigma to a sensible range: too small -> no visible effect; too large -> overly "soapy" blur.
+        if (sigma < 0.6f) sigma = 0.6f;
+        if (sigma > 2.0f) sigma = 2.0f;
 
         BufferedImage src = ImageIO.read(new File(inputFullPath));
         if (src == null) throw new IOException("Cannot read image: " + inputFullPath);
 
-        int size = Math.max(3, 2 * (int) Math.ceil(3 * sigma) + 1); // 3σ правило: 3..13
-        float[] k1d = gaussianKernel1D(size, sigma);
+        // Kernel size from the 3σ rule: cover ±3σ and keep it odd (≈ 6σ + 1). Result is typically 3..13 here.
+        int size = Math.max(3, 2 * (int) Math.ceil(3 * sigma) + 1);
+        float[] k1d = gaussianKernel1D(size, sigma); // normalized, symmetric 1D kernel
 
         Kernel hKernel = new Kernel(size, 1, k1d);
         Kernel vKernel = new Kernel(1, size, k1d);
 
+        // Use EDGE_NO_OP to avoid padding artifacts; borders will remain less blurred.
         ConvolveOp hOp = new ConvolveOp(hKernel, ConvolveOp.EDGE_NO_OP, null);
         ConvolveOp vOp = new ConvolveOp(vKernel, ConvolveOp.EDGE_NO_OP, null);
 
         BufferedImage tmp = hOp.filter(src, null);
-        BufferedImage dst = vOp.filter(tmp, null);   // ВАЖНО: только один проход (H+V), без «повторно»
+        BufferedImage dst = vOp.filter(tmp, null); // IMPORTANT: exactly one H pass + one V pass (no repeated passes)
 
         ensureParentDirs(outputFullPath);
         ImageIO.write(dst, "png", new File(outputFullPath));
     }
+
 
     private static float[] gaussianKernel1D(int size, float sigma) {
         float[] k = new float[size];
