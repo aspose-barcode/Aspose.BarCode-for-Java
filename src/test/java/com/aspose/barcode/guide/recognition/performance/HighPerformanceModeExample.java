@@ -13,13 +13,11 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 /**
  * Demonstrates how to enable and use High Performance mode during recognition.
  * The tests keep recognition simple (>=1 result) to focus on API usage and the setup pattern.
  */
-public class HighPerformanceMode
+public class HighPerformanceModeExample
 {
 
     private static final String FOLDER =

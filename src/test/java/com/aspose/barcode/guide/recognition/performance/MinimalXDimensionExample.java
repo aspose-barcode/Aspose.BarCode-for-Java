@@ -4,7 +4,6 @@ package com.aspose.barcode.guide.recognition.performance;// Demonstrates how to 
 // and checkOrCreateImage(folder, name, this::generator).
 // No try-with-resources; explicit reader.close(); prints results; comments in English.
 
-import com.aspose.barcode.*;
 import com.aspose.barcode.barcoderecognition.*;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
@@ -14,7 +13,7 @@ import java.io.IOException;
 
 import static com.aspose.barcode.guide.common.ExampleAssist.*;
 
-public class UseMinimalXDimensionExample
+public class MinimalXDimensionExample
 {
 
     private static final String FOLDER =
