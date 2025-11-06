@@ -14,7 +14,8 @@ import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class ReadingDamagedBarcode {
+public class ReadingDamagedBarcodeExample
+{
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "reading_damaged");
