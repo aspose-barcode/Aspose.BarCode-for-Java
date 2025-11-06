@@ -601,5 +601,97 @@ public class ExampleAssist
         ImageIO.write(dst, "png", new File(outPath));
     }
 
+    /**
+     * Downscale an image using nearest-neighbor and then apply Otsu binarization
+     * to keep barcode edges crisp at low resolutions. Output is written as PNG.
+     *
+     * Why this helps:
+     * - Nearest-neighbor preserves module boundaries compared to smoothing resamplers.
+     * - Otsu threshold restores hard black/white edges after resampling and reduces gray bleeding,
+     *   which improves decode reliability on tiny barcodes.
+     *
+     * @param inPath        input image path
+     * @param outPath       output image path (PNG)
+     * @param targetWidthPx target width in pixels (>= 1)
+     */
+    public static void downscaleNearestCrisp(String inPath, String outPath, int targetWidthPx) throws IOException {
+        if (targetWidthPx < 1) throw new IllegalArgumentException("targetWidthPx must be >= 1");
 
+        BufferedImage src = ImageIO.read(new File(inPath));
+        if (src == null) throw new IOException("Cannot read image: " + inPath);
+
+        // 1) Nearest-neighbor downscale with aspect ratio preserved.
+        int srcW = Math.max(1, src.getWidth());
+        int srcH = Math.max(1, src.getHeight());
+        double scale = (double) targetWidthPx / (double) srcW;
+        int targetHeightPx = Math.max(1, (int) Math.round(srcH * scale));
+
+        BufferedImage scaled = new BufferedImage(targetWidthPx, targetHeightPx, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = scaled.createGraphics();
+        try {
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+            g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+            g.drawImage(src, 0, 0, targetWidthPx, targetHeightPx, null);
+        } finally {
+            g.dispose();
+        }
+
+        // 2) Convert to grayscale (luminance).
+        BufferedImage gray = new BufferedImage(targetWidthPx, targetHeightPx, BufferedImage.TYPE_BYTE_GRAY);
+        Graphics2D gg = gray.createGraphics();
+        try {
+            gg.drawImage(scaled, 0, 0, null);
+        } finally {
+            gg.dispose();
+        }
+
+        // 3) Otsu threshold -> black/white image (crisp modules).
+        int[] hist = new int[256];
+        for (int y = 0; y < gray.getHeight(); y++) {
+            for (int x = 0; x < gray.getWidth(); x++) {
+                int v = gray.getRaster().getSample(x, y, 0);
+                hist[v]++;
+            }
+        }
+
+        int total = gray.getWidth() * gray.getHeight();
+        long sum = 0;
+        for (int t = 0; t < 256; t++) sum += (long) t * hist[t];
+
+        long sumB = 0;
+        int wB = 0;
+        double varMax = -1.0;
+        int threshold = 127;
+        for (int t = 0; t < 256; t++) {
+            wB += hist[t];
+            if (wB == 0) continue;
+            int wF = total - wB;
+            if (wF == 0) break;
+
+            sumB += (long) t * hist[t];
+
+            double mB = (double) sumB / wB;
+            double mF = (double) (sum - sumB) / wF;
+            double varBetween = (double) wB * (double) wF * (mB - mF) * (mB - mF);
+
+            if (varBetween > varMax) {
+                varMax = varBetween;
+                threshold = t;
+            }
+        }
+
+        BufferedImage bw = new BufferedImage(targetWidthPx, targetHeightPx, BufferedImage.TYPE_BYTE_BINARY);
+        for (int y = 0; y < gray.getHeight(); y++) {
+            for (int x = 0; x < gray.getWidth(); x++) {
+                int v = gray.getRaster().getSample(x, y, 0);
+                int rgb = (v > threshold ? 0xFFFFFFFF : 0xFF000000);
+                bw.setRGB(x, y, rgb);
+            }
+        }
+
+        ensureParentDirs(outPath);
+        ImageIO.write(bw, "png", new File(outPath));
+    }
 }
