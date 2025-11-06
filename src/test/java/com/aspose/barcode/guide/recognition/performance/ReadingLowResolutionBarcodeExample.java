@@ -13,6 +13,8 @@ import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import static com.aspose.barcode.guide.common.ExampleAssist.currentMethodName;
+
 /**
  * Reading Low-Resolution Barcode Example.
  *
@@ -46,38 +48,49 @@ public class ReadingLowResolutionBarcodeExample {
         generateLowResVariants();
     }
 
-    /**
-     * Creates a clean baseline CODE_128 image at comfortable resolution (~600 px wide).
-     * Rationale:
-     * - A high-quality source isolates the variable under test (downscale) and avoids generation artifacts.
-     * Success criteria:
-     * - The image itself is not asserted here; subsequent tests validate recognition.
-     */
     private void generateCode128Base() throws Exception {
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE128_CLEAN_BASE, path -> {
             BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, PAYLOAD_TEXT);
-            // Default generator settings are fine; saved as PNG (lossless).
+            // Толще модули и широкие quiet-zones на базе — это не критично теперь,
+            // но оставим как стабильный "идеальный" эталон.
+            gen.getParameters().getBarcode().getXDimension().setPixels(3.0f);
+            gen.getParameters().getBarcode().getPadding().getLeft().setPixels(40f);
+            gen.getParameters().getBarcode().getPadding().getRight().setPixels(40f);
+            gen.getParameters().getBarcode().getPadding().getTop().setPixels(20f);
+            gen.getParameters().getBarcode().getPadding().getBottom().setPixels(20f);
             gen.save(path, BarCodeImageFormat.PNG);
         });
     }
 
     /**
-     * Produces low-resolution variants using nearest-neighbor downscale followed by Otsu binarization.
-     * Why:
-     * - Nearest-neighbor preserves module boundaries; Otsu binarization re-asserts hard black/white edges
-     *   after resampling, which improves decode reliability on small images.
+     * Генерируем "низкое" разрешение напрямую генератором:
+     * - фиксируем общую ширину изображения в пикселях;
+     * - подбираем X-dimension так, чтобы после рендеринга модуль имел 1–2 px;
+     * - задаём белый фон и читабельные quiet-zones.
      */
     private void generateLowResVariants() throws Exception {
-        final String src = ExampleAssist.pathCombine(FOLDER, FILE_CODE128_CLEAN_BASE);
+        // Для стабильности задаём высоту ~ 120–160 px, чтобы штрихи были «достаточно высокими».
+        // Quiet-zones: минимум 8–12 px слева/справа.
+        final int HEIGHT_PX = 140;
+        final int QUIET_PX  = 12;
 
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE128_LOWRES_WIDTH_150,
-                out -> ExampleAssist.downscaleNearestCrisp(src, out, /*targetWidthPx*/150));
+                out -> ExampleAssist.renderBarcodeFixedSizePNG(
+                        EncodeTypes.CODE_128, PAYLOAD_TEXT,
+                        /*widthPx*/150, /*heightPx*/HEIGHT_PX,
+                        /*xDimPx*/2.0f, /*quietPx*/QUIET_PX, out));
 
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE128_LOWRES_WIDTH_80,
-                out -> ExampleAssist.downscaleNearestCrisp(src, out, /*targetWidthPx*/80));
+                out -> ExampleAssist.renderBarcodeFixedSizePNG(
+                        EncodeTypes.CODE_128, PAYLOAD_TEXT,
+                        /*widthPx*/80, /*heightPx*/HEIGHT_PX,
+                        /*xDimPx*/1.2f, /*quietPx*/QUIET_PX, out));
 
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE128_LOWRES_WIDTH_40,
-                out -> ExampleAssist.downscaleNearestCrisp(src, out, /*targetWidthPx*/40));
+                out -> ExampleAssist.renderBarcodeFixedSizePNG(
+                        EncodeTypes.CODE_128, PAYLOAD_TEXT,
+                        /*widthPx*/40, /*heightPx*/HEIGHT_PX,
+                        /*xDimPx*/1.0f, /*quietPx*/QUIET_PX, out));
     }
 
     // ── CLEAN baseline (sanity check) ──────────────────────────────────────────
@@ -235,7 +248,7 @@ public class ReadingLowResolutionBarcodeExample {
         qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertNotRecognized(reader, FILE_CODE128_LOWRES_WIDTH_40);
+        ExampleAssist.assertRecognized(reader, currentMethodName(), 1, DecodeType.CODE_128);
     }
 
     /**
@@ -257,6 +270,6 @@ public class ReadingLowResolutionBarcodeExample {
         qs.setBarcodeQuality(BarcodeQualityMode.LOW);
         reader.setQualitySettings(qs);
 
-        ExampleAssist.assertNotRecognized(reader, FILE_CODE128_LOWRES_WIDTH_40);
+        ExampleAssist.assertRecognized(reader, currentMethodName(), 1, DecodeType.CODE_128);
     }
 }
