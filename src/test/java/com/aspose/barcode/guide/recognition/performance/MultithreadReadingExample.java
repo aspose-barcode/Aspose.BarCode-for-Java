@@ -1,8 +1,12 @@
 package com.aspose.barcode.guide.recognition.performance;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarcodeQualityMode;
 import com.aspose.barcode.barcoderecognition.DecodeType;
+import com.aspose.barcode.barcoderecognition.DeconvolutionMode;
 import com.aspose.barcode.barcoderecognition.ProcessorSettings;
+import com.aspose.barcode.barcoderecognition.QualitySettings;
+import com.aspose.barcode.barcoderecognition.XDimensionMode;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
@@ -11,7 +15,11 @@ import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.aspose.barcode.guide.common.ExampleAssist.getCpuCount;
@@ -23,31 +31,39 @@ import static com.aspose.barcode.guide.common.ExampleAssist.getCpuCount;
  *  - Demonstrate how ProcessorSettings (UseAllCores / UseOnlyThisCoresCount / MaxAdditionalAllowedThreads)
  *    affect recognition speed on a dataset.
  *
- * Notes:
- *  - We keep assertions only for correctness (barcodes must be recognized).
- *  - Performance is reported to console via ExampleAssist (no hard time assertions to avoid flakiness in CI).
+ * Methodology improvements:
+ *  - Images are preloaded into memory to avoid I/O noise.
+ *  - Each mode has its own warm-up run.
+ *  - We measure 3 times per mode and take the median.
+ *  - Optional "heavy" QualitySettings profile to make the workload CPU-bound.
  */
 public class MultithreadReadingExample {
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "performance", "multithread");
 
-    // Size of synthetic dataset. Increase if you want more pronounced differences.
-    private static final int DATASET_SIZE = 36;
+    /** Increase for clearer differences on multi-core machines. */
+    private static final int DATASET_SIZE = 72; // was 36
 
-    // File names of generated dataset
+    /** Enable heavier recognition to make CPU the bottleneck. */
+    private static final boolean USE_HEAVY_PROFILE = true;
+
+    // File names of generated dataset (order matters for label/expected type)
     private static final List<String> FILES = new ArrayList<>(DATASET_SIZE);
+
+    // Preloaded images and names to eliminate file I/O during benchmarks
+    private static final List<BufferedImage> IMAGES = new ArrayList<>(DATASET_SIZE);
+    private static final List<String> NAMES = new ArrayList<>(DATASET_SIZE);
 
     @BeforeClass
     public void setUp() throws Exception {
         LicenseAssist.setupLicense();
-        generateDataset();
-        // Optional: small warm-up to JIT the code path and avoid first-run skew in timings
-        warmUpOnce();
+        generateDataset();     // creates images on disk (if missing) and preloads them into memory
+        warmUpOnce();          // global warm-up to stabilize JIT
     }
 
     /**
-     * Generates a synthetic dataset of CODE_128 and QR images.
+     * Generates a synthetic dataset of CODE_128 and QR images and preloads them into memory.
      * The mix of symbologies simulates a generic workload.
      */
     private void generateDataset() throws Exception {
@@ -57,7 +73,6 @@ public class MultithreadReadingExample {
             FILES.add(name);
 
             final int idx = i;
-
             ExampleAssist.checkOrCreateImage(FOLDER, name, path -> {
                 if (isQR) {
                     BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "QR#" + idx);
@@ -67,111 +82,104 @@ public class MultithreadReadingExample {
                     g.save(path, BarCodeImageFormat.PNG);
                 }
             });
+
+            // Preload into memory
+            String full = ExampleAssist.pathCombine(FOLDER, name);
+            BufferedImage img = ImageIO.read(new File(full));
+            IMAGES.add(img);
+            NAMES.add(name);
         }
     }
 
-
-    /**
-     * Do a quick warm-up run with default ProcessorSettings to stabilize JIT/IO caches.
-     */
+    /** Quick global warm-up with a light preset to remove first-run skew. */
     private void warmUpOnce() throws Exception {
-        setSingleCore(); // minimal threading for warm-up
-        consumeDataset(false); // no printing
+        setSingleCore();
+        consumeDatasetInMemory(false);
     }
 
     // ----------------------- Tests -----------------------
 
     /**
      * Single core baseline:
-     * - UseAllCores = false
-     * - UseOnlyThisCoresCount = 1
-     * - MaxAdditionalAllowedThreads = 0
-     *
-     * Purpose:
-     *  - Establish a single-threaded baseline to compare speedups from multi-core modes.
-     * Expectation:
-     *  - Slowest wall time on most machines, but useful as a reference.
+     * Purpose: establish a single-threaded baseline for later speedup comparisons.
+     * Expectation: usually the slowest wall time on CPU-bound workloads.
      */
     @Test
     public void readDataset_SingleCore_Baseline() throws Exception {
-        setSingleCore();
-        long ms = consumeDataset(false);
-        ExampleAssist.logInfo(String.format("[SingleCore] total: %d ms, images: %d", ms, DATASET_SIZE));
+        long ms = runWithWarmupAndMedian(MultithreadReadingExample::setSingleCore);
+        ExampleAssist.logInfo(String.format("[SingleCore] median(3): %d ms, images: %d", ms, DATASET_SIZE));
     }
 
     /**
      * Half of available cores:
-     * - UseAllCores = false
-     * - UseOnlyThisCoresCount = max(1, processors / 2)
-     * - MaxAdditionalAllowedThreads = same as used cores (heuristic)
-     *
-     * Purpose:
-     *  - Show that using a portion of cores gives better throughput than single core,
-     *    while keeping some CPU headroom for the system/CI runner.
-     * Expectation:
-     *  - Faster than SingleCore; slower than AllCores on CPU-bound workloads.
+     * Purpose: show improvement vs single core while keeping system headroom.
+     * Expectation: faster than SingleCore; may be close to AllCores on small datasets.
      */
     @Test
     public void readDataset_HalfCores() throws Exception {
-        setHalfCores();
-        long ms = consumeDataset(false);
-        ExampleAssist.logInfo(String.format("[HalfCores] total: %d ms, images: %d", ms, DATASET_SIZE));
+        long ms = runWithWarmupAndMedian(MultithreadReadingExample::setHalfCores);
+        ExampleAssist.logInfo(String.format("[HalfCores] median(3): %d ms, images: %d", ms, DATASET_SIZE));
     }
 
     /**
-     * All available cores (recommended starting point for max throughput on a single reader):
-     * - UseAllCores = true
-     * - (UseOnlyThisCoresCount is ignored)
-     * - MaxAdditionalAllowedThreads = processors (default good heuristic)
-     *
-     * Purpose:
-     *  - Demonstrate maximum parallelism controlled by the engine for one BarCodeReader call.
-     * Expectation:
-     *  - Best or near-best wall time versus SingleCore/HalfCores.
+     * All available cores:
+     * Purpose: demonstrate maximum parallelism controlled by the engine.
+     * Expectation: best or near-best on sufficiently heavy/large workloads.
      */
     @Test
     public void readDataset_AllCores() throws Exception {
-        setAllCores();
-        long ms = consumeDataset(false);
-        ExampleAssist.logInfo(String.format("[AllCores] total: %d ms, images: %d", ms, DATASET_SIZE));
+        long ms = runWithWarmupAndMedian(MultithreadReadingExample::setAllCores);
+        ExampleAssist.logInfo(String.format("[AllCores] median(3): %d ms, images: %d", ms, DATASET_SIZE));
     }
 
     /**
      * All cores + increased MaxAdditionalAllowedThreads:
-     * - UseAllCores = true
-     * - MaxAdditionalAllowedThreads = processors * 2
-     *
-     * Purpose:
-     *  - Show how raising the cap of additional worker threads may help IO-heavy or mixed workloads.
-     * Caveat:
-     *  - On pure CPU-bound workloads, too many threads can lead to contention and even regressions.
-     * Expectation:
-     *  - On some machines this equals AllCores; on others can be slightly better or slightly worse.
+     * Purpose: experiment with a higher worker-thread cap (can help mixed or I/O-heavy tasks).
+     * Caveat: on pure CPU workloads may hurt due to contention.
      */
     @Test
     public void readDataset_AllCores_MaxThreadsX2() throws Exception {
-        setAllCoresMaxThreadsX2();
-        long ms = consumeDataset(false);
-        ExampleAssist.logInfo(String.format("[AllCores+MaxThreads*2] total: %d ms, images: %d", ms, DATASET_SIZE));
+        long ms = runWithWarmupAndMedian(MultithreadReadingExample::setAllCoresMaxThreadsX2);
+        ExampleAssist.logInfo(String.format("[AllCores+MaxThreads*2] median(3): %d ms, images: %d", ms, DATASET_SIZE));
     }
 
-    // ----------------------- Core logic -----------------------
+    // ----------------------- Measurement harness -----------------------
+
+    /** Run setup, warm up once for that mode, then measure 3 times and return median in ms. */
+    private static long runWithWarmupAndMedian(Runnable setup) throws Exception {
+        setup.run();
+        consumeDatasetInMemory(false); // warm-up for this exact mode
+
+        long a = consumeDatasetInMemory(false);
+        long b = consumeDatasetInMemory(false);
+        long c = consumeDatasetInMemory(false);
+        long[] arr = new long[]{a, b, c};
+        Arrays.sort(arr);
+        return arr[1];
+    }
 
     /**
-     * Reads the whole dataset with current ProcessorSettings and returns wall time in ms.
-     * Also verifies that each image is recognized at least once.
+     * Reads the whole in-memory dataset with current ProcessorSettings and returns wall time in ms.
+     * Uses a heavier QualitySettings profile when USE_HEAVY_PROFILE is enabled.
+     * Asserts via ExampleAssist.assertRecognizedSilent (no per-file console noise).
      */
-    private long consumeDataset(boolean printPerFile) throws Exception {
+    private static long consumeDatasetInMemory(boolean printPerFile) throws Exception {
         long t0 = System.nanoTime();
-        for (String name : FILES) {
-            String full = ExampleAssist.pathCombine(FOLDER, name);
 
-            // Choose expected decode type by file name prefix for correctness check
-            final boolean isQR = name.startsWith("qr_");
-            BarCodeReader reader = new BarCodeReader(full,
-                    isQR ? DecodeType.QR : DecodeType.CODE_128);
+        for (int i = 0; i < IMAGES.size(); i++) {
+            String name = NAMES.get(i);
+            boolean isQR = name.startsWith("qr_");
 
-            // recognize & check
+            BarCodeReader reader = new BarCodeReader(IMAGES.get(i), isQR ? DecodeType.QR : DecodeType.CODE_128);
+
+            if (USE_HEAVY_PROFILE) {
+                QualitySettings qs = QualitySettings.getHighQuality();
+                qs.setDeconvolution(DeconvolutionMode.SLOW);
+                qs.setBarcodeQuality(BarcodeQualityMode.LOW);
+                qs.setXDimension(XDimensionMode.SMALL);
+                reader.setQualitySettings(qs);
+            }
+
             if (isQR) {
                 ExampleAssist.assertRecognizedSilent(reader, 1, DecodeType.QR);
             } else {
@@ -182,6 +190,7 @@ public class MultithreadReadingExample {
                 ExampleAssist.logInfo("processed: " + name);
             }
         }
+
         long t1 = System.nanoTime();
         return (t1 - t0) / 1_000_000L;
     }
@@ -201,16 +210,16 @@ public class MultithreadReadingExample {
         int half = Math.max(1, cpu / 2);
         ps.setUseAllCores(false);
         ps.setUseOnlyThisCoresCount(half);
-        ps.setMaxAdditionalAllowedThreads(half); // simple heuristics
+        ps.setMaxAdditionalAllowedThreads(half); // simple heuristic
     }
 
     private static void setAllCores() {
         ProcessorSettings ps = BarCodeReader.getProcessorSettings();
         int cpu = getCpuCount();
         ps.setUseAllCores(true);
-        // This field is ignored when UseAllCores=true, but we will leave it consistent
+        // This value is ignored when UseAllCores=true, but keep state consistent:
         ps.setUseOnlyThisCoresCount(cpu);
-        ps.setMaxAdditionalAllowedThreads(cpu); // basic security heuristics
+        ps.setMaxAdditionalAllowedThreads(Math.max(1, cpu - 1)); // leave 1 core for OS/runner
     }
 
     private static void setAllCoresMaxThreadsX2() {
