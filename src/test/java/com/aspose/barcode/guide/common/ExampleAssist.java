@@ -694,4 +694,66 @@ public class ExampleAssist
         ensureParentDirs(outPath);
         ImageIO.write(bw, "png", new File(outPath));
     }
+
+    /**
+     * Render a barcode directly at the target pixel size (no resampling).
+     * Ensures white background, black bars, and explicit quiet zones in pixels.
+     *
+     * @param type      symbology (e.g., EncodeTypes.CODE_128)
+     * @param text      payload
+     * @param widthPx   total image width in pixels
+     * @param heightPx  total image height in pixels
+     * @param xDimPx    X-dimension in pixels (module width); use ~2.0f for ~150px wide, ~1.0–1.2f for ~80px
+     * @param quietPx   quiet zone size (left/right) in pixels
+     * @param outPath   output PNG path
+     */
+    public static void renderBarcodeFixedSizePNG(BaseEncodeType type, String text,
+                                                 int widthPx, int heightPx,
+                                                 float xDimPx, int quietPx,
+                                                 String outPath) throws IOException {
+        if (widthPx < 20 || heightPx < 20) {
+            throw new IllegalArgumentException("Image too small for rendering: " + widthPx + "x" + heightPx);
+        }
+        if (xDimPx < 0.5f) xDimPx = 0.5f;
+
+        // 1) Render barcode onto an ARGB canvas with exact pixel size.
+        // Aspose.BarCode can render by pixels using parameters..
+        BarcodeGenerator gen = new BarcodeGenerator(type, text);
+
+        // Colors / background
+        gen.getParameters().getBarcode().setBarColor(java.awt.Color.BLACK);
+        gen.getParameters().setBackColor(java.awt.Color.WHITE);
+
+        // Quiet zones (left/right/top/bottom) in pixels
+        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(quietPx);
+        gen.getParameters().getBarcode().getPadding().getRight().setPixels(quietPx);
+        gen.getParameters().getBarcode().getPadding().getTop().setPixels(quietPx / 2.0f);
+        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(quietPx / 2.0f);
+
+        // X-dimension in pixels
+        gen.getParameters().getBarcode().getXDimension().setPixels(xDimPx);
+
+        // Fix overall image size in pixels (если у вашей версии свойства называются иначе — подставьте эквиваленты)
+        gen.getParameters().getImageWidth().setPixels(widthPx);
+        gen.getParameters().getImageHeight().setPixels(heightPx);
+
+        // 2) save to PNG
+        ensureParentDirs(outPath);
+        gen.save(outPath, BarCodeImageFormat.PNG);
+
+        // 3) Safety: Let's make sure the background is actually white (in case of transparency in the engine version)
+        BufferedImage img = ImageIO.read(new File(outPath));
+        if (img.getType() != BufferedImage.TYPE_INT_RGB) {
+            BufferedImage rgb = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = rgb.createGraphics();
+            try {
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, rgb.getWidth(), rgb.getHeight());
+                g.drawImage(img, 0, 0, null);
+            } finally {
+                g.dispose();
+            }
+            ImageIO.write(rgb, "png", new File(outPath));
+        }
+    }
 }
