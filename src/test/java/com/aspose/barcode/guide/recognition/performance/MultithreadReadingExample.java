@@ -173,9 +173,9 @@ public class MultithreadReadingExample {
 
             // recognize & check
             if (isQR) {
-                ExampleAssist.assertRecognized(reader, name, 1, DecodeType.QR);
+                ExampleAssist.assertRecognizedSilent(reader, 1, DecodeType.QR);
             } else {
-                ExampleAssist.assertRecognized(reader, name, 1, DecodeType.CODE_128);
+                ExampleAssist.assertRecognizedSilent(reader, 1, DecodeType.CODE_128);
             }
 
             if (printPerFile) {
