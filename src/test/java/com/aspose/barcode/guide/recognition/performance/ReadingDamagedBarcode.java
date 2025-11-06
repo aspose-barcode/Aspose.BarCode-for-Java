@@ -182,7 +182,7 @@ public class ReadingDamagedBarcode
      * - If this becomes flaky on your setup, either reduce blur to make FAST pass
      * or keep this test disabled/commented out.
      */
-    @Test(enabled = false) //TODO: Find input parameters that cause the image to be unrecognized
+    @Test//TODO: Find input parameters that cause the image to be unrecognized
     public void read_QR_Blurred_WithDeconvolution_FAST_Negative() throws Exception
     {
         String file = "qr_blurred.png";
