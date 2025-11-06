@@ -19,12 +19,12 @@ import static com.aspose.barcode.guide.common.ExampleAssist.currentMethodName;
  * Reading Low-Resolution Barcode Example.
  *
  * Focus:
- * - How recognition behaves when the barcode image is downscaled to low resolutions.
- * - Which QualitySettings and X-dimension hints improve robustness on pixelated input.
+ * - How recognition behaves when the barcode image is rendered directly at low target widths (no post-resampling).
+ * - Which QualitySettings and X-dimension hints improve robustness on tiny/pixel-aligned modules.
  *
  * Data:
- * - A clean, synthetic CODE_128 is generated once.
- * - Low-res variants are produced via nearest-neighbor downscale plus binarization to keep edges crisp.
+ * - A clean, synthetic CODE_128 is generated once (wide quiet zones).
+ * - Low-res variants are rendered directly at fixed pixel widths (150 / 80 / 40 px) with explicit X-dimension.
  */
 public class ReadingLowResolutionBarcodeExample {
 
@@ -63,10 +63,10 @@ public class ReadingLowResolutionBarcodeExample {
     }
 
     /**
-     * Генерируем "низкое" разрешение напрямую генератором:
-     * - фиксируем общую ширину изображения в пикселях;
-     * - подбираем X-dimension так, чтобы после рендеринга модуль имел 1–2 px;
-     * - задаём белый фон и читабельные quiet-zones.
+     * Render low-resolution variants directly via the generator (no resampling):
+     * - we fix target image width in pixels,
+     * - choose X-dimension so that modules remain ~1–2 px,
+     * - keep a white background and sufficient quiet zones.
      */
     private void generateLowResVariants() throws Exception {
         // Для стабильности задаём высоту ~ 120–160 px, чтобы штрихи были «достаточно высокими».
@@ -191,7 +191,7 @@ public class ReadingLowResolutionBarcodeExample {
 
         QualitySettings qs = QualitySettings.getHighPerformance();
         qs.setXDimension(XDimensionMode.SMALL);
-        qs.setMinimalXDimension(1.0f); // Hint: expected minimal module width in pixels after downscale
+        qs.setMinimalXDimension(1.0f); // Hint: expected minimal module width in pixels at this rendered size
         qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
         reader.setQualitySettings(qs);
 
