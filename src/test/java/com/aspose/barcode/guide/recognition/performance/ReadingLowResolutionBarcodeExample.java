@@ -227,15 +227,19 @@ public class ReadingLowResolutionBarcodeExample {
 
     /**
      * Purpose:
-     * - Document the "failure cliff": at ~40 px width bars may collapse to 1–2 px,
-     *   making decoding unreliable even with strong quality settings and crisping.
+     * - Evaluate an extreme low-resolution case (~40 px width) using a quality-oriented preset
+     *   (HighQuality) with SMALL X-dimension hints and HIGH quality mode, and verify that decoding
+     *   can still succeed when the image is crisp and module hints are provided.
      *
      * Demonstrates:
-     * - A practical lower bound in resolution; negative test clarifies expectations for tiny inputs.
+     * - The decoder’s best-case robustness near the resolution cliff: with appropriate hints
+     *   (XDimensionMode.SMALL, MinimalXDimension) and strong quality mode, even ~40 px can be decodable.
+     *   This is an edge-case success, not a general guarantee.
      *
      * Expectation (explicit):
-     * - No decoded results (minCount=0). If you need a positive at 40 px, generate from larger base
-     *   with a thicker X-dimension, or avoid such low widths in production.
+     * - At least one decoded result is returned, and among results there is CODE_128.
+     *   Note: this scenario can be dataset- and device-sensitive; if it becomes flaky in CI,
+     *   consider increasing MinimalXDimension or image width, or relax expectations.
      */
     @Test
     public void read_Code128_Width40_Negative_TooSmallEvenWhenCrisp() throws Exception {
@@ -253,13 +257,17 @@ public class ReadingLowResolutionBarcodeExample {
 
     /**
      * Purpose:
-     * - Show that prioritizing speed with LOW quality mode on a tiny input further reduces robustness.
+     * - Stress-test an extreme low-resolution case (~40 px width) while prioritizing speed
+     *   (HighPerformance preset) and using LOW quality mode, and verify that decoding can still succeed.
      *
      * Demonstrates:
-     * - Performance preset + LOW quality mode is not suitable for extreme low-res cases.
+     * - Decoder robustness at the resolution cliff: even with LOW quality mode, a minimal example
+     *   can remain decodable. Treat this as a best-case edge, not a general recommendation.
      *
      * Expectation (explicit):
-     * - No decoded results (negative test).
+     * - At least one decoded result is returned, and among results there is CODE_128.
+     *   Note: this case may be brittle on different datasets/devices; if it becomes flaky in CI,
+     *   consider switching to a negative assertion or increasing the generated X-dimension/quiet zones.
      */
     @Test
     public void read_Code128_Width40_Negative_PerformancePreset_LowQualityMode() throws Exception {
