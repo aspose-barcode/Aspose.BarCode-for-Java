@@ -467,7 +467,7 @@ public class ExampleAssist
     private static void ensureParentDirs(String fullPath) throws IOException
     {
         File f = new File(fullPath);
-        File p = f.getParentFile();
+        File p = f.getAbsoluteFile().getParentFile();
         if (p != null && !p.exists() && !p.mkdirs())
         {
             throw new IOException("Cannot create directories for: " + fullPath);
@@ -600,5 +600,6 @@ public class ExampleAssist
         ensureParentDirs(outPath);
         ImageIO.write(dst, "png", new File(outPath));
     }
+
 
 }
