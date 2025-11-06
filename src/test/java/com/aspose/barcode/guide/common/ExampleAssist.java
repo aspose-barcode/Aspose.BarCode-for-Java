@@ -169,11 +169,11 @@ public class ExampleAssist
 
         BarCodeResult[] results = reader.readBarCodes();
 
-        System.out.println("=== [" + tag + "] ===");
-        for (BarCodeResult result : results)
-        {
-            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
-        }
+//        System.out.println("---" + tag + "---");
+//        for (BarCodeResult result : results)
+//        {
+//            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+//        }
 
         Assert.assertTrue(results.length >= minCount, "Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length);
 

@@ -56,17 +56,20 @@ public class MultithreadReadingExample {
             final String name = isQR ? String.format("qr_%02d.png", i) : String.format("code128_%02d.png", i);
             FILES.add(name);
 
+            final int idx = i;
+
             ExampleAssist.checkOrCreateImage(FOLDER, name, path -> {
                 if (isQR) {
-                    BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "QR#" + i);
+                    BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, "QR#" + idx);
                     g.save(path, BarCodeImageFormat.PNG);
                 } else {
-                    BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.CODE_128, "C128#" + i);
+                    BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.CODE_128, "C128#" + idx);
                     g.save(path, BarCodeImageFormat.PNG);
                 }
             });
         }
     }
+
 
     /**
      * Do a quick warm-up run with default ProcessorSettings to stabilize JIT/IO caches.
@@ -92,7 +95,7 @@ public class MultithreadReadingExample {
     @Test
     public void readDataset_SingleCore_Baseline() throws Exception {
         setSingleCore();
-        long ms = consumeDataset(true);
+        long ms = consumeDataset(false);
         ExampleAssist.logInfo(String.format("[SingleCore] total: %d ms, images: %d", ms, DATASET_SIZE));
     }
 
@@ -111,7 +114,7 @@ public class MultithreadReadingExample {
     @Test
     public void readDataset_HalfCores() throws Exception {
         setHalfCores();
-        long ms = consumeDataset(true);
+        long ms = consumeDataset(false);
         ExampleAssist.logInfo(String.format("[HalfCores] total: %d ms, images: %d", ms, DATASET_SIZE));
     }
 
@@ -129,7 +132,7 @@ public class MultithreadReadingExample {
     @Test
     public void readDataset_AllCores() throws Exception {
         setAllCores();
-        long ms = consumeDataset(true);
+        long ms = consumeDataset(false);
         ExampleAssist.logInfo(String.format("[AllCores] total: %d ms, images: %d", ms, DATASET_SIZE));
     }
 
@@ -148,7 +151,7 @@ public class MultithreadReadingExample {
     @Test
     public void readDataset_AllCores_MaxThreadsX2() throws Exception {
         setAllCoresMaxThreadsX2();
-        long ms = consumeDataset(true);
+        long ms = consumeDataset(false);
         ExampleAssist.logInfo(String.format("[AllCores+MaxThreads*2] total: %d ms, images: %d", ms, DATASET_SIZE));
     }
 
@@ -176,7 +179,7 @@ public class MultithreadReadingExample {
             }
 
             if (printPerFile) {
-                ExampleAssist.logInfo("  • processed: " + name);
+                ExampleAssist.logInfo("processed: " + name);
             }
         }
         long t1 = System.nanoTime();
