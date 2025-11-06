@@ -31,10 +31,10 @@ import static com.aspose.barcode.guide.common.ExampleAssist.getCpuCount;
  *  - Demonstrate how ProcessorSettings (UseAllCores / UseOnlyThisCoresCount / MaxAdditionalAllowedThreads)
  *    affect recognition speed on a dataset.
  *
- * Methodology improvements:
+ * Methodology:
  *  - Images are preloaded into memory to avoid I/O noise.
  *  - Each mode has its own warm-up run.
- *  - We measure 3 times per mode and take the median.
+ *  - Measure 3 times per mode and take the median.
  *  - Optional "heavy" QualitySettings profile to make the workload CPU-bound.
  */
 public class MultithreadReadingExample {
@@ -43,7 +43,7 @@ public class MultithreadReadingExample {
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "performance", "multithread");
 
     /** Increase for clearer differences on multi-core machines. */
-    private static final int DATASET_SIZE = 72; // was 36
+    private static final int DATASET_SIZE = 72;
 
     /** Enable heavier recognition to make CPU the bottleneck. */
     private static final boolean USE_HEAVY_PROFILE = true;
@@ -58,13 +58,12 @@ public class MultithreadReadingExample {
     @BeforeClass
     public void setUp() throws Exception {
         LicenseAssist.setupLicense();
-        generateDataset();     // creates images on disk (if missing) and preloads them into memory
+        generateDataset();     // creates images (if missing) and preloads them into memory
         warmUpOnce();          // global warm-up to stabilize JIT
     }
 
     /**
      * Generates a synthetic dataset of CODE_128 and QR images and preloads them into memory.
-     * The mix of symbologies simulates a generic workload.
      */
     private void generateDataset() throws Exception {
         for (int i = 0; i < DATASET_SIZE; i++) {
@@ -113,7 +112,6 @@ public class MultithreadReadingExample {
     /**
      * Half of available cores:
      * Purpose: show improvement vs single core while keeping system headroom.
-     * Expectation: faster than SingleCore; may be close to AllCores on small datasets.
      */
     @Test
     public void readDataset_HalfCores() throws Exception {
@@ -124,7 +122,6 @@ public class MultithreadReadingExample {
     /**
      * All available cores:
      * Purpose: demonstrate maximum parallelism controlled by the engine.
-     * Expectation: best or near-best on sufficiently heavy/large workloads.
      */
     @Test
     public void readDataset_AllCores() throws Exception {
@@ -135,12 +132,42 @@ public class MultithreadReadingExample {
     /**
      * All cores + increased MaxAdditionalAllowedThreads:
      * Purpose: experiment with a higher worker-thread cap (can help mixed or I/O-heavy tasks).
-     * Caveat: on pure CPU workloads may hurt due to contention.
      */
     @Test
     public void readDataset_AllCores_MaxThreadsX2() throws Exception {
         long ms = runWithWarmupAndMedian(MultithreadReadingExample::setAllCoresMaxThreadsX2);
         ExampleAssist.logInfo(String.format("[AllCores+MaxThreads*2] median(3): %d ms, images: %d", ms, DATASET_SIZE));
+    }
+
+    /**
+     * All cores : leave 1 core for OS, but allow ~1.5× CPU additional threads.
+     * Purpose: try a more aggressive pool on top of full-core usage.
+     * Note: may be better or worse depending on CPU and workload characteristics.
+     */
+    @Test
+    public void readDataset_AllCores_Tuned() throws Exception {
+        long ms = runWithWarmupAndMedian(MultithreadReadingExample::setAllCores_Tuned);
+        ExampleAssist.logInfo(String.format("[AllCores/Tuned] median(3): %d ms, images: %d", ms, DATASET_SIZE));
+    }
+
+    /**
+     * Half of CPU (manual cap without UseAllCores).
+     * Purpose: reduce scheduler overhead of UseAllCores and test a "sweet spot" with fewer threads.
+     */
+    @Test
+    public void readDataset_Fixed_Half() throws Exception {
+        long ms = runWithWarmupAndMedian(() -> setFixedCores(Math.max(1, getCpuCount() / 2)));
+        ExampleAssist.logInfo(String.format("[FixedCores/half] median(3): %d ms, images: %d", ms, DATASET_SIZE));
+    }
+
+    /**
+     * One core (manual cap).
+     * Purpose: keep one core for the OS/runner and push near-max parallelism with a stable thread count.
+     */
+    @Test
+    public void readDataset_Fixed_CpuMinusOne() throws Exception {
+        long ms = runWithWarmupAndMedian(() -> setFixedCores(Math.max(1, getCpuCount() - 1)));
+        ExampleAssist.logInfo(String.format("[FixedCores/cpu-1] median(3): %d ms, images: %d", ms, DATASET_SIZE));
     }
 
     // ----------------------- Measurement harness -----------------------
@@ -228,5 +255,24 @@ public class MultithreadReadingExample {
         ps.setUseAllCores(true);
         ps.setUseOnlyThisCoresCount(cpu);
         ps.setMaxAdditionalAllowedThreads(cpu * 2);
+    }
+
+    /** Tuned "all cores": allow ~1.5×CPU additional threads. */
+    private static void setAllCores_Tuned() {
+        ProcessorSettings ps = BarCodeReader.getProcessorSettings();
+        int cpu = getCpuCount();
+        ps.setUseAllCores(true);
+        ps.setUseOnlyThisCoresCount(cpu);
+        ps.setMaxAdditionalAllowedThreads(Math.max(1, cpu + cpu / 2)); // ~1.5x CPU
+    }
+
+    /** Manual cap: fixed number of cores without UseAllCores. */
+    private static void setFixedCores(int n) {
+        ProcessorSettings ps = BarCodeReader.getProcessorSettings();
+        int cpu = getCpuCount();
+        int use = Math.max(1, Math.min(n, cpu));
+        ps.setUseAllCores(false);
+        ps.setUseOnlyThisCoresCount(use);
+        ps.setMaxAdditionalAllowedThreads(use);
     }
 }
