@@ -17,10 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -755,5 +753,67 @@ public class ExampleAssist
             }
             ImageIO.write(rgb, "png", new File(outPath));
         }
+    }
+    /** Returns true if file exists. */
+    public static boolean fileExists(String fullPath) {
+        return fullPath != null && Files.exists(Paths.get(fullPath));
+    }
+
+    /** Simple filename extraction (no directories). */
+    public static String getFileName(String fullPath) {
+        if (fullPath == null) return "";
+        Path p = Paths.get(fullPath);
+        Path name = p.getFileName();
+        return name == null ? "" : name.toString();
+    }
+
+    /** Logs an informational message to stdout. */
+    public static void logInfo(String msg) {
+        System.out.println("[INFO] " + msg);
+    }
+
+    /** Logs a warning message to stdout. */
+    public static void logWarn(String msg) {
+        System.out.println("[WARN] " + msg);
+    }
+
+    /**
+     * Lists files in a directory by a glob like "*.png".
+     * Returns absolute paths. If folder does not exist, returns empty array.
+     */
+    public static String[] listFilesByGlob(String folder, String globPattern) {
+        java.util.List<String> out = new ArrayList<>();
+        if (folder == null || globPattern == null) return new String[0];
+
+        Path dir = Paths.get(folder);
+        if (!Files.isDirectory(dir)) return new String[0];
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, globPattern)) {
+            for (Path p : stream) {
+                if (Files.isRegularFile(p)) out.add(p.toAbsolutePath().toString());
+            }
+        } catch (IOException e) {
+            logWarn("listFilesByGlob failed for " + folder + " pattern " + globPattern + ": " + e.getMessage());
+        }
+        return out.toArray(new String[0]);
+    }
+
+    /**
+     * Asserts there is at least one result after recognition.
+     * Reads barcodes internally if needed.
+     */
+    public static void assertHasAnyResult(BarCodeReader reader, String labelForError) {
+        reader.readBarCodes();
+        Assert.assertTrue(reader.getFoundCount() > 0,
+                "Expected at least 1 result for: " + labelForError);
+    }
+
+    /**
+     * Asserts count==expected and text of the first result == expectedText.
+     */
+    public static void assertRecognizedWithText(BarCodeReader reader, String labelForError, int expectedCount, String expectedText) {
+        BarCodeResult[] results = reader.readBarCodes();
+        Assert.assertEquals(results.length, expectedCount, "Unexpected count for: " + labelForError);
+        Assert.assertEquals(results[0].getCodeText(), expectedText, "Unexpected text for: " + labelForError);
     }
 }
