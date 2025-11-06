@@ -1,4 +1,4 @@
-package com.aspose.barcode.guide.recognition.performance;
+package com.aspose.barcode.guide.recognition.conditions;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.DecodeType;
@@ -7,7 +7,6 @@ import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
-import com.aspose.barcode.guide.common.ImageSupplier;
 import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -57,7 +56,6 @@ public class ReadingColorInvertedExample {
             String src = ExampleAssist.pathCombine(FOLDER, "qr_normal.png");
             ExampleAssist.invertColors(src, out);
         });
-
     }
 
     /**
@@ -94,7 +92,9 @@ public class ReadingColorInvertedExample {
         String path = ExampleAssist.pathCombine(FOLDER, "qr_inverted.png");
 
         BarCodeReader reader = new BarCodeReader(
-                path, DecodeType.QR, DecodeType.MICRO_QR, DecodeType.DATA_MATRIX, DecodeType.AZTEC);
+                path,
+                new int[]{DecodeType.QR, DecodeType.MICRO_QR, DecodeType.DATA_MATRIX, DecodeType.AZTEC}
+        );
 
         QualitySettings qs = QualitySettings.getHighQuality();
         reader.setQualitySettings(qs);
