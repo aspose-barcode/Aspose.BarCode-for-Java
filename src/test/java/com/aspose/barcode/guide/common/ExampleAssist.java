@@ -816,4 +816,9 @@ public class ExampleAssist
         Assert.assertEquals(results.length, expectedCount, "Unexpected count for: " + labelForError);
         Assert.assertEquals(results[0].getCodeText(), expectedText, "Unexpected text for: " + labelForError);
     }
+
+    public static int getCpuCount() {
+        try { return Runtime.getRuntime().availableProcessors(); }
+        catch (Throwable t) { return 1; }
+    }
 }
