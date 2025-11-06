@@ -169,11 +169,11 @@ public class ExampleAssist
 
         BarCodeResult[] results = reader.readBarCodes();
 
-//        System.out.println("---" + tag + "---");
-//        for (BarCodeResult result : results)
-//        {
-//            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
-//        }
+        System.out.println("=== [" + tag + "] ===");
+        for (BarCodeResult result : results)
+        {
+            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+        }
 
         Assert.assertTrue(results.length >= minCount, "Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length);
 
@@ -193,6 +193,15 @@ public class ExampleAssist
                     hasExpectedType,
                     "Expected to find type " + expectedType.toString() + " in test '" + tag + "'"
             );
+        }
+    }
+
+    public static void assertRecognizedSilent(BarCodeReader reader, int minCount, BaseDecodeType expected) throws Exception {
+        BarCodeResult[] results = reader.readBarCodes();
+        Assert.assertTrue(results.length >= minCount);
+        if (expected != null) {
+            boolean ok = java.util.Arrays.stream(results).anyMatch(r -> r.getCodeType().equals(expected));
+            Assert.assertTrue(ok);
         }
     }
 
