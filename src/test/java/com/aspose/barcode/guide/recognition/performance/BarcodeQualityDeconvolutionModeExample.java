@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
  *
  * Test data (Code 128 and QR) is generated once in @BeforeClass.
  */
-public class BarcodeQualityDeconvolutionMode
+public class BarcodeQualityDeconvolutionModeExample
 {
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "barcode_quality_deconvolution");
