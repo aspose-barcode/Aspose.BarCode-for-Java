@@ -278,13 +278,14 @@ public class ReadingCodeTextRawExample {
      Rationale: for non-Latin-1 characters, getCodeBytes() cannot preserve original bytes. **/
     @Test
     public void read_Aztec_RawBytes_Latin1_Safe() throws Exception {
-        String file = "aztec_raw_latin1_safe.png";
-        String latin1 = "Café-123"; // keep it Latin-1 safe; avoid characters beyond 0xFF
-        // If you used a combining accent, replace with 'Café' U+00E9
+        // Use precomposed 'é' (U+00E9) which is present in ISO-8859-1
+        final String file = "aztec_raw_latin1_safe.png";
+        final String latin1 = "Caf\u00E9-123"; // "Café-123" purely Latin-1
 
         ExampleAssist.checkOrCreateImage(FOLDER, file, path -> {
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.AZTEC, latin1);
-            // No ECI required for Latin-1 demonstration
+            // Make encoding explicit to avoid any auto–mode surprises
+            g.getParameters().getBarcode().getAztec().setECIEncoding(ECIEncodings.ISO_8859_1);
             g.save(path, BarCodeImageFormat.PNG);
         });
 
@@ -295,11 +296,12 @@ public class ReadingCodeTextRawExample {
         // Text matches
         org.testng.Assert.assertEquals(r.getCodeText(), latin1);
 
-        // Raw bytes align with ISO-8859-1 representation of the same text
+        // Raw bytes must equal ISO-8859-1 bytes for Latin-1-safe payload
         byte[] raw = r.getCodeBytes();
         byte[] expected = latin1.getBytes(java.nio.charset.StandardCharsets.ISO_8859_1);
         org.testng.Assert.assertEquals(raw, expected, "For Latin-1 text, raw bytes == ISO-8859-1 bytes");
     }
+
 
 
     /**
