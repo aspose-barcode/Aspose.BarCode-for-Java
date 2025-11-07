@@ -175,17 +175,17 @@ public class ReadingCodeTextExample
         ExampleAssist.assertRecognized(reader, file, 1, DecodeType.GS_1_DATA_MATRIX);
 
         for (BarCodeResult r : results) {
-            String human = r.getCodeText();
-            byte[] shownByApi = r.getCodeBytes(); // These are the bytes from the human string (with brackets)
-            System.out.println("GS1 DM human: " + human);
-            System.out.println("API bytes  : " + bytesToHex(shownByApi));
+            String humanCodetext = r.getCodeText();
+            byte[] raw = r.getCodeBytes(); // These are the bytes from the human string (with brackets)
+            System.out.println("GS1 DM human: " + humanCodetext);
+            System.out.println("API bytes  : " + bytesToHex(raw));
 
             // 1) Check human-readable AI
-            Assert.assertTrue(human.contains("(01)") && human.contains("(10)") && human.contains("(17)"));
+            Assert.assertTrue(humanCodetext.contains("(01)") && humanCodetext.contains("(10)") && humanCodetext.contains("(17)"));
 
             // 2) Construct a machine-readable form with FNC1 and check for 0x1D
-            String machine = toGs1MachineReadable(human);
-            byte[] machineBytes = machine.getBytes(java.nio.charset.StandardCharsets.US_ASCII);
+            String machineReadable = toGs1MachineReadable(humanCodetext);
+            byte[] machineBytes = machineReadable.getBytes(java.nio.charset.StandardCharsets.US_ASCII);
             System.out.println("GS1 DM raw*: " + bytesToHex(machineBytes)); // there will be 1D here
             Assert.assertTrue(containsByte(machineBytes, (byte) 0x1D),
                     "Expected FNC1 (0x1D) separator in reconstructed raw stream");
@@ -213,16 +213,19 @@ public class ReadingCodeTextExample
 
         for (BarCodeResult r : results)
         {
-            String human = r.getCodeText();
+            String humanCodetext = r.getCodeText();
             byte[] raw = r.getCodeBytes();
-
-            System.out.println("GS1 C128 human: " + human);
+            System.out.println("GS1 C128 human: " + humanCodetext);
             System.out.println("GS1 C128 raw  : " + bytesToHex(raw));
 
-            Assert.assertTrue(human.contains("(01)") && human.contains("(10)") && human.contains("(17)"),
-                    "Expected GS1 AIs in human-readable CodeText");
+            Assert.assertTrue(humanCodetext.contains("(01)") && humanCodetext.contains("(10)") && humanCodetext.contains("(17)"),"Expected GS1 AIs in human-readable CodeText");
 
-            Assert.assertTrue(containsByte(raw, (byte) 0x1D),
+            // 2) Construct a machine-readable form with FNC1 and check for 0x1D
+            String machineReadable = toGs1MachineReadable(humanCodetext);
+            byte[] machineBytes = machineReadable.getBytes(java.nio.charset.StandardCharsets.US_ASCII);
+            System.out.println("GS1 DM raw*: " + bytesToHex(machineBytes)); // there will be 1D here
+
+            Assert.assertTrue(containsByte(machineBytes, (byte) 0x1D),
                     "Expected FNC1 (0x1D) separator in raw byte stream");
         }
     }
