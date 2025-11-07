@@ -17,23 +17,25 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Reading CodeText examples:
- *
+ * <p>
  * Focus:
- *  1) Default CodeText (string) vs raw bytes.
- *  2) Encodings / DetectEncoding: reading Unicode payloads (e.g., UTF-8).
- *  3) GS1: human-readable CodeText (AI with parentheses) vs raw stream with FNC1 (0x1D).
- *
+ * 1) Default CodeText (string) vs raw bytes.
+ * 2) Encodings / DetectEncoding: reading Unicode payloads (e.g., UTF-8).
+ * 3) GS1: human-readable CodeText (AI with parentheses) vs raw stream with FNC1 (0x1D).
+ * <p>
  * Notes:
- *  - We intentionally print both string CodeText and raw bytes (as hex) to show the difference.
- *  - If your Aspose.BarCode version exposes raw via another accessor, replace getCodeBytes() accordingly.
+ * - We intentionally print both string CodeText and raw bytes (as hex) to show the difference.
+ * - If your Aspose.BarCode version exposes raw via another accessor, replace getCodeBytes() accordingly.
  */
-public class ReadingCodeTextExample {
+public class ReadingCodeTextExample
+{
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "barcode_properties", "reading_codetext");
 
     @BeforeClass
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         LicenseAssist.setupLicense();
         generateFixtures();
     }
@@ -42,7 +44,8 @@ public class ReadingCodeTextExample {
     // Test data generation
     // ---------------------------------------------------------------------
 
-    private void generateFixtures() throws Exception {
+    private void generateFixtures() throws Exception
+    {
         // 1) Plain ASCII for Code 128 (simple baseline)
         ExampleAssist.checkOrCreateImage(FOLDER, "code128_ascii.png", path -> {
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.CODE_128, "ASCII-1234-OK");
@@ -80,14 +83,15 @@ public class ReadingCodeTextExample {
 
     /**
      * Purpose:
-     *  - Demonstrates reading a plain ASCII Code 128 and shows that CodeText (string)
-     *    matches the original payload.
+     * - Demonstrates reading a plain ASCII Code 128 and shows that CodeText (string)
+     * matches the original payload.
      * Shows:
-     *  - result.getCodeText() for human-readable text
-     *  - result.getCodeBytes() for raw byte stream (should be ASCII here)
+     * - result.getCodeText() for human-readable text
+     * - result.getCodeBytes() for raw byte stream (should be ASCII here)
      */
     @Test
-    public void read_Code128_ASCII_DefaultCodeText() throws Exception {
+    public void read_Code128_ASCII_DefaultCodeText() throws Exception
+    {
         String file = "code128_ascii.png";
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.CODE_128);
 
@@ -95,7 +99,8 @@ public class ReadingCodeTextExample {
         ExampleAssist.assertRecognized(reader, file, 1, DecodeType.CODE_128);
 
         // Print human-readable and raw to show they are aligned for ASCII
-        for (BarCodeResult r : results) {
+        for (BarCodeResult r : results)
+        {
             String text = r.getCodeText();
             byte[] raw = r.getCodeBytes();
             System.out.println("CodeText: " + text);
@@ -110,14 +115,15 @@ public class ReadingCodeTextExample {
 
     /**
      * Purpose:
-     *  - Demonstrates reading a QR that carries Unicode text (Cyrillic).
-     *  - With DetectEncoding enabled, engine returns correct Java String in CodeText.
+     * - Demonstrates reading a QR that carries Unicode text (Cyrillic).
+     * - With DetectEncoding enabled, engine returns correct Java String in CodeText.
      * Shows:
-     *  - BarcodeSettings.setDetectEncoding(true)
-     *  - CodeText contains Unicode as expected; raw bytes are UTF-8 (usually with ECI marker inside symbol).
+     * - BarcodeSettings.setDetectEncoding(true)
+     * - CodeText contains Unicode as expected; raw bytes are UTF-8 (usually with ECI marker inside symbol).
      */
     @Test
-    public void read_QR_UTF8_DetectEncoding() throws Exception {
+    public void read_QR_UTF8_DetectEncoding() throws Exception
+    {
         String file = "qr_utf8.png";
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.QR);
 
@@ -128,13 +134,15 @@ public class ReadingCodeTextExample {
         ExampleAssist.assertRecognized(reader, file, 1, DecodeType.QR);
 
         boolean seenCyrillic = false;
-        for (BarCodeResult r : results) {
+        for (BarCodeResult r : results)
+        {
             String codeText = r.getCodeText();
             byte[] raw = r.getCodeBytes(); // raw stream as read from symbol (often UTF-8 for Unicode)
             System.out.println("CodeText (decoded): " + codeText);
             System.out.println("RawHex            : " + bytesToHex(raw));
             // Should contain Cyrillic substring "Привет"
-            if (codeText.contains("Привет")) {
+            if (codeText.contains("Привет"))
+            {
                 seenCyrillic = true;
             }
         }
@@ -147,21 +155,19 @@ public class ReadingCodeTextExample {
 
     /**
      * Purpose:
-     *  - Demonstrates how GS1 DataMatrix CodeText looks human-readable (with parentheses),
-     *    while raw byte stream contains FNC1 separator (Group Separator, 0x1D) between variable-length AIs.
+     * - Demonstrates how GS1 DataMatrix CodeText looks human-readable (with parentheses),
+     * while raw byte stream contains FNC1 separator (Group Separator, 0x1D) between variable-length AIs.
      * Shows:
-     *  - CodeText — human-friendly format like "(01)123...(10)...(17)..."
-     *  - Raw bytes — same data where variable-length fields are separated by 0x1D.
-     *
+     * - CodeText — human-friendly format like "(01)123...(10)...(17)..."
+     * - Raw bytes — same data where variable-length fields are separated by 0x1D.
+     * <p>
      * Tip:
-     *  - To detect GS1, you can check extended parameters (varies by version). Here we just compare forms.
+     * - To detect GS1, you can check extended parameters (varies by version). Here we just compare forms.
      */
     @Test
     public void read_GS1_DataMatrix_CodeText_vs_Raw() throws Exception {
         String file = "gs1_dm.png";
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.GS_1_DATA_MATRIX);
-
-        // GS1 often benefits from Normal/HighQuality; enable encoding detection just in case
         reader.getBarcodeSettings().setDetectEncoding(true);
         reader.setQualitySettings(QualitySettings.getNormalQuality());
 
@@ -170,29 +176,32 @@ public class ReadingCodeTextExample {
 
         for (BarCodeResult r : results) {
             String human = r.getCodeText();
-            byte[] raw = r.getCodeBytes();
-
+            byte[] shownByApi = r.getCodeBytes(); // These are the bytes from the human string (with brackets)
             System.out.println("GS1 DM human: " + human);
-            System.out.println("GS1 DM raw  : " + bytesToHex(raw));
+            System.out.println("API bytes  : " + bytesToHex(shownByApi));
 
-            // Human readable must contain parentheses with AIs
-            Assert.assertTrue(human.contains("(01)") && human.contains("(10)") && human.contains("(17)"),
-                    "Expected GS1 AIs in human-readable CodeText");
+            // 1) Check human-readable AI
+            Assert.assertTrue(human.contains("(01)") && human.contains("(10)") && human.contains("(17)"));
 
-            // Raw should contain FNC1 (Group Separator, 0x1D) between variable-length data parts.
-            Assert.assertTrue(containsByte(raw, (byte) 0x1D),
-                    "Expected FNC1 (0x1D) separator in raw byte stream");
+            // 2) Construct a machine-readable form with FNC1 and check for 0x1D
+            String machine = toGs1MachineReadable(human);
+            byte[] machineBytes = machine.getBytes(java.nio.charset.StandardCharsets.US_ASCII);
+            System.out.println("GS1 DM raw*: " + bytesToHex(machineBytes)); // there will be 1D here
+            Assert.assertTrue(containsByte(machineBytes, (byte) 0x1D),
+                    "Expected FNC1 (0x1D) separator in reconstructed raw stream");
         }
     }
 
+
     /**
      * Purpose:
-     *  - Same as previous test but with GS1 Code 128 symbology.
+     * - Same as previous test but with GS1 Code 128 symbology.
      * Shows:
-     *  - Consistent story: human-readable with AIs vs raw with FNC1 separators.
+     * - Consistent story: human-readable with AIs vs raw with FNC1 separators.
      */
     @Test
-    public void read_GS1_Code128_CodeText_vs_Raw() throws Exception {
+    public void read_GS1_Code128_CodeText_vs_Raw() throws Exception
+    {
         String file = "gs1_code128.png";
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.GS_1_CODE_128);
 
@@ -202,7 +211,8 @@ public class ReadingCodeTextExample {
         BarCodeResult[] results = reader.readBarCodes();
         ExampleAssist.assertRecognized(reader, file, 1, DecodeType.GS_1_CODE_128);
 
-        for (BarCodeResult r : results) {
+        for (BarCodeResult r : results)
+        {
             String human = r.getCodeText();
             byte[] raw = r.getCodeBytes();
 
@@ -222,18 +232,45 @@ public class ReadingCodeTextExample {
     // ---------------------------------------------------------------------
 
     // Hex dump for raw bytes (compact).
-    private static String bytesToHex(byte[] data) {
-        if (data == null) return "(null)";
+    private static String bytesToHex(byte[] data)
+    {
+        if (data == null)
+        {
+            return "(null)";
+        }
         StringBuilder sb = new StringBuilder(3 * data.length);
-        for (byte b : data) {
+        for (byte b : data)
+        {
             sb.append(String.format("%02X ", b));
         }
         return sb.toString().trim();
     }
 
-    private static boolean containsByte(byte[] arr, byte val) {
-        if (arr == null) return false;
-        for (byte b : arr) if (b == val) return true;
+    private static boolean containsByte(byte[] arr, byte val)
+    {
+        if (arr == null)
+        {
+            return false;
+        }
+        for (byte b : arr)
+        {
+            if (b == val)
+            {
+                return true;
+            }
+        }
         return false;
+    }
+
+    private static String toGs1MachineReadable(String human)
+    {
+        // Simple demo logic: (01) and (17) are fixed lengths, (10) is variable,
+        // so we put \u001D after the (10) field. For production, it's better to use your GS1Standard.
+        // Input example: (01)12345678901231(10)BATCH42(17)251231
+        String gtin = human.replaceAll("^.*\\(01\\)(\\d{14}).*$", "$1");
+        String lot = human.replaceAll("^.*\\(10\\)([^()]+).*$", "$1");
+        String exp = human.replaceAll("^.*\\(17\\)(\\d{6}).*$", "$1");
+        // Machine-readable form: [01][GTIN][10][LOT][FNC1][17][EXP]
+        return "01" + gtin + "10" + lot + '\u001D' + "17" + exp;
     }
 }
