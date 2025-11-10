@@ -21,8 +21,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
- * Shows how to read region coordinates (rectangle/quadrangle) from recognition results
- * and optionally render a debug overlay.
+ * Demonstrates how to retrieve region geometry from recognition results:
+ *  - axis-aligned Rectangle (bounding box);
+ *  - oriented Quadrangle (four corner points) that follows rotation/skew.
+ * Also shows how to render a simple debug overlay with these shapes.
  */
 public class CoordinatesExample {
 
@@ -38,12 +40,24 @@ public class CoordinatesExample {
         generateFixtures();
     }
 
+    /**
+     * Test: Read Code128 and print its region geometry.
+     *
+     * What this test demonstrates:
+     * 1) How to access an axis-aligned bounding Rectangle via {@link BarCodeRegionParameters#getRectangle()}.
+     * 2) How to access an oriented Quadrangle via {@link BarCodeRegionParameters#getQuadrangle()}.
+     * 3) How to draw both shapes as a quick visual overlay for debugging.
+     *
+     * Notes:
+     * - Rectangle is always axis-aligned (no rotation).
+     * - Quadrangle follows true corners and therefore reflects any rotation/skew.
+     */
     @Test
     public void read_Code128_RegionGeometry() throws Exception {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_C128);
         BarCodeReader rd = new BarCodeReader(path, DecodeType.CODE_128);
         BarCodeResult[] results = rd.readBarCodes();
-        Assert.assertTrue(results.length >= 1);
+        Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
         BarCodeResult r = results[0];
         BarCodeRegionParameters region = r.getRegion();
@@ -64,12 +78,19 @@ public class CoordinatesExample {
         drawOverlay(path, ExampleAssist.pathCombine(FOLDER, FILE_DEBUG), rect, quad);
     }
 
+    /**
+     * Test: Read QR and print its region geometry.
+     *
+     * What this test demonstrates:
+     * - The same Rectangle/Quadrangle API works uniformly for 2D symbologies.
+     * - You can rely on Quadrangle to reflect the true outline of the detected code.
+     */
     @Test
     public void read_QR_RegionGeometry() throws Exception {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_QR);
         BarCodeReader rd = new BarCodeReader(path, DecodeType.QR);
         BarCodeResult[] results = rd.readBarCodes();
-        Assert.assertTrue(results.length >= 1);
+        Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
         BarCodeRegionParameters region = results[0].getRegion();
         Rectangle rect = region.getRectangle();
@@ -91,12 +112,12 @@ public class CoordinatesExample {
             g.setColor(new Color(0, 180, 0));
             g.setStroke(new BasicStroke(2f));
 
-            // Rectangle
+            // Rectangle (axis-aligned bounding box)
             if (rect != null) {
                 g.drawRect(rect.x, rect.y, rect.width, rect.height);
             }
 
-            // Quadrangle polygon: LT -> RT -> RB -> LB -> LT
+            // Quadrangle polygon: LT -> RT -> RB -> LB -> LT (oriented corners)
             if (quad != null) {
                 Point lt = quad.getLeftTop();
                 Point rt = quad.getRightTop();
@@ -115,9 +136,11 @@ public class CoordinatesExample {
         System.out.println("[INFO] Overlay saved: " + outPath);
     }
 
-    private void generateFixtures() throws Exception
-    {
-        // Generate simple fixtures
+    /**
+     * Generates two small fixtures: a Code128 and a QR image.
+     * The goal is to have stable, clean inputs for geometry extraction examples.
+     */
+    private void generateFixtures() throws Exception {
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_C128, (String full) -> {
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.CODE_128, "COORDS-128");
             g.save(full, BarCodeImageFormat.PNG);
