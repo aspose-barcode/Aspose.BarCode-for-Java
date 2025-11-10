@@ -23,8 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static com.aspose.barcode.guide.common.ExampleAssist.assertAngleClose;
-import static com.aspose.barcode.guide.common.ExampleAssist.containsPoint;
+import static com.aspose.barcode.guide.common.ExampleAssist.*;
 
 /**
  * Demonstrates how to read and interpret the rotation angle reported by the engine.
@@ -84,8 +83,9 @@ public class AnglesExample {
     @Test
     public void readQRAngleApprox45deg() throws Exception {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_QR_45);
-        BarCodeReader rd = new BarCodeReader(path, DecodeType.QR);
-        BarCodeResult[] results = rd.readBarCodes();
+        BarCodeReader barCodeReader = new BarCodeReader(path, DecodeType.QR);
+        barCodeReader.setQualitySettings(QualitySettings.getHighQuality());
+        BarCodeResult[] results = barCodeReader.readBarCodes();
         Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
         BarCodeRegionParameters region = results[0].getRegion();
@@ -137,8 +137,9 @@ public class AnglesExample {
     @Test
     public void readCornersViaGetPoints() throws Exception {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_QR_45);
-        BarCodeReader rd = new BarCodeReader(path, DecodeType.QR);
-        BarCodeResult[] results = rd.readBarCodes();
+        BarCodeReader barCodeReader = new BarCodeReader(path, DecodeType.QR);
+        barCodeReader.setQualitySettings(QualitySettings.getHighQuality());
+        BarCodeResult[] results = barCodeReader.readBarCodes();
         Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
         BarCodeRegionParameters region = results[0].getRegion();
@@ -196,63 +197,41 @@ public class AnglesExample {
 
     // ---------- fixtures ----------
     private void generateFixtures() throws Exception {
-        // 1) Build a base Code128 and rotate it by ~30 degrees
+        // 1) Рендерим крупный Code128 с тихими зонами, затем поворачиваем ~30°
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_C128_30, (String full) -> {
-            BufferedImage base = renderBarcode(EncodeTypes.CODE_128, "ANGLE-128");
-            BufferedImage rotated = rotateAroundCenter(base, 30.0);
+            // целевой размер и геометрия модулей
+            String tmp = full + ".tmp.png";
+            ExampleAssist.renderBarcodeFixedSizePNG(
+                    EncodeTypes.CODE_128, "ANGLE-128",
+                    /*widthPx*/ 420, /*heightPx*/ 180,
+                    /*xDimPx*/ 2.0f, /*quietPx*/ 24,
+                    tmp);
+
+            BufferedImage base = ImageIO.read(new File(tmp));
+            BufferedImage rotated = rotateAroundCenterCrisp(base, 30.0);
             ImageIO.write(rotated, "PNG", new File(full));
+            // cleanup
+            new File(tmp).delete();
         });
 
-        // 2) Build a base QR and rotate it by ~45 degrees
+        // 2) Рендерим крупный QR, затем поворачиваем ~45°
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_45, (String full) -> {
-            BufferedImage base = renderBarcode(EncodeTypes.QR, "ANGLE-QR");
-            BufferedImage rotated = rotateAroundCenter(base, 45.0);
+            String tmp = full + ".tmp.png";
+            ExampleAssist.renderBarcodeFixedSizePNG(
+                    EncodeTypes.QR, "ANGLE-QR",
+                    /*widthPx*/ 260, /*heightPx*/ 260,
+                    /*xDimPx*/ 4.0f, /*quietPx*/ 24,
+                    tmp);
+
+            BufferedImage base = ImageIO.read(new File(tmp));
+            BufferedImage rotated = rotateAroundCenterCrisp(base, 45.0);
             ImageIO.write(rotated, "PNG", new File(full));
+            new File(tmp).delete();
         });
     }
 
-    // Renders a small barcode image to be rotated afterwards (clean baseline).
-    private static BufferedImage renderBarcode(BaseEncodeType type, String text) throws IOException {
-        File tmp = File.createTempFile("ab_angle_", ".png");
-        try {
-            BarcodeGenerator g = new BarcodeGenerator(type, text);
-            g.save(tmp.getAbsolutePath(), BarCodeImageFormat.PNG);
-            return ImageIO.read(tmp);
-        } finally {
-            try { tmp.delete(); } catch (Throwable ignore) {}
-        }
-    }
 
-    // Rotates an image about its center and expands canvas to fit.
-    private static BufferedImage rotateAroundCenter(BufferedImage src, double degrees) {
-        double radians = Math.toRadians(degrees);
 
-        double sin = Math.abs(Math.sin(radians));
-        double cos = Math.abs(Math.cos(radians));
-        int w = src.getWidth();
-        int h = src.getHeight();
-        int newW = (int) Math.floor(w * cos + h * sin);
-        int newH = (int) Math.floor(h * cos + w * sin);
-
-        BufferedImage dst = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = dst.createGraphics();
-        try {
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.WHITE);
-            g2.fillRect(0, 0, newW, newH);
-
-            AffineTransform at = new AffineTransform();
-            at.translate(newW / 2.0, newH / 2.0);
-            at.rotate(radians);
-            at.translate(-w / 2.0, -h / 2.0);
-
-            g2.drawImage(src, at, null);
-        } finally {
-            g2.dispose();
-        }
-        return dst;
-    }
 
 
 }

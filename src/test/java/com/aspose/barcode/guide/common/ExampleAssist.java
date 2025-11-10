@@ -8,6 +8,7 @@ import org.testng.Assert;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
@@ -846,5 +847,69 @@ public class ExampleAssist
             if (a.equals(p)) return true;
         }
         return false;
+    }
+
+    public static BufferedImage rotateAroundCenterCrisp(BufferedImage src, double degrees) {
+        double radians = Math.toRadians(degrees);
+        double sin = Math.abs(Math.sin(radians));
+        double cos = Math.abs(Math.cos(radians));
+        int w = src.getWidth();
+        int h = src.getHeight();
+        int newW = (int) Math.floor(w * cos + h * sin);
+        int newH = (int) Math.floor(h * cos + w * sin);
+
+        BufferedImage dst = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = dst.createGraphics();
+        try {
+            // without antialiasing and with NN, so as not to “smear” the modules
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+            g2.setColor(Color.WHITE);
+            g2.fillRect(0, 0, newW, newH);
+
+            AffineTransform at = new AffineTransform();
+            at.translate(newW / 2.0, newH / 2.0);
+            at.rotate(radians);
+            at.translate(-w / 2.0, -h / 2.0);
+
+            g2.drawImage(src, at, null);
+        } finally {
+            g2.dispose();
+        }
+        return dst;
+    }
+
+
+
+    // Rotates an image about its center and expands canvas to fit.
+    public static BufferedImage rotateAroundCenter(BufferedImage src, double degrees) {
+        double radians = Math.toRadians(degrees);
+
+        double sin = Math.abs(Math.sin(radians));
+        double cos = Math.abs(Math.cos(radians));
+        int w = src.getWidth();
+        int h = src.getHeight();
+        int newW = (int) Math.floor(w * cos + h * sin);
+        int newH = (int) Math.floor(h * cos + w * sin);
+
+        BufferedImage dst = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = dst.createGraphics();
+        try {
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(Color.WHITE);
+            g2.fillRect(0, 0, newW, newH);
+
+            AffineTransform at = new AffineTransform();
+            at.translate(newW / 2.0, newH / 2.0);
+            at.rotate(radians);
+            at.translate(-w / 2.0, -h / 2.0);
+
+            g2.drawImage(src, at, null);
+        } finally {
+            g2.dispose();
+        }
+        return dst;
     }
 }
