@@ -849,7 +849,20 @@ public class ExampleAssist
         return false;
     }
 
-    public static BufferedImage rotateAroundCenterCrisp(BufferedImage src, double degrees) {
+    /**
+     * Rotates an image around its center and expands the canvas to fit the result.
+     * Uses NEAREST-NEIGHBOR interpolation and NO anti-aliasing to keep barcode modules
+     * crisp (no blur). Prefer this for generating test fixtures intended for recognition,
+     * especially 1D bars and small 2D modules.
+     *
+     * Pros: preserves hard edges and module boundaries; avoids “soapy” blur.
+     * Cons: visually more jagged on diagonals (which is fine for tests).
+     *
+     * @param src     source image
+     * @param degrees rotation angle in degrees (clockwise)
+     * @return rotated image with a white background; canvas is expanded to fit
+     */
+    public static BufferedImage rotateCenterCrispNN(BufferedImage src, double degrees) {
         double radians = Math.toRadians(degrees);
         double sin = Math.abs(Math.sin(radians));
         double cos = Math.abs(Math.cos(radians));
@@ -861,7 +874,7 @@ public class ExampleAssist
         BufferedImage dst = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = dst.createGraphics();
         try {
-            // without antialiasing and with NN, so as not to “smear” the modules
+            // Preserve barcode sharpness: no AA, nearest-neighbor, fast rendering.
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
             g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
@@ -880,10 +893,20 @@ public class ExampleAssist
         return dst;
     }
 
-
-
-    // Rotates an image about its center and expands canvas to fit.
-    public static BufferedImage rotateAroundCenter(BufferedImage src, double degrees) {
+    /**
+     * Rotates an image around its center and expands the canvas to fit the result.
+     * Uses BILINEAR interpolation and ANTI-ALIASING for visually smooth output.
+     * Suitable for demos, UI previews, or overlays where aesthetics matter more
+     * than pixel-perfect barcode modules.
+     *
+     * Pros: smoother diagonals and text; nicer visuals.
+     * Cons: can blur barcode edges, which may slightly reduce recognition robustness.
+     *
+     * @param src     source image
+     * @param degrees rotation angle in degrees (clockwise)
+     * @return rotated image with a white background; canvas is expanded to fit
+     */
+    public static BufferedImage rotateCenterSmoothBilinear(BufferedImage src, double degrees) {
         double radians = Math.toRadians(degrees);
 
         double sin = Math.abs(Math.sin(radians));
@@ -896,8 +919,10 @@ public class ExampleAssist
         BufferedImage dst = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = dst.createGraphics();
         try {
+            // Smooth, visual-friendly rotation (may soften barcode edges).
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             g2.setColor(Color.WHITE);
             g2.fillRect(0, 0, newW, newH);
 
@@ -912,4 +937,5 @@ public class ExampleAssist
         }
         return dst;
     }
+
 }

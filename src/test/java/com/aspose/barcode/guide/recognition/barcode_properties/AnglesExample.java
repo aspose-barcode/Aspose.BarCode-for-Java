@@ -208,7 +208,7 @@ public class AnglesExample {
                     tmp);
 
             BufferedImage base = ImageIO.read(new File(tmp));
-            BufferedImage rotated = rotateAroundCenterCrisp(base, 30.0);
+            BufferedImage rotated = rotateCenterCrispNN(base, 30.0);
             ImageIO.write(rotated, "PNG", new File(full));
             // cleanup
             new File(tmp).delete();
@@ -224,14 +224,9 @@ public class AnglesExample {
                     tmp);
 
             BufferedImage base = ImageIO.read(new File(tmp));
-            BufferedImage rotated = rotateAroundCenterCrisp(base, 45.0);
+            BufferedImage rotated = rotateCenterCrispNN(base, 45.0);
             ImageIO.write(rotated, "PNG", new File(full));
             new File(tmp).delete();
         });
     }
-
-
-
-
-
 }
