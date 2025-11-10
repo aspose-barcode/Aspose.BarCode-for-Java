@@ -4,9 +4,7 @@ import com.aspose.barcode.barcoderecognition.*;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.BaseEncodeType;
-import com.aspose.barcode.generation.EncodeTypes;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -829,5 +827,12 @@ public class ExampleAssist
     public static int getCpuCount() {
         try { return Runtime.getRuntime().availableProcessors(); }
         catch (Throwable t) { return 1; }
+    }
+
+    public static boolean hasDecodeType(BarCodeResult[] results, BaseDecodeType type) {
+        for (BarCodeResult codeResult : results) {
+            if (codeResult.getCodeType().equals(type)) return true;
+        }
+        return false;
     }
 }
