@@ -835,4 +835,16 @@ public class ExampleAssist
         }
         return false;
     }
+
+    public static void assertAngleClose(double actual, double expected, double tol, String msg) {
+        Assert.assertTrue(Math.abs(actual - expected) <= tol,
+                msg + " (actual=" + actual + ", expected=" + expected + "±" + tol + ")");
+    }
+
+    public static boolean containsPoint(Point[] arr, Point p) {
+        for (Point a : arr) {
+            if (a.equals(p)) return true;
+        }
+        return false;
+    }
 }
