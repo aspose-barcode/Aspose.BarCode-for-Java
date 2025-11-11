@@ -195,12 +195,7 @@ public class ExampleAssist
         }
     }
 
-    public static void assertRecognized(BarCodeReader reader,
-                                        String tag,
-                                        int expectedCount,
-                                        BaseDecodeType expectedType,
-                                        String expectedCodeText) throws Exception {
-        // Auto-detect test name if tag not provided
+    public static void assertRecognized(BarCodeReader reader, String tag,int expectedCount,BaseDecodeType expectedType,String expectedCodeText) throws Exception {
         if (tag == null || tag.isEmpty()) {
             tag = Thread.currentThread().getStackTrace()[2].getMethodName();
         }
@@ -212,52 +207,42 @@ public class ExampleAssist
             System.out.println(" Code Type: " + r.getCodeTypeName() + " - Code Text: " + r.getCodeText());
         }
 
-        // exact count
         Assert.assertEquals(results.length, expectedCount,
-                "Expected " + expectedCount + " result(s) in test '" + tag + "', but got " + results.length);
+                "Expected " + expectedCount + " result(s) in '" + tag + "', but got " + results.length);
 
         if (results.length == 0) return;
 
-        // collect info for rich diagnostics
         java.util.List<String> foundTypes = new java.util.ArrayList<>();
         java.util.List<String> foundTexts = new java.util.ArrayList<>();
         boolean hasExpectedType = false;
         boolean hasExpectedText = false;
-        boolean hasSameResultPair = false; // same result matches both type & text
+        boolean hasSameResultPair = false;
 
         for (BarCodeResult barCodeResult : results) {
             foundTypes.add(barCodeResult.getCodeTypeName());
             foundTexts.add(barCodeResult.getCodeText());
 
-            if (expectedType != null && barCodeResult.getCodeType().equals(expectedType)) {
+            if (barCodeResult.getCodeType().equals(expectedType)) {
                 hasExpectedType = true;
             }
-            if (expectedCodeText != null && java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText)) {
+            if (java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText)) {
                 hasExpectedText = true;
             }
-            if (expectedType != null && expectedCodeText != null
-                    && barCodeResult.getCodeType().equals(expectedType)
+            if (barCodeResult.getCodeType().equals(expectedType)
                     && java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText)) {
                 hasSameResultPair = true;
             }
         }
 
-        if (expectedType != null) {
-            Assert.assertTrue(hasExpectedType,
-                    "Expected type " + expectedType + " in test '" + tag + "'. Found: " + foundTypes);
-        }
-        if (expectedCodeText != null) {
-            Assert.assertTrue(hasExpectedText,
-                    "Expected text \"" + expectedCodeText + "\" in test '" + tag + "'. Found: " + foundTexts);
-        }
-        // If both expectations provided, also ensure they occur on the same result
-        if (expectedType != null && expectedCodeText != null) {
-            Assert.assertTrue(hasSameResultPair,
-                    "Found type and text separately, but not in the same result. " +
-                            "Expected pair: (" + expectedType + ", \"" + expectedCodeText + "\"). " +
-                            "Found types=" + foundTypes + ", texts=" + foundTexts);
-        }
+        Assert.assertTrue(hasExpectedType,
+                "Expected type " + expectedType + " in '" + tag + "'. Found: " + foundTypes);
+        Assert.assertTrue(hasExpectedText,
+                "Expected text \"" + expectedCodeText + "\" in '" + tag + "'. Found: " + foundTexts);
+        Assert.assertTrue(hasSameResultPair,
+                "Found type and text, but not in the same result. Expected pair: (" +
+                        expectedType + ", \"" + expectedCodeText + "\")");
     }
+
 
 
 
