@@ -205,15 +205,24 @@ public class ResultValidationExample {
             ExampleAssist.addGaussianNoise(clean, full, 12.0);
         });
 
-        // 5) Tiny Code128 (hard case): render small and downscale to be challenging
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_C128_TINY, (ImageSupplier) (String full) -> {
-            String tmp = full + ".tmp.png";
-            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, "TINY-128-RESULT");
-            generator.save(tmp, BarCodeImageFormat.PNG);
-            // downscale aggressively with crisp binarization to simulate tiny print
-            ExampleAssist.downscaleNearestCrisp(tmp, full, 120);
-            new File(tmp).delete();
+        // 5) Tiny Code128 fixture: render big & crisp, then downscale with nearest+Otsu
+        ExampleAssist.checkOrCreateImage(FOLDER, FILE_C128_TINY, (String full) -> {
+            String big = full + ".big.png";
+
+            // 1) Render a clean Code128 with explicit quiet zones
+            ExampleAssist.renderBarcodeFixedSizePNG(
+                    EncodeTypes.CODE_128, "C128-TINY",
+                    /*widthPx*/ 420, /*heightPx*/ 180,
+                    /*xDimPx*/ 2.0f, /*quietPx*/ 24,
+                    big);
+
+            // 2) Downscale to a tiny width while keeping edges crisp (no blur)
+            //    110–140 px обычно хорошо распознаётся хотя бы одним пресетом.
+            ExampleAssist.downscaleNearestCrisp(big, full, /*targetWidthPx*/ 128);
+
+            new java.io.File(big).delete();
         });
+
 
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE39_DAMAGED, (String full) -> {
             String tmp = full + ".tmp.png";
