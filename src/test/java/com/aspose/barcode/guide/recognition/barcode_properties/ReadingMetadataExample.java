@@ -53,6 +53,11 @@ public class ReadingMetadataExample {
         System.out.println("Type=" + barCodeResult.getCodeTypeName()
                 + " Text=" + barCodeResult.getCodeText());
         System.out.println("Confidence=" + barCodeResult.getConfidence());
+
+        // Soft check: confidence must be within 0..100
+        int confidence = barCodeResult.getConfidence();
+        Assert.assertTrue(confidence >= 0 && confidence <= 100, "Confidence out of range");
+
         BarCodeRegionParameters region = barCodeResult.getRegion();
         System.out.println("Rect=" + region.getRectangle());
         Quadrangle quadrangle = region.getQuadrangle();
@@ -75,16 +80,22 @@ public class ReadingMetadataExample {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_QR_HIGH_EC);
         BarCodeReader barCodeReader = new BarCodeReader(path, DecodeType.QR);
         barCodeReader.setQualitySettings(QualitySettings.getHighQuality());
-        BarCodeResult[] results = barCodeReader.readBarCodes();
-        Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
+        // Use utility: expect at least one result
+        ExampleAssist.assertHasAnyResult(barCodeReader, "readQRMetadata");
+        BarCodeResult[] results = barCodeReader.readBarCodes();
         BarCodeResult barCodeResult = results[0];
+
+        // Soft check for confidence range
+        int confidence = barCodeResult.getConfidence();
+        Assert.assertTrue(confidence >= 0 && confidence <= 100, "Confidence out of range");
+
         ExampleAssist.printResultMetadata(barCodeResult, "QR");
 
         QRExtendedParameters qrExtendedParameters = barCodeResult.getExtended().getQR();
         Assert.assertNotNull(qrExtendedParameters, "QR extended parameters must be present");
         Assert.assertEquals(qrExtendedParameters.getQRErrorLevel(), QRErrorLevel.LEVEL_H);
-        // Sanity checks to ensure getters are accessible
+        // Sanity getters
         Assert.assertNotNull(qrExtendedParameters.getQRErrorLevel());
         Assert.assertNotNull(qrExtendedParameters.getQRVersion());
     }
@@ -94,10 +105,16 @@ public class ReadingMetadataExample {
     public void readPdf417MacroMetadata() throws Exception {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_PDF417_MACRO);
         BarCodeReader barCodeReader = new BarCodeReader(path, DecodeType.MACRO_PDF_417);
-        BarCodeResult[] results = barCodeReader.readBarCodes();
-        Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
+        // Use utility: expect at least one result
+        ExampleAssist.assertHasAnyResult(barCodeReader, "readPdf417MacroMetadata");
+        BarCodeResult[] results = barCodeReader.readBarCodes();
         BarCodeResult barCodeResult = results[0];
+
+        // Soft check for confidence range
+        int confidence = barCodeResult.getConfidence();
+        Assert.assertTrue(confidence >= 0 && confidence <= 100, "Confidence out of range");
+
         ExampleAssist.printResultMetadata(barCodeResult, "PDF417");
 
         Pdf417ExtendedParameters pdf417ExtendedParameters = barCodeResult.getExtended().getPdf417();
@@ -109,18 +126,28 @@ public class ReadingMetadataExample {
         Assert.assertNotNull(pdf417ExtendedParameters.getMacroPdf417FileID());
     }
 
-    // --- Binary data via getCodeBytes() ---
+    // --- Binary data via getCodeBytes() with round-trip check ---
     @Test
     public void readBinaryData() throws Exception {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_QR_BINARY);
         BarCodeReader barCodeReader = new BarCodeReader(path, DecodeType.QR);
-        BarCodeResult[] results = barCodeReader.readBarCodes();
-        Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
+        // Use utility: expect at least one result
+        ExampleAssist.assertHasAnyResult(barCodeReader, "readBinaryData");
+        BarCodeResult[] results = barCodeReader.readBarCodes();
         BarCodeResult barCodeResult = results[0];
+
+        // Soft check for confidence range
+        int confidence = barCodeResult.getConfidence();
+        Assert.assertTrue(confidence >= 0 && confidence <= 100, "Confidence out of range");
+
         byte[] rawBytes = barCodeResult.getCodeBytes();
         Assert.assertNotNull(rawBytes);
         System.out.println("Binary data length: " + rawBytes.length + " bytes");
+
+        // Round-trip: encoded bytes must match source bytes used in fixtures
+        byte[] expected = "Hello, Metadata!".getBytes(StandardCharsets.UTF_8);
+        Assert.assertEquals(rawBytes, expected, "QR binary payload mismatch");
     }
 
     // ---------------- fixtures ----------------
