@@ -18,7 +18,12 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.AbstractMap.SimpleEntry;
 
 /**
  * Utility helper for example tests and resource management.
@@ -1154,6 +1159,92 @@ public class ExampleAssist
             }
         }
     }
+
+    /**
+     * Shorthand factory for an expected (DecodeType, CodeText) pair.
+     *
+     * <p>Used in tests to declare what barcodes must be present in an image.
+     * The returned {@link java.util.AbstractMap.SimpleEntry} holds:
+     * <ul>
+     *   <li>key   — expected {@link BaseDecodeType} (symbology),</li>
+     *   <li>value — expected code text.</li>
+     * </ul>
+     *
+     * <p>Typical usage (with static import):
+     * <pre>{@code
+     * import static com.aspose.barcode.guide.common.ExampleAssist.exp;
+     *
+     * assertImageHasBarcodes(
+     *     imagePath,
+     *     1,
+     *     java.util.List.of(
+     *         exp(DecodeType.EAN_13, "5901234123457")
+     *     )
+     * );
+     * }</pre>
+     *
+     * <p>This keeps call sites concise and readable when building lists of expected pairs.
+     */
+    public static SimpleEntry<BaseDecodeType, String> exp(BaseDecodeType type, String text) {
+        return new SimpleEntry<>(type, text);
+    }
+
+
+    /**
+     * Verifies that an image contains exactly expectedCount barcodes and
+     * at least the expected (type,text) pairs. Also softly checks Confidence ∈ [0..100].
+     * Decode types are inferred from the expected pairs.
+     */
+    public static void assertImageHasBarcodes(String imagePath,
+                                              int expectedCount,
+                                              List<SimpleEntry<BaseDecodeType, String>> expectedPairs) throws Exception {
+        // 1) Collect decode hints from expectations
+        BaseDecodeType[] expectedDecodeTypes = expectedPairs.stream()
+                //for every element of stream call method getKey()
+                .map(SimpleEntry::getKey)
+                .distinct()
+                .sorted(Comparator.comparing(BaseDecodeType::toString))
+                .toArray(BaseDecodeType[]::new);
+
+        BarCodeReader reader = (expectedDecodeTypes.length > 0)
+                ? new BarCodeReader(imagePath, expectedDecodeTypes)
+                : new BarCodeReader(imagePath); // fallback if no hints
+
+        BarCodeResult[] results = reader.readBarCodes();
+
+        // Print for debug
+        System.out.println("[assertImageHasBarcodes] file=" + imagePath);
+        for (BarCodeResult r : results) {
+            System.out.println("  -> " + r.getCodeTypeName() + " | " + r.getCodeText()
+                    + " | confidence=" + r.getConfidence());
+        }
+
+        // 2) Exact count
+        Assert.assertEquals(results.length, expectedCount,
+                "Unexpected number of barcodes in: " + imagePath);
+
+        // 3) Soft confidence bounds [0..100]
+        for (BarCodeResult r : results) {
+            int conf = r.getConfidence();
+            Assert.assertTrue(conf >= 0 && conf <= 100,
+                    "Confidence out of bounds [0..100]: " + conf + " for " + r.getCodeTypeName());
+        }
+
+        // 4) Each expected (type,text) pair must be present at least once
+        for (SimpleEntry<BaseDecodeType, String> exp : expectedPairs) {
+            boolean found = false;
+            for (BarCodeResult r : results) {
+                if (r.getCodeType().equals(exp.getKey())
+                        && java.util.Objects.equals(r.getCodeText(), exp.getValue())) {
+                    found = true;
+                    break;
+                }
+            }
+            Assert.assertTrue(found,
+                    "Expected pair not found: type=" + exp.getKey() + " text=" + exp.getValue());
+        }
+    }
+
 
 
 }
