@@ -195,6 +195,52 @@ public class ExampleAssist
         }
     }
 
+        public static void assertRecognized(BarCodeReader reader, String tag, int count, BaseDecodeType expectedType, String expectedCodeText) throws Exception
+        {
+            // Auto-detect test name if tag not provided
+            if (tag == null || tag.isEmpty())
+            {
+                tag = Thread.currentThread().getStackTrace()[2].getMethodName();
+            }
+
+            BarCodeResult[] results = reader.readBarCodes();
+
+            System.out.println("=== [" + tag + "] ===");
+            for (BarCodeResult result : results)
+            {
+                System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+            }
+
+            Assert.assertEquals(count, results.length, "Expected " + count + " result(s) in test '" + tag + "', but got " + results.length);
+
+            if (expectedType != null && expectedCodeText != null && results.length > 0)
+            {
+                boolean hasExpectedType = false;
+                boolean hasExpectedText = false;
+                for (BarCodeResult result : results)
+                {
+                    if (result.getCodeType().equals(expectedType))
+                    {
+                        hasExpectedType = true;
+                    }
+                    if (result.getCodeText().equals(expectedCodeText))
+                    {
+                        hasExpectedText = true;
+                        break;
+                    }
+                }
+
+                Assert.assertTrue(
+                        hasExpectedType,
+                        "Expected to find type " + expectedType + " in test '" + tag + "'"
+                );
+                Assert.assertTrue(
+                        hasExpectedText,
+                        "Expected to find text " + expectedCodeText + " in test '" + tag + "'"
+                );
+            }
+        }
+
     public static void assertRecognizedSilent(BarCodeReader reader, int minCount, BaseDecodeType expected) throws Exception {
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertTrue(results.length >= minCount);
