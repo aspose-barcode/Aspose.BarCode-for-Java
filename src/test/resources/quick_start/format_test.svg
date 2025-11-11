@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="710px" height="237px" viewBox="0 0 710 237" class="barcode-canvas" version="1.1" style="shape-rendering:crispEdges;" xmlns="http://www.w3.org/2000/svg">
+  <g text-rendering="geometricPrecision" fill="#000000">
+    <rect x="0" y="0" width="710" height="237" fill="#ffffff" />
+    <rect x="21" y="21" width="8" height="142" />
+    <rect x="33" y="21" width="4" height="142" />
+    <rect x="45" y="21" width="4" height="142" />
+    <rect x="65" y="21" width="4" height="142" />
+    <rect x="73" y="21" width="12" height="142" />
+    <rect x="89" y="21" width="8" height="142" />
+    <rect x="109" y="21" width="8" height="142" />
+    <rect x="121" y="21" width="12" height="142" />
+    <rect x="137" y="21" width="12" height="142" />
+    <rect x="153" y="21" width="4" height="142" />
+    <rect x="169" y="21" width="8" height="142" />
+    <rect x="181" y="21" width="12" height="142" />
+    <rect x="197" y="21" width="8" height="142" />
+    <rect x="209" y="21" width="12" height="142" />
+    <rect x="233" y="21" width="4" height="142" />
+    <rect x="241" y="21" width="8" height="142" />
+    <rect x="261" y="21" width="4" height="142" />
+    <rect x="277" y="21" width="4" height="142" />
+    <rect x="285" y="21" width="4" height="142" />
+    <rect x="297" y="21" width="8" height="142" />
+    <rect x="309" y="21" width="12" height="142" />
+    <rect x="329" y="21" width="4" height="142" />
+    <rect x="345" y="21" width="8" height="142" />
+    <rect x="365" y="21" width="4" height="142" />
+    <rect x="373" y="21" width="4" height="142" />
+    <rect x="389" y="21" width="12" height="142" />
+    <rect x="405" y="21" width="8" height="142" />
+    <rect x="417" y="21" width="8" height="142" />
+    <rect x="437" y="21" width="4" height="142" />
+    <rect x="445" y="21" width="12" height="142" />
+    <rect x="461" y="21" width="4" height="142" />
+    <rect x="469" y="21" width="12" height="142" />
+    <rect x="485" y="21" width="8" height="142" />
+    <rect x="505" y="21" width="4" height="142" />
+    <rect x="513" y="21" width="4" height="142" />
+    <rect x="529" y="21" width="8" height="142" />
+    <rect x="549" y="21" width="8" height="142" />
+    <rect x="561" y="21" width="12" height="142" />
+    <rect x="585" y="21" width="4" height="142" />
+    <rect x="593" y="21" width="4" height="142" />
+    <rect x="609" y="21" width="8" height="142" />
+    <rect x="625" y="21" width="4" height="142" />
+    <rect x="637" y="21" width="8" height="142" />
+    <rect x="657" y="21" width="12" height="142" />
+    <rect x="673" y="21" width="4" height="142" />
+    <rect x="681" y="21" width="8" height="142" />
+    <g transform="translate(208, 207)">
+      <text font-size="27pt" font-family="Arial, Helvetica, sans-serif">MULTI-FORMAT</text>
+    </g>
+  </g>
+</svg>

@@ -33,146 +33,146 @@ public class QuickGenerationExamples {
 
     @Test
     public void generate_Code128() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "ABC-12345");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.CODE_128, "ABC-12345");
 
         // Standard settings
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(10.0f);
-        gen.getParameters().getBarcode().getBarWidthReduction().setMillimeters(0.1f);
-                saveAndAssert(gen, "code128.png");
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(10.0f);
+        barcodeGenerator.getParameters().getBarcode().getBarWidthReduction().setMillimeters(0.1f);
+                saveAndAssert(barcodeGenerator, "code128.png");
     }
 
     @Test
     public void generate_EAN13() throws Exception {
         // Valid EAN-13 with checksum
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
 
         // Standard EAN-13 X-dimension
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(25.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(25.0f);
 
-        saveAndAssert(gen, "ean13.png");
+        saveAndAssert(barcodeGenerator, "ean13.png");
     }
 
     @Test
     public void generate_UPCA() throws Exception {
         // Valid UPC-A (12 digits)
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.UPCA, "036000291452");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.UPCA, "036000291452");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(25.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(25.0f);
 
-        saveAndAssert(gen, "upca.png");
+        saveAndAssert(barcodeGenerator, "upca.png");
     }
 
     @Test
     public void generate_Code39() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_39, "ASPOSE-123");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.CODE_39, "ASPOSE-123");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
 
         // Show code text above
-        gen.getParameters().getBarcode().getCodeTextParameters()
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters()
                 .setLocation(CodeLocation.ABOVE);
 
-        saveAndAssert(gen, "code39.png");
+        saveAndAssert(barcodeGenerator, "code39.png");
     }
 
     @Test
     public void generate_ITF14() throws Exception {
         // ITF-14 requires 14 digits
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ITF_14, "12345678901231");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.ITF_14, "12345678901231");
 
         // ITF-14 standard X-dimension
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.495f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(32.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.495f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(32.0f);
 
-        saveAndAssert(gen, "itf14.png");
+        saveAndAssert(barcodeGenerator, "itf14.png");
     }
 
     // ========== Two-Dimensional Barcodes ==========
 
     @Test
     public void generate_QR() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "https://www.aspose.com");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.QR, "https://www.aspose.com");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        gen.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.AUTO);
-        gen.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
+        barcodeGenerator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.AUTO);
+        barcodeGenerator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
 
-        saveAndAssert(gen, "qrcode.png");
+        saveAndAssert(barcodeGenerator, "qrcode.png");
     }
 
     @Test
     public void generate_QR_withUnicode() throws Exception {
         // QR with Unicode data (Japanese)
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "データ");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.QR, "データ");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        gen.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
-        gen.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
+        barcodeGenerator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
+        barcodeGenerator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
 
-        saveAndAssert(gen, "qrcode_unicode.png");
+        saveAndAssert(barcodeGenerator, "qrcode_unicode.png");
     }
 
     @Test
     public void generate_DataMatrix() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.DATA_MATRIX, "DMX-INV-000042");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.DATA_MATRIX, "DMX-INV-000042");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
-        gen.getParameters().getBarcode().getDataMatrix()
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
+        barcodeGenerator.getParameters().getBarcode().getDataMatrix()
                 .setDataMatrixEncodeMode(DataMatrixEncodeMode.AUTO);
 
         // Optional: enable anti-aliasing for better quality
-        gen.getParameters().setUseAntiAlias(true);
-        gen.getParameters().setRotationAngle(15f);
-        gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
-        gen.getParameters().getBarcode().getDataMatrix().setDataMatrixEncodeMode(
+        barcodeGenerator.getParameters().setUseAntiAlias(true);
+        barcodeGenerator.getParameters().setRotationAngle(15f);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+        barcodeGenerator.getParameters().getBarcode().getDataMatrix().setDataMatrixEncodeMode(
                 com.aspose.barcode.generation.DataMatrixEncodeMode.AUTO);
-        saveAndAssert(gen, "datamatrix.png");
+        saveAndAssert(barcodeGenerator, "datamatrix.png");
     }
 
     @Test
     public void generate_PDF417() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(
                 EncodeTypes.PDF_417,
                 "Shipment 42: 10x Boxes"
         );
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.6f);
-        gen.getParameters().getBarcode().getPdf417().setColumns(3);
-        gen.getParameters().getBarcode().getPdf417().setRows(6);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.6f);
+        barcodeGenerator.getParameters().getBarcode().getPdf417().setColumns(3);
+        barcodeGenerator.getParameters().getBarcode().getPdf417().setRows(6);
 
         // Add padding
-        gen.getParameters().getBarcode().getPadding().getLeft().setMillimeters(2.0f);
-        gen.getParameters().getBarcode().getPadding().getRight().setMillimeters(2.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getLeft().setMillimeters(2.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getRight().setMillimeters(2.0f);
 
-        saveAndAssert(gen, "pdf417.png");
+        saveAndAssert(barcodeGenerator, "pdf417.png");
     }
 
     @Test
     public void generate_PDF417_truncated() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(
                 EncodeTypes.PDF_417,
                 "Compact PDF417"
         );
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.6f);
-        gen.getParameters().getBarcode().getPdf417().setColumns(3);
-        gen.getParameters().getBarcode().getPdf417().setPdf417Truncate(true);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.6f);
+        barcodeGenerator.getParameters().getBarcode().getPdf417().setColumns(3);
+        barcodeGenerator.getParameters().getBarcode().getPdf417().setPdf417Truncate(true);
 
-        saveAndAssert(gen, "pdf417_truncated.png");
+        saveAndAssert(barcodeGenerator, "pdf417_truncated.png");
     }
 
     @Test
     public void generate_Aztec() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.AZTEC, "AZTEC-Order#123");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.AZTEC, "AZTEC-Order#123");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        gen.getParameters().getBarcode().getAztec().setAztecErrorLevel(50);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
+        barcodeGenerator.getParameters().getBarcode().getAztec().setAztecErrorLevel(50);
 
-        saveAndAssert(gen, "aztec.png");
+        saveAndAssert(barcodeGenerator, "aztec.png");
     }
 
     // ========== Postal Barcodes ==========
@@ -180,23 +180,23 @@ public class QuickGenerationExamples {
     @Test
     public void generate_Postnet() throws Exception {
         // USPS Postnet: ZIP+4 (9 digits) or ZIP (5 digits)
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.POSTNET, "205001234");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.POSTNET, "205001234");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(3.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(3.0f);
 
-        saveAndAssert(gen, "postnet.png");
+        saveAndAssert(barcodeGenerator, "postnet.png");
     }
 
     @Test
     public void generate_Planet() throws Exception {
         // USPS Planet
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.PLANET, "205001234");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.PLANET, "205001234");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(3.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(3.0f);
 
-        saveAndAssert(gen, "planet.png");
+        saveAndAssert(barcodeGenerator, "planet.png");
     }
 
     @Test
@@ -205,11 +205,11 @@ public class QuickGenerationExamples {
         // Format: 20 digits (tracking) + 11 digits (routing) = 31 digits
         String imb = "01234567094987654321" + "01234567891";
 
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ONE_CODE, imb);
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(3.0f);
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.ONE_CODE, imb);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(3.0f);
 
-        saveAndAssert(gen, "intelligent_mail.png");
+        saveAndAssert(barcodeGenerator, "intelligent_mail.png");
     }
 
     // ========== GS1 Barcodes ==========
@@ -217,16 +217,16 @@ public class QuickGenerationExamples {
     @Test
     public void generate_GS1_128_basic() throws Exception {
         // GS1-128 with Application Identifiers
-        BarcodeGenerator gen = new BarcodeGenerator(
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(
                 EncodeTypes.GS_1_CODE_128,
                 "(01)09501101530008(17)251231(10)BATCH-42"
         );
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(15.0f);
-        gen.getParameters().setResolution(300.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(15.0f);
+        barcodeGenerator.getParameters().setResolution(300.0f);
 
-        saveAndAssert(gen, "gs1_128.png");
+        saveAndAssert(barcodeGenerator, "gs1_128.png");
     }
 
     @Test
@@ -237,89 +237,89 @@ public class QuickGenerationExamples {
                 "(10)LOT2025A" +         // Batch number
                 "(21)SERIAL123456";      // Serial number
 
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.GS_1_CODE_128, gs1Data);
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.GS_1_CODE_128, gs1Data);
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(16.0f);
-        gen.getParameters().setResolution(300.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(16.0f);
+        barcodeGenerator.getParameters().setResolution(300.0f);
 
         // Quiet zones
-        gen.getParameters().getBarcode().getPadding().getLeft().setMillimeters(3.3f);
-        gen.getParameters().getBarcode().getPadding().getRight().setMillimeters(3.3f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getLeft().setMillimeters(3.3f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getRight().setMillimeters(3.3f);
 
         // Code text
-        gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
-        gen.getParameters().getBarcode().getCodeTextParameters().getFont().setFamilyName("Arial");
-        gen.getParameters().getBarcode().getCodeTextParameters().getFont().getSize().setPoint(9);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().getFont().setFamilyName("Arial");
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().getFont().getSize().setPoint(9);
 
-        saveAndAssert(gen, "gs1_128_complete.png");
+        saveAndAssert(barcodeGenerator, "gs1_128_complete.png");
     }
 
     @Test
     public void generate_GS1_DataMatrix() throws Exception {
         String gs1Data = "(01)12345678901231(21)SERIAL123";
 
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.GS_1_DATA_MATRIX, gs1Data);
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.GS_1_DATA_MATRIX, gs1Data);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
 
-        saveAndAssert(gen, "gs1_datamatrix.png");
+        saveAndAssert(barcodeGenerator, "gs1_datamatrix.png");
     }
 
     @Test
     public void generate_GS1_QR() throws Exception {
         String gs1Data = "(01)12345678901231(10)ABC123";
 
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.GS_1_QR, gs1Data);
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.GS_1_QR, gs1Data);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
 
-        saveAndAssert(gen, "gs1_qr.png");
+        saveAndAssert(barcodeGenerator, "gs1_qr.png");
     }
 
     // ========== Customization Examples ==========
 
     @Test
     public void customization_colorsAndFonts() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "CUSTOM-STYLE");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.CODE_128, "CUSTOM-STYLE");
 
         // Colors
-        gen.getParameters().setBackColor(Color.WHITE);
-        gen.getParameters().getBarcode().setBarColor(Color.BLUE);
+        barcodeGenerator.getParameters().setBackColor(Color.WHITE);
+        barcodeGenerator.getParameters().getBarcode().setBarColor(Color.BLUE);
 
         // Dimensions
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(15.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.4f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(15.0f);
 
         // Code text styling
-        gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
-        gen.getParameters().getBarcode().getCodeTextParameters().setColor(Color.RED);
-        gen.getParameters().getBarcode().getCodeTextParameters().getFont().setFamilyName("Arial");
-        gen.getParameters().getBarcode().getCodeTextParameters().getFont().getSize().setPoint(12);
-        gen.getParameters().getBarcode().getCodeTextParameters().getFont().setStyle(FontStyle.BOLD);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().setColor(Color.RED);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().getFont().setFamilyName("Arial");
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().getFont().getSize().setPoint(12);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().getFont().setStyle(FontStyle.BOLD);
 
         // Padding
-        gen.getParameters().getBarcode().getPadding().getLeft().setMillimeters(3.0f);
-        gen.getParameters().getBarcode().getPadding().getRight().setMillimeters(3.0f);
-        gen.getParameters().getBarcode().getPadding().getTop().setMillimeters(2.0f);
-        gen.getParameters().getBarcode().getPadding().getBottom().setMillimeters(2.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getLeft().setMillimeters(3.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getRight().setMillimeters(3.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getTop().setMillimeters(2.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getBottom().setMillimeters(2.0f);
 
-        saveAndAssert(gen, "custom_style.png");
+        saveAndAssert(barcodeGenerator, "custom_style.png");
     }
 
     @Test
     public void customization_multipleFormats() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "MULTI-FORMAT");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.CODE_128, "MULTI-FORMAT");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
-        gen.getParameters().setResolution(300.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
+        barcodeGenerator.getParameters().setResolution(300.0f);
 
         // Save in multiple formats
         Path base = Paths.get(folder);
-        gen.save(base.resolve("format_test.png").toString(), BarCodeImageFormat.PNG);
-        gen.save(base.resolve("format_test.svg").toString(), BarCodeImageFormat.SVG);
-        gen.save(base.resolve("format_test.bmp").toString(), BarCodeImageFormat.BMP);
-        gen.save(base.resolve("format_test.gif").toString(), BarCodeImageFormat.GIF);
-        gen.save(base.resolve("format_test.tiff").toString(), BarCodeImageFormat.TIFF);
+        barcodeGenerator.save(base.resolve("format_test.png").toString(), BarCodeImageFormat.PNG);
+        barcodeGenerator.save(base.resolve("format_test.svg").toString(), BarCodeImageFormat.SVG);
+        barcodeGenerator.save(base.resolve("format_test.bmp").toString(), BarCodeImageFormat.BMP);
+        barcodeGenerator.save(base.resolve("format_test.gif").toString(), BarCodeImageFormat.GIF);
+        barcodeGenerator.save(base.resolve("format_test.tiff").toString(), BarCodeImageFormat.TIFF);
 
         // Verify PNG exists
         Assert.assertTrue(Files.exists(base.resolve("format_test.png")));
@@ -327,39 +327,39 @@ public class QuickGenerationExamples {
 
     @Test
     public void customization_rotation() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "ROTATED");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.CODE_128, "ROTATED");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(10.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(10.0f);
 
         // Test different rotation angles
         float[] angles = {0, 90, 180, 270};
         Path base = Paths.get(folder);
 
         for (float angle : angles) {
-            gen.getParameters().setRotationAngle(angle);
+            barcodeGenerator.getParameters().setRotationAngle(angle);
             String fileName = "rotated_" + (int)angle + ".png";
-            gen.save(base.resolve(fileName).toString(), BarCodeImageFormat.PNG);
+            barcodeGenerator.save(base.resolve(fileName).toString(), BarCodeImageFormat.PNG);
             Assert.assertTrue(Files.exists(base.resolve(fileName)));
         }
     }
 
     @Test
     public void customization_resolution() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "HIGH-RES");
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.CODE_128, "HIGH-RES");
 
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
 
         // High resolution for printing
-        gen.getParameters().setResolution(300.0f);
+        barcodeGenerator.getParameters().setResolution(300.0f);
 
         // Control image size
-        gen.getParameters().getImageWidth().setPixels(500);
-        gen.getParameters().getImageHeight().setPixels(200);
-        gen.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
+        barcodeGenerator.getParameters().getImageWidth().setPixels(500);
+        barcodeGenerator.getParameters().getImageHeight().setPixels(200);
+        barcodeGenerator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
 
-        saveAndAssert(gen, "high_resolution.png");
+        saveAndAssert(barcodeGenerator, "high_resolution.png");
     }
 
     // ========== Performance: Batch Generation ==========
@@ -369,20 +369,20 @@ public class QuickGenerationExamples {
         String[] codes = {"PROD001", "PROD002", "PROD003", "PROD004", "PROD005"};
 
         // Create generator once and reuse
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, codes[0]);
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.CODE_128, codes[0]);
 
         // Set common parameters once
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(10.0f);
-        gen.getParameters().setResolution(300.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(10.0f);
+        barcodeGenerator.getParameters().setResolution(300.0f);
 
         Path base = Paths.get(folder);
 
         // Generate batch
         for (String code : codes) {
-            gen.setCodeText(code);  // Only change the code text
+            barcodeGenerator.setCodeText(code);  // Only change the code text
             String fileName = "batch_" + code + ".png";
-            gen.save(base.resolve(fileName).toString(), BarCodeImageFormat.PNG);
+            barcodeGenerator.save(base.resolve(fileName).toString(), BarCodeImageFormat.PNG);
             Assert.assertTrue(Files.exists(base.resolve(fileName)));
         }
     }
@@ -394,45 +394,45 @@ public class QuickGenerationExamples {
         String ean13Code = "5901234123457";
         String productName = "Premium Coffee Beans";
 
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.EAN_13, ean13Code);
+        BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.EAN_13, ean13Code);
 
         // Professional label dimensions
-        gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(25.0f);
+        barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
+        barcodeGenerator.getParameters().getBarcode().getBarHeight().setMillimeters(25.0f);
 
         // Print resolution
-        gen.getParameters().setResolution(300.0f);
+        barcodeGenerator.getParameters().setResolution(300.0f);
 
         // Code text styling
-        gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
-        gen.getParameters().getBarcode().getCodeTextParameters().setAlignment(TextAlignment.CENTER);
-        gen.getParameters().getBarcode().getCodeTextParameters().getFont().setFamilyName("Arial");
-        gen.getParameters().getBarcode().getCodeTextParameters().getFont().getSize().setPoint(10);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().setAlignment(TextAlignment.CENTER);
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().getFont().setFamilyName("Arial");
+        barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().getFont().getSize().setPoint(10);
 
         // Quiet zones
-        gen.getParameters().getBarcode().getPadding().getLeft().setMillimeters(3.3f);
-        gen.getParameters().getBarcode().getPadding().getRight().setMillimeters(3.3f);
-        gen.getParameters().getBarcode().getPadding().getTop().setMillimeters(2.0f);
-        gen.getParameters().getBarcode().getPadding().getBottom().setMillimeters(2.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getLeft().setMillimeters(3.3f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getRight().setMillimeters(3.3f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getTop().setMillimeters(2.0f);
+        barcodeGenerator.getParameters().getBarcode().getPadding().getBottom().setMillimeters(2.0f);
 
         // Product name caption
-        gen.getParameters().getCaptionAbove().setVisible(true);
-        gen.getParameters().getCaptionAbove().setText(productName);
-        gen.getParameters().getCaptionAbove().setAlignment(TextAlignment.CENTER);
-        gen.getParameters().getCaptionAbove().getFont().setFamilyName("Arial");
-        gen.getParameters().getCaptionAbove().getFont().getSize().setPoint(12);
-        gen.getParameters().getCaptionAbove().getFont().setStyle(FontStyle.BOLD);
-        gen.getParameters().getCaptionAbove().getPadding().getLeft().setMillimeters(5);
-        gen.getParameters().getCaptionAbove().getPadding().getRight().setMillimeters(5);
+        barcodeGenerator.getParameters().getCaptionAbove().setVisible(true);
+        barcodeGenerator.getParameters().getCaptionAbove().setText(productName);
+        barcodeGenerator.getParameters().getCaptionAbove().setAlignment(TextAlignment.CENTER);
+        barcodeGenerator.getParameters().getCaptionAbove().getFont().setFamilyName("Arial");
+        barcodeGenerator.getParameters().getCaptionAbove().getFont().getSize().setPoint(12);
+        barcodeGenerator.getParameters().getCaptionAbove().getFont().setStyle(FontStyle.BOLD);
+        barcodeGenerator.getParameters().getCaptionAbove().getPadding().getLeft().setMillimeters(5);
+        barcodeGenerator.getParameters().getCaptionAbove().getPadding().getRight().setMillimeters(5);
 
         // Clean appearance
-        gen.getParameters().setBackColor(Color.WHITE);
-        gen.getParameters().getBarcode().setBarColor(Color.BLACK);
+        barcodeGenerator.getParameters().setBackColor(Color.WHITE);
+        barcodeGenerator.getParameters().getBarcode().setBarColor(Color.BLACK);
 
         // Auto-size
-        gen.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
+        barcodeGenerator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
 
-        saveAndAssert(gen, "product_label.png");
+        saveAndAssert(barcodeGenerator, "product_label.png");
     }
 
     // ========== Linear Barcodes Batch ==========
@@ -503,10 +503,10 @@ public class QuickGenerationExamples {
 
     // ========== Helper Methods ==========
 
-    private void saveAndAssert(BarcodeGenerator gen, String fileName) throws Exception {
+    private void saveAndAssert(BarcodeGenerator barcodeGenerator, String fileName) throws Exception {
         Path out = Paths.get(folder).resolve(fileName);
         Files.createDirectories(out.getParent());
-        gen.save(out.toString(), BarCodeImageFormat.PNG);
+        barcodeGenerator.save(out.toString(), BarCodeImageFormat.PNG);
 
         Assert.assertTrue(Files.exists(out), "Output file must exist: " + out);
         Assert.assertTrue(Files.size(out) > 0, "Output file must be non-empty: " + out);
