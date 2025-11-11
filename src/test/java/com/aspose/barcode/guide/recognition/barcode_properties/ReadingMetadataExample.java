@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 public class ReadingMetadataExample {
 
     private static final String FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("recognition", "metadata");
+            ExampleAssist.getOrCreateResourceFolderPath("recognition", "barcode_properties", "metadata");
 
     private static final String FILE_GS1_128      = "gs1_code128.png";
     private static final String FILE_QR_HIGH_EC   = "qr_high_ec.png";
