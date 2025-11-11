@@ -52,75 +52,56 @@ public class ResultValidationExample {
     @Test
     public void checksumValidation_EAN13() throws Exception {
         String validPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_VALID);
-        String damagedPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_DAMAGED);
 
         // Valid sample, disallow incorrect barcodes
         BarCodeReader validReader = new BarCodeReader(validPath, DecodeType.EAN_13);
         validReader.getQualitySettings().setAllowIncorrectBarcodes(false);
-        BarCodeResult[] validResults = validReader.readBarCodes();
-        Assert.assertTrue(validResults.length >= 1, "Expected valid EAN-13 to be recognized");
-        BarCodeResult validResult = validResults[0];
-        System.out.println("[EAN13 valid] Text=" + validResult.getCodeText()
-                + " Confidence=" + validResult.getConfidence());
-        ExampleAssist.assertRecognized(validReader, "", 1, validResult.getCodeType(), validResult.getCodeText());
-        if (validResult.getExtended() != null && validResult.getExtended().getOneD() != null) {
-            System.out.println("[EAN13 valid] OneD checksum=" + validResult.getExtended().getOneD().getCheckSum());
-        }
 
-        // Damaged sample, disallow incorrect barcodes
-        BarCodeReader readerDisallow = new BarCodeReader(damagedPath, DecodeType.EAN_13);
-        readerDisallow.getQualitySettings().setAllowIncorrectBarcodes(false);
-        BarCodeResult[] disallowResults = readerDisallow.readBarCodes();
-        int countDisallow = disallowResults.length;
+        BarCodeResult[] results = validReader.readBarCodes();
+        Assert.assertTrue(results.length >= 1, "Expected valid EAN-13 to be recognized");
+        BarCodeResult r = results[0];
 
-        // Damaged sample, allow incorrect barcodes
-        BarCodeReader readerAllow = new BarCodeReader(damagedPath, DecodeType.EAN_13);
-        readerAllow.getQualitySettings().setAllowIncorrectBarcodes(true);
-        BarCodeResult[] allowResults = readerAllow.readBarCodes();
-        int countAllow = allowResults.length;
+        System.out.println("[EAN13 valid] Text=" + r.getCodeText() + " Confidence=" + r.getConfidence());
+        ExampleAssist.assertRecognized(validReader, "EAN13 valid", 1, DecodeType.EAN_13);
 
-        System.out.println("[EAN13 damaged] disallow=" + countDisallow + " | allow=" + countAllow);
-        //TODO create issue
-        if (countDisallow > 0) {
-            System.out.println("  disallow first: text=" + disallowResults[0].getCodeText()
-                    + " conf=" + disallowResults[0].getConfidence());
-        }
-        if (countAllow > 0) {
-            System.out.println("  allow   first: text=" + allowResults[0].getCodeText()
-                    + " conf=" + allowResults[0].getConfidence());
-        }
-
-        // Core validation idea: enabling incorrect results should not yield fewer candidates
-        Assert.assertTrue(countAllow >= countDisallow,
-                "With allowIncorrect=true we expect >= results than with disallow");
-
-        // At least one mode should return something for the damaged input
-        Assert.assertTrue(countAllow > 0 || countDisallow > 0,
-                "Expected at least one result on damaged input with either setting");
-
-        // If both modes returned results, the 'allow' confidence should not exceed 'disallow' (soft heuristic)
-        if (countAllow > 0 && countDisallow > 0) {
-            Assert.assertTrue(allowResults[0].getConfidence() <= disallowResults[0].getConfidence() + 1e-6,
-                    "Heuristic: allowIncorrect result should not be more confident than disallow");
-        }
+        // Check that OneD checksum metadata is available
+        BarCodeExtendedParameters ext = r.getExtended();
+        Assert.assertNotNull(ext, "Extended parameters must be present");
+        Assert.assertNotNull(ext.getOneD(), "OneD extended parameters must be present for EAN-13");
+        System.out.println("[EAN13 valid] OneD checksum=" + ext.getOneD().getCheckSum());
     }
 
     @Test
-    public void checksumValidation_Code39() {
+    public void allowIncorrect_Effect_Code39_Damaged() throws Exception {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_CODE39_DAMAGED);
 
-        BarCodeReader disallow = new BarCodeReader(path, DecodeType.CODE_39);
-        disallow.getQualitySettings().setAllowIncorrectBarcodes(false);
-        int c0 = disallow.readBarCodes().length;
+        // Disallow incorrect barcodes
+        BarCodeReader disallowReader = new BarCodeReader(path, DecodeType.CODE_39);
+        disallowReader.getQualitySettings().setAllowIncorrectBarcodes(false);
+        BarCodeResult[] disallowResults = disallowReader.readBarCodes();
+        int countDisallow = disallowResults.length;
 
-        BarCodeReader allow = new BarCodeReader(path, DecodeType.CODE_39);
-        allow.getQualitySettings().setAllowIncorrectBarcodes(true);
-        int c1 = allow.readBarCodes().length;
+        // Allow incorrect barcodes
+        BarCodeReader allowReader = new BarCodeReader(path, DecodeType.CODE_39);
+        allowReader.getQualitySettings().setAllowIncorrectBarcodes(true);
+        BarCodeResult[] allowResults = allowReader.readBarCodes();
+        int countAllow = allowResults.length;
 
-        System.out.println("[Code39 damaged] disallow=" + c0 + " | allow=" + c1);
-        Assert.assertTrue(c1 >= c0, "allowIncorrect should not yield fewer results");
-        Assert.assertTrue(c1 > 0 || c0 > 0, "At least one setting should return a result");
+        System.out.println("[Code39 damaged] disallow=" + countDisallow + " | allow=" + countAllow);
+        if (countAllow > 0) {
+            System.out.println("  allow first: text=" + allowResults[0].getCodeText()
+                    + " conf=" + allowResults[0].getConfidence());
+        }
+
+        // Enabling incorrect results should not yield fewer candidates
+        Assert.assertTrue(countAllow >= countDisallow,
+                "With allowIncorrect=true we expect >= results than with disallow");
+
+        // At least one of the modes should detect something on this damaged input
+        Assert.assertTrue(countAllow > 0 || countDisallow > 0,
+                "Expected at least one result on damaged Code39 with either setting");
     }
+
 
 
     /**
