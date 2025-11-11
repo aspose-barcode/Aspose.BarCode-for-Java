@@ -938,4 +938,67 @@ public class ExampleAssist
         return dst;
     }
 
+    // Prints recognition metadata for a single result, using only actual getters present in SDK.
+    public static void printResultMetadata(BarCodeResult result, String prefix) {
+        String p = (prefix == null || prefix.isEmpty()) ? "" : ("[" + prefix + "] ");
+
+        // Generic fields
+        System.out.println(p + "Type=" + result.getCodeTypeName() + " Text=" + result.getCodeText());
+        System.out.println(p + "Confidence=" + result.getConfidence());
+        BarCodeRegionParameters region = result.getRegion();
+        if (region != null) {
+            System.out.println(p + "Rect=" + region.getRectangle());
+            Quadrangle quadrangle = region.getQuadrangle();
+            if (quadrangle != null) {
+                System.out.println(p + "Quad LT=" + quadrangle.getLeftTop()
+                        + " RT=" + quadrangle.getRightTop()
+                        + " RB=" + quadrangle.getRightBottom()
+                        + " LB=" + quadrangle.getLeftBottom());
+            }
+        }
+
+        // Extended (QR)
+        BarCodeExtendedParameters extended = result.getExtended();
+        if (extended != null) {
+            QRExtendedParameters qrExtendedParameters = extended.getQR();
+            if (qrExtendedParameters != null) {
+                System.out.println(p + "QR: Version=" + qrExtendedParameters.getQRVersion()
+                        + " MicroQR=" + qrExtendedParameters.getMicroQRVersion()
+                        + " RectMicroQR=" + qrExtendedParameters.getRectMicroQRVersion()
+                        + " ErrorLevel=" + qrExtendedParameters.getQRErrorLevel()
+                        + " SA.Quantity=" + qrExtendedParameters.getQRStructuredAppendModeBarCodesQuantity()
+                        + " SA.Index=" + qrExtendedParameters.getQRStructuredAppendModeBarCodeIndex()
+                        + " SA.Parity=" + qrExtendedParameters.getQRStructuredAppendModeParityData());
+            }
+
+            // Extended (DataMatrix)
+            DataMatrixExtendedParameters dataMatrixExtendedParameters = extended.getDataMatrix();
+            if (dataMatrixExtendedParameters != null) {
+                System.out.println(p + "DataMatrix: SA.BarcodeId=" + dataMatrixExtendedParameters.getStructuredAppendBarcodeId()
+                        + " SA.Count=" + dataMatrixExtendedParameters.getStructuredAppendBarcodesCount()
+                        + " SA.FileId=" + dataMatrixExtendedParameters.getStructuredAppendFileId()
+                        + " ReaderProgramming=" + dataMatrixExtendedParameters.isReaderProgramming());
+            }
+
+            // Extended (Pdf417 / MacroPdf417)
+            Pdf417ExtendedParameters pdf417ExtendedParameters = extended.getPdf417();
+            if (pdf417ExtendedParameters != null) {
+                System.out.println(p + "PDF417: FileId=\"" + pdf417ExtendedParameters.getMacroPdf417FileID()
+                        + "\" SegmentId=" + pdf417ExtendedParameters.getMacroPdf417SegmentID()
+                        + " SegmentsCount=" + pdf417ExtendedParameters.getMacroPdf417SegmentsCount()
+                        + " FileName=" + pdf417ExtendedParameters.getMacroPdf417FileName()
+                        + " FileSize=" + pdf417ExtendedParameters.getMacroPdf417FileSize()
+                        + " Sender=" + pdf417ExtendedParameters.getMacroPdf417Sender()
+                        + " Addressee=" + pdf417ExtendedParameters.getMacroPdf417Addressee()
+                        + " TimeStamp=" + pdf417ExtendedParameters.getMacroPdf417TimeStamp()
+                        + " Checksum=" + pdf417ExtendedParameters.getMacroPdf417Checksum()
+                        + " Terminator=" + pdf417ExtendedParameters.getMacroPdf417Terminator()
+                        + " IsReaderInit=" + pdf417ExtendedParameters.isReaderInitialization()
+                        + " IsLinked=" + pdf417ExtendedParameters.isLinked()
+                        + " IsCode128Emu=" + pdf417ExtendedParameters.isCode128Emulation());
+            }
+        }
+    }
+
+
 }
