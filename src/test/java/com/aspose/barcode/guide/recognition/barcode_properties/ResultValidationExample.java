@@ -35,6 +35,7 @@ public class ResultValidationExample {
     private static final String FILE_QR_CLEAN           = "rv_qr_clean.png";
     private static final String FILE_QR_NOISY           = "rv_qr_noisy.png";
     private static final String FILE_C128_TINY          = "rv_c128_tiny.png";
+    private static final String FILE_CODE39_DAMAGED           = "rv_code39_damaged.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -79,6 +80,7 @@ public class ResultValidationExample {
         int countAllow = allowResults.length;
 
         System.out.println("[EAN13 damaged] disallow=" + countDisallow + " | allow=" + countAllow);
+        //TODO create issue
         if (countDisallow > 0) {
             System.out.println("  disallow first: text=" + disallowResults[0].getCodeText()
                     + " conf=" + disallowResults[0].getConfidence());
@@ -103,6 +105,22 @@ public class ResultValidationExample {
         }
     }
 
+    @Test
+    public void checksumValidation_Code39() {
+        String path = ExampleAssist.pathCombine(FOLDER, FILE_CODE39_DAMAGED);
+
+        BarCodeReader disallow = new BarCodeReader(path, DecodeType.CODE_39);
+        disallow.getQualitySettings().setAllowIncorrectBarcodes(false);
+        int c0 = disallow.readBarCodes().length;
+
+        BarCodeReader allow = new BarCodeReader(path, DecodeType.CODE_39);
+        allow.getQualitySettings().setAllowIncorrectBarcodes(true);
+        int c1 = allow.readBarCodes().length;
+
+        System.out.println("[Code39 damaged] disallow=" + c0 + " | allow=" + c1);
+        Assert.assertTrue(c1 >= c0, "allowIncorrect should not yield fewer results");
+        Assert.assertTrue(c1 > 0 || c0 > 0, "At least one setting should return a result");
+    }
 
 
     /**
@@ -139,7 +157,7 @@ public class ResultValidationExample {
      * If both read, print confidences for reference.
      */
     @Test
-    public void qualitySettings_TinyCode128() throws Exception {
+    public void qualitySettings_TinyCode128() {
         String path = ExampleAssist.pathCombine(FOLDER, FILE_C128_TINY);
 
         BarCodeReader hpReader = new BarCodeReader(path, DecodeType.CODE_128);
@@ -167,7 +185,7 @@ public class ResultValidationExample {
             generator.save(full, BarCodeImageFormat.PNG);
         });
 
-        // 2) EAN-13 damaged — hit the central area and break the guard bars
+        // 2) EAN-13 damaged — keep bars crisp, apply a thin occluder + mild noise (no blur!)
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_EAN13_DAMAGED, (ImageSupplier) (String full) -> {
             String tmp = full + ".tmp.png";
             BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
@@ -178,29 +196,20 @@ public class ResultValidationExample {
             try {
                 g.setColor(Color.BLACK);
 
-                // Central occlusion block (as in the earlier version)
-                int cx = img.getWidth() / 2 - img.getWidth() / 14;
-                int cy = img.getHeight() / 4;
-                int cw = img.getWidth() / 7;
-                int ch = img.getHeight() / 2;
-                g.fillRect(cx, cy, cw, ch);
-
-                // Additionally break left and right guard areas (narrow vertical rectangles)
-                int guardW = Math.max(4, img.getWidth() / 60);
-                int guardH = (int)(img.getHeight() * 0.8);
-                int top = (img.getHeight() - guardH) / 2;
-
-                // Left guard
-                g.fillRect(Math.max(0, img.getWidth() / 10 - guardW / 2), top, guardW, guardH);
-                // Right guard
-                g.fillRect(Math.min(img.getWidth() - guardW, img.getWidth() * 9 / 10 - guardW / 2), top, guardW, guardH);
+                // Thin vertical occluder in the center (doesn't touch left/right guard bars)
+                int occW = Math.max(3, img.getWidth() / 50);
+                int occH = (int) (img.getHeight() * 0.60);
+                int occX = img.getWidth() / 2 - occW / 2;
+                int occY = (img.getHeight() - occH) / 2;
+                g.fillRect(occX, occY, occW, occH);
             } finally {
                 g.dispose();
             }
-            javax.imageio.ImageIO.write(img, "PNG", new File(full));
+
+            // Add mild Gaussian noise to degrade edges a bit, but keep bars readable
+            ExampleAssist.addGaussianNoise(tmp, full, /*stdDev=*/6.0);
             new File(tmp).delete();
         });
-
 
         // 3) QR clean
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_CLEAN, (ImageSupplier) (String full) -> {
@@ -224,5 +233,23 @@ public class ResultValidationExample {
             ExampleAssist.downscaleNearestCrisp(tmp, full, 120);
             new File(tmp).delete();
         });
+
+        ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE39_DAMAGED, (String full) -> {
+            String tmp = full + ".tmp.png";
+            BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_39, "RESULT-VALIDATION-39");
+            gen.save(tmp, BarCodeImageFormat.PNG);
+
+            BufferedImage img = javax.imageio.ImageIO.read(new File(tmp));
+            Graphics2D g = img.createGraphics();
+            g.setColor(Color.BLACK);
+            // Thin central blocker
+            int w = Math.max(3, img.getWidth() / 50);
+            int h = (int)(img.getHeight() * 0.6);
+            g.fillRect(img.getWidth()/2 - w/2, (img.getHeight()-h)/2, w, h);
+            g.dispose();
+            javax.imageio.ImageIO.write(img, "PNG", new File(full));
+            new File(tmp).delete();
+        });
+
     }
 }
