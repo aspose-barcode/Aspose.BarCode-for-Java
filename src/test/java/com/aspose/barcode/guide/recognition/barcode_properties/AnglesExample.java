@@ -229,49 +229,4 @@ public class AnglesExample {
             new File(tmp).delete();
         });
     }
-    public static void printResultMetadata(BarCodeResult r, String prefix) {
-        String p = (prefix == null || prefix.isEmpty()) ? "" : ("[" + prefix + "] ");
-        System.out.println(p + "Type=" + r.getCodeTypeName() + " Text=" + r.getCodeText());
-        System.out.println(p + "Confidence=" + r.getConfidence());
-
-        BarCodeRegionParameters region = r.getRegion();
-        if (region != null) {
-            System.out.println(p + "Rect=" + region.getRectangle());
-            Quadrangle q = region.getQuadrangle();
-            if (q != null) {
-                System.out.println(p + "Quad LT=" + q.getLeftTop()
-                        + " RT=" + q.getRightTop()
-                        + " RB=" + q.getRightBottom()
-                        + " LB=" + q.getLeftBottom());
-            }
-        }
-
-        BarCodeExtendedParameters ext = r.getExtended();
-        if (ext != null) {
-            if (ext.getOneD() != null) {
-                System.out.println(p + "OneD checksum=" + ext.getOneD().getCheckSum());
-            }
-            if (ext.getQR() != null) {
-                QRExtendedParameters qrExtendedParameters = ext.getQR();
-                System.out.println(p + "QR EC=" + qrExtendedParameters.getErrorLevel()
-                        + " Version=" + qrExtendedParameters.getVersion()
-                        + " Mask=" + qrExtendedParameters.getMask()
-                        + " Micro=" + qrExtendedParameters.isMicroQR());
-            }
-            if (ext.getDataMatrix() != null) {
-                DataMatrixExtendedParameters dm = ext.getDataMatrix();
-                System.out.println(p + "DM Version=" + dm.getDataMatrixVersion()
-                        + " SA=" + dm.isStructuredAppend()
-                        + " ReaderProgramming=" + dm.isReaderProgramming());
-            }
-            if (ext.getPdf417() != null) {
-                Pdf417ExtendedParameters p417 = ext.getPdf417();
-                System.out.println(p + "PDF417 ErrorLevel=" + p417.getErrorLevel()
-                        + " Macro=" + p417.isMacro()
-                        + " FileId=" + p417.getMacroFileID());
-            }
-        }
-    }
-
-
 }
