@@ -195,56 +195,75 @@ public class ExampleAssist
         }
     }
 
-        public static void assertRecognized(BarCodeReader reader, String tag, int count, BaseDecodeType expectedType, String expectedCodeText) throws Exception
+    public static void assertRecognized(BarCodeReader reader, String tag,int expectedCount, BaseDecodeType expectedType, String expectedCodeText) throws Exception
+    {
+        // Auto-detect test name if tag not provided
+        if (tag == null || tag.isEmpty())
         {
-            // Auto-detect test name if tag not provided
-            if (tag == null || tag.isEmpty())
+            tag = Thread.currentThread().getStackTrace()[2].getMethodName();
+        }
+
+        BarCodeResult[] results = reader.readBarCodes();
+
+        System.out.println("=== [" + tag + "] ===");
+        for (BarCodeResult r : results)
+        {
+            System.out.println(" Code Type: " + r.getCodeTypeName() + " - Code Text: " + r.getCodeText());
+        }
+
+        // Exact count check
+        Assert.assertEquals(results.length, expectedCount,
+                "Expected " + expectedCount + " result(s) in test '" + tag + "', but got " + results.length);
+
+        // Nothing more to check
+        if (results.length == 0)
+        {
+            return;
+        }
+
+        // Collect what we actually have for richer failure messages
+        java.util.List<String> foundTypes = new java.util.ArrayList<>();
+        java.util.List<String> foundTexts = new java.util.ArrayList<>();
+        boolean hasExpectedType = false;
+        boolean hasExpectedText = false;
+
+        for (BarCodeResult barCodeResult : results)
+        {
+            foundTypes.add(barCodeResult.getCodeTypeName());
+            foundTexts.add(barCodeResult.getCodeText());
+            if (expectedType != null && barCodeResult.getCodeType().equals(expectedType))
             {
-                tag = Thread.currentThread().getStackTrace()[2].getMethodName();
+                hasExpectedType = true;
             }
-
-            BarCodeResult[] results = reader.readBarCodes();
-
-            System.out.println("=== [" + tag + "] ===");
-            for (BarCodeResult result : results)
+            if (expectedCodeText != null && java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText))
             {
-                System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+                hasExpectedText = true;
             }
-
-            Assert.assertEquals(count, results.length, "Expected " + count + " result(s) in test '" + tag + "', but got " + results.length);
-
-            if (expectedType != null && expectedCodeText != null && results.length > 0)
+            if ((expectedType == null || hasExpectedType) && (expectedCodeText == null || hasExpectedText))
             {
-                boolean hasExpectedType = false;
-                boolean hasExpectedText = false;
-                for (BarCodeResult result : results)
-                {
-                    if (result.getCodeType().equals(expectedType))
-                    {
-                        hasExpectedType = true;
-                    }
-                    if (result.getCodeText().equals(expectedCodeText))
-                    {
-                        hasExpectedText = true;
-                        break;
-                    }
-                }
-
-                Assert.assertTrue(
-                        hasExpectedType,
-                        "Expected to find type " + expectedType + " in test '" + tag + "'"
-                );
-                Assert.assertTrue(
-                        hasExpectedText,
-                        "Expected to find text " + expectedCodeText + " in test '" + tag + "'"
-                );
+                break; // early exit when all requested expectations met
             }
         }
 
-    public static void assertRecognizedSilent(BarCodeReader reader, int minCount, BaseDecodeType expected) throws Exception {
+        if (expectedType != null)
+        {
+            Assert.assertTrue(hasExpectedType,
+                    "Expected type " + expectedType + " in test '" + tag + "'. Found: " + foundTypes);
+        }
+        if (expectedCodeText != null)
+        {
+            Assert.assertTrue(hasExpectedText,
+                    "Expected text \"" + expectedCodeText + "\" in test '" + tag + "'. Found: " + foundTexts);
+        }
+    }
+
+
+    public static void assertRecognizedSilent(BarCodeReader reader, int minCount, BaseDecodeType expected) throws Exception
+    {
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertTrue(results.length >= minCount);
-        if (expected != null) {
+        if (expected != null)
+        {
             boolean ok = java.util.Arrays.stream(results).anyMatch(r -> r.getCodeType().equals(expected));
             Assert.assertTrue(ok);
         }
@@ -656,21 +675,28 @@ public class ExampleAssist
     /**
      * Downscale an image using nearest-neighbor and then apply Otsu binarization
      * to keep barcode edges crisp at low resolutions. Output is written as PNG.
-     *
+     * <p>
      * Why this helps:
      * - Nearest-neighbor preserves module boundaries compared to smoothing resamplers.
      * - Otsu threshold restores hard black/white edges after resampling and reduces gray bleeding,
-     *   which improves decode reliability on tiny barcodes.
+     * which improves decode reliability on tiny barcodes.
      *
      * @param inPath        input image path
      * @param outPath       output image path (PNG)
      * @param targetWidthPx target width in pixels (>= 1)
      */
-    public static void downscaleNearestCrisp(String inPath, String outPath, int targetWidthPx) throws IOException {
-        if (targetWidthPx < 1) throw new IllegalArgumentException("targetWidthPx must be >= 1");
+    public static void downscaleNearestCrisp(String inPath, String outPath, int targetWidthPx) throws IOException
+    {
+        if (targetWidthPx < 1)
+        {
+            throw new IllegalArgumentException("targetWidthPx must be >= 1");
+        }
 
         BufferedImage src = ImageIO.read(new File(inPath));
-        if (src == null) throw new IOException("Cannot read image: " + inPath);
+        if (src == null)
+        {
+            throw new IOException("Cannot read image: " + inPath);
+        }
 
         // 1) Nearest-neighbor downscale with aspect ratio preserved.
         int srcW = Math.max(1, src.getWidth());
@@ -680,29 +706,37 @@ public class ExampleAssist
 
         BufferedImage scaled = new BufferedImage(targetWidthPx, targetHeightPx, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = scaled.createGraphics();
-        try {
+        try
+        {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
             g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
             g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
             g.drawImage(src, 0, 0, targetWidthPx, targetHeightPx, null);
-        } finally {
+        }
+        finally
+        {
             g.dispose();
         }
 
         // 2) Convert to grayscale (luminance).
         BufferedImage gray = new BufferedImage(targetWidthPx, targetHeightPx, BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D gg = gray.createGraphics();
-        try {
+        try
+        {
             gg.drawImage(scaled, 0, 0, null);
-        } finally {
+        }
+        finally
+        {
             gg.dispose();
         }
 
         // 3) Otsu threshold -> black/white image (crisp modules).
         int[] hist = new int[256];
-        for (int y = 0; y < gray.getHeight(); y++) {
-            for (int x = 0; x < gray.getWidth(); x++) {
+        for (int y = 0; y < gray.getHeight(); y++)
+        {
+            for (int x = 0; x < gray.getWidth(); x++)
+            {
                 int v = gray.getRaster().getSample(x, y, 0);
                 hist[v]++;
             }
@@ -710,17 +744,27 @@ public class ExampleAssist
 
         int total = gray.getWidth() * gray.getHeight();
         long sum = 0;
-        for (int t = 0; t < 256; t++) sum += (long) t * hist[t];
+        for (int t = 0; t < 256; t++)
+        {
+            sum += (long) t * hist[t];
+        }
 
         long sumB = 0;
         int wB = 0;
         double varMax = -1.0;
         int threshold = 127;
-        for (int t = 0; t < 256; t++) {
+        for (int t = 0; t < 256; t++)
+        {
             wB += hist[t];
-            if (wB == 0) continue;
+            if (wB == 0)
+            {
+                continue;
+            }
             int wF = total - wB;
-            if (wF == 0) break;
+            if (wF == 0)
+            {
+                break;
+            }
 
             sumB += (long) t * hist[t];
 
@@ -728,15 +772,18 @@ public class ExampleAssist
             double mF = (double) (sum - sumB) / wF;
             double varBetween = (double) wB * (double) wF * (mB - mF) * (mB - mF);
 
-            if (varBetween > varMax) {
+            if (varBetween > varMax)
+            {
                 varMax = varBetween;
                 threshold = t;
             }
         }
 
         BufferedImage bw = new BufferedImage(targetWidthPx, targetHeightPx, BufferedImage.TYPE_BYTE_BINARY);
-        for (int y = 0; y < gray.getHeight(); y++) {
-            for (int x = 0; x < gray.getWidth(); x++) {
+        for (int y = 0; y < gray.getHeight(); y++)
+        {
+            for (int x = 0; x < gray.getWidth(); x++)
+            {
                 int v = gray.getRaster().getSample(x, y, 0);
                 int rgb = (v > threshold ? 0xFFFFFFFF : 0xFF000000);
                 bw.setRGB(x, y, rgb);
@@ -751,22 +798,27 @@ public class ExampleAssist
      * Render a barcode directly at the target pixel size (no resampling).
      * Ensures white background, black bars, and explicit quiet zones in pixels.
      *
-     * @param type      symbology (e.g., EncodeTypes.CODE_128)
-     * @param text      payload
-     * @param widthPx   total image width in pixels
-     * @param heightPx  total image height in pixels
-     * @param xDimPx    X-dimension in pixels (module width); use ~2.0f for ~150px wide, ~1.0–1.2f for ~80px
-     * @param quietPx   quiet zone size (left/right) in pixels
-     * @param outPath   output PNG path
+     * @param type     symbology (e.g., EncodeTypes.CODE_128)
+     * @param text     payload
+     * @param widthPx  total image width in pixels
+     * @param heightPx total image height in pixels
+     * @param xDimPx   X-dimension in pixels (module width); use ~2.0f for ~150px wide, ~1.0–1.2f for ~80px
+     * @param quietPx  quiet zone size (left/right) in pixels
+     * @param outPath  output PNG path
      */
     public static void renderBarcodeFixedSizePNG(BaseEncodeType type, String text,
                                                  int widthPx, int heightPx,
                                                  float xDimPx, int quietPx,
-                                                 String outPath) throws IOException {
-        if (widthPx < 20 || heightPx < 20) {
+                                                 String outPath) throws IOException
+    {
+        if (widthPx < 20 || heightPx < 20)
+        {
             throw new IllegalArgumentException("Image too small for rendering: " + widthPx + "x" + heightPx);
         }
-        if (xDimPx < 0.5f) xDimPx = 0.5f;
+        if (xDimPx < 0.5f)
+        {
+            xDimPx = 0.5f;
+        }
 
         // 1) Render barcode onto an ARGB canvas with exact pixel size.
         // Aspose.BarCode can render by pixels using parameters..
@@ -795,39 +847,59 @@ public class ExampleAssist
 
         // 3) Safety: Let's make sure the background is actually white (in case of transparency in the engine version)
         BufferedImage img = ImageIO.read(new File(outPath));
-        if (img.getType() != BufferedImage.TYPE_INT_RGB) {
+        if (img.getType() != BufferedImage.TYPE_INT_RGB)
+        {
             BufferedImage rgb = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
             Graphics2D g = rgb.createGraphics();
-            try {
+            try
+            {
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 0, rgb.getWidth(), rgb.getHeight());
                 g.drawImage(img, 0, 0, null);
-            } finally {
+            }
+            finally
+            {
                 g.dispose();
             }
             ImageIO.write(rgb, "png", new File(outPath));
         }
     }
-    /** Returns true if file exists. */
-    public static boolean fileExists(String fullPath) {
+
+    /**
+     * Returns true if file exists.
+     */
+    public static boolean fileExists(String fullPath)
+    {
         return fullPath != null && Files.exists(Paths.get(fullPath));
     }
 
-    /** Simple filename extraction (no directories). */
-    public static String getFileName(String fullPath) {
-        if (fullPath == null) return "";
+    /**
+     * Simple filename extraction (no directories).
+     */
+    public static String getFileName(String fullPath)
+    {
+        if (fullPath == null)
+        {
+            return "";
+        }
         Path p = Paths.get(fullPath);
         Path name = p.getFileName();
         return name == null ? "" : name.toString();
     }
 
-    /** Logs an informational message to stdout. */
-    public static void logInfo(String msg) {
+    /**
+     * Logs an informational message to stdout.
+     */
+    public static void logInfo(String msg)
+    {
         System.out.println("[INFO] " + msg);
     }
 
-    /** Logs a warning message to stdout. */
-    public static void logWarn(String msg) {
+    /**
+     * Logs a warning message to stdout.
+     */
+    public static void logWarn(String msg)
+    {
         System.out.println("[WARN] " + msg);
     }
 
@@ -835,18 +907,32 @@ public class ExampleAssist
      * Lists files in a directory by a glob like "*.png".
      * Returns absolute paths. If folder does not exist, returns empty array.
      */
-    public static String[] listFilesByGlob(String folder, String globPattern) {
+    public static String[] listFilesByGlob(String folder, String globPattern)
+    {
         java.util.List<String> out = new ArrayList<>();
-        if (folder == null || globPattern == null) return new String[0];
+        if (folder == null || globPattern == null)
+        {
+            return new String[0];
+        }
 
         Path dir = Paths.get(folder);
-        if (!Files.isDirectory(dir)) return new String[0];
+        if (!Files.isDirectory(dir))
+        {
+            return new String[0];
+        }
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, globPattern)) {
-            for (Path p : stream) {
-                if (Files.isRegularFile(p)) out.add(p.toAbsolutePath().toString());
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, globPattern))
+        {
+            for (Path p : stream)
+            {
+                if (Files.isRegularFile(p))
+                {
+                    out.add(p.toAbsolutePath().toString());
+                }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             logWarn("listFilesByGlob failed for " + folder + " pattern " + globPattern + ": " + e.getMessage());
         }
         return out.toArray(new String[0]);
@@ -856,7 +942,8 @@ public class ExampleAssist
      * Asserts there is at least one result after recognition.
      * Reads barcodes internally if needed.
      */
-    public static void assertHasAnyResult(BarCodeReader reader, String labelForError) {
+    public static void assertHasAnyResult(BarCodeReader reader, String labelForError)
+    {
         reader.readBarCodes();
         Assert.assertTrue(reader.getFoundCount() > 0,
                 "Expected at least 1 result for: " + labelForError);
@@ -865,32 +952,51 @@ public class ExampleAssist
     /**
      * Asserts count==expected and text of the first result == expectedText.
      */
-    public static void assertRecognizedWithText(BarCodeReader reader, String labelForError, int expectedCount, String expectedText) {
+    public static void assertRecognizedWithText(BarCodeReader reader, String labelForError, int expectedCount, String expectedText)
+    {
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertEquals(results.length, expectedCount, "Unexpected count for: " + labelForError);
         Assert.assertEquals(results[0].getCodeText(), expectedText, "Unexpected text for: " + labelForError);
     }
 
-    public static int getCpuCount() {
-        try { return Runtime.getRuntime().availableProcessors(); }
-        catch (Throwable t) { return 1; }
+    public static int getCpuCount()
+    {
+        try
+        {
+            return Runtime.getRuntime().availableProcessors();
+        }
+        catch (Throwable t)
+        {
+            return 1;
+        }
     }
 
-    public static boolean hasDecodeType(BarCodeResult[] results, BaseDecodeType type) {
-        for (BarCodeResult codeResult : results) {
-            if (codeResult.getCodeType().equals(type)) return true;
+    public static boolean hasDecodeType(BarCodeResult[] results, BaseDecodeType type)
+    {
+        for (BarCodeResult codeResult : results)
+        {
+            if (codeResult.getCodeType().equals(type))
+            {
+                return true;
+            }
         }
         return false;
     }
 
-    public static void assertAngleClose(double actual, double expected, double tol, String msg) {
+    public static void assertAngleClose(double actual, double expected, double tol, String msg)
+    {
         Assert.assertTrue(Math.abs(actual - expected) <= tol,
                 msg + " (actual=" + actual + ", expected=" + expected + "±" + tol + ")");
     }
 
-    public static boolean containsPoint(Point[] arr, Point p) {
-        for (Point a : arr) {
-            if (a.equals(p)) return true;
+    public static boolean containsPoint(Point[] arr, Point p)
+    {
+        for (Point a : arr)
+        {
+            if (a.equals(p))
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -900,7 +1006,7 @@ public class ExampleAssist
      * Uses NEAREST-NEIGHBOR interpolation and NO anti-aliasing to keep barcode modules
      * crisp (no blur). Prefer this for generating test fixtures intended for recognition,
      * especially 1D bars and small 2D modules.
-     *
+     * <p>
      * Pros: preserves hard edges and module boundaries; avoids “soapy” blur.
      * Cons: visually more jagged on diagonals (which is fine for tests).
      *
@@ -908,7 +1014,8 @@ public class ExampleAssist
      * @param degrees rotation angle in degrees (clockwise)
      * @return rotated image with a white background; canvas is expanded to fit
      */
-    public static BufferedImage rotateCenterCrispNN(BufferedImage src, double degrees) {
+    public static BufferedImage rotateCenterCrispNN(BufferedImage src, double degrees)
+    {
         double radians = Math.toRadians(degrees);
         double sin = Math.abs(Math.sin(radians));
         double cos = Math.abs(Math.cos(radians));
@@ -919,7 +1026,8 @@ public class ExampleAssist
 
         BufferedImage dst = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = dst.createGraphics();
-        try {
+        try
+        {
             // Preserve barcode sharpness: no AA, nearest-neighbor, fast rendering.
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -933,7 +1041,9 @@ public class ExampleAssist
             at.translate(-w / 2.0, -h / 2.0);
 
             g2.drawImage(src, at, null);
-        } finally {
+        }
+        finally
+        {
             g2.dispose();
         }
         return dst;
@@ -944,7 +1054,7 @@ public class ExampleAssist
      * Uses BILINEAR interpolation and ANTI-ALIASING for visually smooth output.
      * Suitable for demos, UI previews, or overlays where aesthetics matter more
      * than pixel-perfect barcode modules.
-     *
+     * <p>
      * Pros: smoother diagonals and text; nicer visuals.
      * Cons: can blur barcode edges, which may slightly reduce recognition robustness.
      *
@@ -952,7 +1062,8 @@ public class ExampleAssist
      * @param degrees rotation angle in degrees (clockwise)
      * @return rotated image with a white background; canvas is expanded to fit
      */
-    public static BufferedImage rotateCenterSmoothBilinear(BufferedImage src, double degrees) {
+    public static BufferedImage rotateCenterSmoothBilinear(BufferedImage src, double degrees)
+    {
         double radians = Math.toRadians(degrees);
 
         double sin = Math.abs(Math.sin(radians));
@@ -964,7 +1075,8 @@ public class ExampleAssist
 
         BufferedImage dst = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = dst.createGraphics();
-        try {
+        try
+        {
             // Smooth, visual-friendly rotation (may soften barcode edges).
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -978,24 +1090,29 @@ public class ExampleAssist
             at.translate(-w / 2.0, -h / 2.0);
 
             g2.drawImage(src, at, null);
-        } finally {
+        }
+        finally
+        {
             g2.dispose();
         }
         return dst;
     }
 
     // Prints recognition metadata for a single result, using only actual getters present in SDK.
-    public static void printResultMetadata(BarCodeResult result, String prefix) {
+    public static void printResultMetadata(BarCodeResult result, String prefix)
+    {
         String p = (prefix == null || prefix.isEmpty()) ? "" : ("[" + prefix + "] ");
 
         // Generic fields
         System.out.println(p + "Type=" + result.getCodeTypeName() + " Text=" + result.getCodeText());
         System.out.println(p + "Confidence=" + result.getConfidence());
         BarCodeRegionParameters region = result.getRegion();
-        if (region != null) {
+        if (region != null)
+        {
             System.out.println(p + "Rect=" + region.getRectangle());
             Quadrangle quadrangle = region.getQuadrangle();
-            if (quadrangle != null) {
+            if (quadrangle != null)
+            {
                 System.out.println(p + "Quad LT=" + quadrangle.getLeftTop()
                         + " RT=" + quadrangle.getRightTop()
                         + " RB=" + quadrangle.getRightBottom()
@@ -1005,9 +1122,11 @@ public class ExampleAssist
 
         // Extended (QR)
         BarCodeExtendedParameters extended = result.getExtended();
-        if (extended != null) {
+        if (extended != null)
+        {
             QRExtendedParameters qrExtendedParameters = extended.getQR();
-            if (qrExtendedParameters != null) {
+            if (qrExtendedParameters != null)
+            {
                 System.out.println(p + "QR: Version=" + qrExtendedParameters.getQRVersion()
                         + " MicroQR=" + qrExtendedParameters.getMicroQRVersion()
                         + " RectMicroQR=" + qrExtendedParameters.getRectMicroQRVersion()
@@ -1019,7 +1138,8 @@ public class ExampleAssist
 
             // Extended (DataMatrix)
             DataMatrixExtendedParameters dataMatrixExtendedParameters = extended.getDataMatrix();
-            if (dataMatrixExtendedParameters != null) {
+            if (dataMatrixExtendedParameters != null)
+            {
                 System.out.println(p + "DataMatrix: SA.BarcodeId=" + dataMatrixExtendedParameters.getStructuredAppendBarcodeId()
                         + " SA.Count=" + dataMatrixExtendedParameters.getStructuredAppendBarcodesCount()
                         + " SA.FileId=" + dataMatrixExtendedParameters.getStructuredAppendFileId()
@@ -1028,7 +1148,8 @@ public class ExampleAssist
 
             // Extended (Pdf417 / MacroPdf417)
             Pdf417ExtendedParameters pdf417ExtendedParameters = extended.getPdf417();
-            if (pdf417ExtendedParameters != null) {
+            if (pdf417ExtendedParameters != null)
+            {
                 System.out.println(p + "PDF417: FileId=\"" + pdf417ExtendedParameters.getMacroPdf417FileID()
                         + "\" SegmentId=" + pdf417ExtendedParameters.getMacroPdf417SegmentID()
                         + " SegmentsCount=" + pdf417ExtendedParameters.getMacroPdf417SegmentsCount()
