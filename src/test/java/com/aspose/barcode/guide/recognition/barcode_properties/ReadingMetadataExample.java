@@ -83,6 +83,7 @@ public class ReadingMetadataExample {
 
         QRExtendedParameters qrExtendedParameters = barCodeResult.getExtended().getQR();
         Assert.assertNotNull(qrExtendedParameters, "QR extended parameters must be present");
+        Assert.assertEquals(qrExtendedParameters.getQRErrorLevel(), QRErrorLevel.LEVEL_H);
         // Sanity checks to ensure getters are accessible
         Assert.assertNotNull(qrExtendedParameters.getQRErrorLevel());
         Assert.assertNotNull(qrExtendedParameters.getQRVersion());
@@ -141,7 +142,7 @@ public class ReadingMetadataExample {
         // 3) Macro PDF417 – set macro fields so they appear in Pdf417ExtendedParameters
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_PDF417_MACRO, (String full) -> {
             BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.MACRO_PDF_417, "Structured PDF417 Data");
-            generator.getParameters().getBarcode().getPdf417().setPdf417MacroFileID(123);  // int (не String)
+            generator.getParameters().getBarcode().getPdf417().setPdf417MacroFileID(15900);
             generator.getParameters().getBarcode().getPdf417().setPdf417MacroSegmentsCount(3);
             generator.getParameters().getBarcode().getPdf417().setPdf417MacroSegmentID(1);
             generator.save(full, BarCodeImageFormat.PNG);
