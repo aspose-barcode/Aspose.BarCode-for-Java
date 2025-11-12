@@ -82,12 +82,12 @@ public class CustomizingSizeExample {
         gen.getParameters().getBarcode().getPadding().getTop().setPixels(8);
         gen.getParameters().getBarcode().getPadding().getBottom().setPixels(8);
 
-        String full = ExampleAssist.pathCombine(FOLDER, FILE_C128_XDIM_PX);
-        gen.save(full, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(full);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_C128_XDIM_PX);
+        gen.save(fullPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(fullPath);
 
         assertImageHasBarcodes(
-                full,
+                fullPath,
                 1,
                 List.of(expected(DecodeType.CODE_128, "XDIM-PX"))
         );
@@ -135,12 +135,12 @@ public class CustomizingSizeExample {
         gen.getParameters().getBarcode().getPadding().getTop().setPixels(10);
         gen.getParameters().getBarcode().getPadding().getBottom().setPixels(10);
 
-        String full = ExampleAssist.pathCombine(FOLDER, FILE_C128_BAR_MM_300DPI);
-        gen.save(full, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(full);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_C128_BAR_MM_300DPI);
+        gen.save(fullPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(fullPath);
 
         assertImageHasBarcodes(
-                full,
+                fullPath,
                 1,
                 List.of(expected(DecodeType.CODE_128, "BAR-MM"))
         );
@@ -277,13 +277,13 @@ public class CustomizingSizeExample {
         gen.getParameters().getImageWidth().setPixels(520);
         gen.getParameters().getImageHeight().setPixels(200);
 
-        String full = ExampleAssist.pathCombine(FOLDER, FILE_AUSPOST_SHORTBAR);
-        gen.save(full, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(full);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_AUSPOST_SHORTBAR);
+        gen.save(fullPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(fullPath);
 
         // Expect exactly one Australia Post barcode with the same payload
         assertImageHasBarcodes(
-                full,
+                fullPath,
                 1,
                 List.of(expected(DecodeType.AUSTRALIA_POST, payload))
         );
