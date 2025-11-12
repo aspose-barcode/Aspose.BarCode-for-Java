@@ -1,5 +1,7 @@
 package com.aspose.barcode.guide.generation;
 
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
@@ -8,17 +10,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.awt.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-import static com.aspose.barcode.guide.common.ExampleAssist.assertImageHasBarcodes;
-import static com.aspose.barcode.guide.common.ExampleAssist.exp;
+import static com.aspose.barcode.guide.common.ExampleAssist.*;
 
-public class SetParametersAndTextExample {
+public class SymbologyAndCodeTextExample
+{
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("generation", "parameters", "set_text");
@@ -77,76 +75,34 @@ public class SetParametersAndTextExample {
     // --- 3) setCodeText(byte[]) for QR (binary payload) ---
     @Test
     public void generate_QR_withRawBytes() throws Exception {
+        // Prepare UTF-8 payload with an emoji
         byte[] payload = "Hello, \uD83D\uDE80 bytes!".getBytes(StandardCharsets.UTF_8);
+
+        // Generate a QR with raw bytes
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
         generator.setCodeText(payload);
-        // сохраним «как есть» строковое представление после setCodeText(bytes)
-        String expectedTextAsStored = generator.getCodeText();
 
+        // Critical: mark ECI as UTF-8 so readers interpret bytes correctly
+        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
         generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
 
         String full = ExampleAssist.pathCombine(FOLDER, FILE_QR_BYTES);
         generator.save(full, BarCodeImageFormat.PNG);
         assertFileCreated(full);
 
-        // Проверяем тип и тот же текст, который лежит внутри генератора после установки байтов
-        assertImageHasBarcodes(
-                full,
-                1,
-                List.of(exp(DecodeType.QR, expectedTextAsStored))
+        // Expected human-readable text decoded from our bytes
+        String expectedTextUtf8 = new String(payload, StandardCharsets.UTF_8);
+
+        // Validate that the generated image contains exactly one QR with the expected text
+        assertImageHasBarcodes(full,1, List.of(exp(DecodeType.QR, expectedTextUtf8))
         );
-    }
 
-    // --- 4) Global image & barcode metrics: size, X-dimension, bar height, colors & padding ---
-    @Test
-    public void generate_Code128_withSizeColorAndPadding() throws Exception {
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, "SIZE-COLOR-PADDING");
-
-        generator.getParameters().getImageWidth().setPixels(600);
-        generator.getParameters().getImageHeight().setPixels(200);
-        Assert.assertEquals((int) generator.getParameters().getImageWidth().getPixels(), 600);
-        Assert.assertEquals((int) generator.getParameters().getImageHeight().getPixels(), 200);
-
-        generator.getParameters().getBarcode().getXDimension().setPixels(2.0f);
-        generator.getParameters().getBarcode().getBarHeight().setPixels(120);
-        Assert.assertEquals((int) generator.getParameters().getBarcode().getBarHeight().getPixels(), 120);
-
-        generator.getParameters().setBackColor(Color.WHITE);
-        generator.getParameters().getBarcode().setBarColor(Color.BLACK);
-        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(20);
-        generator.getParameters().getBarcode().getPadding().getRight().setPixels(20);
-        generator.getParameters().getBarcode().getPadding().getTop().setPixels(10);
-        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(10);
-
-        String full = ExampleAssist.pathCombine(FOLDER, FILE_C128_SIZED_COLORED);
-        generator.save(full, BarCodeImageFormat.PNG);
-        assertFileCreated(full);
-
-        assertImageHasBarcodes(
-                full,
-                1,
-                List.of(exp(DecodeType.CODE_128, "SIZE-COLOR-PADDING"))
-        );
-    }
-
-    // --- 5) Rotation & quiet zones example on EAN-13 ---
-    @Test
-    public void generate_EAN13_rotated() throws Exception {
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
-        generator.getParameters().setRotationAngle(90);
-        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(12);
-        generator.getParameters().getBarcode().getPadding().getRight().setPixels(12);
-        Assert.assertEquals(generator.getParameters().getRotationAngle(), 90);
-
-        String full = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_ROTATED);
-        generator.save(full, BarCodeImageFormat.PNG);
-        assertFileCreated(full);
-
-        assertImageHasBarcodes(
-                full,
-                1,
-                List.of(exp(DecodeType.EAN_13, "5901234123457"))
-        );
+        // Round-trip check: decoded raw bytes must match exactly the original payload
+        BarCodeReader reader = new BarCodeReader(full, DecodeType.QR);
+        BarCodeResult[] results = reader.readBarCodes();
+        Assert.assertTrue(results.length >= 1, "Expected at least 1 QR");
+        byte[] readBytes = results[0].getCodeBytes();
+        Assert.assertEquals(readBytes, payload, "QR payload bytes must round-trip exactly");
     }
 
     // --- 6) Symbology-specific: QR parameters (error level + version) ---
@@ -230,10 +186,4 @@ public class SetParametersAndTextExample {
         );
     }
 
-    // --- helper: file must exist and be non-empty ---
-    private static void assertFileCreated(String fullPath) throws Exception {
-        Path p = Paths.get(fullPath);
-        Assert.assertTrue(Files.exists(p), "Output not created: " + fullPath);
-        Assert.assertTrue(Files.size(p) > 0, "Output is empty: " + fullPath);
-    }
 }
