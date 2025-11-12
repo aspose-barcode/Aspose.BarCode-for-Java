@@ -192,13 +192,23 @@ public class UseUnitExample {
     public void unitInchesForQrModule() throws Exception {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "UNIT-INCH");
 
-        // Make modules 0.01" wide; adjust other visual params if needed
         Unit xdim = gen.getParameters().getBarcode().getXDimension();
+        xdim.updateResolution(300f);
         xdim.setInches(0.01f);
 
-        // Typical robust QR settings (not required for the Unit demo, but good practice)
         gen.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
         gen.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        gen.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_01);
+
+        int quietPx = Math.max(12, Math.round(xdim.getPixels() * 4));
+        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(quietPx);
+        gen.getParameters().getBarcode().getPadding().getRight().setPixels(quietPx);
+        gen.getParameters().getBarcode().getPadding().getTop().setPixels(quietPx);
+        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(quietPx);
+
+
+        gen.getParameters().getImageWidth().setPixels(240);
+        gen.getParameters().getImageHeight().setPixels(240);
 
         String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_INCH_XDIM);
         gen.save(fullPath, BarCodeImageFormat.PNG);
@@ -210,4 +220,5 @@ public class UseUnitExample {
                 List.of(expected(DecodeType.QR, "UNIT-INCH"))
         );
     }
+
 }
