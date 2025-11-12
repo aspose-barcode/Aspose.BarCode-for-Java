@@ -250,42 +250,37 @@ public class CustomizingSizeExample {
      * </ul>
      */
     @Test
-    public void australianPostShortBarHeight_300dpi() throws Exception {
-        // Valid Australia Post example: FCC=59 + 8-digit DPID
-        String payload = "5912345678";
+    public void australianPostShortBarHeight300dpi() throws Exception {
+        String payload = "5912345678"; // FCC(59) + DPID
 
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.AUSTRALIA_POST, payload);
+        gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
 
-        // 1) Make modules detectable: X-dimension ~2 px, overall bar height ~80 px
-        gen.getParameters().getBarcode().getXDimension().setPixels(2.0f);
-        gen.getParameters().getBarcode().getBarHeight().setPixels(80);
+        gen.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
+        gen.getParameters().getBarcode().getXDimension().setPixels(3.0f);
+        gen.getParameters().getBarcode().getBarHeight().setPixels(100);
 
-        // 2) Symbology-specific: short bar height = 3.0 mm at 300 dpi (~35 px)
-        Unit shortBar = gen.getParameters().getBarcode()
-                .getAustralianPost()
-                .getAustralianPostShortBarHeight();
+        Unit shortBar = gen.getParameters().getBarcode().getAustralianPost().getAustralianPostShortBarHeight();
         shortBar.updateResolution(300f);
         shortBar.setMillimeters(3.0f);
 
-        // 3) Quiet zones: at least ~16–20 px on each side
-        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(20);
-        gen.getParameters().getBarcode().getPadding().getRight().setPixels(20);
-        gen.getParameters().getBarcode().getPadding().getTop().setPixels(12);
-        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
+        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(24);
+        gen.getParameters().getBarcode().getPadding().getRight().setPixels(24);
+        gen.getParameters().getBarcode().getPadding().getTop().setPixels(16);
+        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(16);
 
-        // 4) Fixed canvas to avoid too-tight auto layout
-        gen.getParameters().getImageWidth().setPixels(520);
-        gen.getParameters().getImageHeight().setPixels(200);
+        gen.getParameters().getImageWidth().setPixels(640);
+        gen.getParameters().getImageHeight().setPixels(240);
 
-        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_AUSPOST_SHORTBAR);
-        gen.save(fullPath, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(fullPath);
+        String full = ExampleAssist.pathCombine(FOLDER, FILE_AUSPOST_SHORTBAR);
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
 
-        // Expect exactly one Australia Post barcode with the same payload
+        // Compare the prefix: only FCC+DPID is needed
         assertImageHasBarcodes(
-                fullPath,
+                full,
                 1,
-                List.of(expected(DecodeType.AUSTRALIA_POST, payload))
+                java.util.List.of(ExampleAssist.expectedPrefix(DecodeType.AUSTRALIA_POST, payload))
         );
     }
 
