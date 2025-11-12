@@ -1,4 +1,4 @@
-package com.aspose.barcode.guide.generation;
+package com.aspose.barcode.guide.generation.xdimension;
 
 import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarCodeImageFormat;
