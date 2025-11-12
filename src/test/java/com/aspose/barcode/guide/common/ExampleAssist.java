@@ -1160,36 +1160,6 @@ public class ExampleAssist
         }
     }
 
-    /**
-     * Shorthand factory for an expected (DecodeType, CodeText) pair.
-     *
-     * <p>Used in tests to declare what barcodes must be present in an image.
-     * The returned {@link java.util.AbstractMap.SimpleEntry} holds:
-     * <ul>
-     *   <li>key   — expected {@link BaseDecodeType} (symbology),</li>
-     *   <li>value — expected code text.</li>
-     * </ul>
-     *
-     * <p>Typical usage (with static import):
-     * <pre>{@code
-     * import static com.aspose.barcode.guide.common.ExampleAssist.exp;
-     *
-     * assertImageHasBarcodes(
-     *     imagePath,
-     *     1,
-     *     java.util.List.of(
-     *         exp(DecodeType.EAN_13, "5901234123457")
-     *     )
-     * );
-     * }</pre>
-     *
-     * <p>This keeps call sites concise and readable when building lists of expected pairs.
-     */
-    @Deprecated
-    public static SimpleEntry<BaseDecodeType, String> exp(BaseDecodeType type, String text) {
-        return new SimpleEntry<>(type, text);
-    }
-
     /** Factory for text-based expectation. */
     public static Expected expected(BaseDecodeType type, String expectedText) {
         Objects.requireNonNull(expectedText, "expectedText");
