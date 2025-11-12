@@ -1245,6 +1245,11 @@ public class ExampleAssist
         }
     }
 
-
+    // --- helper: file must exist and be non-empty ---
+    public static void assertFileCreated(String fullPath) throws Exception {
+        Path p = Paths.get(fullPath);
+        Assert.assertTrue(Files.exists(p), "Output not created: " + fullPath);
+        Assert.assertTrue(Files.size(p) > 0, "Output is empty: " + fullPath);
+    }
 
 }
