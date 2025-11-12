@@ -28,14 +28,12 @@ import java.util.AbstractMap.SimpleEntry;
 /**
  * Utility helper for example tests and resource management.
  */
-public class ExampleAssist
-{
+public class ExampleAssist {
 
     /**
      * Gets the path to a resource folder with a trailing separator.
      */
-    public static String getResourceFolderPath(String... pathParts)
-    {
+    public static String getResourceFolderPath(String... pathParts) {
         Path basePath = Paths.get("src", "test", "resources");
 
         for (String part : pathParts)
@@ -49,8 +47,7 @@ public class ExampleAssist
     /**
      * Gets or creates a resource folder path and prints created structure.
      */
-    public static String getOrCreateResourceFolderPath(String... pathParts)
-    {
+    public static String getOrCreateResourceFolderPath(String... pathParts) {
         Path basePath;
 
         // Detect if the first part already includes src/test/resources to avoid duplication
@@ -104,8 +101,7 @@ public class ExampleAssist
     /**
      * Gets path to a resource file or nested folders.
      */
-    public static String getResourceFilePath(String... pathParts)
-    {
+    public static String getResourceFilePath(String... pathParts) {
         Path basePath = Paths.get("src", "test", "resources");
 
         for (String part : pathParts)
@@ -119,8 +115,7 @@ public class ExampleAssist
     /**
      * Gets input stream for reading resource files from classpath.
      */
-    public static InputStream getResourceAsStream(String resourcePath)
-    {
+    public static InputStream getResourceAsStream(String resourcePath) {
         InputStream stream = ExampleAssist.class.getClassLoader()
                 .getResourceAsStream(resourcePath);
 
@@ -135,8 +130,7 @@ public class ExampleAssist
     /**
      * Checks if the given image exists, or creates it using the provided generator.
      */
-    public static void checkOrCreateImage(String imagesFolder, String fileName, ImageSupplier generator) throws IOException
-    {
+    public static void checkOrCreateImage(String imagesFolder, String fileName, ImageSupplier generator) throws IOException {
         Path path = Paths.get(imagesFolder, fileName);
         Files.createDirectories(path.getParent());
 
@@ -149,8 +143,7 @@ public class ExampleAssist
         }
     }
 
-    public static void checkOrCreateImage(String imagesFolder, String fileName, BarcodeGenerator barcodeGenerator) throws IOException
-    {
+    public static void checkOrCreateImage(String imagesFolder, String fileName, BarcodeGenerator barcodeGenerator) throws IOException {
         Path path = Paths.get(imagesFolder, fileName);
         Files.createDirectories(path.getParent());
 
@@ -162,8 +155,7 @@ public class ExampleAssist
         }
     }
 
-    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType expectedType) throws Exception
-    {
+    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType expectedType) throws Exception {
 
         // Auto-detect test name if tag not provided
         if (tag == null || tag.isEmpty())
@@ -200,22 +192,27 @@ public class ExampleAssist
         }
     }
 
-    public static void assertRecognized(BarCodeReader reader, String tag,int expectedCount,BaseDecodeType expectedType,String expectedCodeText) throws Exception {
-        if (tag == null || tag.isEmpty()) {
+    public static void assertRecognized(BarCodeReader reader, String tag, int expectedCount, BaseDecodeType expectedType, String expectedCodeText) throws Exception {
+        if (tag == null || tag.isEmpty())
+        {
             tag = Thread.currentThread().getStackTrace()[2].getMethodName();
         }
 
         BarCodeResult[] results = reader.readBarCodes();
 
         System.out.println("=== [" + tag + "] ===");
-        for (BarCodeResult r : results) {
+        for (BarCodeResult r : results)
+        {
             System.out.println(" Code Type: " + r.getCodeTypeName() + " - Code Text: " + r.getCodeText());
         }
 
         Assert.assertEquals(results.length, expectedCount,
                 "Expected " + expectedCount + " result(s) in '" + tag + "', but got " + results.length);
 
-        if (results.length == 0) return;
+        if (results.length == 0)
+        {
+            return;
+        }
 
         java.util.List<String> foundTypes = new java.util.ArrayList<>();
         java.util.List<String> foundTexts = new java.util.ArrayList<>();
@@ -223,18 +220,22 @@ public class ExampleAssist
         boolean hasExpectedText = false;
         boolean hasSameResultPair = false;
 
-        for (BarCodeResult barCodeResult : results) {
+        for (BarCodeResult barCodeResult : results)
+        {
             foundTypes.add(barCodeResult.getCodeTypeName());
             foundTexts.add(barCodeResult.getCodeText());
 
-            if (barCodeResult.getCodeType().equals(expectedType)) {
+            if (barCodeResult.getCodeType().equals(expectedType))
+            {
                 hasExpectedType = true;
             }
-            if (java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText)) {
+            if (java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText))
+            {
                 hasExpectedText = true;
             }
             if (barCodeResult.getCodeType().equals(expectedType)
-                    && java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText)) {
+                    && java.util.Objects.equals(barCodeResult.getCodeText(), expectedCodeText))
+            {
                 hasSameResultPair = true;
             }
         }
@@ -249,10 +250,7 @@ public class ExampleAssist
     }
 
 
-
-
-    public static void assertRecognizedSilent(BarCodeReader reader, int minCount, BaseDecodeType expected) throws Exception
-    {
+    public static void assertRecognizedSilent(BarCodeReader reader, int minCount, BaseDecodeType expected) throws Exception {
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertTrue(results.length >= minCount);
         if (expected != null)
@@ -262,8 +260,7 @@ public class ExampleAssist
         }
     }
 
-    public static void assertNotRecognized(BarCodeReader reader, String tag) throws Exception
-    {
+    public static void assertNotRecognized(BarCodeReader reader, String tag) throws Exception {
         // Auto-detect test name if tag not provided
         if (tag == null || tag.isEmpty())
         {
@@ -294,8 +291,7 @@ public class ExampleAssist
     }
 
 
-    public static String generateTestBarcode(String data, String imagesFolder, String fileName, BaseEncodeType type) throws IOException
-    {
+    public static String generateTestBarcode(String data, String imagesFolder, String fileName, BaseEncodeType type) throws IOException {
         BarcodeGenerator gen = new BarcodeGenerator(type, data);
         gen.getParameters().setResolution(300f);
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.3f);
@@ -306,8 +302,7 @@ public class ExampleAssist
         return fullPath;
     }
 
-    public static void generateAndRead(String folder, String fileName, String codeText, BaseEncodeType encodeType, BaseDecodeType decodeType) throws Exception
-    {
+    public static void generateAndRead(String folder, String fileName, String codeText, BaseEncodeType encodeType, BaseDecodeType decodeType) throws Exception {
         BarcodeGenerator g = new BarcodeGenerator(encodeType, codeText);
         String path = folder + "/" + fileName;
         g.save(path, BarCodeImageFormat.PNG);
@@ -340,18 +335,15 @@ public class ExampleAssist
     /**
      * Private constructor to prevent instantiation.
      */
-    private ExampleAssist()
-    {
+    private ExampleAssist() {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    public static String pathCombine(String folder, String image)
-    {
+    public static String pathCombine(String folder, String image) {
         return folder + "/" + image;
     }
 
-    public static String getCurrentMethodName()
-    {
+    public static String getCurrentMethodName() {
         StackTraceElement[] st = Thread.currentThread().getStackTrace();
         for (int i = 0; i < st.length; i++)
         {
@@ -365,8 +357,7 @@ public class ExampleAssist
     }
 
     // Returns the first frame outside ExampleAssist (robust against wrappers)
-    public static String currentMethodName()
-    {
+    public static String currentMethodName() {
         String helperClass = ExampleAssist.class.getName();
         return StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
                 .walk(stream -> stream
@@ -384,8 +375,7 @@ public class ExampleAssist
      * @param outputFullPath full path to output image (PNG)
      * @param stdDev         standard deviation of noise (e.g., 8..16). Higher → stronger noise.
      */
-    public static void addGaussianNoise(String inputFullPath, String outputFullPath, double stdDev) throws IOException
-    {
+    public static void addGaussianNoise(String inputFullPath, String outputFullPath, double stdDev) throws IOException {
         BufferedImage src = ImageIO.read(new File(inputFullPath));
         if (src == null)
         {
@@ -423,8 +413,7 @@ public class ExampleAssist
      * @param inputFullPath  full path to source image
      * @param outputFullPath full path to output image (PNG)
      */
-    public static void blur(String inputFullPath, String outputFullPath, float sigma) throws IOException
-    {
+    public static void blur(String inputFullPath, String outputFullPath, float sigma) throws IOException {
         // Separable Gaussian blur: one horizontal pass followed by one vertical pass.
         // Use sigma ≈ 0.9–1.2 to simulate a degraded but still recognizable image.
 
@@ -463,8 +452,7 @@ public class ExampleAssist
     }
 
 
-    private static float[] gaussianKernel1D(int size, float sigma)
-    {
+    private static float[] gaussianKernel1D(int size, float sigma) {
         float[] k = new float[size];
         int r = size / 2;
         float twoSigma2 = 2.0f * sigma * sigma;
@@ -485,13 +473,11 @@ public class ExampleAssist
 
 // ---- helpers (put them as private static inside ExampleAssist) ----
 
-    private static int clampToByte(int v)
-    {
+    private static int clampToByte(int v) {
         return (v < 0) ? 0 : (v > 255 ? 255 : v);
     }
 
-    private static Kernel gaussian3x3()
-    {
+    private static Kernel gaussian3x3() {
         // Simple normalized 3x3 Gaussian approximation
         float[] m = {
                 1f / 16f, 2f / 16f, 1f / 16f,
@@ -501,8 +487,7 @@ public class ExampleAssist
         return new Kernel(3, 3, m);
     }
 
-    private static Kernel gaussian5x5()
-    {
+    private static Kernel gaussian5x5() {
         // Simple normalized 5x5 Gaussian approximation
         float[] row = {1, 4, 6, 4, 1};
         float sum = 0;
@@ -528,8 +513,7 @@ public class ExampleAssist
      * Ensure that parent directories exist for the given file path.
      * Safe to call for already-existing directories.
      */
-    private static void ensureParentDirs(String fullPath) throws IOException
-    {
+    private static void ensureParentDirs(String fullPath) throws IOException {
         File f = new File(fullPath);
         File p = f.getAbsoluteFile().getParentFile();
         if (p != null && !p.exists() && !p.mkdirs())
@@ -539,8 +523,7 @@ public class ExampleAssist
     }
 
 
-    public static void upscaleBicubic(String inputFullPath, String outputFullPath, double scale) throws IOException
-    {
+    public static void upscaleBicubic(String inputFullPath, String outputFullPath, double scale) throws IOException {
         BufferedImage src = ImageIO.read(new File(inputFullPath));
         if (src == null)
         {
@@ -566,8 +549,7 @@ public class ExampleAssist
      * Inverts pixel colors (RGB) of the source image and writes to outPath.
      * Alpha channel is preserved.
      */
-    public static void invertColors(String srcPath, String outPath)
-    {
+    public static void invertColors(String srcPath, String outPath) {
         try
         {
             BufferedImage src = ImageIO.read(new File(srcPath));
@@ -624,8 +606,7 @@ public class ExampleAssist
      * @param targetWidthPx desired width in pixels (>= 1)
      * @throws IOException if read/write fails
      */
-    public static void downscaleNearest(String inPath, String outPath, int targetWidthPx) throws IOException
-    {
+    public static void downscaleNearest(String inPath, String outPath, int targetWidthPx) throws IOException {
         if (targetWidthPx < 1)
         {
             throw new IllegalArgumentException("targetWidthPx must be >= 1");
@@ -678,8 +659,7 @@ public class ExampleAssist
      * @param outPath       output image path (PNG)
      * @param targetWidthPx target width in pixels (>= 1)
      */
-    public static void downscaleNearestCrisp(String inPath, String outPath, int targetWidthPx) throws IOException
-    {
+    public static void downscaleNearestCrisp(String inPath, String outPath, int targetWidthPx) throws IOException {
         if (targetWidthPx < 1)
         {
             throw new IllegalArgumentException("targetWidthPx must be >= 1");
@@ -802,8 +782,7 @@ public class ExampleAssist
     public static void renderBarcodeFixedSizePNG(BaseEncodeType type, String text,
                                                  int widthPx, int heightPx,
                                                  float xDimPx, int quietPx,
-                                                 String outPath) throws IOException
-    {
+                                                 String outPath) throws IOException {
         if (widthPx < 20 || heightPx < 20)
         {
             throw new IllegalArgumentException("Image too small for rendering: " + widthPx + "x" + heightPx);
@@ -861,16 +840,14 @@ public class ExampleAssist
     /**
      * Returns true if file exists.
      */
-    public static boolean fileExists(String fullPath)
-    {
+    public static boolean fileExists(String fullPath) {
         return fullPath != null && Files.exists(Paths.get(fullPath));
     }
 
     /**
      * Simple filename extraction (no directories).
      */
-    public static String getFileName(String fullPath)
-    {
+    public static String getFileName(String fullPath) {
         if (fullPath == null)
         {
             return "";
@@ -883,16 +860,14 @@ public class ExampleAssist
     /**
      * Logs an informational message to stdout.
      */
-    public static void logInfo(String msg)
-    {
+    public static void logInfo(String msg) {
         System.out.println("[INFO] " + msg);
     }
 
     /**
      * Logs a warning message to stdout.
      */
-    public static void logWarn(String msg)
-    {
+    public static void logWarn(String msg) {
         System.out.println("[WARN] " + msg);
     }
 
@@ -900,8 +875,7 @@ public class ExampleAssist
      * Lists files in a directory by a glob like "*.png".
      * Returns absolute paths. If folder does not exist, returns empty array.
      */
-    public static String[] listFilesByGlob(String folder, String globPattern)
-    {
+    public static String[] listFilesByGlob(String folder, String globPattern) {
         java.util.List<String> out = new ArrayList<>();
         if (folder == null || globPattern == null)
         {
@@ -935,8 +909,7 @@ public class ExampleAssist
      * Asserts there is at least one result after recognition.
      * Reads barcodes internally if needed.
      */
-    public static void assertHasAnyResult(BarCodeReader reader, String labelForError)
-    {
+    public static void assertHasAnyResult(BarCodeReader reader, String labelForError) {
         reader.readBarCodes();
         Assert.assertTrue(reader.getFoundCount() > 0,
                 "Expected at least 1 result for: " + labelForError);
@@ -945,15 +918,13 @@ public class ExampleAssist
     /**
      * Asserts count==expected and text of the first result == expectedText.
      */
-    public static void assertRecognizedWithText(BarCodeReader reader, String labelForError, int expectedCount, String expectedText)
-    {
+    public static void assertRecognizedWithText(BarCodeReader reader, String labelForError, int expectedCount, String expectedText) {
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertEquals(results.length, expectedCount, "Unexpected count for: " + labelForError);
         Assert.assertEquals(results[0].getCodeText(), expectedText, "Unexpected text for: " + labelForError);
     }
 
-    public static int getCpuCount()
-    {
+    public static int getCpuCount() {
         try
         {
             return Runtime.getRuntime().availableProcessors();
@@ -964,8 +935,7 @@ public class ExampleAssist
         }
     }
 
-    public static boolean hasDecodeType(BarCodeResult[] results, BaseDecodeType type)
-    {
+    public static boolean hasDecodeType(BarCodeResult[] results, BaseDecodeType type) {
         for (BarCodeResult codeResult : results)
         {
             if (codeResult.getCodeType().equals(type))
@@ -976,14 +946,12 @@ public class ExampleAssist
         return false;
     }
 
-    public static void assertAngleClose(double actual, double expected, double tol, String msg)
-    {
+    public static void assertAngleClose(double actual, double expected, double tol, String msg) {
         Assert.assertTrue(Math.abs(actual - expected) <= tol,
                 msg + " (actual=" + actual + ", expected=" + expected + "±" + tol + ")");
     }
 
-    public static boolean containsPoint(Point[] arr, Point p)
-    {
+    public static boolean containsPoint(Point[] arr, Point p) {
         for (Point a : arr)
         {
             if (a.equals(p))
@@ -1007,8 +975,7 @@ public class ExampleAssist
      * @param degrees rotation angle in degrees (clockwise)
      * @return rotated image with a white background; canvas is expanded to fit
      */
-    public static BufferedImage rotateCenterCrispNN(BufferedImage src, double degrees)
-    {
+    public static BufferedImage rotateCenterCrispNN(BufferedImage src, double degrees) {
         double radians = Math.toRadians(degrees);
         double sin = Math.abs(Math.sin(radians));
         double cos = Math.abs(Math.cos(radians));
@@ -1055,8 +1022,7 @@ public class ExampleAssist
      * @param degrees rotation angle in degrees (clockwise)
      * @return rotated image with a white background; canvas is expanded to fit
      */
-    public static BufferedImage rotateCenterSmoothBilinear(BufferedImage src, double degrees)
-    {
+    public static BufferedImage rotateCenterSmoothBilinear(BufferedImage src, double degrees) {
         double radians = Math.toRadians(degrees);
 
         double sin = Math.abs(Math.sin(radians));
@@ -1092,8 +1058,7 @@ public class ExampleAssist
     }
 
     // Prints recognition metadata for a single result, using only actual getters present in SDK.
-    public static void printResultMetadata(BarCodeResult result, String prefix)
-    {
+    public static void printResultMetadata(BarCodeResult result, String prefix) {
         String p = (prefix == null || prefix.isEmpty()) ? "" : ("[" + prefix + "] ");
 
         // Generic fields
@@ -1160,16 +1125,25 @@ public class ExampleAssist
         }
     }
 
-    /** Factory for text-based expectation. */
+    /**
+     * Factory for text-based expectation.
+     */
     public static Expected expected(BaseDecodeType type, String expectedText) {
         Objects.requireNonNull(expectedText, "expectedText");
         return new Expected(type, CompareMode.TEXT, expectedText, null);
     }
 
-    /** Factory for byte-based expectation. */
+    /**
+     * Factory for byte-based expectation.
+     */
     public static Expected expected(BaseDecodeType type, byte[] expectedBytes) {
         Objects.requireNonNull(expectedBytes, "expectedBytes");
         return new Expected(type, CompareMode.BYTES, null, expectedBytes.clone());
+    }
+
+    public static Expected expectedPrefix(BaseDecodeType type, String requiredPrefix) {
+        Objects.requireNonNull(requiredPrefix, "requiredPrefix");
+        return new Expected(type, CompareMode.PREFIX, requiredPrefix, null);
     }
 
     /**
@@ -1181,7 +1155,7 @@ public class ExampleAssist
      * Assert that an image contains exactly {@code expectedCount} barcodes and that each {@link Expected}
      * is matched by a decoded barcode with the same type and either the same text (TEXT mode)
      * or identical bytes (BYTES mode). Order-independent; каждый найденный код используется один раз.
-     *
+     * <p>
      * Notes:
      * - No try-with-resources and no explicit close/dispose on BarCodeReader (project policy).
      */
@@ -1192,14 +1166,15 @@ public class ExampleAssist
         // 1) Hints: ускоряем распознавание подсказками по типам
         BaseDecodeType[] hints = (expectedList != null && !expectedList.isEmpty())
                 ? expectedList.stream().map(e -> e.type).distinct().toArray(BaseDecodeType[]::new)
-                : new BaseDecodeType[]{ DecodeType.ALL_SUPPORTED_TYPES };
+                : new BaseDecodeType[]{DecodeType.ALL_SUPPORTED_TYPES};
 
         BarCodeReader reader = new BarCodeReader(imagePath, hints);
         BarCodeResult[] results = reader.readBarCodes();
 
         // Debug print
         System.out.println("[assertImageHasBarcodes] file=" + imagePath);
-        for (BarCodeResult r : results) {
+        for (BarCodeResult r : results)
+        {
             System.out.println("  -> " + r.getCodeTypeName()
                     + " | text=\"" + r.getCodeText() + "\""
                     + " | bytes=0x" + hexPreview(r.getCodeBytes(), 32)
@@ -1211,7 +1186,8 @@ public class ExampleAssist
                 "Unexpected number of barcodes in: " + imagePath);
 
         // 3) Confidence bounds [0..100]
-        for (BarCodeResult r : results) {
+        for (BarCodeResult r : results)
+        {
             int conf = r.getConfidence();
             Assert.assertTrue(conf >= 0 && conf <= 100,
                     "Confidence out of bounds [0..100]: " + conf + " for " + r.getCodeTypeName());
@@ -1219,22 +1195,44 @@ public class ExampleAssist
 
         // 4) Greedy matching Expected -> Results (order-independent, каждый результат используется 1 раз)
         boolean[] used = new boolean[results.length];
-        for (Expected e : expectedList) {
+        for (Expected e : expectedList)
+        {
             boolean matched = false;
 
-            for (int i = 0; i < results.length; i++) {
-                if (used[i]) continue;
+            for (int i = 0; i < results.length; i++)
+            {
+                if (used[i])
+                {
+                    continue;
+                }
                 BarCodeResult r = results[i];
-                if (!r.getCodeType().equals(e.type)) continue;
+                if (!r.getCodeType().equals(e.type))
+                {
+                    continue;
+                }
 
-                if (e.mode == CompareMode.TEXT) {
-                    if (Objects.equals(r.getCodeText(), e.text)) {
+                if (e.mode == CompareMode.TEXT)
+                {
+                    if (Objects.equals(r.getCodeText(), e.text))
+                    {
                         used[i] = true;
                         matched = true;
                         break;
                     }
-                } else { // BYTES
-                    if (Arrays.equals(r.getCodeBytes(), e.bytes)) {
+                }
+                else if (e.mode == CompareMode.PREFIX)
+                {
+                    if (r.getCodeText() != null && r.getCodeText().startsWith(e.text))
+                    {
+                        used[i] = true;
+                        matched = true;
+                        break;
+                    }
+                }
+                else if (e.mode == CompareMode.BYTES)
+                {    // BYTES
+                    if (Arrays.equals(r.getCodeBytes(), e.bytes))
+                    {
                         used[i] = true;
                         matched = true;
                         break;
@@ -1242,10 +1240,14 @@ public class ExampleAssist
                 }
             }
 
-            if (!matched) {
-                if (e.mode == CompareMode.TEXT) {
+            if (!matched)
+            {
+                if (e.mode == CompareMode.TEXT)
+                {
                     Assert.fail("Expected pair not found (by text): type=" + e.type + " text=\"" + e.text + "\"");
-                } else {
+                }
+                else
+                {
                     Assert.fail("Expected pair not found (by bytes): type=" + e.type
                             + " bytes=0x" + hexPreview(e.bytes, 32));
                 }
@@ -1255,11 +1257,20 @@ public class ExampleAssist
 
     // helper for readable byte previews in diagnostics
     private static String hexPreview(byte[] bytes, int maxBytes) {
-        if (bytes == null) return "null";
+        if (bytes == null)
+        {
+            return "null";
+        }
         int n = Math.min(bytes.length, Math.max(0, maxBytes));
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) sb.append(String.format("%02X", bytes[i]));
-        if (bytes.length > n) sb.append("…");
+        for (int i = 0; i < n; i++)
+        {
+            sb.append(String.format("%02X", bytes[i]));
+        }
+        if (bytes.length > n)
+        {
+            sb.append("…");
+        }
         return sb.toString();
     }
 
