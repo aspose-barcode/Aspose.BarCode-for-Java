@@ -1185,37 +1185,54 @@ public class ExampleAssist
      *
      * <p>This keeps call sites concise and readable when building lists of expected pairs.
      */
+    @Deprecated
     public static SimpleEntry<BaseDecodeType, String> exp(BaseDecodeType type, String text) {
         return new SimpleEntry<>(type, text);
     }
 
+    /** Factory for text-based expectation. */
+    public static Expected expected(BaseDecodeType type, String expectedText) {
+        Objects.requireNonNull(expectedText, "expectedText");
+        return new Expected(type, CompareMode.TEXT, expectedText, null);
+    }
+
+    /** Factory for byte-based expectation. */
+    public static Expected expected(BaseDecodeType type, byte[] expectedBytes) {
+        Objects.requireNonNull(expectedBytes, "expectedBytes");
+        return new Expected(type, CompareMode.BYTES, null, expectedBytes.clone());
+    }
 
     /**
      * Verifies that an image contains exactly expectedCount barcodes and
      * at least the expected (type,text) pairs. Also softly checks Confidence ∈ [0..100].
      * Decode types are inferred from the expected pairs.
      */
+    /**
+     * Assert that an image contains exactly {@code expectedCount} barcodes and that each {@link Expected}
+     * is matched by a decoded barcode with the same type and either the same text (TEXT mode)
+     * or identical bytes (BYTES mode). Order-independent; каждый найденный код используется один раз.
+     *
+     * Notes:
+     * - No try-with-resources and no explicit close/dispose on BarCodeReader (project policy).
+     */
     public static void assertImageHasBarcodes(String imagePath,
                                               int expectedCount,
-                                              List<SimpleEntry<BaseDecodeType, String>> expectedPairs) throws Exception {
-        // 1) Collect decode hints from expectations
-        BaseDecodeType[] expectedDecodeTypes = expectedPairs.stream()
-                //for every element of stream call method getKey()
-                .map(SimpleEntry::getKey)
-                .distinct()
-                .sorted(Comparator.comparing(BaseDecodeType::toString))
-                .toArray(BaseDecodeType[]::new);
+                                              List<Expected> expectedList) throws Exception {
 
-        BarCodeReader reader = (expectedDecodeTypes.length > 0)
-                ? new BarCodeReader(imagePath, expectedDecodeTypes)
-                : new BarCodeReader(imagePath); // fallback if no hints
+        // 1) Hints: ускоряем распознавание подсказками по типам
+        BaseDecodeType[] hints = (expectedList != null && !expectedList.isEmpty())
+                ? expectedList.stream().map(e -> e.type).distinct().toArray(BaseDecodeType[]::new)
+                : new BaseDecodeType[]{ DecodeType.ALL_SUPPORTED_TYPES };
 
+        BarCodeReader reader = new BarCodeReader(imagePath, hints);
         BarCodeResult[] results = reader.readBarCodes();
 
-        // Print for debug
+        // Debug print
         System.out.println("[assertImageHasBarcodes] file=" + imagePath);
         for (BarCodeResult r : results) {
-            System.out.println("  -> " + r.getCodeTypeName() + " | " + r.getCodeText()
+            System.out.println("  -> " + r.getCodeTypeName()
+                    + " | text=\"" + r.getCodeText() + "\""
+                    + " | bytes=0x" + hexPreview(r.getCodeBytes(), 32)
                     + " | confidence=" + r.getConfidence());
         }
 
@@ -1223,27 +1240,59 @@ public class ExampleAssist
         Assert.assertEquals(results.length, expectedCount,
                 "Unexpected number of barcodes in: " + imagePath);
 
-        // 3) Soft confidence bounds [0..100]
+        // 3) Confidence bounds [0..100]
         for (BarCodeResult r : results) {
             int conf = r.getConfidence();
             Assert.assertTrue(conf >= 0 && conf <= 100,
                     "Confidence out of bounds [0..100]: " + conf + " for " + r.getCodeTypeName());
         }
 
-        // 4) Each expected (type,text) pair must be present at least once
-        for (SimpleEntry<BaseDecodeType, String> exp : expectedPairs) {
-            boolean found = false;
-            for (BarCodeResult r : results) {
-                if (r.getCodeType().equals(exp.getKey())
-                        && java.util.Objects.equals(r.getCodeText(), exp.getValue())) {
-                    found = true;
-                    break;
+        // 4) Greedy matching Expected -> Results (order-independent, каждый результат используется 1 раз)
+        boolean[] used = new boolean[results.length];
+        for (Expected e : expectedList) {
+            boolean matched = false;
+
+            for (int i = 0; i < results.length; i++) {
+                if (used[i]) continue;
+                BarCodeResult r = results[i];
+                if (!r.getCodeType().equals(e.type)) continue;
+
+                if (e.mode == CompareMode.TEXT) {
+                    if (Objects.equals(r.getCodeText(), e.text)) {
+                        used[i] = true;
+                        matched = true;
+                        break;
+                    }
+                } else { // BYTES
+                    if (Arrays.equals(r.getCodeBytes(), e.bytes)) {
+                        used[i] = true;
+                        matched = true;
+                        break;
+                    }
                 }
             }
-            Assert.assertTrue(found,
-                    "Expected pair not found: type=" + exp.getKey() + " text=" + exp.getValue());
+
+            if (!matched) {
+                if (e.mode == CompareMode.TEXT) {
+                    Assert.fail("Expected pair not found (by text): type=" + e.type + " text=\"" + e.text + "\"");
+                } else {
+                    Assert.fail("Expected pair not found (by bytes): type=" + e.type
+                            + " bytes=0x" + hexPreview(e.bytes, 32));
+                }
+            }
         }
     }
+
+    // helper for readable byte previews in diagnostics
+    private static String hexPreview(byte[] bytes, int maxBytes) {
+        if (bytes == null) return "null";
+        int n = Math.min(bytes.length, Math.max(0, maxBytes));
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) sb.append(String.format("%02X", bytes[i]));
+        if (bytes.length > n) sb.append("…");
+        return sb.toString();
+    }
+
 
     // --- helper: file must exist and be non-empty ---
     public static void assertFileCreated(String fullPath) throws Exception {
@@ -1251,5 +1300,4 @@ public class ExampleAssist
         Assert.assertTrue(Files.exists(p), "Output not created: " + fullPath);
         Assert.assertTrue(Files.size(p) > 0, "Output is empty: " + fullPath);
     }
-
 }
