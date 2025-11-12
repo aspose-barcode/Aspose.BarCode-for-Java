@@ -1,13 +1,9 @@
 package com.aspose.barcode.guide.generation.visual_parameters;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
-import com.aspose.barcode.guide.common.Expected;
-import com.aspose.barcode.guide.common.CompareMode;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -62,7 +58,7 @@ public class UseUnitExample {
      * <p><b>Expected:</b> One CODE_128 with text "UNIT-PX".</p>
      */
     @Test
-    public void unit_pixels_for_canvas_and_bars() throws Exception {
+    public void unitPixelsForCanvasAndBars() throws Exception {
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, "UNIT-PX");
 
         // Canvas size (pixels)
@@ -106,7 +102,7 @@ public class UseUnitExample {
      * <p><b>Expected:</b> One CODE_128 with text "UNIT-MM". Additionally, we assert approximate pixel values.</p>
      */
     @Test
-    public void unit_millimeters_with_custom_dpi() throws Exception {
+    public void unitMillimetersWithCustomDpi() throws Exception {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "UNIT-MM");
 
         // Access units
@@ -156,7 +152,7 @@ public class UseUnitExample {
      * <p><b>Expected:</b> One EAN_13 with text "5901234123457".</p>
      */
     @Test
-    public void unit_points_and_inches_for_padding() throws Exception {
+    public void unitPointsAndInchesForPadding() throws Exception {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
 
         Unit padL = gen.getParameters().getBarcode().getPadding().getLeft();
@@ -193,7 +189,7 @@ public class UseUnitExample {
      * <p><b>Expected:</b> One QR with text "UNIT-INCH".</p>
      */
     @Test
-    public void unit_inches_for_qr_module() throws Exception {
+    public void unitInchesForQrModule() throws Exception {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "UNIT-INCH");
 
         // Make modules 0.01" wide; adjust other visual params if needed
