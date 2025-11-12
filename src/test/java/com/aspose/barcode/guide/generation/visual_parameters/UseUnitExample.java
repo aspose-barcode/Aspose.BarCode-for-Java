@@ -103,11 +103,11 @@ public class UseUnitExample {
      */
     @Test
     public void unitMillimetersWithCustomDpi() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "UNIT-MM");
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, "UNIT-MM");
 
         // Access units
-        Unit barHeight = gen.getParameters().getBarcode().getBarHeight();
-        Unit xdim      = gen.getParameters().getBarcode().getXDimension();
+        Unit barHeight = generator.getParameters().getBarcode().getBarHeight();
+        Unit xdim      = generator.getParameters().getBarcode().getXDimension();
 
         // Set conversion DPI for these units
         barHeight.updateResolution(300f);
@@ -130,7 +130,7 @@ public class UseUnitExample {
                 "X-dimension (px) unexpected: " + xdimPx);
 
         String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_C128_MM_BARS);
-        gen.save(fullPath, BarCodeImageFormat.PNG);
+        generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
         assertImageHasBarcodes(
@@ -153,12 +153,12 @@ public class UseUnitExample {
      */
     @Test
     public void unitPointsAndInchesForPadding() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
 
-        Unit padL = gen.getParameters().getBarcode().getPadding().getLeft();
-        Unit padR = gen.getParameters().getBarcode().getPadding().getRight();
-        Unit padT = gen.getParameters().getBarcode().getPadding().getTop();
-        Unit padB = gen.getParameters().getBarcode().getPadding().getBottom();
+        Unit padL = generator.getParameters().getBarcode().getPadding().getLeft();
+        Unit padR = generator.getParameters().getBarcode().getPadding().getRight();
+        Unit padT = generator.getParameters().getBarcode().getPadding().getTop();
+        Unit padB = generator.getParameters().getBarcode().getPadding().getBottom();
 
         // Use default DPI for points/inches unless your pipeline mandates specific DPI.
         padL.setPoint(12f);
@@ -167,7 +167,7 @@ public class UseUnitExample {
         padB.setInches(0.1f);
 
         String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_PT_IN_PAD);
-        gen.save(fullPath, BarCodeImageFormat.PNG);
+        generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
         assertImageHasBarcodes(
