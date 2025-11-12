@@ -190,28 +190,28 @@ public class UseUnitExample {
      */
     @Test
     public void unitInchesForQrModule() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "UNIT-INCH");
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "UNIT-INCH");
 
-        Unit xdim = gen.getParameters().getBarcode().getXDimension();
-        xdim.updateResolution(300f);
-        xdim.setInches(0.01f);
+        Unit xDimension = generator.getParameters().getBarcode().getXDimension();
+        xDimension.updateResolution(300f);
+        xDimension.setInches(0.01f);
 
-        gen.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
-        gen.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
-        gen.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_01);
+        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_01);
 
-        int quietPx = Math.max(12, Math.round(xdim.getPixels() * 4));
-        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(quietPx);
-        gen.getParameters().getBarcode().getPadding().getRight().setPixels(quietPx);
-        gen.getParameters().getBarcode().getPadding().getTop().setPixels(quietPx);
-        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(quietPx);
+        int quietPx = Math.max(12, Math.round(xDimension.getPixels() * 4));
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(quietPx);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(quietPx);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(quietPx);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(quietPx);
 
 
-        gen.getParameters().getImageWidth().setPixels(240);
-        gen.getParameters().getImageHeight().setPixels(240);
+        generator.getParameters().getImageWidth().setPixels(240);
+        generator.getParameters().getImageHeight().setPixels(240);
 
         String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_INCH_XDIM);
-        gen.save(fullPath, BarCodeImageFormat.PNG);
+        generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
         assertImageHasBarcodes(
