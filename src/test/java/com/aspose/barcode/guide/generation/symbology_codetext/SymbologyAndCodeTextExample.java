@@ -79,7 +79,7 @@ public class SymbologyAndCodeTextExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.CODE_128, "C128-SIMPLE"))
+                List.of(expected(DecodeType.CODE_128, "C128-SIMPLE"))
         );
     }
 
@@ -112,7 +112,7 @@ public class SymbologyAndCodeTextExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.QR, "車種名"))
+                List.of(expected(DecodeType.QR, "車種名"))
         );
     }
 
@@ -135,31 +135,30 @@ public class SymbologyAndCodeTextExample {
         generator.setCodeText(payload);
 
         // IMPORTANT for raw bytes:
-        // 1) Force BYTE mode
-        // 2) Set ECI to UTF-8 so scanners interpret the bytes correctly
         generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.BYTES);
         generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
         generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
 
-        // Save image
+        // Save
         String full = pathCombine(FOLDER, FILE_QR_BYTES);
         generator.save(full, BarCodeImageFormat.PNG);
         assertFileCreated(full);
 
-        // Byte-level assertion (order-independent, compares codeBytes)
+        // Assert by BYTES (order-independent)
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(expBytes(DecodeType.QR, payload))
+                List.of(expected(DecodeType.QR, payload))
         );
 
-        // Optional: extra explicit round-trip checks (still без try-with-resources и без close())
+        // (Optional) additional explicit checks
         BarCodeReader reader = new BarCodeReader(full, DecodeType.QR);
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertEquals(results.length, 1, "Expected exactly 1 QR");
         Assert.assertEquals(results[0].getCodeType(), DecodeType.QR, "Decode type must be QR");
         Assert.assertEquals(results[0].getCodeBytes(), payload, "QR payload bytes must round-trip exactly");
     }
+
 
 
     /**
@@ -195,7 +194,7 @@ public class SymbologyAndCodeTextExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.QR, "QR-PARAMS"))
+                List.of(expected(DecodeType.QR, "QR-PARAMS"))
         );
     }
 
@@ -229,7 +228,7 @@ public class SymbologyAndCodeTextExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.DATA_MATRIX, "DM-PARAMS"))
+                List.of(expected(DecodeType.DATA_MATRIX, "DM-PARAMS"))
         );
     }
 
@@ -267,7 +266,7 @@ public class SymbologyAndCodeTextExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.MACRO_PDF_417, "PDF417-MACRO"))
+                List.of(expected(DecodeType.MACRO_PDF_417, "PDF417-MACRO"))
         );
     }
 
@@ -296,7 +295,7 @@ public class SymbologyAndCodeTextExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.GS_1_CODE_128, "(01)03453120000011(10)ABC123(17)251231"))
+                List.of(expected(DecodeType.GS_1_CODE_128, "(01)03453120000011(10)ABC123(17)251231"))
         );
     }
 }
