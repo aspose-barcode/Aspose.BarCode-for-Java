@@ -192,21 +192,25 @@ public class UseUnitExample {
     public void unitInchesForQrModule() throws Exception {
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "UNIT-INCH");
 
+        // 1) Make the module physically reasonable:
+        //    0.01" at 300 dpi ≈ 3 px per module (reliably decodable).
         Unit xDimension = generator.getParameters().getBarcode().getXDimension();
-        xDimension.updateResolution(300f);
-        xDimension.setInches(0.01f);
+        xDimension.updateResolution(300f);   // ensure inch-to-pixel conversion uses 300 dpi
+        xDimension.setInches(0.01f);         // ≈ 3 px per module at 300 dpi
 
+        // 2) Recommended QR settings for robustness.
         generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
         generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
-        generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_01);
+        generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_01); // compact symbol size
 
+        // 3) Quiet zone: ~4 modules on each side (with a minimum safety margin of 12 px).
         int quietPx = Math.max(12, Math.round(xDimension.getPixels() * 4));
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(quietPx);
         generator.getParameters().getBarcode().getPadding().getRight().setPixels(quietPx);
         generator.getParameters().getBarcode().getPadding().getTop().setPixels(quietPx);
         generator.getParameters().getBarcode().getPadding().getBottom().setPixels(quietPx);
 
-
+        // 4) Explicit canvas size to avoid tight auto-fit near borders.
         generator.getParameters().getImageWidth().setPixels(240);
         generator.getParameters().getImageHeight().setPixels(240);
 
@@ -220,5 +224,6 @@ public class UseUnitExample {
                 List.of(expected(DecodeType.QR, "UNIT-INCH"))
         );
     }
+
 
 }
