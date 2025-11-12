@@ -26,10 +26,6 @@ import static com.aspose.barcode.guide.common.ExampleAssist.*;
  * - Generates a barcode to a deterministic file path
  * - Uses ExampleAssist utilities: pathCombine(), assertFileCreated(), assertImageHasBarcodes(), exp()
  * - Verifies recognition using DecodeType + expected code text
- *
- * Note:
- * The visual/layout parameters (image size, colors, rotation, quiet zones) are moved into
- * ImageAndLayoutParametersExample to keep this class purely about Symbology & Code Text.
  */
 public class SymbologyAndCodeTextExample {
 
