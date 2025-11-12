@@ -1163,7 +1163,6 @@ public class ExampleAssist {
                                               int expectedCount,
                                               List<Expected> expectedList) throws Exception {
 
-        // 1) Hints: ускоряем распознавание подсказками по типам
         BaseDecodeType[] hints = (expectedList != null && !expectedList.isEmpty())
                 ? expectedList.stream().map(e -> e.type).distinct().toArray(BaseDecodeType[]::new)
                 : new BaseDecodeType[]{DecodeType.ALL_SUPPORTED_TYPES};
@@ -1193,18 +1192,15 @@ public class ExampleAssist {
                     "Confidence out of bounds [0..100]: " + conf + " for " + r.getCodeTypeName());
         }
 
-        // 4) Greedy matching Expected -> Results (order-independent, каждый результат используется 1 раз)
+        // 4) Greedy matching Expected -> Results (order-independent; each result used once)
         boolean[] used = new boolean[results.length];
-        for (Expected e : expectedList)
+        for (Expected e : (expectedList == null ? java.util.List.<Expected>of() : expectedList))
         {
             boolean matched = false;
 
             for (int i = 0; i < results.length; i++)
             {
-                if (used[i])
-                {
-                    continue;
-                }
+                if (used[i]) continue;
                 BarCodeResult r = results[i];
                 if (!r.getCodeType().equals(e.type))
                 {
@@ -1213,72 +1209,88 @@ public class ExampleAssist {
 
                 if (e.mode == CompareMode.TEXT)
                 {
-                    if (Objects.equals(r.getCodeText(), e.text))
+                    if (java.util.Objects.equals(r.getCodeText(), e.text))
                     {
                         used[i] = true;
                         matched = true;
                         break;
                     }
-                }
-                else if (e.mode == CompareMode.PREFIX)
-                {
-                    if (r.getCodeText() != null && r.getCodeText().startsWith(e.text))
+                } else
+                    if (e.mode == CompareMode.PREFIX)
                     {
-                        used[i] = true;
-                        matched = true;
-                        break;
-                    }
-                }
-                else if (e.mode == CompareMode.BYTES)
-                {    // BYTES
-                    if (Arrays.equals(r.getCodeBytes(), e.bytes))
-                    {
-                        used[i] = true;
-                        matched = true;
-                        break;
-                    }
-                }
+                        String t = r.getCodeText();
+                        if (t != null && t.startsWith(e.text))
+                        {
+                            used[i] = true;
+                            matched = true;
+                            break;
+                        }
+                    } else
+                        if (e.mode == CompareMode.BYTES)
+                        {
+                            if (java.util.Arrays.equals(r.getCodeBytes(), e.bytes))
+                            {
+                                used[i] = true;
+                                matched = true;
+                                break;
+                            }
+                        } else
+                        {
+                            org.testng.Assert.fail("Unknown CompareMode: " + e.mode);
+                        }
             }
 
             if (!matched)
             {
+                // collect some diagnostic information for a clear message
+                java.util.List<String> seenTexts = new java.util.ArrayList<>();
+                for (BarCodeResult r : results)
+                    if (r.getCodeType().equals(e.type)) seenTexts.add(String.valueOf(r.getCodeText()));
+
                 if (e.mode == CompareMode.TEXT)
                 {
-                    Assert.fail("Expected pair not found (by text): type=" + e.type + " text=\"" + e.text + "\"");
-                }
-                else
-                {
-                    Assert.fail("Expected pair not found (by bytes): type=" + e.type
-                            + " bytes=0x" + hexPreview(e.bytes, 32));
-                }
+                    org.testng.Assert.fail("Expected pair not found (by text): type=" + e.type +
+                            " text=\"" + e.text + "\". Seen texts: " + seenTexts);
+                } else
+                    if (e.mode == CompareMode.PREFIX)
+                    {
+                        org.testng.Assert.fail("Expected pair not found (by prefix): type=" + e.type +
+                                " prefix=\"" + e.text + "\". Seen texts: " + seenTexts);
+                    } else
+                        if (e.mode == CompareMode.BYTES)
+                        {
+                            // show the hex of expected and first found bytes of the same type
+                            String expectedHex = hexPreview(e.bytes, 32);
+                            java.util.List<String> seenHex = new java.util.ArrayList<>();
+                            for (BarCodeResult r : results)
+                                if (r.getCodeType().equals(e.type))
+                                    seenHex.add(hexPreview(r.getCodeBytes(), 32));
+                            org.testng.Assert.fail("Expected pair not found (by bytes): type=" + e.type +
+                                    " bytes=0x" + expectedHex + ". Seen bytes: " + seenHex);
+                        }
             }
         }
     }
 
-    // helper for readable byte previews in diagnostics
-    private static String hexPreview(byte[] bytes, int maxBytes) {
-        if (bytes == null)
-        {
-            return "null";
-        }
-        int n = Math.min(bytes.length, Math.max(0, maxBytes));
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++)
-        {
-            sb.append(String.format("%02X", bytes[i]));
-        }
-        if (bytes.length > n)
-        {
-            sb.append("…");
-        }
-        return sb.toString();
-    }
 
 
-    // --- helper: file must exist and be non-empty ---
+        // --- helper: file must exist and be non-empty ---
     public static void assertFileCreated(String fullPath) throws Exception {
         Path p = Paths.get(fullPath);
         Assert.assertTrue(Files.exists(p), "Output not created: " + fullPath);
         Assert.assertTrue(Files.size(p) > 0, "Output is empty: " + fullPath);
     }
+
+    // Pretty-print the first N bytes of a byte[] as hex; append "…" if truncated.
+    private static String hexPreview(byte[] bytes, int maxBytes) {
+        if (bytes == null) return "null";
+        int n = Math.min(bytes.length, Math.max(0, maxBytes)); // clamp to [0..len]
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(String.format("%02X", bytes[i])); // two hex digits per byte
+        }
+        if (bytes.length > n) sb.append("…"); // indicate truncation
+        return sb.toString();
+    }
+
 }
