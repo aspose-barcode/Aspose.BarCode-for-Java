@@ -1,9 +1,8 @@
-package com.aspose.barcode.guide.generation;
+package com.aspose.barcode.guide.generation.symbology_codetext;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
-import com.aspose.barcode.barcoderecognition.QRExtendedParameters;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
@@ -135,29 +134,33 @@ public class SymbologyAndCodeTextExample {
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
         generator.setCodeText(payload);
 
-        // IMPORTANT: Set ECI to UTF-8 so scanners interpret raw bytes correctly
+        // IMPORTANT for raw bytes:
+        // 1) Force BYTE mode
+        // 2) Set ECI to UTF-8 so scanners interpret the bytes correctly
+        generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.BYTES);
         generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
         generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
 
-        // Save & verify the human-readable text reconstructed from bytes
+        // Save image
         String full = pathCombine(FOLDER, FILE_QR_BYTES);
         generator.save(full, BarCodeImageFormat.PNG);
         assertFileCreated(full);
 
-        String expectedTextUtf8 = new String(payload, StandardCharsets.UTF_8);
+        // Byte-level assertion (order-independent, compares codeBytes)
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.QR, expectedTextUtf8))
+                List.of(expBytes(DecodeType.QR, payload))
         );
 
-        // Round-trip check of raw bytes (no try-with-resources, no close())
+        // Optional: extra explicit round-trip checks (still без try-with-resources и без close())
         BarCodeReader reader = new BarCodeReader(full, DecodeType.QR);
         BarCodeResult[] results = reader.readBarCodes();
-        Assert.assertTrue(results.length >= 1, "Expected at least 1 QR");
-        byte[] readBytes = results[0].getCodeBytes();
-        Assert.assertEquals(readBytes, payload, "QR payload bytes must round-trip exactly");
+        Assert.assertEquals(results.length, 1, "Expected exactly 1 QR");
+        Assert.assertEquals(results[0].getCodeType(), DecodeType.QR, "Decode type must be QR");
+        Assert.assertEquals(results[0].getCodeBytes(), payload, "QR payload bytes must round-trip exactly");
     }
+
 
     /**
      * Demonstrates QR-specific parameters: error correction level and fixed version.
