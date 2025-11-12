@@ -73,7 +73,7 @@ public class ImageAndLayoutParametersExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.CODE_128, "SIZE-COLOR-PADDING"))
+                List.of(expected(DecodeType.CODE_128, "SIZE-COLOR-PADDING"))
         );
     }
 
@@ -100,7 +100,7 @@ public class ImageAndLayoutParametersExample {
         assertImageHasBarcodes(
                 full,
                 1,
-                List.of(exp(DecodeType.EAN_13, "5901234123457"))
+                List.of(expected(DecodeType.EAN_13, "5901234123457"))
         );
     }
 }
