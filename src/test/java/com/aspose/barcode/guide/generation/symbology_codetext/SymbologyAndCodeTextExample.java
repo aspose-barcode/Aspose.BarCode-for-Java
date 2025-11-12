@@ -130,30 +130,26 @@ public class SymbologyAndCodeTextExample {
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
         generator.setCodeText(payload);
 
-        // IMPORTANT for raw bytes:
+        // for raw bytes: force BYTE mode + set ECI to UTF-8
         generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.BYTES);
         generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
         generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
 
-        // Save
         String full = pathCombine(FOLDER, FILE_QR_BYTES);
         generator.save(full, BarCodeImageFormat.PNG);
         assertFileCreated(full);
 
-        // Assert by BYTES (order-independent)
-        assertImageHasBarcodes(
-                full,
-                1,
-                List.of(expected(DecodeType.QR, payload))
-        );
+       //compare by BYTES via ExampleAssist.expected(...)
+        assertImageHasBarcodes(full,1,List.of(expected(DecodeType.QR, payload)));
 
-        // (Optional) additional explicit checks
+        // (Optional) extra explicit checks — без try-with-resources и без close()
         BarCodeReader reader = new BarCodeReader(full, DecodeType.QR);
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertEquals(results.length, 1, "Expected exactly 1 QR");
         Assert.assertEquals(results[0].getCodeType(), DecodeType.QR, "Decode type must be QR");
         Assert.assertEquals(results[0].getCodeBytes(), payload, "QR payload bytes must round-trip exactly");
     }
+
 
 
 
