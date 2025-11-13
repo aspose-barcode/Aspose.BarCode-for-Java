@@ -36,17 +36,17 @@ public class CustomizingSizeExample {
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("generation", "visual_parameters","customizing_size");
 
-    private static final String FILE_C128_XDIM_PX      = "c128_xdim_px.png";
-    private static final String FILE_C128_BAR_MM_300DPI= "c128_bar_mm_300dpi.png";
+    private static final String FILE_C128_XDIM_PX       = "c128_xdim_px.png";
+    private static final String FILE_C128_BAR_MM_300DPI = "c128_bar_mm_300dpi.png";
     private static final String FILE_EAN13_AUTOSIZE_NONE= "ean13_autosize_none.png";
     private static final String FILE_EAN13_AUTOSIZE_NEAR= "ean13_autosize_nearest.png";
     private static final String FILE_AUSPOST_SHORTBAR   = "auspost_shortbar.png";
-    private static final String FILE_QR_XDIMENSION   = "qr_xdim_mm_203dpi.png";
+    private static final String FILE_QR_XDIMENSION      = "qr_xdim_mm_203dpi.png";
     private static final String FILE_EAN13_QUIET_ZONE   = "ean13_quiet_mm_300dpi.png";
-    private static final String FILE_UPCA_INTERPOLATION   = "upca_interpolation.png";
-    private static final String FILE_ROWS_COLUMNS_RATIO   = "pdf417_rows_cols_ratio.png";
-    private static final String FILE_DM_VERSION_XDIM   = "dm_version_xdim_px.png";
-    private static final String FILE_ITF14_BEARER   = "itf14_bearer_mm_300dpi.png";
+    private static final String FILE_UPCA_INTERPOLATION = "upca_interpolation.png";
+    private static final String FILE_ROWS_COLUMNS_RATIO = "pdf417_rows_cols_ratio.png";
+    private static final String FILE_DM_VERSION_XDIM    = "dm_version_xdim_px.png";
+    private static final String FILE_ITF14_BEARER       = "itf14_bearer_mm_300dpi.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -54,19 +54,19 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Demonstrates controlling {@code XDimension} directly in pixels (no DPI involved).
+     * # CODE 128: fix **XDimension in pixels**
      *
-     * <p><b>Goal:</b> Show that using {@code setPixels(...)} sets the smallest bar/module width
-     * to an exact pixel value and is independent of DPI conversion.</p>
-     *
-     * <p><b>What we do:</b></p>
+     * <b>Shows:</b>
      * <ul>
-     *   <li>CODE_128 with text "XDIM-PX"</li>
-     *   <li>{@code XDimension = 3 px}</li>
-     *   <li>Reasonable canvas and padding to avoid clipping</li>
+     *   <li>How to set the smallest module/bar width directly in <b>pixels</b> using {@code Unit.setPixels(...)}.</li>
+     *   <li>Why DPI is <b>not involved</b> when you specify pixels — you get exact raster control.</li>
      * </ul>
      *
-     * <p><b>Expected:</b> 1 barcode of type CODE_128 with the specified code text.</p>
+     * <b>Key settings:</b> {@code XDimension = 3 px}, reasonable bar height and paddings to avoid clipping.
+     *
+     * <b>Expected:</b> one {@code CODE_128} with the text {@code XDIM-PX}.
+     *
+     * <b>Gotchas:</b> using {@code XDimension < 2 px} often leads to antialiasing blur in PNGs.
      */
     @Test
     public void xdimensionPixels_forCode128() throws Exception {
@@ -100,19 +100,19 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Demonstrates controlling 1D bar height in millimeters with explicit DPI to get predictable pixels.
+     * # CODE 128: set 1D bar height in **millimeters @300 dpi**
      *
-     * <p><b>Goal:</b> Set physical bar height and verify approximate pixel conversion via DPI.</p>
-     *
-     * <p><b>What we do:</b></p>
+     * <b>Shows:</b>
      * <ul>
-     *   <li>CODE_128 with text "BAR-MM"</li>
-     *   <li>{@code BarHeight = 12 mm} at {@code 300 dpi} → ≈ 142 px</li>
-     *   <li>{@code XDimension = 0.5 mm} at {@code 300 dpi} → ≈ 6 px</li>
+     *   <li>How to define physical size via {@code setMillimeters(...)} and get predictable pixels with {@code updateResolution(dpi)}.</li>
+     *   <li>Pixel checks for sanity: {@code 12 mm @300 dpi ≈ 142 px}, {@code 0.5 mm @300 dpi ≈ 6 px}.</li>
      * </ul>
      *
-     * <p><b>Expected:</b> 1 barcode of type CODE_128 with the specified code text, and
-     * pixel values in a tolerant range.</p>
+     * <b>Key settings:</b> both bar height and XDimension units set to {@code 300 dpi} before assigning mm.
+     *
+     * <b>Expected:</b> one {@code CODE_128} with text {@code BAR-MM}, pixel values within tolerant ranges (asserted).
+     *
+     * <b>Gotchas:</b> forgetting {@code updateResolution(...)} will keep default DPI (likely 96), breaking mm→px math.
      */
     @Test
     public void barHeightMillimeters_at300dpi() throws Exception {
@@ -153,20 +153,19 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Shows the difference between {@code AutoSizeMode.NONE} (no automatic resampling)
-     * and {@code AutoSizeMode.NEAREST} (engine may pick nearest pixel sizes to fit canvas).
+     * # EAN-13 and **AutoSizeMode**: NONE vs NEAREST
      *
-     * <p><b>Goal:</b> Demonstrate that auto-size mode can influence effective layout and rasterization,
-     * while keeping payload and decode stable.</p>
-     *
-     * <p><b>What we do:</b></p>
+     * <b>Shows:</b>
      * <ul>
-     *   <li>Two EAN-13 with the same text</li>
-     *   <li>Small fixed canvas with tight padding to force differences in sizing strategy</li>
-     *   <li>Generate with {@code NONE} and with {@code NEAREST}</li>
+     *   <li>How {@code AutoSizeMode} can change the effective rasterization when the canvas is tight.</li>
+     *   <li>{@code NONE} = no resampling; {@code NEAREST} = engine may snap to nearest integer pixel sizes.</li>
      * </ul>
      *
-     * <p><b>Expected:</b> Both are decodable as EAN_13 with the same code text.</p>
+     * <b>Key settings:</b> identical payload/canvas/paddings/XDimension, only {@code AutoSizeMode} differs.
+     *
+     * <b>Expected:</b> both images decode as {@code EAN_13} with the same text.
+     *
+     * <b>Gotchas:</b> very small canvases + {@code NEAREST} may slightly alter the effective x-dim (±1 px).
      */
     @Test
     public void autoSizeModes_none_vs_nearest() throws Exception {
@@ -214,7 +213,7 @@ public class CustomizingSizeExample {
                 List.of(expected(DecodeType.EAN_13, code))
         );
 
-        // Optional: ensure both decode the same string (smoke check with the reader)
+        // Optional: smoke-check via reader
         BarCodeReader r1 = new BarCodeReader(nonePath, DecodeType.EAN_13);
         BarCodeResult[] a = r1.readBarCodes();
         Assert.assertTrue(a.length >= 1 && code.equals(a[0].getCodeText()));
@@ -225,35 +224,24 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Symbology-specific size parameter: Australian Post short bar height.
-     *<p>Uses a valid Australia Post payload: first two digits are the Format Control Code (FCC).
-     *  Valid FCC values: 11, 45, 59, 62, 87, 92. Here we use 59, followed by an 8-digit DPID.</p>
-     * <p><b>Goal:</b> Show where to set the short bar height (a specific visual parameter for Australian Post),
-     * using {@link Unit} in millimeters with DPI for predictable pixels.</p>
+     * # Australia Post: short bar height in **mm @300 dpi**
      *
-     * <p><b>Notes:</b> Property name can differ between SDK versions. In many builds it is exposed
-     * via {@code getParameters().getBarcode().getAustralianPost().getAustralianPostShortBarHeight()} (a {@link Unit}).
-     *
-     * <p><b>What we do:</b></p>
+     * <b>Shows:</b>
      * <ul>
-     *   <li>Encode an Australian Post payload (example text)</li>
-     *   <li>Set short bar height = 3.0 mm at 300 dpi</li>
-     *   <li>Keep reasonable padding and canvas</li>
+     *   <li>Where to set the symbology-specific short bar height via a {@link Unit} with physical units.</li>
+     *   <li>Why a valid FCC is required: here we use {@code "59"} + 8-digit DPID (example payload).</li>
+     *   <li>Why explicit XDimension, bar height, and generous quiet zones help decoding.</li>
      * </ul>
      *
-     * <p><b>Expected:</b> 1 barcode of type AUSTRALIA_POST with the specified code text.</p>
-     */
-    /**
-     * Symbology-specific size parameter: Australian Post short bar height
-     * with robust raster settings so the reader can detect it reliably.
-     *
-     * <p>Key points:</p>
+     * <b>Key settings:</b>
      * <ul>
-     *   <li>Valid FCC in the payload (here: "59")</li>
-     *   <li>Explicit XDimension (2 px) and overall bar height (80 px)</li>
-     *   <li>Short bar height set in millimeters with DPI for predictable pixels</li>
-     *   <li>Generous quiet zones and fixed canvas</li>
+     *   <li>{@code shortBar.updateResolution(300); shortBar.setMillimeters(3.0f);}</li>
+     *   <li>{@code AutoSizeMode.NONE}, visible bar height and paddings.</li>
      * </ul>
+     *
+     * <b>Expected:</b> one {@code AUSTRALIA_POST}. We compare by prefix (FCC+DPID) because readers often append extra machine data.
+     *
+     * <b>Gotchas:</b> invalid FCC throws {@code InvalidCodeException}; too small paddings/canvas → clipping → 0 results.
      */
     @Test
     public void australianPostShortBarHeight300dpi() throws Exception {
@@ -291,7 +279,17 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Set QR module size in millimeters for 203 dpi thermal printers.
+     * # QR: set **XDimension in millimeters** for **203 dpi** thermal printers
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>How to size QR modules for 203 dpi devices via physical units and DPI-aware conversion.</li>
+     *   <li>ECI UTF-8 as a robust text encoding path for QR.</li>
+     * </ul>
+     *
+     * <b>Expected:</b> one {@code QR} with text {@code QR-203DPI}.
+     *
+     * <b>Gotchas:</b> for very small modules, add explicit quiet zones; otherwise decoding on rendered PNGs may fail.
      */
     @Test
     public void qrXdimensionMillimeters_at203dpi() throws Exception {
@@ -309,7 +307,15 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Enforce EAN-13 quiet zones in millimeters at 300 dpi.
+     * # EAN-13: enforce **quiet zones in millimeters @300 dpi**
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>How to set physically correct quiet zones on left/right sides via mm + dpi.</li>
+     *   <li>Quiet zones are critical for EAN/UPC readability.</li>
+     * </ul>
+     *
+     * <b>Expected:</b> one {@code EAN_13} with the given code.
      */
     @Test
     public void ean13QuietZoneMillimeters_at300dpi() throws Exception {
@@ -334,7 +340,13 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Show how AutoSizeMode.INTERPOLATION affects rasterization compared to NONE.
+     * # UPC-A: compare **AutoSizeMode.INTERPOLATION** vs **NONE**
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>How interpolation-based autosizing differs from no-autosizing for the same canvas/xdim.</li>
+     *   <li>Both images remain decodable.</li>
+     * </ul>
      */
     @Test
     public void upcA_autoSizeInterpolation_vsNone() throws Exception {
@@ -363,35 +375,43 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * ITF-14: set bearer bar thickness in millimeters.
-     * NOTE: Adjust property names if your SDK exposes them differently.
+     * # ITF-14: set **bearer bar thickness in millimeters @300 dpi**
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>How to choose a bearer type (FRAME/BAR/FRAME_OUT/BAR_OUT) and set its thickness via a {@link Unit}.</li>
+     *   <li>Why {@code QuietZoneCoef} (in multiples of XDimension) should be >= 10 (we use 12 for safety).</li>
+     * </ul>
+     *
+     * <b>Key settings:</b>
+     * <ul>
+     *   <li>{@code itf.setItfBorderType(ITF14BorderType.FRAME);}</li>
+     *   <li>{@code thickness.updateResolution(300); thickness.setMillimeters(2.5f);}</li>
+     *   <li>{@code itf.setQuietZoneCoef(12);}</li>
+     * </ul>
+     *
+     * <b>Expected:</b> one {@code ITF_14} with the given text.
+     *
+     * <b>Gotchas:</b> ensure canvas is large enough (bearer + quiet zones may be wide).
      */
     @Test
     public void itf14BearerBarThicknessMmAt300dpi() throws Exception {
-        // ITF-14 payload (14 digits incl. check)
-        String code = "10012345000017";
+        String code = "10012345000017"; // ITF-14 payload (14 digits incl. check)
 
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ITF_14, code);
 
-        // --- Symbology-specific: border (bearer bar) type and thickness ---
         ITFParameters itf = gen.getParameters().getBarcode().getITF();
-
-        // Choose one of: NONE, FRAME, BAR, FRAME_OUT, BAR_OUT
         itf.setItfBorderType(ITF14BorderType.FRAME);
 
-        // Thickness in millimeters at 300 dpi
         Unit thickness = itf.getItfBorderThickness();
         thickness.updateResolution(300f);
         thickness.setMillimeters(2.5f);
 
-        // Quiet zone in multiples of XDimension (>= 10). 12 gives a bit more safety.
         itf.setQuietZoneCoef(12);
 
-        // Raster controls
         gen.getParameters().getBarcode().getXDimension().setPixels(2.0f);
         gen.getParameters().getBarcode().getBarHeight().setPixels(100);
 
-        // Canvas (big enough to avoid clipping with bearer bar + quiet zones)
         gen.getParameters().getImageWidth().setPixels(520);
         gen.getParameters().getImageHeight().setPixels(260);
 
@@ -399,14 +419,21 @@ public class CustomizingSizeExample {
         gen.save(full, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(full);
 
-        // ITF-14 is a distinct decode type in your enum
         assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.ITF_14, code)));
     }
 
-
     /**
-     * PDF417 size geometry: rows/columns and module aspect ratio.
-     * NOTE: Use setAspectRatio or setXToYRatio depending on your SDK.
+     * # PDF417: control **rows/columns** and **module aspect ratio**
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>How to lock the grid size (rows/columns) of a PDF417 symbol.</li>
+     *   <li>How to influence module aspect via {@code setAspectRatio} or {@code setXToYRatio} (name depends on SDK build).</li>
+     * </ul>
+     *
+     * <b>Note:</b> Uncomment exactly one of the aspect setters below if your SDK exposes it.
+     *
+     * <b>Expected:</b> one {@code PDF_417} with the text {@code PDF417-SIZE}.
      */
     @Test
     public void pdf417RowsColumns_withAspectRatio() throws Exception {
@@ -414,9 +441,8 @@ public class CustomizingSizeExample {
 
         gen.getParameters().getBarcode().getPdf417().setRows(8);
         gen.getParameters().getBarcode().getPdf417().setColumns(5);
-        // Either:
+        // Either of the following might exist in your build:
         // gen.getParameters().getBarcode().getPdf417().setAspectRatio(3.0f);
-        // or:
         // gen.getParameters().getBarcode().getPdf417().setXToYRatio(3.0f);
 
         gen.getParameters().getImageWidth().setPixels(480);
@@ -430,23 +456,35 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * DataMatrix: fix symbol size (version) and module width in pixels.
+     * # DataMatrix: fix **symbol version (size)** and **module width in pixels**
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>How to force a concrete ECC200 symbol size (e.g., 24×24) via {@code DataMatrixVersion}.</li>
+     *   <li>How to control module width at raster level via {@code XDimension} in pixels (independent of DPI).</li>
+     * </ul>
+     *
+     * <b>Key settings:</b>
+     * <ul>
+     *   <li>{@code setDataMatrixEcc(DataMatrixEccType.ECC_200);} (required for ECC200_* versions)</li>
+     *   <li>{@code setDataMatrixVersion(DataMatrixVersion.ECC200_24x24);}</li>
+     *   <li>{@code XDimension = 3 px} + explicit quiet zones and a comfortable canvas.</li>
+     * </ul>
+     *
+     * <b>Expected:</b> one {@code DATA_MATRIX} with text {@code DM-SIZE}.
+     *
+     * <b>Gotchas:</b> some builds do not expose {@code DM_24x24}; use {@code ECC200_24x24}.
      */
     @Test
     public void dataMatrixFixedVersionWithXdimensionPx() throws Exception {
         // Fixed-size DataMatrix (ECC 200), force a 24x24 symbol and set module width in pixels.
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.DATA_MATRIX, "DM-SIZE");
 
-        // ECC 200 is required for the ECC200_* versions
         gen.getParameters().getBarcode().getDataMatrix().setDataMatrixEcc(DataMatrixEccType.ECC_200);
-
-        // Pick the correct enum member from your DataMatrixVersion: ECC200_24x24 (not DM_24x24)
         gen.getParameters().getBarcode().getDataMatrix().setDataMatrixVersion(DataMatrixVersion.ECC200_24x24);
 
-        // Control module width at the raster level (independent of DPI)
         gen.getParameters().getBarcode().getXDimension().setPixels(3.0f);
 
-        // Make decoding robust: add quiet zones and a comfortable canvas
         gen.getParameters().getBarcode().getPadding().getLeft().setPixels(12);
         gen.getParameters().getBarcode().getPadding().getRight().setPixels(12);
         gen.getParameters().getBarcode().getPadding().getTop().setPixels(12);
@@ -461,9 +499,18 @@ public class CustomizingSizeExample {
         assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.DATA_MATRIX, "DM-SIZE")));
     }
 
-
     /**
-     * Choose XDimension to hit an approximate target total width.
+     * # CODE 128: estimate **XDimension** to hit an approximate target total width
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>How to roughly compute {@code XDimension} for a desired canvas width with given paddings.</li>
+     *   <li>This is a heuristic (demo), not a strict formula; actual modules depend on Start/Stop/encoding.</li>
+     * </ul>
+     *
+     * <b>Expected:</b> one {@code CODE_128} with text {@code TARGET-WIDTH}.
+     *
+     * <b>Gotchas:</b> For production code, prefer an API that reports exact width given parameters, if available.
      */
     @Test
     public void code128SolveXdimensionForTargetWidth() throws Exception {
@@ -490,7 +537,17 @@ public class CustomizingSizeExample {
     }
 
     /**
-     * Small QR with fixed version and quiet zones in typographic points.
+     * # Small QR: fixed version + quiet zones in **typographic points (pt)**
+     *
+     * <b>Shows:</b>
+     * <ul>
+     *   <li>Mixing units: restrict the QR size via {@code QrVersion} and set quiet zones in points.</li>
+     *   <li>Points are converted to pixels according to the {@link Unit}'s DPI (default if not changed).</li>
+     * </ul>
+     *
+     * <b>Expected:</b> one {@code QR} with text {@code QR-PT}.
+     *
+     * <b>Gotchas:</b> If exact physical spacing is required, prefer {@code setMillimeters}/{@code setInches} with {@code updateResolution(dpi)}.
      */
     @Test
     public void qrFixedVersion_quietZoneInPoints() throws Exception {
@@ -512,9 +569,4 @@ public class CustomizingSizeExample {
 
         assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.QR, "QR-PT")));
     }
-
-
-
-
-
 }
