@@ -57,20 +57,30 @@ public class CustomizingCaptionsExample {
     public void ean13_captionBelow_withPointSpace() throws Exception {
         final String code = "5901234123457";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, code);
+
+        // Hide the built-in human-readable code text so we can demonstrate Caption specifically.
         generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
+
+        // Configure the caption that is rendered BELOW the bars.
         CaptionParameters captionParameters = generator.getParameters().getCaptionBelow();
-        captionParameters.setVisible(true);
-        captionParameters.setText("CAP-BELOW");
-        captionParameters.getFont().getSize().setPoint(12);
-        captionParameters.setAlignment(TextAlignment.CENTER);
-        captionParameters.getPadding().getBottom().setPoint(10f);
+        captionParameters.setVisible(true);                   // Caption must be visible, otherwise it won't be drawn.
+        captionParameters.setText("CAP-BELOW");               // Caption text
+        captionParameters.getFont().getSize().setPoint(12);   // 12pt font (points are converted to px via Unit's DPI)
+        captionParameters.setAlignment(TextAlignment.CENTER); // Center the caption horizontally
+        // Distance between bars and the caption BELOW is controlled by Padding.TOP.
+        // Using .getBottom() would add space below the caption, not between caption and bars.
+        captionParameters.getPadding().getTop().setPoint(10f); // extra gap in points above the caption (i.e., below the bars)
+        // Add a bit of bottom padding on the barcode itself to avoid any chance of clipping on tight canvases.
         generator.getParameters().getBarcode().getPadding().getBottom().setPixels(16);
+        // Comfortable canvas so nothing is clipped.
         generator.getParameters().getImageWidth().setPixels(360);
         generator.getParameters().getImageHeight().setPixels(200);
+
         String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_BELOW_PT_SPACE);
         generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
+        // Decode check: one EAN-13 with the same code text.
         assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.EAN_13, code)));
     }
 
