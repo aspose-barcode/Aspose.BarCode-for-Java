@@ -56,25 +56,24 @@ public class CustomizingCaptionsExample {
     @Test
     public void ean13_captionBelow_withPointSpace() throws Exception {
         final String code = "5901234123457";
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.EAN_13, code);
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, code);
+        generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
+        CaptionParameters captionParameters = generator.getParameters().getCaptionBelow();
+        captionParameters.setVisible(true);
+        captionParameters.setText("CAP-BELOW");
+        captionParameters.getFont().getSize().setPoint(12);
+        captionParameters.setAlignment(TextAlignment.CENTER);
+        captionParameters.getPadding().getBottom().setPoint(10f);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(16);
+        generator.getParameters().getImageWidth().setPixels(360);
+        generator.getParameters().getImageHeight().setPixels(200);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_BELOW_PT_SPACE);
+        generator.save(fullPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(fullPath);
 
-        // Location: BELOW (classic retail layout)
-        gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
-
-        // Add extra gap under bars: 10pt (DPI-based conversion inside Unit)
-        Unit space = gen.getParameters().getBarcode().getCodeTextParameters().getSpace();
-        space.setPoint(10f);
-
-        // Comfortable canvas to avoid clipping
-        gen.getParameters().getImageWidth().setPixels(360);
-        gen.getParameters().getImageHeight().setPixels(200);
-
-        String full = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_BELOW_PT_SPACE);
-        gen.save(full, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(full);
-
-        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.EAN_13, code)));
+        assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.EAN_13, code)));
     }
+
 
     /**
      * # Code 128: caption **Above** with spacing in **millimeters at 300 dpi**
