@@ -41,6 +41,10 @@ public class CustomizingSizeExample {
     private static final String FILE_EAN13_AUTOSIZE_NONE= "ean13_autosize_none.png";
     private static final String FILE_EAN13_AUTOSIZE_NEAR= "ean13_autosize_nearest.png";
     private static final String FILE_AUSPOST_SHORTBAR   = "auspost_shortbar.png";
+    private static final String FILE_QR_XDIMENSION   = "qr_xdim_mm_203dpi.png";
+    private static final String FILE_EAN13_QUIET_ZONE   = "ean13_quiet_mm_300dpi.png";
+    private static final String FILE_UPCA_INTERPOLATION   = "upca_interpolation.png";
+    private static final String FILE_ROWS_COLUMNS_RATIO   = "pdf417_rows_cols_ratio.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -283,5 +287,201 @@ public class CustomizingSizeExample {
                 java.util.List.of(ExampleAssist.expectedPrefix(DecodeType.AUSTRALIA_POST, payload))
         );
     }
+
+    /**
+     * Set QR module size in millimeters for 203 dpi thermal printers.
+     */
+    @Test
+    public void qrXdimensionMillimeters_at203dpi() throws Exception {
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "QR-203DPI");
+        Unit xdim = gen.getParameters().getBarcode().getXDimension();
+        xdim.updateResolution(203f);
+        xdim.setMillimeters(0.50f);
+        gen.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+
+        String full = ExampleAssist.pathCombine(FOLDER, FILE_QR_XDIMENSION);
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
+
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.QR, "QR-203DPI")));
+    }
+
+    /**
+     * Enforce EAN-13 quiet zones in millimeters at 300 dpi.
+     */
+    @Test
+    public void ean13QuietZoneMillimeters_at300dpi() throws Exception {
+        String code = "5901234123457";
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.EAN_13, code);
+
+        Unit left = gen.getParameters().getBarcode().getPadding().getLeft();
+        Unit right = gen.getParameters().getBarcode().getPadding().getRight();
+        left.updateResolution(300f);
+        right.updateResolution(300f);
+        left.setMillimeters(3.7f);
+        right.setMillimeters(3.7f);
+
+        gen.getParameters().getImageWidth().setPixels(320);
+        gen.getParameters().getImageHeight().setPixels(160);
+
+        String full = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_QUIET_ZONE);
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
+
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.EAN_13, code)));
+    }
+
+    /**
+     * Show how AutoSizeMode.INTERPOLATION affects rasterization compared to NONE.
+     */
+    @Test
+    public void upcA_autoSizeInterpolation_vsNone() throws Exception {
+        String code = "042100005264";
+        // AutoSizeMode.NONE
+        BarcodeGenerator none = new BarcodeGenerator(EncodeTypes.UPCA, code);
+        none.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
+        none.getParameters().getImageWidth().setPixels(260);
+        none.getParameters().getImageHeight().setPixels(140);
+        none.getParameters().getBarcode().getXDimension().setPixels(2.0f);
+        String pNone = ExampleAssist.pathCombine(FOLDER, "upca_none.png");
+        none.save(pNone, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(pNone);
+        assertImageHasBarcodes(pNone, 1, List.of(expected(DecodeType.UPCA, code)));
+
+        // AutoSizeMode.INTERPOLATION
+        BarcodeGenerator interp = new BarcodeGenerator(EncodeTypes.UPCA, code);
+        interp.getParameters().setAutoSizeMode(AutoSizeMode.INTERPOLATION);
+        interp.getParameters().getImageWidth().setPixels(260);
+        interp.getParameters().getImageHeight().setPixels(140);
+        interp.getParameters().getBarcode().getXDimension().setPixels(2.0f);
+        String pInt = ExampleAssist.pathCombine(FOLDER, FILE_UPCA_INTERPOLATION);
+        interp.save(pInt, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(pInt);
+        assertImageHasBarcodes(pInt, 1, List.of(expected(DecodeType.UPCA, code)));
+    }
+
+    /**
+     * ITF-14: set bearer bar thickness in millimeters.
+     * NOTE: Adjust property names if your SDK exposes them differently.
+     */
+//    @Test
+//    public void itf14BearerBarThickness_mm_at300dpi() throws Exception {
+//        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ITF_14, "10012345000017");
+//
+//        // Border type + thickness (symbology-specific)
+//        gen.getParameters().getBarcode().getITF().setITF14BorderType(ITF14BorderType.BOX);
+//        Unit thick = gen.getParameters().getBarcode().getITF().getITF14BorderThickness();
+//        thick.updateResolution(300f);
+//        thick.setMillimeters(2.5f);
+//
+//        gen.getParameters().getBarcode().getXDimension().setPixels(2.0f);
+//        gen.getParameters().getImageWidth().setPixels(520);
+//        gen.getParameters().getImageHeight().setPixels(260);
+//
+//        String full = ExampleAssist.pathCombine(FOLDER, "itf14_bearer_mm_300dpi.png");
+//        gen.save(full, BarCodeImageFormat.PNG);
+//        ExampleAssist.assertFileCreated(full);
+//
+//        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.ITF, "10012345000017")));
+//    }
+
+    /**
+     * PDF417 size geometry: rows/columns and module aspect ratio.
+     * NOTE: Use setAspectRatio or setXToYRatio depending on your SDK.
+     */
+    @Test
+    public void pdf417RowsColumns_withAspectRatio() throws Exception {
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.PDF_417, "PDF417-SIZE");
+
+        gen.getParameters().getBarcode().getPdf417().setRows(8);
+        gen.getParameters().getBarcode().getPdf417().setColumns(5);
+        // Either:
+        // gen.getParameters().getBarcode().getPdf417().setAspectRatio(3.0f);
+        // or:
+        // gen.getParameters().getBarcode().getPdf417().setXToYRatio(3.0f);
+
+        gen.getParameters().getImageWidth().setPixels(480);
+        gen.getParameters().getImageHeight().setPixels(240);
+
+        String full = ExampleAssist.pathCombine(FOLDER, FILE_ROWS_COLUMNS_RATIO);
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
+
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.PDF_417, "PDF417-SIZE")));
+    }
+
+    /**
+     * DataMatrix: fix symbol size (version) and module width in pixels.
+     */
+    @Test
+    public void dataMatrixFixedVersion_withXdimensionPx() throws Exception {
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.DATA_MATRIX, "DM-SIZE");
+        gen.getParameters().getBarcode().getDataMatrix().setDataMatrixEcc(DataMatrixEccType.ECC_200);
+        gen.getParameters().getBarcode().getDataMatrix().setDataMatrixEncodeMode(DataMatrixEncodeMode.AUTO);
+         gen.getParameters().getBarcode().getDataMatrix().setDataMatrixVersion(DataMatrixVersion.DM_24x24);
+
+        gen.getParameters().getBarcode().getXDimension().setPixels(3.0f);
+
+        String full = ExampleAssist.pathCombine(FOLDER, "dm_version_xdim_px.png");
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
+
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.DATA_MATRIX, "DM-SIZE")));
+    }
+
+    /**
+     * Choose XDimension to hit an approximate target total width.
+     */
+    @Test
+    public void code128SolveXdimensionForTargetWidth() throws Exception {
+        String text = "TARGET-WIDTH";
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, text);
+
+        int canvas = 600, quiet = 20;
+        gen.getParameters().getImageWidth().setPixels(canvas);
+        gen.getParameters().getImageHeight().setPixels(200);
+        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(quiet);
+        gen.getParameters().getBarcode().getPadding().getRight().setPixels(quiet);
+
+        // Very rough estimate: Code 128 ~ 11 modules/char avg (demo only).
+        int estModules = Math.max(60, text.length() * 11);
+        float xdimPx = Math.max(2f, (canvas - 2f * quiet) / estModules);
+        gen.getParameters().getBarcode().getXDimension().setPixels(xdimPx);
+        gen.getParameters().getBarcode().getBarHeight().setPixels(120);
+
+        String full = ExampleAssist.pathCombine(FOLDER, "c128_target_width.png");
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
+
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.CODE_128, text)));
+    }
+
+    /**
+     * Small QR with fixed version and quiet zones in typographic points.
+     */
+    @Test
+    public void qrFixedVersion_quietZoneInPoints() throws Exception {
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "QR-PT");
+
+        gen.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_02);
+        Unit l = gen.getParameters().getBarcode().getPadding().getLeft();
+        Unit r = gen.getParameters().getBarcode().getPadding().getRight();
+        Unit t = gen.getParameters().getBarcode().getPadding().getTop();
+        Unit b = gen.getParameters().getBarcode().getPadding().getBottom();
+        l.setPoint(12f); r.setPoint(12f); t.setPoint(12f); b.setPoint(12f);
+
+        gen.getParameters().getImageWidth().setPixels(220);
+        gen.getParameters().getImageHeight().setPixels(220);
+
+        String full = ExampleAssist.pathCombine(FOLDER, "qr_ver2_quiet_pt.png");
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
+
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.QR, "QR-PT")));
+    }
+
+
+
+
 
 }
