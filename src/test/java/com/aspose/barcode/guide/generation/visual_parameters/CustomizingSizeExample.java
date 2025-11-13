@@ -45,6 +45,7 @@ public class CustomizingSizeExample {
     private static final String FILE_EAN13_QUIET_ZONE   = "ean13_quiet_mm_300dpi.png";
     private static final String FILE_UPCA_INTERPOLATION   = "upca_interpolation.png";
     private static final String FILE_ROWS_COLUMNS_RATIO   = "pdf417_rows_cols_ratio.png";
+    private static final String FILE_DM_VERSION_XDIM   = "dm_version_xdim_px.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -364,26 +365,26 @@ public class CustomizingSizeExample {
      * ITF-14: set bearer bar thickness in millimeters.
      * NOTE: Adjust property names if your SDK exposes them differently.
      */
-//    @Test
-//    public void itf14BearerBarThickness_mm_at300dpi() throws Exception {
-//        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ITF_14, "10012345000017");
-//
-//        // Border type + thickness (symbology-specific)
-//        gen.getParameters().getBarcode().getITF().setITF14BorderType(ITF14BorderType.BOX);
-//        Unit thick = gen.getParameters().getBarcode().getITF().getITF14BorderThickness();
-//        thick.updateResolution(300f);
-//        thick.setMillimeters(2.5f);
-//
-//        gen.getParameters().getBarcode().getXDimension().setPixels(2.0f);
-//        gen.getParameters().getImageWidth().setPixels(520);
-//        gen.getParameters().getImageHeight().setPixels(260);
-//
-//        String full = ExampleAssist.pathCombine(FOLDER, "itf14_bearer_mm_300dpi.png");
-//        gen.save(full, BarCodeImageFormat.PNG);
-//        ExampleAssist.assertFileCreated(full);
-//
-//        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.ITF, "10012345000017")));
-//    }
+    @Test
+    public void itf14BearerBarThickness_mm_at300dpi() throws Exception {
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ITF_14, "10012345000017");
+
+        // Border type + thickness (symbology-specific)
+        gen.getParameters().getBarcode().getITF().setITF14BorderType(ITF14BorderType.BOX);
+        Unit thick = gen.getParameters().getBarcode().getITF().getITF14BorderThickness();
+        thick.updateResolution(300f);
+        thick.setMillimeters(2.5f);
+
+        gen.getParameters().getBarcode().getXDimension().setPixels(2.0f);
+        gen.getParameters().getImageWidth().setPixels(520);
+        gen.getParameters().getImageHeight().setPixels(260);
+
+        String full = ExampleAssist.pathCombine(FOLDER, "itf14_bearer_mm_300dpi.png");
+        gen.save(full, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(full);
+
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.ITF, "10012345000017")));
+    }
 
     /**
      * PDF417 size geometry: rows/columns and module aspect ratio.
@@ -414,20 +415,34 @@ public class CustomizingSizeExample {
      * DataMatrix: fix symbol size (version) and module width in pixels.
      */
     @Test
-    public void dataMatrixFixedVersion_withXdimensionPx() throws Exception {
+    public void dataMatrixFixedVersionWithXdimensionPx() throws Exception {
+        // Fixed-size DataMatrix (ECC 200), force a 24x24 symbol and set module width in pixels.
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.DATA_MATRIX, "DM-SIZE");
-        gen.getParameters().getBarcode().getDataMatrix().setDataMatrixEcc(DataMatrixEccType.ECC_200);
-        gen.getParameters().getBarcode().getDataMatrix().setDataMatrixEncodeMode(DataMatrixEncodeMode.AUTO);
-         gen.getParameters().getBarcode().getDataMatrix().setDataMatrixVersion(DataMatrixVersion.DM_24x24);
 
+        // ECC 200 is required for the ECC200_* versions
+        gen.getParameters().getBarcode().getDataMatrix().setDataMatrixEcc(DataMatrixEccType.ECC_200);
+
+        // Pick the correct enum member from your DataMatrixVersion: ECC200_24x24 (not DM_24x24)
+        gen.getParameters().getBarcode().getDataMatrix().setDataMatrixVersion(DataMatrixVersion.ECC200_24x24);
+
+        // Control module width at the raster level (independent of DPI)
         gen.getParameters().getBarcode().getXDimension().setPixels(3.0f);
 
-        String full = ExampleAssist.pathCombine(FOLDER, "dm_version_xdim_px.png");
+        // Make decoding robust: add quiet zones and a comfortable canvas
+        gen.getParameters().getBarcode().getPadding().getLeft().setPixels(12);
+        gen.getParameters().getBarcode().getPadding().getRight().setPixels(12);
+        gen.getParameters().getBarcode().getPadding().getTop().setPixels(12);
+        gen.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
+        gen.getParameters().getImageWidth().setPixels(220);
+        gen.getParameters().getImageHeight().setPixels(220);
+
+        String full = ExampleAssist.pathCombine(FOLDER, FILE_DM_VERSION_XDIM);
         gen.save(full, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(full);
 
         assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.DATA_MATRIX, "DM-SIZE")));
     }
+
 
     /**
      * Choose XDimension to hit an approximate target total width.
