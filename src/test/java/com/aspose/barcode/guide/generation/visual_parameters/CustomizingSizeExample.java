@@ -46,6 +46,7 @@ public class CustomizingSizeExample {
     private static final String FILE_UPCA_INTERPOLATION   = "upca_interpolation.png";
     private static final String FILE_ROWS_COLUMNS_RATIO   = "pdf417_rows_cols_ratio.png";
     private static final String FILE_DM_VERSION_XDIM   = "dm_version_xdim_px.png";
+    private static final String FILE_ITF14_BEARER   = "itf14_bearer_mm_300dpi.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -366,25 +367,42 @@ public class CustomizingSizeExample {
      * NOTE: Adjust property names if your SDK exposes them differently.
      */
     @Test
-    public void itf14BearerBarThickness_mm_at300dpi() throws Exception {
-        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ITF_14, "10012345000017");
+    public void itf14BearerBarThicknessMmAt300dpi() throws Exception {
+        // ITF-14 payload (14 digits incl. check)
+        String code = "10012345000017";
 
-        // Border type + thickness (symbology-specific)
-        gen.getParameters().getBarcode().getITF().setITF14BorderType(ITF14BorderType.BOX);
-        Unit thick = gen.getParameters().getBarcode().getITF().getITF14BorderThickness();
-        thick.updateResolution(300f);
-        thick.setMillimeters(2.5f);
+        BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.ITF_14, code);
 
+        // --- Symbology-specific: border (bearer bar) type and thickness ---
+        ITFParameters itf = gen.getParameters().getBarcode().getITF();
+
+        // Choose one of: NONE, FRAME, BAR, FRAME_OUT, BAR_OUT
+        itf.setItfBorderType(ITF14BorderType.FRAME);
+
+        // Thickness in millimeters at 300 dpi
+        Unit thickness = itf.getItfBorderThickness();
+        thickness.updateResolution(300f);
+        thickness.setMillimeters(2.5f);
+
+        // Quiet zone in multiples of XDimension (>= 10). 12 gives a bit more safety.
+        itf.setQuietZoneCoef(12);
+
+        // Raster controls
         gen.getParameters().getBarcode().getXDimension().setPixels(2.0f);
+        gen.getParameters().getBarcode().getBarHeight().setPixels(100);
+
+        // Canvas (big enough to avoid clipping with bearer bar + quiet zones)
         gen.getParameters().getImageWidth().setPixels(520);
         gen.getParameters().getImageHeight().setPixels(260);
 
-        String full = ExampleAssist.pathCombine(FOLDER, "itf14_bearer_mm_300dpi.png");
+        String full = ExampleAssist.pathCombine(FOLDER, FILE_ITF14_BEARER);
         gen.save(full, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(full);
 
-        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.ITF, "10012345000017")));
+        // ITF-14 is a distinct decode type in your enum
+        assertImageHasBarcodes(full, 1, List.of(expected(DecodeType.ITF_14, code)));
     }
+
 
     /**
      * PDF417 size geometry: rows/columns and module aspect ratio.
