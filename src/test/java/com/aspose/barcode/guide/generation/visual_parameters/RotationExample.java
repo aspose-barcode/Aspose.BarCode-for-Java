@@ -38,11 +38,6 @@ public class RotationExample {
     private static final String FILE_CODE128_ROT_270     = "code128_rotation_270deg.png";
     private static final String FILE_CODE128_ROT_45      = "code128_rotation_45deg.png";
     private static final String FILE_CODE128_ROT_M45     = "code128_rotation_minus45deg.png";
-    private static final String FILE_CODE128_AUTOSIZE_NEAREST =
-            "code128_autosize_nearest.png";
-    private static final String FILE_CODE128_AUTOSIZE_FIXED =
-            "code128_autosize_fixed_none.png";
-
     private static final String FILE_CODE128_ROT_90_AUTOSIZE_NEAREST =
             "code128_rotation_90deg_autosize_nearest.png";
     private static final String FILE_CODE128_ROT_90_FIXED_SIZE =
