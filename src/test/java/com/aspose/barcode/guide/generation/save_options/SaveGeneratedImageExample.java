@@ -16,8 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import static com.aspose.barcode.guide.common.ExampleAssist.assertImageHasBarcodes;
-import static com.aspose.barcode.guide.common.ExampleAssist.expected;
+import static com.aspose.barcode.guide.common.ExampleAssist.*;
 
 /**
  * Examples of saving generated barcodes:
@@ -41,7 +40,8 @@ public class SaveGeneratedImageExample {
     private static final String FILE_CODE128_TIFF = "code128_output_tiff.tif";
 
     // Vector output file
-    private static final String FILE_QR_SVG       = "qr_output_svg.svg";
+    private static final String FILE_QR_SVG          = "qr_output_svg.svg";
+    private static final String FILE_QR_SVG_EXPECTED = "qr_output_svg_expected.svg";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -102,9 +102,6 @@ public class SaveGeneratedImageExample {
      *
      * Shows:
      * - Vector output via BarCodeImageFormat.SVG for scalable rendering/printing.
-     * Note:
-     * - This example only checks that the SVG file is created;
-     *   recognition typically works from raster images.
      */
     @Test
     public void qr_save_to_vector_svg() throws Exception {
@@ -118,7 +115,9 @@ public class SaveGeneratedImageExample {
         generator.save(svgPath, BarCodeImageFormat.SVG);
         ExampleAssist.assertFileCreated(svgPath);
 
-        // No recognition assertion here on purpose (vector output is mainly for rendering).
+        // Compare generated SVG with baseline template
+        String expectedSvgPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_SVG_EXPECTED);
+        assertVectorImageEqualsExpected(expectedSvgPath, svgPath);
     }
 
     /**
