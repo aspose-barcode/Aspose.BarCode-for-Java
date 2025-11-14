@@ -97,36 +97,41 @@ public class BordersExample {
      *
      * Shows:
      * <ul>
-     *   <li>How to ensure border visibility on a dark background by using a light (white) frame color</li>
-     *   <li>Optional dashed frame if {@code setDashStyle} is available in your SDK</li>
+     *   <li>Black background via {@code parameters.setBackColor(Color.BLACK)}</li>
+     *   <li>Inverted drawing (white modules) via {@code barcode.setBarColor(Color.WHITE)} so the symbol is readable</li>
+     *   <li>Visible frame: white, 2pt, optional dashed style</li>
+     *   <li>Generous quiet zones to avoid border/canvas clipping</li>
      * </ul>
      *
-     * Expected: one QR reading "QR-WHITE-BORDER", white (dashed) frame clearly visible on black.
+     * Expected: one QR "QR-WHITE-BORDER", white (dashed) frame clearly visible on black.
      */
-    @Test
+    @Test //TODO create issue
     public void qr_blackBackground_whiteDashedBorder_2pt() throws Exception {
         final String codeText = "QR-WHITE-BORDER";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, codeText);
 
-        // Black background + white frame = strong contrast
+        // Dark background
         generator.getParameters().setBackColor(Color.BLACK);
 
+        // Inverted modules for contrast on dark background
+        generator.getParameters().getBarcode().setBarColor(Color.WHITE);
+
+        // Global frame border: white, 2pt (dashed — если доступно в вашей сборке)
         BorderParameters border = generator.getParameters().getBorder();
         border.setVisible(true);
         border.getWidth().setPoint(2.0f);
         border.setColor(Color.WHITE);
-
-        // If your SDK exposes dash styles, uncomment the next line:
+        // Если SDK поддерживает штрихи рамки, раскомментируйте:
         // border.setDashStyle(BorderDashStyle.DASH);
 
-        // Room around the symbol so the frame doesn't hug modules
-        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(12);
-        generator.getParameters().getBarcode().getPadding().getRight().setPixels(12);
-        generator.getParameters().getBarcode().getPadding().getTop().setPixels(12);
-        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
+        // Quiet zones и холст
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(16);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(16);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(16);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(16);
 
-        generator.getParameters().getImageWidth().setPixels(240);
-        generator.getParameters().getImageHeight().setPixels(240);
+        generator.getParameters().getImageWidth().setPixels(260);
+        generator.getParameters().getImageHeight().setPixels(260);
 
         String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_BORDER_BLACK_BG_DASHED);
         generator.save(fullPath, BarCodeImageFormat.PNG);
@@ -134,6 +139,7 @@ public class BordersExample {
 
         assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.QR, codeText)));
     }
+
 
     /**
      * # EAN-13 on WHITE background with a BLUE frame (1.0 mm @ 300 dpi)
