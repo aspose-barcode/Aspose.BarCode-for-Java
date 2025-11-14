@@ -19,13 +19,13 @@ import static com.aspose.barcode.guide.common.ExampleAssist.expected;
  *   <li>Bars (foreground) via {@code BarcodeParameters.setBarColor(Color)}</li>
  *   <li>Background via {@code BaseGenerationParameters.setBackColor(Color)}</li>
  *   <li>Caption colors via {@code CaptionParameters.setTextColor(Color)}</li>
- *   <li>Transparent backgrounds for overlay/printing (ARGB Color with alpha)</li>
+ *   <li>Transparent and semi-transparent backgrounds (PNG alpha)</li>
  * </ul>
  *
  * Notes:
  * <ul>
  *   <li>Keep strong contrast: dark bars on light background.</li>
- *   <li>Be careful with transparency if the image will be composited onto a dark surface.</li>
+ *   <li>With transparency, ensure the final composite surface is light enough around the code.</li>
  *   <li>No try-with-resources; do not call close()/dispose() per project policy.</li>
  * </ul>
  */
@@ -39,9 +39,15 @@ public class ColorsExample {
     private static final String FILE_EAN13_CAPTION_ABOVE     = "ean13_caption_above_color.png";
     private static final String FILE_EAN13_CAPTION_DARKBG    = "ean13_caption_below_on_dark_bg.png";
     private static final String FILE_PDF417_COLORS           = "pdf417_colors.png";
-    // NEW:
     private static final String FILE_UPCA_BACKGROUND_ONLY    = "upca_background_only.png";
     private static final String FILE_QR_TRANSPARENT_BG       = "qr_transparent_bg.png";
+    // NEW:
+    private static final String FILE_C128_BRAND_TUNABLE      = "c128_brand_tunable.png";
+    private static final String FILE_QR_SEMI_TRANSPARENT_BG  = "qr_semi_transparent_bg.png";
+
+    // ---- Brand palette placeholders (tune to your brand guide) ----
+    private static final Color THEME_PRIMARY_DARK = new Color(0, 64, 128);    // bars or accents
+    private static final Color THEME_IVORY_LIGHT = new Color(250, 245, 230); // background
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -233,8 +239,6 @@ public class ColorsExample {
         assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.PDF_417, codeText)));
     }
 
-    // ===================== NEW TESTS (explicit background changes) =====================
-
     /**
      * # UPC-A: background-only change (bars remain black)
      *
@@ -249,10 +253,8 @@ public class ColorsExample {
         String codeText = "042100005264";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.UPCA, codeText);
 
-        // Change only background
         generator.getParameters().setBackColor(new Color(255, 248, 230)); // soft pastel
 
-        // Raster safety
         generator.getParameters().getBarcode().getXDimension().setPixels(2.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(110);
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(14);
@@ -285,11 +287,9 @@ public class ColorsExample {
         String codeText = "QR-ALPHA";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, codeText);
 
-        // Transparent background (alpha = 0); keep bars near-black
         generator.getParameters().setBackColor(new Color(255, 255, 255, 0));   // fully transparent
         generator.getParameters().getBarcode().setBarColor(new Color(15, 15, 15));
 
-        // Robust raster: slightly larger modules + quiet zones
         generator.getParameters().getBarcode().getXDimension().setPixels(3.5f);
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(16);
         generator.getParameters().getBarcode().getPadding().getRight().setPixels(16);
@@ -300,6 +300,76 @@ public class ColorsExample {
 
         String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_TRANSPARENT_BG);
         generator.save(fullPath, BarCodeImageFormat.PNG); // PNG supports alpha
+        ExampleAssist.assertFileCreated(fullPath);
+
+        assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.QR, codeText)));
+    }
+
+    // ===================== NEW CASES =====================
+
+    /**
+     * # CODE 128: tunable brand palette (centralized constants)
+     *
+     * Shows:
+     * - How to centralize "brand" colors in constants and reuse them across tests.
+     * - One place to adjust when the company palette changes.
+     *
+     * Expected: one CODE_128; bars use BRAND_PRIMARY_DARK, background uses BRAND_IVORY_LIGHT.
+     */
+    @Test
+    public void code128_brandPalette_tunableConstants() throws Exception {
+        String codeText = "BRAND-TUNABLE";
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, codeText);
+
+        generator.getParameters().getBarcode().setBarColor(THEME_PRIMARY_DARK);
+        generator.getParameters().setBackColor(THEME_IVORY_LIGHT);
+
+        generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
+        generator.getParameters().getBarcode().getBarHeight().setPixels(110);
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(16);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(16);
+        generator.getParameters().getImageWidth().setPixels(540);
+        generator.getParameters().getImageHeight().setPixels(220);
+
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_C128_BRAND_TUNABLE);
+        generator.save(fullPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(fullPath);
+
+        assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.CODE_128, codeText)));
+    }
+
+    /**
+     * # QR: semi-transparent background (alpha ~ 40%)
+     *
+     * Shows:
+     * - Using a partially transparent background (ARGB with alpha ~ 102/255 ≈ 40%).
+     * - Keeping quiet zone larger because final composite may be mid-tone.
+     *
+     * Hint:
+     * - Adjust alpha if your compositor tends to darken/lighten the final image after export.
+     *
+     * Expected: one QR with the given text.
+     */
+    @Test
+    public void qr_semiTransparentBackground_alpha40() throws Exception {
+        String codeText = "QR-ALPHA40";
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, codeText);
+
+        // ~40% opacity white (alpha 102 of 255)
+        generator.getParameters().setBackColor(new Color(255, 255, 255, 102));
+        generator.getParameters().getBarcode().setBarColor(new Color(18, 18, 18));
+
+        generator.getParameters().getBarcode().getXDimension().setPixels(3.5f);
+        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(20);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(20);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(20);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(20);
+        generator.getParameters().getImageWidth().setPixels(280);
+        generator.getParameters().getImageHeight().setPixels(280);
+
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_SEMI_TRANSPARENT_BG);
+        generator.save(fullPath, BarCodeImageFormat.PNG); // keep PNG for alpha channel
         ExampleAssist.assertFileCreated(fullPath);
 
         assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.QR, codeText)));
