@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -1291,6 +1292,34 @@ public class ExampleAssist {
         }
         if (bytes.length > n) sb.append("…"); // indicate truncation
         return sb.toString();
+    }
+
+    /**
+     * Asserts that two vector image files (e.g. SVG) have identical textual content.
+     * Line endings are normalized before comparison.
+     *
+     * @param expectedPath path to the expected (baseline) SVG file
+     * @param actualPath   path to the newly generated SVG file
+     */
+    public static void assertVectorImageEqualsExpected(String expectedPath, String actualPath) throws Exception {
+        Path expected = Paths.get(expectedPath);
+        Path actual = Paths.get(actualPath);
+
+        Assert.assertTrue(Files.exists(expected), "Expected SVG file must exist: " + expectedPath);
+        Assert.assertTrue(Files.exists(actual), "Actual SVG file must exist: " + actualPath);
+
+        String expectedText = Files.readString(expected, StandardCharsets.UTF_8)
+                .replace("\r\n", "\n")
+                .trim();
+        String actualText = Files.readString(actual, StandardCharsets.UTF_8)
+                .replace("\r\n", "\n")
+                .trim();
+
+        Assert.assertEquals(
+                actualText,
+                expectedText,
+                "Generated SVG content must match the expected template"
+        );
     }
 
 }
