@@ -1,5 +1,7 @@
 package com.aspose.barcode.guide.generation.visual_parameters;
 
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
@@ -18,6 +20,7 @@ import static com.aspose.barcode.guide.common.ExampleAssist.expected;
  * Shows:
  * - BaseGenerationParameters.setRotationAngle(float) for 1D and 2D barcodes.
  * - Orthogonal rotations (0/90/180/270) vs. arbitrary angles (e.g. ±45).
+ * - Interaction between RotationAngle and AutoSizeMode (NEAREST vs fixed size).
  * Conventions:
  * - No try-with-resources; do not close/Dispose readers/generators explicitly.
  * - Deterministic output paths under src/test/resources.
@@ -29,16 +32,20 @@ public class RotationExample {
             ExampleAssist.getOrCreateResourceFolderPath("generation", "visual_parameters", "rotation");
 
     // File names (CODE_128)
-    private static final String FILE_CODE128_ROT_0      = "code128_rotation_0deg.png";
-    private static final String FILE_CODE128_ROT_90     = "code128_rotation_90deg.png";
-    private static final String FILE_CODE128_ROT_180    = "code128_rotation_180deg.png";
-    private static final String FILE_CODE128_ROT_270    = "code128_rotation_270deg.png";
-    private static final String FILE_CODE128_ROT_45     = "code128_rotation_45deg.png";
-    private static final String FILE_CODE128_ROT_M45    = "code128_rotation_minus45deg.png";
+    private static final String FILE_CODE128_ROT_0       = "code128_rotation_0deg.png";
+    private static final String FILE_CODE128_ROT_90      = "code128_rotation_90deg.png";
+    private static final String FILE_CODE128_ROT_180     = "code128_rotation_180deg.png";
+    private static final String FILE_CODE128_ROT_270     = "code128_rotation_270deg.png";
+    private static final String FILE_CODE128_ROT_45      = "code128_rotation_45deg.png";
+    private static final String FILE_CODE128_ROT_M45     = "code128_rotation_minus45deg.png";
+    private static final String FILE_CODE128_ROT_45_AUTOSIZE_NEAREST =
+            "code128_rotation_45deg_autosize_nearest.png";
+    private static final String FILE_CODE128_ROT_45_FIXED_SIZE =
+            "code128_rotation_45deg_fixed_size.png";
 
     // File names (QR)
-    private static final String FILE_QR_ROT_90          = "qr_rotation_90deg.png";
-    private static final String FILE_QR_ROT_360         = "qr_rotation_360deg.png";
+    private static final String FILE_QR_ROT_90           = "qr_rotation_90deg.png";
+    private static final String FILE_QR_ROT_360          = "qr_rotation_360deg.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -117,6 +124,57 @@ public class RotationExample {
             );
         }
     }
+
+    /**
+     * CODE_128 rotated by 45 degrees: AutoSizeMode.NEAREST vs fixed image size.
+     *
+     * Shows:
+     * - AutoSizeMode.NEAREST: engine chooses the nearest “nice” raster size after rotation.
+     * - AutoSizeMode.NONE with explicit ImageWidth/ImageHeight: fixed canvas, which may clip margins
+     *   if chosen too small (here we deliberately pick a generous size to avoid errors).
+     * Expected: both images contain one CODE_128 "ROT-AUTOSIZE" and remain readable.
+     */
+    @Test
+    public void code128_rotation_autosize_vs_fixed() throws Exception {
+        final String payload = "ROT-AUTOSIZE";
+
+        // Variant 1: AutoSizeMode.NEAREST (engine picks optimal raster after rotation)
+        BarcodeGenerator generatorAuto = new BarcodeGenerator(EncodeTypes.CODE_128, payload);
+        generatorAuto.getParameters().setRotationAngle(45f);
+        generatorAuto.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
+
+        String autoPath = ExampleAssist.pathCombine(FOLDER, FILE_CODE128_ROT_45_AUTOSIZE_NEAREST);
+        generatorAuto.save(autoPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(autoPath);
+
+        assertImageHasBarcodes(
+                autoPath,
+                1,
+                List.of(expected(DecodeType.CODE_128, payload))
+        );
+
+        // Variant 2: AutoSizeMode.NONE with fixed canvas size.
+        // IMPORTANT: for rotated 1D symbols the bounding box grows,
+        // so we use a fairly large canvas to avoid "not enough space".
+        BarcodeGenerator generatorFixed = new BarcodeGenerator(EncodeTypes.CODE_128, payload);
+        generatorFixed.getParameters().setRotationAngle(45f);
+        generatorFixed.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
+
+        generatorFixed.getParameters().getImageWidth().setPixels(800);
+        generatorFixed.getParameters().getImageHeight().setPixels(400);
+        generatorFixed.getParameters().getBarcode().getXDimension().setPixels(2);
+
+        String fixedPath = ExampleAssist.pathCombine(FOLDER, FILE_CODE128_ROT_45_FIXED_SIZE);
+        generatorFixed.save(fixedPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(fixedPath);
+
+        assertImageHasBarcodes(
+                fixedPath,
+                1,
+                List.of(expected(DecodeType.CODE_128, payload))
+        );
+    }
+
 
     /**
      * QR rotation: square symbology rotated by 90 degrees.
