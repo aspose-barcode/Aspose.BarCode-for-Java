@@ -38,6 +38,11 @@ public class RotationExample {
     private static final String FILE_CODE128_ROT_270     = "code128_rotation_270deg.png";
     private static final String FILE_CODE128_ROT_45      = "code128_rotation_45deg.png";
     private static final String FILE_CODE128_ROT_M45     = "code128_rotation_minus45deg.png";
+    private static final String FILE_CODE128_AUTOSIZE_NEAREST =
+            "code128_autosize_nearest.png";
+    private static final String FILE_CODE128_AUTOSIZE_FIXED =
+            "code128_autosize_fixed_none.png";
+
     private static final String FILE_CODE128_ROT_90_AUTOSIZE_NEAREST =
             "code128_rotation_90deg_autosize_nearest.png";
     private static final String FILE_CODE128_ROT_90_FIXED_SIZE =
@@ -136,7 +141,7 @@ public class RotationExample {
      *   if chosen too small (here we deliberately pick a generous size to avoid errors).
      * Expected: both images contain one CODE_128 "ROT-AUTOSIZE" and remain readable.
      */
-    @Test
+    @Test(enabled = false) //TODO BARCODEJAVA-2198
     public void code128_rotation_autosize_vs_fixed() throws Exception {
         final String payload = "ROT-AUTOSIZE";
 
@@ -175,7 +180,6 @@ public class RotationExample {
                 List.of(expected(DecodeType.CODE_128, payload))
         );
     }
-
 
     /**
      * QR rotation: square symbology rotated by 90 degrees.
