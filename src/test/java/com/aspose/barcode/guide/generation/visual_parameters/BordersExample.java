@@ -17,11 +17,18 @@ import static com.aspose.barcode.guide.common.ExampleAssist.assertImageHasBarcod
 import static com.aspose.barcode.guide.common.ExampleAssist.expected;
 
 /**
- * Examples focused on configuring borders:
+ * Border customization examples:
  * <ul>
- *   <li>Global frame border around the barcode (visibility, width as Unit, color, dash style)</li>
- *   <li>Interplay between border and barcode padding (to avoid touching bars)</li>
- *   <li>ITF-14 bearer bar (border) types and thickness in physical units (mm @ DPI)</li>
+ *   <li>Global frame border: visibility, width as {@link Unit}, color, optional dash style</li>
+ *   <li>Contrast against white/black backgrounds so the frame is clearly visible</li>
+ *   <li>ITF-14 bearer bar types and thickness in millimeters with DPI conversion</li>
+ * </ul>
+ *
+ * Conventions:
+ * <ul>
+ *   <li>No try-with-resources; no explicit close()/dispose()</li>
+ *   <li>Deterministic outputs under {@code src/test/resources}</li>
+ *   <li>Use {@link ExampleAssist} helpers</li>
  * </ul>
  */
 public class BordersExample {
@@ -29,13 +36,12 @@ public class BordersExample {
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("generation", "visual_parameters", "borders");
 
-    // Filenames
-    private static final String FILE_C128_BORDER_PT     = "c128_border_2pt_solid.png";
-    private static final String FILE_EAN13_BORDER_MM    = "ean13_border_1mm_300dpi.png";
-    private static final String FILE_QR_BORDER_DASHED   = "qr_border_dashed.png";
-    private static final String FILE_ITF14_FRAME_MM     = "itf14_frame_bearer_2_5mm_300dpi.png";
-    private static final String FILE_ITF14_BAR_OUT_MM   = "itf14_bar_out_bearer_2_0mm_300dpi.png";
-    private static final String FILE_PADDING_VS_BORDER  = "code128_padding_vs_border.png";
+    // Output files
+    private static final String FILE_C128_BORDER_WHITE_BG       = "c128_border_red_2pt_on_white.png";
+    private static final String FILE_QR_BORDER_BLACK_BG_DASHED  = "qr_border_white_2pt_on_black_dashed.png";
+    private static final String FILE_EAN13_BORDER_MM_300DPI     = "ean13_border_1mm_300dpi_blue.png";
+    private static final String FILE_ITF14_FRAME_2_5MM_300DPI   = "itf14_frame_2_5mm_300dpi_gray.png";
+    private static final String FILE_ITF14_BAR_OUT_2_0MM_DARKBG = "itf14_bar_out_2_0mm_300dpi_ivory_on_dark.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -43,32 +49,33 @@ public class BordersExample {
     }
 
     /**
-     * # CODE 128: global frame border, width in typographic points
+     * # CODE 128 on WHITE background with a RED solid frame (2pt)
      *
-     * <b>Shows:</b>
+     * Shows:
      * <ul>
-     *   <li>How to enable the global frame border via {@code getParameters().getBorder().setVisible(true)}.</li>
-     *   <li>How to set border width in points using {@link Unit} (independent from DPI for {@code setPixels}, but DPI matters for {@code setPoint}).</li>
-     *   <li>How to set a custom border color.</li>
-     *   <li>How to keep enough barcode padding so the frame does not touch bars.</li>
+     *   <li>Global border enable via {@code getParameters().getBorder().setVisible(true)}</li>
+     *   <li>Border width in points via {@link Unit#setPoint(float)}</li>
+     *   <li>High-contrast red frame on white background via {@code getParameters().getBackColor().setColor(...)} and {@code border.setColor(...)} </li>
      * </ul>
      *
-     * <b>Expected:</b> one {@code CODE_128} reading "BORDER-2PT", a visible solid frame around the image with ~2pt thickness.
+     * Expected: one CODE_128 reading "BORDER-RED-2PT", red frame clearly visible on white.
      */
     @Test
-    public void code128_globalBorder_pointsWidth() throws Exception {
-        final String codeText = "BORDER-2PT";
+    public void code128_whiteBackground_redSolidBorder_2pt() throws Exception {
+        final String codeText = "BORDER-RED-2PT";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, codeText);
 
-        // Border: visible, 2pt, dark gray color
+        // White background for maximum contrast with a red frame
+        generator.getParameters().setBackColor(Color.WHITE);
+
         BorderParameters border = generator.getParameters().getBorder();
         border.setVisible(true);
-        border.getWidth().setPoint(2.0f);
-        border.setColor(new Color(0x33, 0x33, 0x33)); // #333333
+        border.getWidth().setPoint(2.0f);                 // 2 pt frame
+        border.setColor(new Color(0xE5, 0x2B, 0x2B));     // vivid red
 
-        // Keep some padding so bars do not "stick" to the border
-        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(12);
-        generator.getParameters().getBarcode().getPadding().getRight().setPixels(12);
+        // Keep bars safely away from the frame
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(14);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(14);
         generator.getParameters().getBarcode().getPadding().getTop().setPixels(10);
         generator.getParameters().getBarcode().getPadding().getBottom().setPixels(10);
 
@@ -78,7 +85,7 @@ public class BordersExample {
         generator.getParameters().getImageWidth().setPixels(520);
         generator.getParameters().getImageHeight().setPixels(220);
 
-        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_C128_BORDER_PT);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_C128_BORDER_WHITE_BG);
         generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
@@ -86,29 +93,73 @@ public class BordersExample {
     }
 
     /**
-     * # EAN-13: global frame border, width in millimeters at 300 DPI
+     * # QR on BLACK background with a WHITE dashed frame (2pt)
      *
-     * <b>Shows:</b>
+     * Shows:
      * <ul>
-     *   <li>Setting physical border thickness via {@code Unit.setMillimeters()} and controlling conversion with {@code Unit.updateResolution(300)}.</li>
-     *   <li>How physical units map to pixels for the final raster (useful for print workflows).</li>
+     *   <li>How to ensure border visibility on a dark background by using a light (white) frame color</li>
+     *   <li>Optional dashed frame if {@code setDashStyle} is available in your SDK</li>
      * </ul>
      *
-     * <b>Expected:</b> one {@code EAN_13} with a visible frame of ~1.0 mm thickness at 300 dpi.
+     * Expected: one QR reading "QR-WHITE-BORDER", white (dashed) frame clearly visible on black.
      */
     @Test
-    public void ean13_globalBorder_millimeters_at300dpi() throws Exception {
-        final String codeText = "5901234123457";
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, codeText);
+    public void qr_blackBackground_whiteDashedBorder_2pt() throws Exception {
+        final String codeText = "QR-WHITE-BORDER";
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, codeText);
+
+        // Black background + white frame = strong contrast
+        generator.getParameters().setBackColor(Color.BLACK);
 
         BorderParameters border = generator.getParameters().getBorder();
         border.setVisible(true);
-        Unit borderWidth = border.getWidth();
-        borderWidth.updateResolution(300f);
-        borderWidth.setMillimeters(1.0f);
-        border.setColor(new Color(0x00, 0x00, 0x00));
+        border.getWidth().setPoint(2.0f);
+        border.setColor(Color.WHITE);
 
-        // Reasonable layout
+        // If your SDK exposes dash styles, uncomment the next line:
+        // border.setDashStyle(BorderDashStyle.DASH);
+
+        // Room around the symbol so the frame doesn't hug modules
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(12);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(12);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(12);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
+
+        generator.getParameters().getImageWidth().setPixels(240);
+        generator.getParameters().getImageHeight().setPixels(240);
+
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_BORDER_BLACK_BG_DASHED);
+        generator.save(fullPath, BarCodeImageFormat.PNG);
+        ExampleAssist.assertFileCreated(fullPath);
+
+        assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.QR, codeText)));
+    }
+
+    /**
+     * # EAN-13 on WHITE background with a BLUE frame (1.0 mm @ 300 dpi)
+     *
+     * Shows:
+     * <ul>
+     *   <li>Physical thickness for the global frame: {@code setMillimeters(1.0f)} + {@code updateResolution(300f)}</li>
+     *   <li>Blue frame on white to make the border obvious</li>
+     * </ul>
+     *
+     * Expected: one EAN_13 "5901234123457", blue frame ~1.0 mm at 300 dpi.
+     */
+    @Test
+    public void ean13_whiteBackground_blueBorder_1mm_at300dpi() throws Exception {
+        final String codeText = "5901234123457";
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, codeText);
+
+        generator.getParameters().setBackColor(Color.WHITE);
+
+        BorderParameters border = generator.getParameters().getBorder();
+        border.setVisible(true);
+        Unit width = border.getWidth();
+        width.updateResolution(300f);
+        width.setMillimeters(1.0f);
+        border.setColor(new Color(0x0B, 0x57, 0xD0)); // azure/blue
+
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(12);
         generator.getParameters().getBarcode().getPadding().getRight().setPixels(12);
         generator.getParameters().getBarcode().getPadding().getTop().setPixels(8);
@@ -117,7 +168,7 @@ public class BordersExample {
         generator.getParameters().getImageWidth().setPixels(360);
         generator.getParameters().getImageHeight().setPixels(200);
 
-        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_BORDER_MM);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_BORDER_MM_300DPI);
         generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
@@ -125,80 +176,43 @@ public class BordersExample {
     }
 
     /**
-     * # QR: dashed (non-solid) global frame border
+     * # ITF-14 FRAME bearer on WHITE background, thickness 2.5 mm @ 300 dpi
      *
-     * <b>Shows:</b>
+     * Shows:
      * <ul>
-     *   <li>How to switch border dash style (e.g., to dashed/dotted) if your SDK exposes {@code BorderDashStyle}.</li>
-     *   <li>Using a colored border around a 2D symbol.</li>
+     *   <li>ITF-14 bearer bar type selection: {@code ITF14BorderType.FRAME}</li>
+     *   <li>Bearer thickness in millimeters via {@link Unit} with DPI set to 300</li>
+     *   <li>Quiet zone coefficient in multiples of XDimension (>=10 recommended)</li>
      * </ul>
      *
-     * <b>Notes:</b> If your build lacks {@code setDashStyle}, keep the call commented and the test still demonstrates color + visibility.
-     *
-     * <b>Expected:</b> one {@code QR} with a (dashed) visible colored frame.
+     * Expected: one ITF_14 with visible rectangular frame (~2.5 mm) on white background.
      */
     @Test
-    public void qr_globalBorder_dashedStyle() throws Exception {
-        final String codeText = "QR-BORDER-DASH";
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, codeText);
-
-        BorderParameters border = generator.getParameters().getBorder();
-        border.setVisible(true);
-        border.getWidth().setPoint(2.0f);
-        border.setColor(new Color(0x00, 0x66, 0xCC)); // blue-ish
-
-        // If available in your SDK:
-        // border.setDashStyle(BorderDashStyle.DASH);
-
-        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(10);
-        generator.getParameters().getBarcode().getPadding().getRight().setPixels(10);
-        generator.getParameters().getBarcode().getPadding().getTop().setPixels(10);
-        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(10);
-
-        generator.getParameters().getImageWidth().setPixels(240);
-        generator.getParameters().getImageHeight().setPixels(240);
-
-        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_BORDER_DASHED);
-        generator.save(fullPath, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(fullPath);
-
-        assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.QR, codeText)));
-    }
-
-    /**
-     * # ITF-14: bearer bar type = FRAME, thickness in millimeters at 300 DPI
-     *
-     * <b>Shows:</b>
-     * <ul>
-     *   <li>How to select ITF-14 bearer bar type (FRAME) via {@code ITFParameters.setItfBorderType(...)}.</li>
-     *   <li>How to set bearer thickness in mm with DPI-controlled conversion through {@link Unit} on {@code getItfBorderThickness()}.</li>
-     *   <li>How to increase quiet zones via {@code setQuietZoneCoef(...)} (in multiples of XDimension).</li>
-     * </ul>
-     *
-     * <b>Expected:</b> one {@code ITF_14} with visible rectangular frame (bearer) of ~2.5 mm at 300 dpi.
-     */
-    @Test
-    public void itf14_bearerFrame_millimeters_at300dpi() throws Exception {
-        final String codeText = "10012345000017"; // 14 digits including check
+    public void itf14_frame_onWhite_2_5mm_at300dpi() throws Exception {
+        final String codeText = "10012345000017";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.ITF_14, codeText);
+
+        generator.getParameters().setBackColor(Color.WHITE);
 
         ITFParameters itf = generator.getParameters().getBarcode().getITF();
         itf.setItfBorderType(ITF14BorderType.FRAME);
 
-        Unit bearerThickness = itf.getItfBorderThickness();
-        bearerThickness.updateResolution(300f);
-        bearerThickness.setMillimeters(2.5f);
+        Unit bearer = itf.getItfBorderThickness();
+        bearer.updateResolution(300f);
+        bearer.setMillimeters(2.5f);
 
-        // Quiet zone in multiples of XDimension (>=10 recommended)
+        // Give decoder more margin
         itf.setQuietZoneCoef(12);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(2.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(110);
 
+        // Global border can be used together if you also want a frame around the whole image,
+        // but here we demonstrate the symbology-specific bearer only.
         generator.getParameters().getImageWidth().setPixels(520);
         generator.getParameters().getImageHeight().setPixels(260);
 
-        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_ITF14_FRAME_MM);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_ITF14_FRAME_2_5MM_300DPI);
         generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
@@ -206,27 +220,31 @@ public class BordersExample {
     }
 
     /**
-     * # ITF-14: bearer bar type = BAR_OUT, thickness in millimeters at 300 DPI
+     * # ITF-14 BAR_OUT bearer on DARK background, thickness 2.0 mm @ 300 dpi
      *
-     * <b>Shows:</b>
+     * Shows:
      * <ul>
-     *   <li>Alternative bearer style (BAR_OUT) for ITF-14.</li>
-     *   <li>Thickness in mm + DPI conversion again, but slightly thinner.</li>
+     *   <li>Alternative bearer style: {@code ITF14BorderType.BAR_OUT}</li>
+     *   <li>Thinner bearer (2.0 mm) and dark background to demonstrate contrast strategy</li>
+     *   <li>Global frame border can also be enabled with a light color (optional); here we focus on the bearer</li>
      * </ul>
      *
-     * <b>Expected:</b> one {@code ITF_14} with external bearer bars (BAR_OUT), ~2.0 mm at 300 dpi.
+     * Expected: one ITF_14 with external bearers BAR_OUT (~2.0 mm) clearly visible on a near-black background.
      */
     @Test
-    public void itf14_bearerBarOut_millimeters_at300dpi() throws Exception {
+    public void itf14_barOut_onDark_2_0mm_at300dpi() throws Exception {
         final String codeText = "10012345000017";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.ITF_14, codeText);
+
+        // Very dark background so the light bearer stands out
+        generator.getParameters().setBackColor(new Color(0x0A, 0x0A, 0x0A));
 
         ITFParameters itf = generator.getParameters().getBarcode().getITF();
         itf.setItfBorderType(ITF14BorderType.BAR_OUT);
 
-        Unit bearerThickness = itf.getItfBorderThickness();
-        bearerThickness.updateResolution(300f);
-        bearerThickness.setMillimeters(2.0f);
+        Unit bearer = itf.getItfBorderThickness();
+        bearer.updateResolution(300f);
+        bearer.setMillimeters(2.0f);
 
         itf.setQuietZoneCoef(12);
 
@@ -236,51 +254,10 @@ public class BordersExample {
         generator.getParameters().getImageWidth().setPixels(520);
         generator.getParameters().getImageHeight().setPixels(260);
 
-        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_ITF14_BAR_OUT_MM);
+        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_ITF14_BAR_OUT_2_0MM_DARKBG);
         generator.save(fullPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(fullPath);
 
         assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.ITF_14, codeText)));
-    }
-
-    /**
-     * # Padding vs global border: why enough padding matters
-     *
-     * <b>Shows:</b>
-     * <ul>
-     *   <li>That the global frame border is drawn around the content area; if padding is too small, the frame can visually "touch" bars.</li>
-     *   <li>How to increase barcode padding to maintain a clean gap between bars and the frame.</li>
-     * </ul>
-     *
-     * <b>Expected:</b> one {@code CODE_128}; the bars should not collide with the frame due to adequate padding.
-     */
-    @Test
-    public void code128_paddingVsBorder_gapDemonstration() throws Exception {
-        final String codeText = "PADDING-VS-BORDER";
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, codeText);
-
-        // Border on
-        BorderParameters border = generator.getParameters().getBorder();
-        border.setVisible(true);
-        border.getWidth().setPoint(2.0f);
-        border.setColor(new Color(0x55, 0x55, 0x55));
-
-        // Adequate padding so the frame does not overlap bars
-        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(16);
-        generator.getParameters().getBarcode().getPadding().getRight().setPixels(16);
-        generator.getParameters().getBarcode().getPadding().getTop().setPixels(12);
-        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
-
-        generator.getParameters().getBarcode().getXDimension().setPixels(2.0f);
-        generator.getParameters().getBarcode().getBarHeight().setPixels(115);
-
-        generator.getParameters().getImageWidth().setPixels(520);
-        generator.getParameters().getImageHeight().setPixels(220);
-
-        String fullPath = ExampleAssist.pathCombine(FOLDER, FILE_PADDING_VS_BORDER);
-        generator.save(fullPath, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(fullPath);
-
-        assertImageHasBarcodes(fullPath, 1, List.of(expected(DecodeType.CODE_128, codeText)));
     }
 }
