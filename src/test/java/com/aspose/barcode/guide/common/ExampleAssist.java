@@ -809,7 +809,7 @@ public class ExampleAssist {
         // X-dimension in pixels
         gen.getParameters().getBarcode().getXDimension().setPixels(xDimPx);
 
-        // Fix overall image size in pixels (если у вашей версии свойства называются иначе — подставьте эквиваленты)
+        // Fix overall image size in pixels
         gen.getParameters().getImageWidth().setPixels(widthPx);
         gen.getParameters().getImageHeight().setPixels(heightPx);
 
@@ -1154,7 +1154,7 @@ public class ExampleAssist {
     /**
      * Assert that an image contains exactly {@code expectedCount} barcodes and that each {@link Expected}
      * is matched by a decoded barcode with the same type and either the same text (TEXT mode)
-     * or identical bytes (BYTES mode). Order-independent; каждый найденный код используется один раз.
+     * or identical bytes (BYTES mode).
      * <p>
      * Notes:
      * - No try-with-resources and no explicit close/dispose on BarCodeReader (project policy).

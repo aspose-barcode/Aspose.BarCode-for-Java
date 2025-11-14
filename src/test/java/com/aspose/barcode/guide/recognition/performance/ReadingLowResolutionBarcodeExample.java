@@ -51,8 +51,6 @@ public class ReadingLowResolutionBarcodeExample {
     private void generateCode128Base() throws Exception {
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE128_CLEAN_BASE, path -> {
             BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, PAYLOAD_TEXT);
-            // Толще модули и широкие quiet-zones на базе — это не критично теперь,
-            // но оставим как стабильный "идеальный" эталон.
             gen.getParameters().getBarcode().getXDimension().setPixels(3.0f);
             gen.getParameters().getBarcode().getPadding().getLeft().setPixels(40f);
             gen.getParameters().getBarcode().getPadding().getRight().setPixels(40f);
@@ -69,8 +67,8 @@ public class ReadingLowResolutionBarcodeExample {
      * - keep a white background and sufficient quiet zones.
      */
     private void generateLowResVariants() throws Exception {
-        // Для стабильности задаём высоту ~ 120–160 px, чтобы штрихи были «достаточно высокими».
-        // Quiet-zones: минимум 8–12 px слева/справа.
+        // For stability, we set the height to ~120–160 px so that the strokes are "tall enough."
+        // Quiet zones: at least 8–12 px left/right.
         final int HEIGHT_PX = 140;
         final int QUIET_PX  = 12;
 

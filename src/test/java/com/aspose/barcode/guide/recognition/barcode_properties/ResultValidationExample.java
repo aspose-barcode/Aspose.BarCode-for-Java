@@ -217,7 +217,6 @@ public class ResultValidationExample {
                     big);
 
             // 2) Downscale to a tiny width while keeping edges crisp (no blur)
-            //    110–140 px обычно хорошо распознаётся хотя бы одним пресетом.
             ExampleAssist.downscaleNearestCrisp(big, full, /*targetWidthPx*/ 128);
 
             new java.io.File(big).delete();

@@ -113,7 +113,7 @@ public class GenerateGS1_128 {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.GS_1_CODE_128, gs1);
 
         gen.getParameters().getBarcode().getXDimension().setMillimeters(0.33f);
-        gen.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f); // минимально допустимо для печати
+        gen.getParameters().getBarcode().getBarHeight().setMillimeters(12.0f);
         gen.getParameters().setResolution(300.0f);
 
         //Disable code-text to save height

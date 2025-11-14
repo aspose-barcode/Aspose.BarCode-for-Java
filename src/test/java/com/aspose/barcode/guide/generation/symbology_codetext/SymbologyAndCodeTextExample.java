@@ -142,7 +142,7 @@ public class SymbologyAndCodeTextExample {
        //compare by BYTES via ExampleAssist.expected(...)
         assertImageHasBarcodes(full,1,List.of(expected(DecodeType.QR, payload)));
 
-        // (Optional) extra explicit checks — без try-with-resources и без close()
+        // (Optional) extra explicit check
         BarCodeReader reader = new BarCodeReader(full, DecodeType.QR);
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertEquals(results.length, 1, "Expected exactly 1 QR");

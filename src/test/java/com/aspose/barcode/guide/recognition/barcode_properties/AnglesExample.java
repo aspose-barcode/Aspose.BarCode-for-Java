@@ -197,9 +197,9 @@ public class AnglesExample {
 
     // ---------- fixtures ----------
     private void generateFixtures() throws Exception {
-        // 1) Рендерим крупный Code128 с тихими зонами, затем поворачиваем ~30°
+        // 1) Render a large Code128 with quiet zones, then rotate it ~30°
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_C128_30, (String full) -> {
-            // целевой размер и геометрия модулей
+            // target size and geometry of modules
             String tmp = full + ".tmp.png";
             ExampleAssist.renderBarcodeFixedSizePNG(
                     EncodeTypes.CODE_128, "ANGLE-128",
@@ -214,7 +214,7 @@ public class AnglesExample {
             new File(tmp).delete();
         });
 
-        // 2) Рендерим крупный QR, затем поворачиваем ~45°
+        // 2) Render a large QR, then rotate it ~45°
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_45, (String full) -> {
             String tmp = full + ".tmp.png";
             ExampleAssist.renderBarcodeFixedSizePNG(
