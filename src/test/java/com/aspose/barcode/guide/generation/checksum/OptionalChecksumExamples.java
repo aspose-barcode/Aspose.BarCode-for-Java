@@ -306,7 +306,7 @@ public class OptionalChecksumExamples {
         assertImageHasBarcodes(
                 out,
                 1,
-                java.util.List.of(expected(DecodeType.INTERLEAVED_2_OF_5, "0" + payload + "5")), ChecksumValidation.ON);
+                java.util.List.of(expected(DecodeType.INTERLEAVED_2_OF_5, expectedCodeText)), ChecksumValidation.ON);
     }
 
 
