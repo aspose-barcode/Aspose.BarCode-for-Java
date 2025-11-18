@@ -51,7 +51,7 @@ public class OptionalChecksumExamples {
     public void code39_checksum_on() throws Exception {
         String payload = "C39DATA";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_39, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -72,7 +72,7 @@ public class OptionalChecksumExamples {
     public void code39_checksum_off() throws Exception {
         String payload = "C39DATA";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_39, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -95,7 +95,7 @@ public class OptionalChecksumExamples {
     public void codabar_checksum_on() throws Exception {
         String payload = "A123456A"; // Codabar typically needs start/stop chars (A/B/C/D)
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODABAR, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -116,7 +116,7 @@ public class OptionalChecksumExamples {
     public void codabar_checksum_off() throws Exception {
         String payload = "A123456A";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODABAR, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -139,7 +139,7 @@ public class OptionalChecksumExamples {
     public void code11_checksum_on() throws Exception {
         String payload = "12345";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_11, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -160,7 +160,7 @@ public class OptionalChecksumExamples {
     public void code11_checksum_off() throws Exception {
         String payload = "12345";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_11, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -180,7 +180,7 @@ public class OptionalChecksumExamples {
     public void standard2of5_checksum_on() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.STANDARD_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -198,7 +198,7 @@ public class OptionalChecksumExamples {
     public void standard2of5_checksum_off() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.STANDARD_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -218,7 +218,7 @@ public class OptionalChecksumExamples {
     public void interleaved2of5_checksum_on() throws Exception {
         String payload = "123456"; // even
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.INTERLEAVED_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -236,7 +236,7 @@ public class OptionalChecksumExamples {
     public void interleaved2of5_checksum_off() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.INTERLEAVED_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -256,7 +256,7 @@ public class OptionalChecksumExamples {
     public void matrix2of5_checksum_on() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.MATRIX_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -274,7 +274,7 @@ public class OptionalChecksumExamples {
     public void matrix2of5_checksum_off() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.MATRIX_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -294,7 +294,7 @@ public class OptionalChecksumExamples {
     public void iata2of5_checksum_on() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.IATA_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -312,7 +312,7 @@ public class OptionalChecksumExamples {
     public void iata2of5_checksum_off() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.IATA_2_OF_5, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
@@ -332,7 +332,7 @@ public class OptionalChecksumExamples {
     public void msi_checksum_on() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.MSI, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -350,7 +350,7 @@ public class OptionalChecksumExamples {
     public void msi_checksum_off() throws Exception {
         String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.MSI, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(80);
@@ -370,7 +370,7 @@ public class OptionalChecksumExamples {
     public void itf14_checksum_on() throws Exception {
         String payload = "1001234500001"; // engine will compute check digit if ON
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.ITF_14, payload);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.YES);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(2.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(100);
@@ -389,7 +389,7 @@ public class OptionalChecksumExamples {
     public void itf14_checksum_off() throws Exception {
         String full14 = "10012345000017"; // already with a proper check digit
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.ITF_14, full14);
-        generator.getParameters().getBarcode().getChecksum().setEnableChecksum(EnableChecksum.NO);
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(2.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(100);
