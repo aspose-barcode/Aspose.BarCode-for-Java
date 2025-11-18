@@ -547,8 +547,20 @@ public class ExampleAssist {
     }
 
     /**
-     * Inverts pixel colors (RGB) of the source image and writes to outPath.
-     * Alpha channel is preserved.
+     * Inverts RGB channels for every pixel of the input image and writes the result to {@code outPath}.
+     * The alpha channel (transparency) is preserved unchanged.
+     *
+     * <p>Notes:</p>
+     * <ul>
+     *   <li>Supports any format readable by {@link javax.imageio.ImageIO} (e.g., PNG/JPEG) as input.</li>
+     *   <li>The output format is inferred from {@code outPath} extension; defaults to PNG if not JPEG.</li>
+     *   <li>Parent directories for {@code outPath} are created if they do not exist.</li>
+     *   <li>Only color inversion is performed: each pixel becomes {@code (A, 255-R, 255-G, 255-B)}.</li>
+     * </ul>
+     *
+     * @param srcPath absolute or relative path to the source image file
+     * @param outPath absolute or relative path for the inverted image to be written
+     * @throws RuntimeException if reading or writing fails (wraps {@link java.io.IOException})
      */
     public static void invertColors(String srcPath, String outPath) {
         try
@@ -925,6 +937,14 @@ public class ExampleAssist {
         Assert.assertEquals(results[0].getCodeText(), expectedText, "Unexpected text for: " + labelForError);
     }
 
+    /**
+     * Returns the number of logical CPUs available to the JVM.
+     * Falls back to {@code 1} if the value cannot be determined.
+     *
+     * <p>Useful for sizing thread pools or choosing parallel test batch sizes.</p>
+     *
+     * @return positive CPU count, never less than {@code 1}
+     */
     public static int getCpuCount() {
         try
         {
@@ -936,6 +956,14 @@ public class ExampleAssist {
         }
     }
 
+    /**
+     * Returns {@code true} if at least one {@link BarCodeResult} in the array
+     * has {@code getCodeType()} equal to {@code type}.
+     *
+     * @param results array of results (may be {@code null} or empty)
+     * @param type    decode type to search for (must not be {@code null})
+     * @return {@code true} if a result with the given type is present; otherwise {@code false}
+     */
     public static boolean hasDecodeType(BarCodeResult[] results, BaseDecodeType type) {
         for (BarCodeResult codeResult : results)
         {
@@ -947,11 +975,31 @@ public class ExampleAssist {
         return false;
     }
 
+    /**
+     * Asserts that two angles are approximately equal within a given tolerance.
+     * The assertion fails if {@code |actual - expected| > tol}.
+     *
+     * <p>Use this for checks that are inherently fuzzy (deskew angle, rotation detection, etc.).</p>
+     *
+     * @param actual   measured angle in degrees
+     * @param expected expected angle in degrees
+     * @param tol      allowed absolute difference (degrees), must be non-negative
+     * @param msg      message prefix for the assertion failure
+     * @throws AssertionError if the absolute difference exceeds {@code tol}
+     */
     public static void assertAngleClose(double actual, double expected, double tol, String msg) {
         Assert.assertTrue(Math.abs(actual - expected) <= tol,
                 msg + " (actual=" + actual + ", expected=" + expected + "±" + tol + ")");
     }
 
+    /**
+     * Returns {@code true} if the given array of points contains a point equal to {@code p}.
+     * Equality is based on {@link java.awt.Point#equals(Object)} (same X and Y).
+     *
+     * @param arr array to scan (may be {@code null} or empty)
+     * @param p   point to search for (may be {@code null})
+     * @return {@code true} if an equal point is present; otherwise {@code false}
+     */
     public static boolean containsPoint(Point[] arr, Point p) {
         for (Point a : arr)
         {
@@ -1058,7 +1106,19 @@ public class ExampleAssist {
         return dst;
     }
 
-    // Prints recognition metadata for a single result, using only actual getters present in SDK.
+    /**
+     * Prints a compact, human-readable dump of recognition metadata for a single
+     * {@link BarCodeResult}. The output includes basic fields (type, text, confidence),
+     * region rectangle and quadrangle (if available), and selected extended parameters
+     * for QR/DataMatrix/PDF417.
+     *
+     * <p>Intended for debugging failed tests: keeps logs short while still giving the
+     * most useful fields for diagnosis.</p>
+     *
+     * @param result decoded barcode result to inspect (must not be {@code null})
+     * @param prefix optional label printed in square brackets before each line;
+     *               pass {@code null} or empty to omit
+     */
     public static void printResultMetadata(BarCodeResult result, String prefix) {
         String p = (prefix == null || prefix.isEmpty()) ? "" : ("[" + prefix + "] ");
 
@@ -1390,11 +1450,6 @@ public class ExampleAssist {
                 "Generated SVG content must match the expected template"
         );
     }
-
-    // In your ExampleAssist (or a new small utility class), add:
-
-
-
     /**
      * Builds the expected decoded string for Interleaved 2 of 5 when checksum is enabled.
      * Engine may prepend a leading '0' if (payload + check) length is odd (I-2/5 requires even length).
