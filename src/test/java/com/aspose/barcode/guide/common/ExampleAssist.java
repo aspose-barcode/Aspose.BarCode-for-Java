@@ -1331,4 +1331,62 @@ public class ExampleAssist {
         );
     }
 
+    // In your ExampleAssist (or a new small utility class), add:
+
+
+
+    /**
+     * Builds the expected decoded string for Interleaved 2 of 5 when checksum is enabled.
+     * Engine may prepend a leading '0' if (payload + check) length is odd (I-2/5 requires even length).
+     *
+     * @param payload numeric payload without check digit
+     * @return expected code text that the reader will return (possible leading '0')
+     */
+    public static String expectedI25WithChecksum(String payload) {
+        char check = computeI25Mod10CheckDigit(payload);
+        String withCheck = payload + check;
+        // If total length becomes odd, engine prepends a leading '0'
+        if ((withCheck.length() % 2) != 0) {
+            return "0" + withCheck;
+        }
+        return withCheck;
+    }
+
+    /**
+     * Computes the Mod10 (3-1 weighted) check digit used by Interleaved 2 of 5.
+     * The weighting is applied from right to left on the payload (without check digit):
+     * - Sum of digits in odd positions (1st, 3rd, … from the right) * 3
+     * - plus sum of digits in even positions * 1
+     * Check digit = (10 - (sum % 10)) % 10
+     *
+     * @param digits numeric payload without check digit
+     * @return single char '0'..'9' representing the Mod10 check digit
+     * @throws IllegalArgumentException if input is null or not purely numeric
+     */
+    private static char computeI25Mod10CheckDigit(String digits) {
+        if (digits == null || digits.isEmpty()) {
+            throw new IllegalArgumentException("digits must be non-empty");
+        }
+        for (int i = 0; i < digits.length(); i++) {
+            char c = digits.charAt(i);
+            if (c < '0' || c > '9') {
+                throw new IllegalArgumentException("digits must be numeric: " + digits);
+            }
+        }
+
+        int sum = 0;
+        int posFromRight = 1; // 1-based from the right
+
+        for (int i = digits.length() - 1; i >= 0; i--, posFromRight++) {
+            int d = digits.charAt(i) - '0';
+            // Odd positions (1st, 3rd, ...) from the right are weighted by 3
+            // Even positions are weighted by 1
+            sum += (posFromRight % 2 == 1) ? (3 * d) : d;
+        }
+
+        int check = (10 - (sum % 10)) % 10;
+        return (char) ('0' + check);
+    }
+
+
 }

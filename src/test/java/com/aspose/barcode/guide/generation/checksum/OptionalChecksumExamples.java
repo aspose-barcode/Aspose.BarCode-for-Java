@@ -12,8 +12,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static com.aspose.barcode.guide.common.ExampleAssist.assertImageHasBarcodes;
-import static com.aspose.barcode.guide.common.ExampleAssist.expected;
+import static com.aspose.barcode.guide.common.ExampleAssist.*;
 
 /**
  * Checksum demos for symbologies where checksum is OPTIONAL:
@@ -279,25 +278,37 @@ public class OptionalChecksumExamples {
     }
 
     // ---------- Interleaved 2 of 5 ----------
-
     @Test
     public void interleaved2of5_checksum_on() throws Exception {
+        // Even number of digits is required by I-2/5. With checksum=YES, engine appends MOD10.
+        // If total length becomes odd, engine prepends a leading '0' to keep it even.
         String payload = "123456";
+
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.INTERLEAVED_2_OF_5, payload);
         generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
+        // Robust rasterization + quiet zones
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generator.getParameters().getBarcode().getBarHeight().setPixels(90);
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(24);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(24);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(12);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
         generator.getParameters().getImageWidth().setPixels(420);
         generator.getParameters().getImageHeight().setPixels(180);
 
-        String out = ExampleAssist.pathCombine(FOLDER, "itf_on.png");
+        String out = ExampleAssist.pathCombine(FOLDER, "i25_on.png");
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1,
-                List.of(ExampleAssist.expectedPrefix(DecodeType.INTERLEAVED_2_OF_5, payload)), ChecksumValidation.ON);
+        // Expected text is payload with MOD10 check digit AND optional leading '0' to keep even length → "01234565".
+        String expectedCodeText = expectedI25WithChecksum(payload);
+        assertImageHasBarcodes(
+                out,
+                1,
+                java.util.List.of(expected(DecodeType.INTERLEAVED_2_OF_5, "0" + payload + "5")), ChecksumValidation.ON);
     }
+
 
     @Test
     public void interleaved2of5_checksum_off() throws Exception {
