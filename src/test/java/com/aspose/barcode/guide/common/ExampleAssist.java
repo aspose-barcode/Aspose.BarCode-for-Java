@@ -1163,12 +1163,21 @@ public class ExampleAssist {
     public static void assertImageHasBarcodes(String imagePath,
                                               int expectedCount,
                                               List<Expected> expectedList) throws Exception {
+        assertImageHasBarcodes(imagePath, expectedCount, expectedList, null);
+    }
+
+    public static void assertImageHasBarcodes(String imagePath,
+                                              int expectedCount,
+                                              List<Expected> expectedList, ChecksumValidation checksumValidation) throws Exception {
 
         BaseDecodeType[] hints = (expectedList != null && !expectedList.isEmpty())
                 ? expectedList.stream().map(e -> e.type).distinct().toArray(BaseDecodeType[]::new)
                 : new BaseDecodeType[]{DecodeType.ALL_SUPPORTED_TYPES};
 
         BarCodeReader reader = new BarCodeReader(imagePath, hints);
+        if(checksumValidation != null) {
+            reader.getBarcodeSettings().setChecksumValidation(checksumValidation);
+        }
         BarCodeResult[] results = reader.readBarCodes();
 
         // Debug print
