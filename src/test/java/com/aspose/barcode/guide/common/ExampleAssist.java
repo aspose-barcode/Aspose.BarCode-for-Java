@@ -1127,7 +1127,16 @@ public class ExampleAssist {
     }
 
     /**
-     * Factory for text-based expectation.
+     * Builds an {@link Expected} matcher for an exact TEXT comparison.
+     * <p>
+     * The assertion will pass only if a decoded barcode of the given {@code type}
+     * has {@code getCodeText()} exactly equal to {@code expectedText}.
+     * Use this when the engine is expected to return the payload verbatim
+     * (no AIs, no normalization, no guard stripping, no leading zeros).
+     *
+     * @param type         expected decode type (e.g., {@link DecodeType#CODE_128})
+     * @param expectedText exact code text expected from the reader
+     * @return {@link Expected} configured for exact TEXT comparison
      */
     public static Expected expected(BaseDecodeType type, String expectedText) {
         Objects.requireNonNull(expectedText, "expectedText");
@@ -1142,6 +1151,25 @@ public class ExampleAssist {
         return new Expected(type, CompareMode.BYTES, null, expectedBytes.clone());
     }
 
+    /**
+     * Builds an {@link Expected} matcher that checks the TEXT prefix (starts-with).
+     * <p>
+     * The assertion will pass if a decoded barcode of the given {@code type}
+     * has {@code getCodeText()} that <b>starts with</b> the provided {@code requiredPrefix}.
+     * <p>
+     * Use this for symbologies/engines that legitimately prepend or normalize
+     * the returned text, for example:
+     * <ul>
+     *   <li>ITF-14 as GS1 AI → reader returns {@code "(01)"} + GTIN-14</li>
+     *   <li>SSCC-18 as GS1 AI → reader returns {@code "(00)"} + SSCC</li>
+     *   <li>Interleaved 2 of 5 with Mod10 → engine may add a leading {@code '0'} when the total length becomes odd</li>
+     *   <li>UPC-E expansion, guard removal, etc.</li>
+     * </ul>
+     *
+     * @param type           expected decode type
+     * @param requiredPrefix prefix that must be present at the beginning of the decoded text
+     * @return {@link Expected} configured for PREFIX comparison
+     */
     public static Expected expectedPrefix(BaseDecodeType type, String requiredPrefix) {
         Objects.requireNonNull(requiredPrefix, "requiredPrefix");
         return new Expected(type, CompareMode.PREFIX, requiredPrefix, null);
@@ -1166,6 +1194,23 @@ public class ExampleAssist {
         assertImageHasBarcodes(imagePath, expectedCount, expectedList, null);
     }
 
+    /**
+     * Asserts that an image contains exactly {@code expectedCount} barcodes and matches all {@code expectedList},
+     * optionally forcing a particular {@link ChecksumValidation} policy on the reader.
+     * <p>
+     * This overload is useful for demonstrating checksum behavior:
+     * <ul>
+     *   <li>{@code ChecksumValidation.ON} – reader must validate the check digit; non-conforming symbols are rejected</li>
+     *   <li>{@code ChecksumValidation.OFF} – reader ignores the check digit when deciding acceptance</li>
+     *   <li>{@code ChecksumValidation.DEFAULT} – engine’s default policy</li>
+     * </ul>
+     *
+     * @param imagePath          path to the image under test
+     * @param expectedCount      exact number of barcodes expected
+     * @param expectedList       expectations (exact text or prefix) to match against results
+     * @param checksumValidation optional checksum policy to apply (may be {@code null} for default)
+     * @throws Exception if assertions fail
+     */
     public static void assertImageHasBarcodes(String imagePath,
                                               int expectedCount,
                                               List<Expected> expectedList, ChecksumValidation checksumValidation) throws Exception {
