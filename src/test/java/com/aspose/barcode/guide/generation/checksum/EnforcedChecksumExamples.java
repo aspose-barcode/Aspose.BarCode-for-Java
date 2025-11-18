@@ -1,5 +1,6 @@
 package com.aspose.barcode.guide.generation.checksum;
 
+import com.aspose.barcode.barcoderecognition.ChecksumValidation;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
@@ -63,7 +64,7 @@ public class EnforcedChecksumExamples {
         generator.save(outputPath, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(outputPath);
 
-        assertImageHasBarcodes(outputPath, 1, List.of(expected(DecodeType.CODE_93, payload)));
+        assertImageHasBarcodes(outputPath, 1, List.of(expected(DecodeType.CODE_93, payload)), ChecksumValidation.DEFAULT);
     }
 
     /** Code 93: explicitly disabling checksum must throw. */
