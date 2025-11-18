@@ -67,22 +67,47 @@ public class EnforcedChecksumExamples {
     }
 
     /**
-     * Code 128 — mandatory checksum (weighted sum with modulo).
+     * # Code 128: checksum is **enforced**
+     * Shows:
+     * - You cannot turn checksum off for Code 128 (it's always used internally).
+     * - Using DEFAULT/YES generates a valid symbol with the same code text.
      */
     @Test
-    public void code128_checksum_enforced() throws Exception {
+    public void code128_checksum_enforced_default() throws Exception {
         String payload = "C128DATA";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, payload);
-        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO); // ignored
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.DEFAULT);
 
         apply1DLayout(generator, 520, 200, 2.0f);
 
-        String out = ExampleAssist.pathCombine(FOLDER, "code128_enforced.png");
+        String out = ExampleAssist.pathCombine(FOLDER, "code128_enforced_ok.png");
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.CODE_128, payload)));
+        assertImageHasBarcodes(out, 1, java.util.List.of(expected(DecodeType.CODE_128, payload)));
     }
+
+    /**
+     * # Code 128: disabling checksum throws
+     *
+     * Shows:
+     * - Attempting to set `EnableChecksum.NO` for Code 128 results in an exception,
+     *   because this symbology mandates checksum.
+     */
+    @Test(expectedExceptions = com.aspose.barcode.BarCodeException.class)
+    public void code128_checksum_cannotDisable() throws Exception {
+        String payload = "C128DATA";
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, payload);
+
+        // This is illegal for Code 128 and must throw:
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
+
+        apply1DLayout(generator, 520, 200, 2.0f);
+        String out = ExampleAssist.pathCombine(FOLDER, "code128_enforced_fail.png");
+        generator.save(out, BarCodeImageFormat.PNG);
+    }
+
+
 
     /**
      * GS1 Code 128 — mandatory checksum and GS1 formatting rules.
