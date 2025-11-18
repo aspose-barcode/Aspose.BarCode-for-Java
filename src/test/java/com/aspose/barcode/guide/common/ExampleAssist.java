@@ -1144,7 +1144,22 @@ public class ExampleAssist {
     }
 
     /**
-     * Factory for byte-based expectation.
+     * Builds an {@link Expected} matcher for a raw BYTES comparison.
+     * <p>
+     * The assertion will pass only if a decoded barcode of the given {@code type}
+     * has {@code getCodeBytes()} that are <b>byte-for-byte identical</b> to
+     * {@code expectedBytes}. This is useful when:
+     * <ul>
+     *   <li>The symbology carries binary payloads (e.g., QR, DataMatrix, PDF417),</li>
+     *   <li>Text normalization/formatting may alter {@code getCodeText()} (encodings, GS1 AIs, etc.),</li>
+     *   <li>You need an exact check of the underlying bytes rather than the rendered string.</li>
+     * </ul>
+     * The supplied array is defensively copied to keep test expectations immutable.
+     *
+     * @param type          expected decode type (e.g., {@link DecodeType#QR})
+     * @param expectedBytes exact byte sequence expected from {@code BarCodeResult#getCodeBytes()}
+     * @return {@link Expected} configured for BYTES comparison
+     * @throws NullPointerException if {@code expectedBytes} is {@code null}
      */
     public static Expected expected(BaseDecodeType type, byte[] expectedBytes) {
         Objects.requireNonNull(expectedBytes, "expectedBytes");
