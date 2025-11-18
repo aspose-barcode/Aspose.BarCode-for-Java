@@ -93,21 +93,38 @@ public class OptionalChecksumExamples {
      */
     @Test
     public void codabar_checksum_on() throws Exception {
-        String payload = "A123456A"; // Codabar typically needs start/stop chars (A/B/C/D)
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODABAR, payload);
-        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
+        // Codabar requires start/stop A–D. A…A allowed.
+        String payload = "A123456A";
 
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODABAR, payload);
+
+        // Enable the checksum (it is optional in Codabar)
+        generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
+        generator.getParameters().getBarcode().getCodabar().setCodabarChecksumMode(CodabarChecksumMode.MOD_16);
+        // To ensure stable recognition: decent quiet zones + adequate rasterization
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
-        generator.getParameters().getBarcode().getBarHeight().setPixels(80);
-        generator.getParameters().getImageWidth().setPixels(420);
-        generator.getParameters().getImageHeight().setPixels(180);
+        generator.getParameters().getBarcode().getBarHeight().setPixels(90);
+
+        // Quiet zones (24 px left/right) and a little above/below
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(24);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(24);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(12);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
+
+        //Code text under the stripes so that it does not “climb” onto the graphics
+        generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+
+        generator.getParameters().getImageWidth().setPixels(520);
+        generator.getParameters().getImageHeight().setPixels(200);
 
         String out = ExampleAssist.pathCombine(FOLDER, "codabar_on.png");
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.CODABAR, "A123456")));
+        // The decoder returns without A…A and without checksum → expecting "123456"
+        assertImageHasBarcodes(out, 1, java.util.List.of(expected(DecodeType.CODABAR, "123456")));
     }
+
 
     /**
      * Codabar: checksum OFF — CodeText equals input, start/stop as provided.
