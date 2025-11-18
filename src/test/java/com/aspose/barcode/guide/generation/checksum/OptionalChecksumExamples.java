@@ -1,5 +1,8 @@
 package com.aspose.barcode.guide.generation.checksum;
 
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
+import com.aspose.barcode.barcoderecognition.ChecksumValidation;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
@@ -62,7 +65,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.CODE_39, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.CODE_39, payload)), ChecksumValidation.ON);
     }
 
     /**
@@ -83,7 +87,7 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.CODE_39, payload)));
+        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.CODE_39, payload)), ChecksumValidation.OFF);
     }
 
     // ---------- Codabar ----------
@@ -91,7 +95,7 @@ public class OptionalChecksumExamples {
     /**
      * Codabar: checksum ON — engine appends a check digit (depending on implementation).
      */
-    @Test(enabled = false) //TODO
+    @Test
     public void codabar_checksum_on() throws Exception {
         // Codabar requires start/stop characters A–D; here we use A…A.
         String payload = "A123456A";
@@ -126,7 +130,8 @@ public class OptionalChecksumExamples {
 
         // Most decoders return Codabar without start/stop and without the checksum character -> "123456".
         // If your build includes the checksum in decoded text, replace with expectedPrefix(..., "123456").
-        assertImageHasBarcodes(outputPath, 1, java.util.List.of(expected(DecodeType.CODABAR, "123456")));
+        assertImageHasBarcodes(outputPath, 1,
+                java.util.List.of(expected(DecodeType.CODABAR, "123456")),ChecksumValidation.ON);
     }
 
 
@@ -166,7 +171,8 @@ public class OptionalChecksumExamples {
         ExampleAssist.assertFileCreated(out);
 
         // Most decoders return Codabar WITHOUT start/stop and WITHOUT checksum → plain data "123456".
-        assertImageHasBarcodes(out, 1, java.util.List.of(expected(DecodeType.CODABAR, "123456")));
+        assertImageHasBarcodes(out, 1,
+                java.util.List.of(expected(DecodeType.CODABAR, "123456")), ChecksumValidation.OFF);
     }
 
 
@@ -190,11 +196,20 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.CODE_11, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.CODE_11, payload)),ChecksumValidation.ON);
     }
 
     /**
      * Code 11: checksum OFF — CodeText equals input payload.
+     */
+    /**
+     * Code 11 with checksum OFF.
+     *
+     * Why it failed before: default 5pt padding is far less than 10×XDimension,
+     * so the reader rejects the symbol (quiet zones too small).
+     * Fix: make L/R quiet zones >= 10×XDimension (here: 12× for extra margin),
+     * increase bar height a bit, and keep HRT below the bars.
      */
     @Test
     public void code11_checksum_off() throws Exception {
@@ -202,17 +217,32 @@ public class OptionalChecksumExamples {
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_11, payload);
         generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
+        // Raster geometry
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
-        generator.getParameters().getBarcode().getBarHeight().setPixels(80);
+        generator.getParameters().getBarcode().getBarHeight().setPixels(100);
+
+        // Quiet zones: 12×X on both sides (>= 10×X is recommended)
+        int qz = (int)(12 * generator.getParameters().getBarcode().getXDimension().getPixels());
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(qz);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(qz);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(12);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
+
+        // Keep human-readable text below so it never touches the bars
+        generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+
+        // Canvas
         generator.getParameters().getImageWidth().setPixels(420);
-        generator.getParameters().getImageHeight().setPixels(180);
+        generator.getParameters().getImageHeight().setPixels(200);
 
         String out = ExampleAssist.pathCombine(FOLDER, "code11_off.png");
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.CODE_11, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(expected(DecodeType.CODE_11, payload)), ChecksumValidation.OFF);
     }
+
 
     // ---------- Standard 2 of 5 ----------
 
@@ -231,7 +261,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.STANDARD_2_OF_5, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.STANDARD_2_OF_5, payload)), ChecksumValidation.ON);
     }
 
     @Test
@@ -249,14 +280,15 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.STANDARD_2_OF_5, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(expected(DecodeType.STANDARD_2_OF_5, payload)),ChecksumValidation.OFF);
     }
 
-    // ---------- Interleaved 2 of 5 (дополнительно к вашим примерам) ----------
+    // ---------- Interleaved 2 of 5 ----------
 
     @Test
     public void interleaved2of5_checksum_on() throws Exception {
-        String payload = "123456"; // even
+        String payload = "123456";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.INTERLEAVED_2_OF_5, payload);
         generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.YES);
 
@@ -269,7 +301,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.INTERLEAVED_2_OF_5, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.INTERLEAVED_2_OF_5, payload)), ChecksumValidation.ON);
     }
 
     @Test
@@ -287,7 +320,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.INTERLEAVED_2_OF_5, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(expected(DecodeType.INTERLEAVED_2_OF_5, payload)), ChecksumValidation.OFF);
     }
 
     // ---------- Matrix 2 of 5 ----------
@@ -307,7 +341,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.MATRIX_2_OF_5, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.MATRIX_2_OF_5, payload)), ChecksumValidation.ON);
     }
 
     @Test
@@ -325,7 +360,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.MATRIX_2_OF_5, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(expected(DecodeType.MATRIX_2_OF_5, payload)), ChecksumValidation.OFF);
     }
 
     // ---------- IATA 2 of 5 ----------
@@ -345,25 +381,49 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.IATA_2_OF_5, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.IATA_2_OF_5, payload)), ChecksumValidation.ON);
     }
 
+    /**
+     * IATA 2 of 5 with checksum OFF.
+     *
+     * Why it failed before: the shorter no-check digit pattern + small default padding
+     * produced insufficient quiet zones for the reader.
+     * Fix: widen quiet zones to 12×X, set classic wide:narrow = 3, bump bar height,
+     * and keep HRT below.
+     */
     @Test
     public void iata2of5_checksum_off() throws Exception {
-        String payload = "123456";
+        String payload = "123456"; // even number of digits is OK for IATA 2 of 5
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.IATA_2_OF_5, payload);
         generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
+        // Raster geometry
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
-        generator.getParameters().getBarcode().getBarHeight().setPixels(90);
-        generator.getParameters().getImageWidth().setPixels(420);
-        generator.getParameters().getImageHeight().setPixels(180);
+        generator.getParameters().getBarcode().getBarHeight().setPixels(100);
+        generator.getParameters().getBarcode().setWideNarrowRatio(3.0f);
+
+        // Quiet zones: 12×X
+        int qz = (int)(12 * generator.getParameters().getBarcode().getXDimension().getPixels());
+        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(qz);
+        generator.getParameters().getBarcode().getPadding().getRight().setPixels(qz);
+        generator.getParameters().getBarcode().getPadding().getTop().setPixels(12);
+        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(12);
+
+        generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+
+        // Canvas
+        generator.getParameters().getImageWidth().setPixels(520);
+        generator.getParameters().getImageHeight().setPixels(200);
 
         String out = ExampleAssist.pathCombine(FOLDER, "iata25_off.png");
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.IATA_2_OF_5, payload)));
+        // For OFF we expect the exact payload (no check digit appended)
+        assertImageHasBarcodes(out, 1,
+                List.of(expected(DecodeType.IATA_2_OF_5, payload)), ChecksumValidation.OFF);
     }
 
     // ---------- MSI (пара ON/OFF у вас уже есть, добавляем в этот класс для полноты) ----------
@@ -383,7 +443,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.MSI, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.MSI, payload)), ChecksumValidation.ON);
     }
 
     @Test
@@ -401,7 +462,8 @@ public class OptionalChecksumExamples {
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
 
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.MSI, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(expected(DecodeType.MSI, payload)), ChecksumValidation.OFF);
     }
 
     // ---------- ITF-14 (many builds treat checksum as optional) ----------
@@ -422,13 +484,14 @@ public class OptionalChecksumExamples {
         ExampleAssist.assertFileCreated(out);
 
         // Check by prefix — final digit is calculated
-        assertImageHasBarcodes(out, 1, List.of(ExampleAssist.expectedPrefix(DecodeType.ITF_14, payload)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.ITF_14, payload)), ChecksumValidation.ON);
     }
 
     @Test
     public void itf14_checksum_off() throws Exception {
-        String full14 = "10012345000017"; // already with a proper check digit
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.ITF_14, full14);
+        String codeText = "10012345000017"; // already with a proper check digit
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.ITF_14, codeText);
         generator.getParameters().getBarcode().setChecksumEnabled(EnableChecksum.NO);
 
         generator.getParameters().getBarcode().getXDimension().setPixels(2.0f);
@@ -439,7 +502,7 @@ public class OptionalChecksumExamples {
         String out = ExampleAssist.pathCombine(FOLDER, "itf14_off.png");
         generator.save(out, BarCodeImageFormat.PNG);
         ExampleAssist.assertFileCreated(out);
-
-        assertImageHasBarcodes(out, 1, List.of(expected(DecodeType.ITF_14, full14)));
+        assertImageHasBarcodes(out, 1,
+                List.of(ExampleAssist.expectedPrefix(DecodeType.ITF_14, codeText)), ChecksumValidation.OFF);
     }
 }
