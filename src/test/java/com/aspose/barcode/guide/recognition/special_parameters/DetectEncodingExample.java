@@ -43,7 +43,7 @@ public class DetectEncodingExample {
         String fileName = "qr_utf8_detectencoding_enabled.png";
 
         ExampleAssist.checkOrCreateImage(FOLDER, fileName, path -> {
-            String utf8Text = "Привет, 世界!"; // Mixed Cyrillic and Chinese
+            String utf8Text = "Привіт, 世界!"; // Mixed Cyrillic and Chinese
             BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, utf8Text);
             generator.save(path, BarCodeImageFormat.PNG);
         });

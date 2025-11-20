@@ -402,7 +402,7 @@ public class ExampleAssist {
      * @return {@code folder + "/" + image}
      */
     public static String pathCombine(String folder, String image) {
-        return folder + File.pathSeparator + image;
+        return folder + File.separator + image;
     }
 
     /**
