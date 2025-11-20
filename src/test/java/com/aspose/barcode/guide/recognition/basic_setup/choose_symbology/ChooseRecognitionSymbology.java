@@ -410,7 +410,7 @@ public class ChooseRecognitionSymbology
     public void readMultipleInOneImageAllSupported() throws Exception {
         String fileName = createMultiImage(); // collage with two barcodes
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER,fileName), DecodeType.ALL_SUPPORTED_TYPES);
-        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128, DecodeType.QR);
+        ExampleAssist.assertRecognized(reader, fileName, 2, DecodeType.CODE_128, DecodeType.QR);
     }
 
     private String createMultiImage() throws Exception {
