@@ -116,7 +116,7 @@ public class BordersExample {
         // Inverted modules for contrast on dark background
         generator.getParameters().getBarcode().setBarColor(Color.WHITE);
 
-        // Global frame border: white, 2pt (dashed — если доступно в вашей сборке)
+        // Global frame border: white, 2pt
         BorderParameters border = generator.getParameters().getBorder();
         border.setVisible(true);
         border.getWidth().setPoint(2.0f);
@@ -124,7 +124,7 @@ public class BordersExample {
         // Если SDK поддерживает штрихи рамки, раскомментируйте:
         // border.setDashStyle(BorderDashStyle.DASH);
 
-        // Quiet zones и холст
+        // Quiet zones and canvas
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(16);
         generator.getParameters().getBarcode().getPadding().getRight().setPixels(16);
         generator.getParameters().getBarcode().getPadding().getTop().setPixels(16);

@@ -441,7 +441,7 @@ public class OptionalChecksumExamples {
                 List.of(expected(DecodeType.IATA_2_OF_5, payload)), ChecksumValidation.OFF);
     }
 
-    // ---------- MSI (пара ON/OFF у вас уже есть, добавляем в этот класс для полноты) ----------
+    // ---------- MSI (the ON/OFF pair already exists; adding it here for completeness)----------
 
     @Test
     public void msi_checksum_on() throws Exception {
