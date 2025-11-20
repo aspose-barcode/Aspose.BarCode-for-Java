@@ -144,6 +144,17 @@ public class ExampleAssist {
         }
     }
 
+    /**
+     * Ensures the target image file exists; if it does not, saves it using the provided {@link BarcodeGenerator}.
+     * <p>
+     * The parent directory is created if necessary. After saving, the method asserts that the file exists
+     * and is non-empty (useful for test fixtures).
+     *
+     * @param imagesFolder destination folder
+     * @param fileName     file name within {@code imagesFolder}
+     * @param barcodeGenerator a configured generator to render the image when it is missing
+     * @throws IOException if saving fails or directories cannot be created
+     */
     public static void checkOrCreateImage(String imagesFolder, String fileName, BarcodeGenerator barcodeGenerator) throws IOException {
         Path path = Paths.get(imagesFolder, fileName);
         Files.createDirectories(path.getParent());
@@ -156,6 +167,20 @@ public class ExampleAssist {
         }
     }
 
+    /**
+     * Reads barcodes from {@code reader}, prints a short diagnostic log, asserts that
+     * the result count is at least {@code minCount}, and (optionally) asserts that
+     * <b>all</b> of the {@code requiredTypes} are present among the recognized results.
+     * <p>
+     * Use this when you want to verify the presence of multiple symbologies in a single image
+     * (e.g., a collage containing Code128 and QR at once).
+     *
+     * @param reader         configured reader instance
+     * @param tag            label used in diagnostics (if {@code null}/empty, current test method name is used)
+     * @param minCount       minimal number of results expected (inclusive)
+     * @param requiredTypes  optional list of decode types that must all be present; may be empty
+     * @throws Exception if recognition fails or any assertion fails
+     */
     public static void assertRecognized(BarCodeReader reader,
                                         String tag,
                                         int minCount,
@@ -320,6 +345,17 @@ public class ExampleAssist {
         return fullPath;
     }
 
+    /**
+     * Utility to generate a barcode PNG and immediately attempt to read it with the provided decode hint.
+     * Prints a short line per result to aid quick manual debugging in tests.
+     *
+     * @param folder     output folder
+     * @param fileName   output file name
+     * @param codeText   payload to encode
+     * @param encodeType symbology for generation
+     * @param decodeType hint for the reader
+     * @throws Exception if generation or reading fails
+     */
     public static void generateAndRead(String folder, String fileName, String codeText, BaseEncodeType encodeType, BaseDecodeType decodeType) throws Exception {
         BarcodeGenerator g = new BarcodeGenerator(encodeType, codeText);
         String path = folder + "/" + fileName;
@@ -357,24 +393,24 @@ public class ExampleAssist {
         throw new UnsupportedOperationException("Utility class");
     }
 
+    /**
+     * Concatenates a folder and file name using a forward slash.
+     * This is a lightweight helper for test paths (not OS-path-aware).
+     *
+     * @param folder base folder
+     * @param image  file name
+     * @return {@code folder + "/" + image}
+     */
     public static String pathCombine(String folder, String image) {
-        return folder + "/" + image;
+        return folder + File.pathSeparator + image;
     }
 
-    public static String getCurrentMethodName() {
-        StackTraceElement[] st = Thread.currentThread().getStackTrace();
-        for (int i = 0; i < st.length; i++)
-        {
-            if (ExampleAssist.class.getName().equals(st[i].getClassName()) &&
-                    "getCurrentMethodName".equals(st[i].getMethodName()))
-            {
-                return (i + 1 < st.length) ? st[i + 1].getMethodName() : "unknown";
-            }
-        }
-        return "unknown";
-    }
-
-    // Returns the first frame outside ExampleAssist (robust against wrappers)
+    /**
+     * Returns the first stack frame method name outside of {@code ExampleAssist} and TestNG internals,
+     * using {@link StackWalker}. This is more robust than parsing the whole stack array.
+     *
+     * @return the best-effort current method name or {@code "unknown"}
+     */
     public static String currentMethodName() {
         String helperClass = ExampleAssist.class.getName();
         return StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
@@ -469,7 +505,14 @@ public class ExampleAssist {
         ImageIO.write(dst, "png", new File(outputFullPath));
     }
 
-
+    /**
+     * Builds a normalized 1D Gaussian kernel of odd {@code size} for the given {@code sigma}.
+     * The kernel is symmetric and sums to 1.0, suitable for separable blurs.
+     *
+     * @param size  odd kernel length (≥ 3)
+     * @param sigma standard deviation (typ. 0.6–2.0 in this class)
+     * @return normalized 1D kernel (length = {@code size})
+     */
     private static float[] gaussianKernel1D(int size, float sigma) {
         float[] k = new float[size];
         int r = size / 2;
@@ -490,7 +533,12 @@ public class ExampleAssist {
     }
 
 // ---- helpers (put them as private static inside ExampleAssist) ----
-
+    /**
+     * Clamps an integer to the 8-bit unsigned range {@code [0, 255]}.
+     *
+     * @param v any integer value
+     * @return clamped byte-range value
+     */
     private static int clampToByte(int v) {
         return (v < 0) ? 0 : (v > 255 ? 255 : v);
     }
