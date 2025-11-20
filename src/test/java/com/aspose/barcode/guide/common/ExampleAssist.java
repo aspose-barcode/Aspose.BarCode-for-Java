@@ -156,38 +156,59 @@ public class ExampleAssist {
         }
     }
 
-    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType... expectedTypes) throws Exception {
-
+    public static void assertRecognized(BarCodeReader reader,
+                                        String tag,
+                                        int minCount,
+                                        com.aspose.barcode.barcoderecognition.BaseDecodeType... requiredTypes) throws Exception {
         // Auto-detect test name if tag not provided
-        if (tag == null || tag.isEmpty())
-        {
+        if (tag == null || tag.isEmpty()) {
             tag = Thread.currentThread().getStackTrace()[2].getMethodName();
         }
+
+        // Read all results
         BarCodeResult[] results = reader.readBarCodes();
+
+        // Debug print for diagnostics
         System.out.println("=== [" + tag + "] ===");
-        for (BarCodeResult result : results)
-        {
-            System.out.println(" Code Type: " + result.getCodeTypeName() + " - Code Text: " + result.getCodeText());
+        for (BarCodeResult r : results) {
+            System.out.println(" Code Type: " + r.getCodeTypeName()
+                    + " - Code Text: " + r.getCodeText()
+                    + " - Confidence: " + r.getConfidence());
         }
 
-        Assert.assertTrue(results.length >= minCount, "Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length);
+        // Require at least minCount results
+        Assert.assertTrue(results.length >= minCount, "Expected at least " + minCount + " result(s) in '" + tag + "', but got " + results.length
+        );
 
-        boolean hasExpectedTypes = false;
-        for(BaseDecodeType expectedType : expectedTypes) {
-        if (expectedType != null) {
-            for (BarCodeResult result : results) {
-                if (result.getCodeType().equals(expectedType)) {
-                    hasExpectedTypes = true;
+       //If specific types were requested, ensure ALL of them are present
+        if (requiredTypes != null && requiredTypes.length > 0) {
+            Set<BaseDecodeType> present = new HashSet<>();
+            for (BarCodeResult barCodeResult : results) {
+                present.add(barCodeResult.getCodeType());
+            }
+
+            List<String> missing = new ArrayList<>();
+            for (BaseDecodeType decodeType : requiredTypes) {
+                if (!present.contains(decodeType)) {
+                    missing.add(decodeType.toString());
                 }
             }
-        }
 
-            Assert.assertTrue(
-                    hasExpectedTypes,
-                    "Expected to find type " + expectedType.toString() + " in test '" + tag + "'"
-            );
+            // Prepare a helpful error if something is missing
+            if (!missing.isEmpty()) {
+                List<String> foundTypes = new ArrayList<>();
+                for (BarCodeResult r : results) {
+                    foundTypes.add(r.getCodeTypeName());
+                }
+                org.testng.Assert.fail(
+                        "Expected ALL of the types " + java.util.Arrays.toString(requiredTypes)
+                                + " in '" + tag + "', but missing: " + missing
+                                + ". Found types: " + foundTypes
+                );
+            }
         }
     }
+
 
     public static void assertRecognized(BarCodeReader reader, String tag, int expectedCount, BaseDecodeType expectedType, String expectedCodeText) throws Exception {
         if (tag == null || tag.isEmpty())
