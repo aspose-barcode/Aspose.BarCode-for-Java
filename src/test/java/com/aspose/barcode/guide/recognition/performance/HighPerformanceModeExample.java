@@ -141,8 +141,6 @@ public class HighPerformanceModeExample
 
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
         reader.setQualitySettings(QualitySettings.getHighPerformance());
-        // Optional: additionally restrict the scan window or similar knobs if exposed in your build.
-
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
     }
 }

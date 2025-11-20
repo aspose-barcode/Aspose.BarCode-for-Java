@@ -119,8 +119,7 @@ public class TextAndFontExample {
         CodetextParameters codeText = generator.getParameters().getBarcode().getCodeTextParameters();
         codeText.setLocation(CodeLocation.BELOW);
 
-        // Additional gap (if CodeTextParameters.Space is available in your SDK)
-        // If your build doesn't expose Space, switch to increasing overall barcode bottom padding instead.
+        // Additional gap
         Unit hriGap = codeText.getSpace();
         hriGap.setPoint(10f); // 10pt extra gap between bars and HRI
 

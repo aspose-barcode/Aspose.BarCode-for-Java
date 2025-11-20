@@ -28,10 +28,6 @@ import static com.aspose.barcode.guide.common.ExampleAssist.*;
  *  - IATA 2 of 5
  *  - MSI
  *  - ITF-14 (checksum exists but is not enforced by the engine in many builds)
- *
- * Notes:
- *  - API names can vary slightly between builds. If your SDK exposes different properties
- *    for enabling/disabling checksum, adjust the lines with EnableChecksum accordingly.
  */
 public class OptionalChecksumExamples {
 

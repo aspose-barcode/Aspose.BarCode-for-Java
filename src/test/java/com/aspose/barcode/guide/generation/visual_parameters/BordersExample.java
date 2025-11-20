@@ -1,12 +1,9 @@
 package com.aspose.barcode.guide.generation.visual_parameters;
 
-import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.*;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -121,8 +118,6 @@ public class BordersExample {
         border.setVisible(true);
         border.getWidth().setPoint(2.0f);
         border.setColor(Color.WHITE);
-        // Если SDK поддерживает штрихи рамки, раскомментируйте:
-        // border.setDashStyle(BorderDashStyle.DASH);
 
         // Quiet zones and canvas
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(16);

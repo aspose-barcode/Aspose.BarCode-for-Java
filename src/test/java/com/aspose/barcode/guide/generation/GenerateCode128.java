@@ -20,7 +20,7 @@ import java.nio.file.Paths;
  *
  * NOTE:
  * - GS1-128 examples are moved to a separate test class/file.
- * - Font configured via getters (safe for different SDK builds).
+ * - Font configured via getters .
  */
 public class GenerateCode128 {
 
@@ -56,9 +56,6 @@ public class GenerateCode128 {
 
         // Optional text color (keep default black if you prefer)
         // gen.getParameters().getBarcode().getCodeTextParameters().setColor(Color.RED);
-
-        // If your build has TextAlignment, you could use:
-        // gen.getParameters().getBarcode().getCodeTextParameters().setAlignment(TextAlignment.CENTER);
 
         saveAndAssert(gen, "code128_with_text.png");
     }
