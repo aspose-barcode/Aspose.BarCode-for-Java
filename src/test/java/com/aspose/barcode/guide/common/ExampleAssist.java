@@ -156,16 +156,14 @@ public class ExampleAssist {
         }
     }
 
-    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType expectedType) throws Exception {
+    public static void assertRecognized(BarCodeReader reader, String tag, int minCount, BaseDecodeType... expectedTypes) throws Exception {
 
         // Auto-detect test name if tag not provided
         if (tag == null || tag.isEmpty())
         {
             tag = Thread.currentThread().getStackTrace()[2].getMethodName();
         }
-
         BarCodeResult[] results = reader.readBarCodes();
-
         System.out.println("=== [" + tag + "] ===");
         for (BarCodeResult result : results)
         {
@@ -174,20 +172,18 @@ public class ExampleAssist {
 
         Assert.assertTrue(results.length >= minCount, "Expected at least " + minCount + " result(s) in test '" + tag + "', but got " + results.length);
 
-        if (expectedType != null && results.length > 0)
-        {
-            boolean hasExpectedType = false;
-            for (BarCodeResult result : results)
-            {
-                if (result.getCodeType().equals(expectedType))
-                {
-                    hasExpectedType = true;
-                    break;
+        boolean hasExpectedTypes = false;
+        for(BaseDecodeType expectedType : expectedTypes) {
+        if (expectedType != null) {
+            for (BarCodeResult result : results) {
+                if (result.getCodeType().equals(expectedType)) {
+                    hasExpectedTypes = true;
                 }
             }
+        }
 
             Assert.assertTrue(
-                    hasExpectedType,
+                    hasExpectedTypes,
                     "Expected to find type " + expectedType.toString() + " in test '" + tag + "'"
             );
         }
