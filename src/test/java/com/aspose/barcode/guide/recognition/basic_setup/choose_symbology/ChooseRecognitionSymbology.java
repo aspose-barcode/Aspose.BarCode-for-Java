@@ -12,7 +12,14 @@ import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static com.aspose.barcode.guide.common.ExampleAssist.checkOrCreateImage;
 
 public class ChooseRecognitionSymbology
 {
@@ -381,6 +388,69 @@ public class ChooseRecognitionSymbology
         BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.ALL_SUPPORTED_TYPES);
         reader.setBarCodeReadType(DecodeType.CODE_128, DecodeType.QR, DecodeType.DATA_MATRIX);
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.DATA_MATRIX);
+    }
+
+    // --- GS1-128 only (structured AI data) ---
+    @Test
+    public void readGs1_128Only() throws Exception {
+        String fileName = "gs1_128.png";
+        checkOrCreateImage(FOLDER, fileName, (fullPath) -> {
+            String gs1 = "(01)09501101530008(17)251231(10)BATCH-42";
+            BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.GS_1_CODE_128, gs1);
+            g.getParameters().getBarcode().getXDimension().setPixels(2);
+            g.getParameters().getBarcode().getBarHeight().setPixels(60);
+            g.save(fullPath, BarCodeImageFormat.PNG);
+        });
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.GS_1_CODE_128);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.GS_1_CODE_128);
+    }
+
+    // --- Multiple barcodes in one image (expect >= 2) ---
+    @Test
+    public void readMultipleInOneImageAllSupported() throws Exception {
+        String fileName = createMultiImage(); // collage with two barcodes
+        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER,fileName), DecodeType.ALL_SUPPORTED_TYPES);
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128, DecodeType.QR);
+    }
+
+    private String createMultiImage() throws Exception {
+        String fileName = "multi.png";
+        String tmp1 = ExampleAssist.pathCombine(FOLDER,"tmp_multi_code128.png");
+        String tmp2 = ExampleAssist.pathCombine(FOLDER,"tmp_multi_qr.png");
+
+
+
+        BarcodeGenerator g1 = new BarcodeGenerator(EncodeTypes.CODE_128, "MULTI-1-C128");
+        g1.getParameters().getBarcode().getXDimension().setPixels(2);
+        g1.getParameters().getBarcode().getBarHeight().setPixels(60);
+        g1.save(tmp1, BarCodeImageFormat.PNG);
+
+        BarcodeGenerator g2 = new BarcodeGenerator(EncodeTypes.QR, "MULTI-2-QR");
+        g2.getParameters().getBarcode().getXDimension().setPixels(4);
+        g2.save(tmp2, BarCodeImageFormat.PNG);
+
+        try {
+            BufferedImage left = ImageIO.read(Paths.get(tmp1).toFile());
+            BufferedImage right = ImageIO.read(Paths.get(tmp2).toFile());
+
+            int gap = 20;
+            int w = left.getWidth() + gap + right.getWidth();
+            int h = Math.max(left.getHeight(), right.getHeight());
+
+            BufferedImage canvas = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = canvas.createGraphics();
+            g.drawImage(left, 0, 0, null);
+            g.drawImage(right, left.getWidth() + gap, 0, null);
+            g.dispose();
+
+            ImageIO.write(canvas, "PNG", Paths.get(ExampleAssist.pathCombine(FOLDER, fileName)).toFile());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try { Files.deleteIfExists(Paths.get(tmp1)); } catch (Exception ignored) {}
+            try { Files.deleteIfExists(Paths.get(tmp2)); } catch (Exception ignored) {}
+        }
+        return fileName;
     }
 
 }

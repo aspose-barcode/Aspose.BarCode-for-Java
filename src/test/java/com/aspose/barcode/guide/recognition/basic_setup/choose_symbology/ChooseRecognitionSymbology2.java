@@ -25,7 +25,7 @@ public class ChooseRecognitionSymbology2
 {
 
     private static final String IMAGES_FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("quick_start", "recognition", "basic_setup", "recognition_symbology");
+            ExampleAssist.getOrCreateResourceFolderPath("recognition", "basic_setup", "recognition_symbology");
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -80,13 +80,7 @@ public class ChooseRecognitionSymbology2
         assertRecognized(reader, "datamatrix.png", 1);
     }
 
-    // --- GS1-128 only (structured AI data) ---
-    @Test
-    public void readGs1_128Only() throws Exception {
-        ensureOrCreateGs1_128Png();
-        BarCodeReader reader = new BarCodeReader(getFullPath("gs1_128.png"), DecodeType.GS_1_CODE_128);
-        assertRecognized(reader, "gs1_128.png", 1);
-    }
+
 
     // --- Multiple barcodes in one image (expect >= 2) ---
     @Test
