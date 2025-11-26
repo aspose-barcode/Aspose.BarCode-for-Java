@@ -21,10 +21,47 @@ public final class LicenseAssist {
     }
 
     /**
-     * Tries to set up license from classpath resource.
-     * If file is missing or invalid, prints a message and continues in evaluation mode.
+     * Attempts to initialize the Aspose.BarCode license from a classpath resource.
+     * <p>
+     * This method implements a lazy, thread-safe initialization pattern for the {@link License} instance:
+     * </p>
      *
-     * @return true if license was applied, false otherwise
+     * <ul>
+     *     <li>If the license has already been initialized ({@code licenseInstance != null}),
+     *         the method returns immediately with {@code true}.</li>
+     *     <li>If the license has not been initialized yet, the method enters a synchronized block
+     *         on {@link LicenseAssist} to ensure that only one thread performs the initialization.</li>
+     *     <li>Inside the synchronized block, the method performs a second check of {@code licenseInstance}
+     *         (double-checked locking). This prevents multiple threads from initializing the license more than once.</li>
+     *     <li>The method then tries to locate the license file on the classpath using
+     *         {@link ClassLoader#getResourceAsStream(String)} with the path defined in {@link #LICENSE_PATH}.</li>
+     *     <li>If the resource is not found ({@code InputStream} is {@code null}), the method prints a message
+     *         to {@code System.out} indicating that the license file is missing and that Aspose.BarCode will run
+     *         in evaluation mode, then returns {@code false} without throwing an exception.</li>
+     *     <li>If the resource is found, a new {@link License} object is created, {@link License#setLicense(InputStream)}
+     *         is called to apply the license globally within the Aspose.BarCode library, and the resulting instance
+     *         is stored in the {@code volatile} field {@link #licenseInstance}.</li>
+     *     <li>On successful initialization, a confirmation message is printed and the method returns {@code true}.</li>
+     *     <li>If any exception occurs while reading the resource or applying the license, the method logs a warning
+     *         and the stack trace to {@code System.out}, then returns {@code false}, keeping the application running
+     *         in evaluation mode.</li>
+     * </ul>
+     *
+     * <p>
+     * Concurrency notes:
+     * </p>
+     * <ul>
+     *     <li>The {@code licenseInstance} field is declared {@code volatile} to guarantee visibility of the
+     *         initialized {@link License} object across threads. Once one thread successfully assigns the field,
+     *         other threads will see the updated value without needing to re-enter the synchronized block.</li>
+     *     <li>The combination of {@code volatile} and the synchronized block with a second null-check implements
+     *         a standard double-checked locking pattern, ensuring that license initialization happens at most once
+     *         while minimizing synchronization overhead for subsequent calls.</li>
+     * </ul>
+     *
+     * @return {@code true} if the license was found on the classpath and successfully applied;
+     *         {@code false} if the license file is missing or an error occurred and the library
+     *         continues to run in evaluation mode.
      */
     public static boolean setupLicense() {
         if (licenseInstance != null) {
@@ -38,16 +75,21 @@ public final class LicenseAssist {
 
             InputStream in = null;
             try {
-                in = ExampleAssist.getResourceAsStream(LICENSE_PATH);
+                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                if (cl == null) {
+                    cl = LicenseAssist.class.getClassLoader();
+                }
+
+                in = cl.getResourceAsStream(LICENSE_PATH);
                 if (in == null) {
                     System.out.println("[Aspose.BarCode] License file not found: " + LICENSE_PATH);
                     System.out.println("[Aspose.BarCode] Running in evaluation mode.");
                     return false;
                 }
 
-                License license = new License();
-                license.setLicense(in); // Applies license globally inside Aspose
-                licenseInstance = license;
+                License lic = new License();
+                lic.setLicense(in);
+                licenseInstance = lic;
 
                 System.out.println("[Aspose.BarCode] License successfully applied from: " + LICENSE_PATH);
                 return true;
@@ -60,12 +102,13 @@ public final class LicenseAssist {
                     try {
                         in.close();
                     } catch (Exception ignored) {
-                        // Ignore
+                        // Ignore closing exception
                     }
                 }
             }
         }
     }
+
 
     /**
      * Returns the current license instance or null if license was not applied.
