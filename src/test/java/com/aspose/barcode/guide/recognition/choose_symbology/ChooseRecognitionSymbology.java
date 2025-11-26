@@ -1,7 +1,6 @@
-package com.aspose.barcode.guide.recognition.basic_setup.choose_symbology;
+package com.aspose.barcode.guide.recognition.choose_symbology;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
-import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.barcoderecognition.QualitySettings;
 import com.aspose.barcode.generation.BarCodeImageFormat;
@@ -25,7 +24,7 @@ public class ChooseRecognitionSymbology
 {
 
     private static final String FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("recognition", "basic_setup", "choose_symbology");
+            ExampleAssist.getOrCreateResourceFolderPath("recognition", "choose_symbology");
 
     @BeforeClass
     public void setUp()

@@ -38,7 +38,6 @@ public class InputSourcesExamples {
     public void setUp() throws Exception {
         LicenseAssist.setupLicense();
         testImagePath = generateTestBarcode(TEST_DATA, IMAGES_FOLDER, "test_input_source.png", EncodeTypes.CODE_128);
-        System.out.println("=== Starting Input Source Tests ===");
         System.out.println("Generated test image: " + testImagePath + "\n");
     }
 
