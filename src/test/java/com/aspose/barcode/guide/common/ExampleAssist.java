@@ -1568,5 +1568,8 @@ public class ExampleAssist {
         return (char) ('0' + check);
     }
 
+    public static void safeDelete(String filePath) {
+        try { Files.deleteIfExists(Paths.get(filePath)); } catch (Exception ignored) {}
+    }
 
 }

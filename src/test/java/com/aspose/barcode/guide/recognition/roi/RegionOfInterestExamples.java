@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.*;
 
 import static com.aspose.barcode.guide.common.ExampleAssist.assertRecognized;
+import static com.aspose.barcode.guide.common.ExampleAssist.safeDelete;
 
 public class RegionOfInterestExamples {
 
@@ -82,7 +83,7 @@ public class RegionOfInterestExamples {
 
         Rectangle dmArea = new Rectangle(10, 190, 230, 230);
         BarCodeReader roiOnly = new BarCodeReader(getFullPath("roi_canvas.png"), dmArea, DecodeType.DATA_MATRIX);
-        assertRecognized(roiOnly, "roi_canvas.png@roiDataMatrix", 1, DecodeType.DATA_MATRIX);
+        assertRecognized(roiOnly, "roiVsFullImage", 1, DecodeType.DATA_MATRIX);
     }
 
     // ---- ROI with a single-image fixture where barcode is not at origin ----
@@ -102,7 +103,7 @@ public class RegionOfInterestExamples {
 
 
 
-    // ---------------- Fixture generators using your Generator interface ----------------
+    // ---------------- Fixture generators using Generator interface ----------------
 
     private void ensureRoiCanvasPng() throws Exception {
         ensureImage("roi_canvas.png", (fullPath) -> {
@@ -195,7 +196,5 @@ public class RegionOfInterestExamples {
         }
     }
 
-    private void safeDelete(String filePath) {
-        try { Files.deleteIfExists(Paths.get(filePath)); } catch (Exception ignored) {}
-    }
+
 }
