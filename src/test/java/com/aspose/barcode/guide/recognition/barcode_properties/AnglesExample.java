@@ -1,9 +1,6 @@
 package com.aspose.barcode.guide.recognition.barcode_properties;
 
 import com.aspose.barcode.barcoderecognition.*;
-import com.aspose.barcode.generation.BarCodeImageFormat;
-import com.aspose.barcode.generation.BarcodeGenerator;
-import com.aspose.barcode.generation.BaseEncodeType;
 import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
@@ -18,10 +15,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import static com.aspose.barcode.guide.common.ExampleAssist.*;
 
