@@ -19,6 +19,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.stream.IntStream;
 
 /**
  * Demonstrates how to retrieve region geometry from recognition results:
@@ -60,14 +61,14 @@ public class CoordinatesExample {
         Assert.assertTrue(results.length >= 1, "Expected at least 1 result");
 
         BarCodeResult r = results[0];
-        BarCodeRegionParameters region = r.getRegion();
+        BarCodeRegionParameters barCodeRegionParameters = r.getRegion();
 
         // Axis-aligned rectangle
-        Rectangle rect = region.getRectangle();
+        Rectangle rect = barCodeRegionParameters.getRectangle();
         System.out.println("Rect: x=" + rect.x + " y=" + rect.y + " w=" + rect.width + " h=" + rect.height);
 
         // Oriented quadrangle (java.awt.Point)
-        Quadrangle quad = region.getQuadrangle();
+        Quadrangle quad = barCodeRegionParameters.getQuadrangle();
         Point lt = quad.getLeftTop();
         Point rt = quad.getRightTop();
         Point rb = quad.getRightBottom();
@@ -76,6 +77,15 @@ public class CoordinatesExample {
 
         // Draw debug overlay
         drawOverlay(path, ExampleAssist.pathCombine(FOLDER, FILE_DEBUG), rect, quad);
+
+        // Raw corner points as an array
+        Point[] points = barCodeRegionParameters.getPoints();
+        if (points != null) {
+            IntStream.range(0, points.length).forEach(i -> {
+                Point point = points[i];
+                System.out.println("Point " + i + ": x=" + point.x + " y=" + point.y);
+            });
+        }
     }
 
     /**
@@ -100,6 +110,29 @@ public class CoordinatesExample {
         System.out.println("QR Quad: LT=" + quad.getLeftTop() + " RT=" + quad.getRightTop()
                 + " RB=" + quad.getRightBottom() + " LB=" + quad.getLeftBottom());
     }
+
+    @Test
+    public void draw_DebugOverlay_For_Code128() throws Exception {
+        String sourceImagePath = ExampleAssist.pathCombine(FOLDER, FILE_C128);
+        String debugImagePath = ExampleAssist.pathCombine(FOLDER, FILE_DEBUG);
+
+        // Recognize barcode
+        BarCodeReader barCodeReader = new BarCodeReader(sourceImagePath, DecodeType.CODE_128);
+        BarCodeResult[] barCodeResults = barCodeReader.readBarCodes();
+        Assert.assertTrue(barCodeResults.length > 0, "Expected at least one result");
+
+        // Extract region geometry
+        BarCodeRegionParameters barCodeRegionParameters = barCodeResults[0].getRegion();
+        Rectangle rectangle = barCodeRegionParameters.getRectangle();
+        Quadrangle quadrangle = barCodeRegionParameters.getQuadrangle();
+
+        // Draw overlay and save result
+        drawOverlay(sourceImagePath, debugImagePath, rectangle, quadrangle);
+
+        File debugFile = new File(debugImagePath);
+        Assert.assertTrue(debugFile.exists(), "Overlay image was not created");
+    }
+
 
     // --- helper to paint overlay ---
     private static void drawOverlay(String srcPath, String outPath,
