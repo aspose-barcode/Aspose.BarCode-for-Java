@@ -11,7 +11,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * Demonstrates how to extract and use metadata from recognized barcodes.
@@ -52,21 +55,29 @@ public class ReadingMetadataExample {
 
         System.out.println("Type=" + barCodeResult.getCodeTypeName()
                 + " Text=" + barCodeResult.getCodeText());
-        System.out.println("Confidence=" + barCodeResult.getConfidence());
-
-        // Soft check: confidence must be within 0..100
         int confidence = barCodeResult.getConfidence();
+        System.out.println("Confidence=" + confidence);
+        // Soft check: confidence must be within 0..100
         Assert.assertTrue(confidence >= 0 && confidence <= 100, "Confidence out of range");
 
-        BarCodeRegionParameters region = barCodeResult.getRegion();
-        System.out.println("Rect=" + region.getRectangle());
-        Quadrangle quadrangle = region.getQuadrangle();
+        BarCodeRegionParameters barCodeResultRegion = barCodeResult.getRegion();
+        System.out.println("Rect=" + barCodeResultRegion.getRectangle());
+        Quadrangle quadrangle = barCodeResultRegion.getQuadrangle();
         if (quadrangle != null) {
             System.out.println("Quad LT=" + quadrangle.getLeftTop()
                     + " RT=" + quadrangle.getRightTop()
                     + " RB=" + quadrangle.getRightBottom()
                     + " LB=" + quadrangle.getLeftBottom());
         }
+        Point[] points = barCodeResultRegion.getPoints();
+//        Arrays.stream(points).forEach(System.out::println);
+//        Arrays.stream(points).forEach(point -> {
+//            System.out.println("Point: x=" + point.getX() + " y=" + point.getY());
+//        });
+        IntStream.range(0, points.length).forEach(i -> {
+            Point point = points[i];
+            System.out.println("Point " + i + ": x=" + point.getX() + " y=" + point.getY());
+        });
 
         BarCodeExtendedParameters barCodeExtendedParameters = barCodeResult.getExtended();
         if (barCodeExtendedParameters != null && barCodeExtendedParameters.getOneD() != null) {
