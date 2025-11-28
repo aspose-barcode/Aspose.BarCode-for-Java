@@ -33,7 +33,8 @@ public class CoordinatesExample {
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "barcode_properties", "coordinates");
     private static final String FILE_C128 = "coords_c128.png";
     private static final String FILE_QR   = "coords_qr.png";
-    private static final String FILE_DEBUG = "coords_overlay.png";
+    private static final String FILE_DEBUG_GEOMETRY = "coords_overlay_geometry.png";
+    private static final String FILE_DEBUG_DRAW     = "coords_overlay_draw.png";
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -76,7 +77,7 @@ public class CoordinatesExample {
         System.out.println("LT=" + lt + " RT=" + rt + " RB=" + rb + " LB=" + lb);
 
         // Draw debug overlay
-        drawOverlay(path, ExampleAssist.pathCombine(FOLDER, FILE_DEBUG), rect, quad);
+        drawOverlay(path, ExampleAssist.pathCombine(FOLDER, FILE_DEBUG_GEOMETRY), rect, quad);
 
         // Raw corner points as an array
         Point[] points = barCodeRegionParameters.getPoints();
@@ -114,7 +115,7 @@ public class CoordinatesExample {
     @Test
     public void draw_DebugOverlay_For_Code128() throws Exception {
         String sourceImagePath = ExampleAssist.pathCombine(FOLDER, FILE_C128);
-        String debugImagePath = ExampleAssist.pathCombine(FOLDER, FILE_DEBUG);
+        String debugImagePath = ExampleAssist.pathCombine(FOLDER, FILE_DEBUG_DRAW);
 
         // Recognize barcode
         BarCodeReader barCodeReader = new BarCodeReader(sourceImagePath, DecodeType.CODE_128);
