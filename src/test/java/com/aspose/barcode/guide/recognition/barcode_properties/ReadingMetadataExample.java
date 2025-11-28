@@ -109,6 +109,8 @@ public class ReadingMetadataExample {
         // Sanity getters
         Assert.assertNotNull(qrExtendedParameters.getQRErrorLevel());
         Assert.assertNotNull(qrExtendedParameters.getQRVersion());
+        System.out.println("QRErrorLevel=" + qrExtendedParameters.getQRErrorLevel());
+        System.out.println("QRVersion=" + qrExtendedParameters.getQRVersion());
     }
 
     // --- Macro PDF417 extended parameters (file id, segments, etc.) ---
