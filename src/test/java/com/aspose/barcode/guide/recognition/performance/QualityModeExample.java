@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  * - Presets (getHighPerformance / getNormalQuality / getHighQuality) can be combined
  *   with targeted overrides (e.g., X-dimension and BarcodeQualityMode) to fine-tune behavior.
  */
-public class BarcodeQualityModeExample {
+public class QualityModeExample {
 
     // Test resource folder is created once and reused.
     private static final String FOLDER =
