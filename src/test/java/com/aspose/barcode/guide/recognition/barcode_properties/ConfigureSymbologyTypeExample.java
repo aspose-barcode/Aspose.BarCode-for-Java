@@ -35,7 +35,7 @@ import static com.aspose.barcode.guide.common.ExampleAssist.hasDecodeType;
  *  5) Filtering: restricting to wrong type returns zero results (reduces false positives).
  *  6) Mixed image with two barcodes (QR + Code128) and varying decode sets.
  */
-public class SymbologyTypeExample
+public class ConfigureSymbologyTypeExample
 {
 
     private static final String FOLDER =
