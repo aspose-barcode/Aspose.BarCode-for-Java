@@ -63,15 +63,18 @@ public class BarcodeQualityDeconvolutionModeExample {
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_CLEAN, path -> {
             BarcodeGenerator generator =
                     new BarcodeGenerator(EncodeTypes.QR, "QualitySettings:Deconvolution");
+            // Make modules larger so that blurred image is still recoverable
+            generator.getParameters().getBarcode().getXDimension().setPixels(4);
             generator.save(path, BarCodeImageFormat.PNG);
         });
 
         // Blurred QR for Deconvolution tests
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_BLURRED, outPath -> {
+        ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_BLURRED, (String full) -> {
             String cleanPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_CLEAN);
-            // Gaussian-like blur. Increase radius for heavier blur if needed.
-            ExampleAssist.blur(cleanPath, outPath, 1.5f);
+            // Make blur gentler: radius ~0.8–1.0
+            ExampleAssist.blur(cleanPath, full, 0.8f);
         });
+
     }
 
     // ==================== BarcodeQualityMode ====================
