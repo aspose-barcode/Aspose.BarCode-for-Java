@@ -24,9 +24,7 @@ import static com.aspose.barcode.guide.common.ExampleAssist.hasDecodeType;
 //OAI
 /**
  * SymbologyTypeExamples
- *
  * Focus: how to configure symbology types for recognition.
- *
  * Covered scenarios:
  *  1) Single, explicit symbology only (best for speed and fewer false positives).
  *  2) Most-common set (DecodeType.MOST_COMMON_TYPES) when you do not know the exact type.
@@ -93,7 +91,7 @@ public class ConfigureSymbologyTypeExample
      * Demonstrates how to pass multiple explicit symbology types at once.
      */
     @Test
-    public void read_Mixed_QR_and_Code128_WithSelectedTypes() throws Exception {
+    public void read_Mixed_QR_and_Code128_WithSelectedTypes() {
         BarCodeReader reader = new BarCodeReader(getFullPath(FILE_MIX), DecodeType.QR, DecodeType.CODE_128);
         BarCodeResult[] results = reader.readBarCodes();
 
@@ -120,7 +118,7 @@ public class ConfigureSymbologyTypeExample
      * With Code128 only, the QR on the left is ignored and only Code128 is returned.
      */
     @Test
-    public void read_Mixed_RestrictTo_Code128_Only() throws Exception {
+    public void read_Mixed_RestrictTo_Code128_Only() {
         BarCodeReader reader = new BarCodeReader(getFullPath(FILE_MIX), DecodeType.CODE_128);
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertTrue(results.length >= 1, "Expected at least one Code128 result");
@@ -133,7 +131,7 @@ public class ConfigureSymbologyTypeExample
      * Typically, both QR and Code128 are included in this set, so we expect both results.
      */
     @Test
-    public void read_Mixed_WithMostCommonTypes() throws Exception {
+    public void read_Mixed_WithMostCommonTypes() {
         BarCodeReader reader = new BarCodeReader(getFullPath(FILE_MIX), DecodeType.MOST_COMMON_TYPES);
         BarCodeResult[] results = reader.readBarCodes();
         Assert.assertTrue(results.length >= 2, "Expected at least two results on a mixed image");

@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
  *  - BarcodeQualityMode (HIGH / NORMAL / LOW)
  *  - DeconvolutionMode (FAST / NORMAL / SLOW)
  *  - Preset + targeted overrides (XDimensionMode, MinimalXDimension, etc.)
- *
  * Test data (Code 128 and QR) is generated once in @BeforeClass.
  */
 public class DeconvolutionModeExample {
@@ -48,7 +47,6 @@ public class DeconvolutionModeExample {
      *  - qset_code128.png: Code 128 for BarcodeQualityMode experiments
      *  - qset_qr.png: clean QR Code for DeconvolutionMode experiments
      *  - qset_qr_blurred.png: blurred QR Code to demonstrate effect of SLOW deconvolution
-     *
      * Note: ExampleAssist.checkOrCreateImage(...) will reuse existing files if present.
      */
     private void generateCode128AndQR() throws Exception {
