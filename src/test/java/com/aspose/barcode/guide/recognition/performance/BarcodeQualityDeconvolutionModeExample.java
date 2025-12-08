@@ -22,18 +22,21 @@ import org.testng.annotations.Test;
  *
  * Test data (Code 128 and QR) is generated once in @BeforeClass.
  */
-public class BarcodeQualityDeconvolutionModeExample
-{
+public class BarcodeQualityDeconvolutionModeExample {
+
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath("recognition", "quality", "barcode_quality_deconvolution");
+
+    private static final String FILE_CODE128      = "qset_code128.png";
+    private static final String FILE_QR_CLEAN     = "qset_qr.png";
+    private static final String FILE_QR_BLURRED   = "qset_qr_blurred.png";
 
     /**
      * Initializes license and ensures demo images exist before tests run.
      * Images are created once (idempotently) to keep tests deterministic and self-contained.
      */
     @BeforeClass
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         LicenseAssist.setupLicense();
         generateCode128AndQR();
     }
@@ -41,26 +44,33 @@ public class BarcodeQualityDeconvolutionModeExample
     // ==================== Test data generation ====================
 
     /**
-     * Generates two images used by tests:
+     * Generates images used by tests:
      *  - qset_code128.png: Code 128 for BarcodeQualityMode experiments
-     *  - qset_qr.png: QR Code for DeconvolutionMode experiments
+     *  - qset_qr.png: clean QR Code for DeconvolutionMode experiments
+     *  - qset_qr_blurred.png: blurred QR Code to demonstrate effect of SLOW deconvolution
      *
      * Note: ExampleAssist.checkOrCreateImage(...) will reuse existing files if present.
      */
-    private void generateCode128AndQR() throws Exception
-    {
+    private void generateCode128AndQR() throws Exception {
         // Code128 for BarcodeQuality tests
-        String code128 = "qset_code128.png";
-        ExampleAssist.checkOrCreateImage(FOLDER, code128, path -> {
-            BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_128, "QualitySettings:BarcodeQuality");
-            gen.save(path, BarCodeImageFormat.PNG);
+        ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE128, path -> {
+            BarcodeGenerator generator =
+                    new BarcodeGenerator(EncodeTypes.CODE_128, "QualitySettings:BarcodeQuality");
+            generator.save(path, BarCodeImageFormat.PNG);
         });
 
-        // QR for Deconvolution tests
-        String qr = "qset_qr.png";
-        ExampleAssist.checkOrCreateImage(FOLDER, qr, path -> {
-            BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "QualitySettings:Deconvolution");
-            gen.save(path, BarCodeImageFormat.PNG);
+        // QR for Deconvolution tests (clean)
+        ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_CLEAN, path -> {
+            BarcodeGenerator generator =
+                    new BarcodeGenerator(EncodeTypes.QR, "QualitySettings:Deconvolution");
+            generator.save(path, BarCodeImageFormat.PNG);
+        });
+
+        // Blurred QR for Deconvolution tests
+        ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_BLURRED, outPath -> {
+            String cleanPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_CLEAN);
+            // Gaussian-like blur. Increase radius for heavier blur if needed.
+            ExampleAssist.blur(cleanPath, outPath, 1.5f);
         });
     }
 
@@ -73,14 +83,14 @@ public class BarcodeQualityDeconvolutionModeExample
      *  - Expected behavior: quick recognition when the image is good.
      */
     @Test
-    public void read_Code128_BarcodeQuality_HIGH() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
+    public void read_Code128_BarcodeQuality_HIGH() throws Exception {
+        String fileName = FILE_CODE128;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
 
-        QualitySettings qs = QualitySettings.getHighPerformance();
-        qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
-        reader.setQualitySettings(qs);
+        QualitySettings qualitySettings = QualitySettings.getHighPerformance();
+        qualitySettings.setBarcodeQuality(BarcodeQualityMode.HIGH);
+        reader.setQualitySettings(qualitySettings);
 
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
     }
@@ -92,14 +102,14 @@ public class BarcodeQualityDeconvolutionModeExample
      *  - Expected behavior: robust for most regular-quality inputs.
      */
     @Test
-    public void read_Code128_BarcodeQuality_NORMAL() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
+    public void read_Code128_BarcodeQuality_NORMAL() throws Exception {
+        String fileName = FILE_CODE128;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
 
-        QualitySettings qs = QualitySettings.getNormalQuality();
-        qs.setBarcodeQuality(BarcodeQualityMode.NORMAL);
-        reader.setQualitySettings(qs);
+        QualitySettings qualitySettings = QualitySettings.getNormalQuality();
+        qualitySettings.setBarcodeQuality(BarcodeQualityMode.NORMAL);
+        reader.setQualitySettings(qualitySettings);
 
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
     }
@@ -107,23 +117,23 @@ public class BarcodeQualityDeconvolutionModeExample
     /**
      * Demonstrates BarcodeQualityMode.LOW on a clean Code 128:
      *  - Starts from HighQuality preset (heavier processing).
-     *  - Forces LOW quality profile: enables extra/hard methods for damaged or low-contrast bars.
-     *  - Expected behavior: the slowest but most tolerant path when quality is poor.
+     *  - Forces LOW quality profile.
+     *  - Expected behavior: slowest path with extra methods enabled for poor-quality bars.
      */
     @Test
-    public void read_Code128_BarcodeQuality_LOW() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
+    public void read_Code128_BarcodeQuality_LOW() throws Exception {
+        String fileName = FILE_CODE128;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
 
-        QualitySettings qs = QualitySettings.getHighQuality();
-        qs.setBarcodeQuality(BarcodeQualityMode.LOW);
-        reader.setQualitySettings(qs);
+        QualitySettings qualitySettings = QualitySettings.getHighQuality();
+        qualitySettings.setBarcodeQuality(BarcodeQualityMode.LOW);
+        reader.setQualitySettings(qualitySettings);
 
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
     }
 
-    // ==================== DeconvolutionMode ====================
+    // ==================== DeconvolutionMode (clean QR) ====================
 
     /**
      * Demonstrates DeconvolutionMode.FAST on a clean QR code:
@@ -132,14 +142,14 @@ public class BarcodeQualityDeconvolutionModeExample
      *  - Expected behavior: fastest restoration stage, enough for high-quality captures.
      */
     @Test
-    public void read_QR_Deconvolution_FAST() throws Exception
-    {
-        String fileName = "qset_qr.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+    public void read_QR_Deconvolution_FAST() throws Exception {
+        String fileName = FILE_QR_CLEAN;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
 
-        QualitySettings qs = QualitySettings.getHighQuality();
-        qs.setDeconvolution(DeconvolutionMode.FAST);
-        reader.setQualitySettings(qs);
+        QualitySettings qualitySettings = QualitySettings.getHighQuality();
+        qualitySettings.setDeconvolution(DeconvolutionMode.FAST);
+        reader.setQualitySettings(qualitySettings);
 
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
     }
@@ -151,14 +161,14 @@ public class BarcodeQualityDeconvolutionModeExample
      *  - Expected behavior: moderate cost, good default for typical mobile photos.
      */
     @Test
-    public void read_QR_Deconvolution_NORMAL() throws Exception
-    {
-        String fileName = "qset_qr.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+    public void read_QR_Deconvolution_NORMAL() throws Exception {
+        String fileName = FILE_QR_CLEAN;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
 
-        QualitySettings qs = QualitySettings.getNormalQuality();
-        qs.setDeconvolution(DeconvolutionMode.NORMAL);
-        reader.setQualitySettings(qs);
+        QualitySettings qualitySettings = QualitySettings.getNormalQuality();
+        qualitySettings.setDeconvolution(DeconvolutionMode.NORMAL);
+        reader.setQualitySettings(qualitySettings);
 
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
     }
@@ -170,14 +180,35 @@ public class BarcodeQualityDeconvolutionModeExample
      *  - Expected behavior: the most robust deconvolution pipeline.
      */
     @Test
-    public void read_QR_Deconvolution_SLOW() throws Exception
-    {
-        String fileName = "qset_qr.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+    public void read_QR_Deconvolution_SLOW() throws Exception {
+        String fileName = FILE_QR_CLEAN;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
 
-        QualitySettings qs = QualitySettings.getHighQuality();
-        qs.setDeconvolution(DeconvolutionMode.SLOW);
-        reader.setQualitySettings(qs);
+        QualitySettings qualitySettings = QualitySettings.getHighQuality();
+        qualitySettings.setDeconvolution(DeconvolutionMode.SLOW);
+        reader.setQualitySettings(qualitySettings);
+
+        ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
+    }
+
+    // ==================== DeconvolutionMode (blurred QR) ====================
+
+    /**
+     * Demonstrates DeconvolutionMode.SLOW on a blurred QR code:
+     *  - Uses HighQuality preset with the strongest deconvolution pipeline.
+     *  - Intended for motion blur or out-of-focus captures.
+     *  - Expected behavior: QR is still recognized on the blurred image.
+     */
+    @Test
+    public void read_QR_Blurred_Deconvolution_SLOW() throws Exception {
+        String fileName = FILE_QR_BLURRED;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.QR);
+
+        QualitySettings qualitySettings = QualitySettings.getHighQuality();
+        qualitySettings.setDeconvolution(DeconvolutionMode.SLOW);
+        reader.setQualitySettings(qualitySettings);
 
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.QR);
     }
@@ -190,23 +221,23 @@ public class BarcodeQualityDeconvolutionModeExample
      *  - Overrides:
      *      XDimension = SMALL           -> look for smaller bars/cells (tiny modules)
      *      MinimalXDimension = 1.0 px   -> minimal expected module size in pixels
-     *      BarcodeQuality = LOW         -> enable heavy methods for low-quality / damaged bars
+     *      BarcodeQuality = LOW         -> heavier methods for low-quality / damaged bars
      *      Deconvolution = SLOW         -> strongest restoration for blur/degradation
      *  - Intended use: when you expect very small and/or degraded 1D symbols.
      *  - Trade-off: slower but more tolerant than pure HighPerformance.
      */
     @Test
-    public void read_Code128_PresetWithOverrides_forSmallAndLowQuality() throws Exception
-    {
-        String fileName = "qset_code128.png";
-        BarCodeReader reader = new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
+    public void read_Code128_PresetWithOverrides_forSmallAndLowQuality() throws Exception {
+        String fileName = FILE_CODE128;
+        BarCodeReader reader =
+                new BarCodeReader(ExampleAssist.pathCombine(FOLDER, fileName), DecodeType.CODE_128);
 
-        QualitySettings qs = QualitySettings.getHighPerformance();
-        qs.setXDimension(XDimensionMode.SMALL);
-        qs.setMinimalXDimension(1.0f);
-        qs.setBarcodeQuality(BarcodeQualityMode.LOW);
-        qs.setDeconvolution(DeconvolutionMode.SLOW);
-        reader.setQualitySettings(qs);
+        QualitySettings qualitySettings = QualitySettings.getHighPerformance();
+        qualitySettings.setXDimension(XDimensionMode.SMALL);
+        qualitySettings.setMinimalXDimension(1.0f);
+        qualitySettings.setBarcodeQuality(BarcodeQualityMode.LOW);
+        qualitySettings.setDeconvolution(DeconvolutionMode.SLOW);
+        reader.setQualitySettings(qualitySettings);
 
         ExampleAssist.assertRecognized(reader, fileName, 1, DecodeType.CODE_128);
     }
