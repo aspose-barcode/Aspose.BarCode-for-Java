@@ -68,12 +68,13 @@ public class BarcodeQualityDeconvolutionModeExample {
             generator.save(path, BarCodeImageFormat.PNG);
         });
 
-        // Blurred QR for Deconvolution tests
+        // QR blurred: mild blur that FAST may struggle with, SLOW should still recognize
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_BLURRED, (String full) -> {
             String cleanPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_CLEAN);
-            // Make blur gentler: radius ~0.8–1.0
+            // Tuned empirically so that DeconvolutionMode.SLOW passes reliably
             ExampleAssist.blur(cleanPath, full, 0.8f);
         });
+
 
     }
 
