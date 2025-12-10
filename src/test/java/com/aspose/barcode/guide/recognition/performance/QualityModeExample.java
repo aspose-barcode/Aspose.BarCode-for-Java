@@ -15,14 +15,25 @@ import org.testng.annotations.Test;
 
 /**
  * Demonstrates the effect of BarcodeQualityMode (HIGH / NORMAL / LOW) on recognition
- * under two conditions: (1) a clean, synthetic CODE_128 image and (2) the same image
- * degraded with additive Gaussian noise. Noise is produced by ExampleAssist.addGaussianNoise(...).
- * Key ideas:
- * - Clean inputs should be robust to most quality modes.
- * - Noisy inputs typically benefit from higher quality modes, which may enable
- *   heavier preprocessing/filters at the cost of performance.
- * - Presets (getHighPerformance / getNormalQuality / getHighQuality) can be combined
- *   with targeted overrides (e.g., X-dimension and BarcodeQualityMode) to fine-tune behavior.
+ * under two conditions: (1) a clean synthetic CODE_128 image and (2) the same image
+ * degraded with additive Gaussian noise (produced by ExampleAssist.addGaussianNoise(...)).
+ *
+ * Semantics:
+ * - BarcodeQualityMode.HIGH    → the engine assumes that barcodes are high quality
+ *                                and can follow a lighter / more optimistic recognition path.
+ * - BarcodeQualityMode.NORMAL  → the engine assumes medium quality and uses a balanced path.
+ * - BarcodeQualityMode.LOW     → the engine assumes low quality and may apply more intensive
+ *                                processing for damaged or noisy barcodes.
+ *
+ * This enum describes the expected quality of input images. It is orthogonal to
+ * QualitySettings presets:
+ * - getHighPerformance() → speed-oriented preset
+ * - getNormalQuality()   → balanced preset for most scenarios
+ * - getHighQuality()     → preset for low-quality barcodes
+ *
+ * In practice you:
+ * - choose a preset according to the overall difficulty/throughput of your task
+ * - set BarcodeQualityMode according to the expected quality of the incoming images.
  */
 public class QualityModeExample {
 
@@ -44,7 +55,11 @@ public class QualityModeExample {
 
     /**
      * Creates a clean baseline CODE_128 image to test how different quality modes behave
-     * under "ideal" conditions. We expect all modes to recognize it reliably.
+     * when the barcode is rendered under ideal conditions.
+     *
+     * Expected behavior:
+     * - All BarcodeQualityMode values (HIGH / NORMAL / LOW) should be able to read this image.
+     * - Differences are mostly about internal recognition strategy, not the final result.
      */
     private void generateCode128Base() throws Exception {
         String file = "code128_clean.png";
@@ -57,8 +72,12 @@ public class QualityModeExample {
 
     /**
      * Produces a noisy variant of the baseline image by adding Gaussian noise
-     * (stdDev ≈ 12). This simulates low SNR and stresses the recognizer,
-     * revealing differences between quality modes and presets.
+     * (stdDev ≈ 12). This simulates low signal-to-noise ratio and stresses the recognizer.
+     *
+     * Expected behavior:
+     * - BarcodeQualityMode.LOW is usually the safest choice for this kind of input.
+     * - BarcodeQualityMode.HIGH assumes high-quality images and may operate closer
+     *   to the robustness limit on degraded data.
      */
     private void generateCode128Noisy() throws Exception {
         String src = "code128_clean.png";
@@ -70,17 +89,20 @@ public class QualityModeExample {
         });
     }
 
-    // --- CLEAN image tests ---
+    // --- CLEAN image tests ---------------------------------------------------
 
     /**
      * Purpose:
-     * - Validate that on a clean CODE_128, a fast preset (getHighPerformance) with
-     *   BarcodeQualityMode.HIGH still recognizes reliably.
+     * - Demonstrate the typical configuration for high-quality images:
+     *   a speed-oriented preset (getHighPerformance) combined with
+     *   BarcodeQualityMode.HIGH to reflect that the input is expected to be clean.
+     *
      * Demonstrates:
-     * - Even performance-oriented presets can be paired with HIGH quality mode
-     *   to keep recognition robust on clean data.
+     * - When the image quality is good, you can tell the engine that barcodes are
+     *   high quality so it can follow an optimistic recognition path.
+     *
      * Expectation:
-     * - At least 1 result of type CODE_128; stable, quick recognition.
+     * - At least 1 result of type CODE_128; fast, stable recognition on clean input.
      */
     @Test
     public void read_Code128_Clean_BarcodeQuality_HIGH() throws Exception {
@@ -96,13 +118,15 @@ public class QualityModeExample {
 
     /**
      * Purpose:
-     * - Show that a balanced preset (getNormalQuality) with NORMAL quality mode
-     *   is sufficient for clean images.
+     * - Show that a balanced preset (getNormalQuality) with BarcodeQualityMode.NORMAL
+     *   is sufficient for most clean images.
+     *
      * Demonstrates:
-     * - Middle-ground configuration (latency vs quality) still yields correct reads
-     *   when input quality is not a problem.
+     * - Middle-ground configuration (latency vs robustness) that matches
+     *   a "typical" scan quality level.
+     *
      * Expectation:
-     * - At least 1 CODE_128 result; comparable accuracy to other modes on clean input.
+     * - At least 1 CODE_128 result; behavior comparable to HIGH mode on clean input.
      */
     @Test
     public void read_Code128_Clean_BarcodeQuality_NORMAL() throws Exception {
@@ -119,12 +143,16 @@ public class QualityModeExample {
 
     /**
      * Purpose:
-     * - Confirm that even with LOW quality mode, a clean CODE_128 remains readable.
+     * - Confirm that even if you mark a clean CODE_128 as "low-quality"
+     *   (BarcodeQualityMode.LOW), the barcode is still readable.
+     *
      * Demonstrates:
-     * - Clean inputs provide a wide operating margin; lower quality settings are
-     *   still capable of successful recognition and may reduce compute cost.
+     * - Clean inputs provide a wide safety margin; using a mode designed for
+     *   low-quality images does not break recognition but may be an overkill.
+     *
      * Expectation:
-     * - At least 1 CODE_128 result; this test sets a lower bound for "how low" we can go on clean data.
+     * - At least 1 CODE_128 result; this test shows that LOW mode is safe even
+     *   when the actual image quality is better than expected.
      */
     @Test
     public void read_Code128_Clean_BarcodeQuality_LOW() throws Exception {
@@ -132,24 +160,28 @@ public class QualityModeExample {
         BarCodeReader reader =
                 new BarCodeReader(ExampleAssist.pathCombine(FOLDER, file), DecodeType.CODE_128);
 
-        QualitySettings qs = QualitySettings.getHighQuality(); // preset base
-        qs.setBarcodeQuality(BarcodeQualityMode.LOW);          // explicit low-quality override
+        QualitySettings qs = QualitySettings.getHighQuality(); // preset oriented to harder inputs
+        qs.setBarcodeQuality(BarcodeQualityMode.LOW);          // assume barcodes may be low quality
         reader.setQualitySettings(qs);
 
         ExampleAssist.assertRecognized(reader, file, 1, DecodeType.CODE_128);
     }
 
-    // --- NOISY image tests ---
+    // --- NOISY image tests ---------------------------------------------------
 
     /**
      * Purpose:
-     * - Evaluate recognition on a noisy image when using a speed-oriented preset
-     *   (getHighPerformance) but forcing HIGH quality mode.
+     * - Evaluate recognition on a noisy image when the engine is still told
+     *   that barcodes are of HIGH quality.
+     *
      * Demonstrates:
-     * - On degraded inputs, raising the quality mode can compensate for a
-     *   performance-biased preset by enabling stronger denoising/filters.
+     * - A "mismatched" configuration: using a performance-oriented preset and
+     *   BarcodeQualityMode.HIGH on degraded data may work, but it operates closer
+     *   to the robustness boundary than LOW mode.
+     *
      * Expectation:
-     * - At least 1 CODE_128 result; proves that HIGH quality mode helps survive noise.
+     * - At least 1 CODE_128 result; this shows that noisy inputs can sometimes
+     *   be decoded even when the engine assumes high quality.
      */
     @Test
     public void read_Code128_Noisy_BarcodeQuality_HIGH() throws Exception {
@@ -166,14 +198,17 @@ public class QualityModeExample {
 
     /**
      * Purpose:
-     * - Stress the recognizer by pairing a quality-oriented preset (getHighQuality)
-     *   with a LOW quality mode on a noisy image.
+     * - Demonstrate the recommended configuration for degraded images:
+     *   use a more robust preset (getHighQuality) and set BarcodeQualityMode.LOW
+     *   to explicitly indicate that barcodes are low-quality.
+     *
      * Demonstrates:
-     * - Lowering the quality mode may harm robustness on degraded data. This test
-     *   sets a contrast to the previous one and can expose sensitivity to the quality mode.
+     * - For noisy or partially corrupted inputs, LOW mode usually provides
+     *   the most tolerant behavior, at the cost of extra processing.
+     *
      * Expectation:
-     * - Still attempt to read at least 1 CODE_128 result. If your environment is stricter,
-     *   you can convert this into a "negative" test (expect zero results) to show the cliff.
+     * - At least 1 CODE_128 result; this path should be more stable
+     *   than HIGH mode on difficult images.
      */
     @Test
     public void read_Code128_Noisy_BarcodeQuality_LOW() throws Exception {
@@ -188,22 +223,23 @@ public class QualityModeExample {
         ExampleAssist.assertRecognized(reader, file, 1, DecodeType.CODE_128);
     }
 
-    // --- Preset + targeted overrides ---
+    // --- Preset + targeted overrides ----------------------------------------
 
     /**
      * Purpose:
      * - Showcase that presets can be fine-tuned via targeted overrides for
-     *   specific scenarios (e.g., small module width).
+     *   specific scenarios (for example, small module width and low-quality input).
+     *
      * Demonstrates:
      * - Starting from a performance preset and explicitly setting:
      *   * XDimensionMode.SMALL + MinimalXDimension(1.0f) to bias the detector
-     *     toward small bar widths (useful for tiny prints/screenshots).
-     *   * BarcodeQualityMode.LOW to simulate pushing speed further while still
-     *     retaining enough sensitivity due to proper X-dimension hints.
+     *     toward small bar widths (useful for tiny prints or screenshots).
+     *   * BarcodeQualityMode.LOW to tell the engine that symbols may be low quality
+     *     and that extra effort is acceptable.
+     *
      * Expectation:
-     * - At least 1 CODE_128 result on the clean image, proving that accurate
-     *   geometric hints (X-dimension) can offset a lower quality mode when the
-     *   signal is otherwise clean.
+     * - At least 1 CODE_128 result on the clean image; the same configuration
+     *   is a good candidate for small and potentially noisy barcodes in real projects.
      */
     @Test
     public void read_Code128_Clean_PresetWithOverrides_SmallLowQuality() throws Exception {

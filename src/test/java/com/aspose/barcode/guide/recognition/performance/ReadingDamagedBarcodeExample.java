@@ -88,9 +88,17 @@ public class ReadingDamagedBarcodeExample
     // ==================== Damaged: NOISE (Code 128) ====================
 
     /**
-     * Noisy Code 128 → robust recognition with BarcodeQuality=LOW.
-     * Starts from HighQuality and switches BarcodeQuality to LOW (heavier methods).
-     * Expectation: at least one result; CODE_128 present.
+     * Noisy Code 128 → recognition with BarcodeQuality=LOW.
+     * Starts from HighQuality preset and explicitly marks barcodes as low quality.
+     *
+     * Semantics:
+     * - HighQuality preset is designed for difficult / low-quality inputs.
+     * - BarcodeQualityMode.LOW tells the engine that barcodes themselves are expected
+     *   to be low quality, so the recognition path can be more tolerant to noise
+     *   and distortions.
+     *
+     * Expectation:
+     * - At least one result; CODE_128 present.
      */
     @Test
     public void read_Code128_Noisy_WithBarcodeQuality_LOW() throws Exception {
@@ -105,9 +113,18 @@ public class ReadingDamagedBarcodeExample
     }
 
     /**
-     * Noisy Code 128 → tuning for tiny/weak modules (XDimension hints + LOW).
-     * Expectation: at least one result; CODE_128 present.
-     */
+     * Noisy Code 128 → tuning for tiny / low-quality modules.
+     *
+     * Configuration:
+     * - HighPerformance preset (speed-oriented baseline).
+     * - XDimensionMode.SMALL + MinimalXDimension(1.0f) give the engine a hint
+     *   that bars can be very thin.
+     * - BarcodeQualityMode.LOW tells the engine that barcodes may be low quality
+     *   (noisy, weak contrast), so a more tolerant recognition path is expected.
+     *
+     * Expectation:
+     * - At least one result; CODE_128 present.
+    */
     @Test
     public void read_Code128_Noisy_TinyModules_Tuned() throws Exception {
         BarCodeReader reader =

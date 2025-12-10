@@ -16,17 +16,25 @@ import org.testng.annotations.Test;
 import static com.aspose.barcode.guide.common.ExampleAssist.currentMethodName;
 
 /**
- * Reading Low-Resolution Barcode Example.
+ * Reading low-resolution barcode example.
  *
  * Focus:
  * - How recognition behaves when the barcode image is rendered directly at low target widths (no post-resampling).
- * - Which QualitySettings and X-dimension hints improve robustness on tiny/pixel-aligned modules.
+ * - How QualitySettings presets and X-dimension hints affect robustness on tiny, pixel-aligned modules.
+ * - How BarcodeQualityMode (HIGH / NORMAL / LOW) is used to describe the expected image quality,
+ *   independently from the chosen preset.
  *
  * Data:
- * - A clean, synthetic CODE_128 is generated once (wide quiet zones).
+ * - A clean synthetic CODE_128 is generated once (wide quiet zones).
  * - Low-res variants are rendered directly at fixed pixel widths (150 / 80 / 40 px) with explicit X-dimension.
+ *
+ * BarcodeQualityMode semantics:
+ * - HIGH   → the engine assumes that barcodes are rendered with good quality (crisp edges, low noise).
+ * - NORMAL → medium/typical quality.
+ * - LOW    → barcodes may be low quality (noise, blur, weak contrast) and the engine should be more tolerant.
  */
 public class ReadingLowResolutionBarcodeExample {
+
 
     // Resource folder for this group of tests
     private static final String FOLDER =
@@ -90,8 +98,6 @@ public class ReadingLowResolutionBarcodeExample {
                         /*widthPx*/40, /*heightPx*/HEIGHT_PX,
                         /*xDimPx*/1.0f, /*quietPx*/QUIET_PX, out));
     }
-
-    // ── CLEAN baseline (sanity check) ──────────────────────────────────────────
 
     /**
      * Purpose:
