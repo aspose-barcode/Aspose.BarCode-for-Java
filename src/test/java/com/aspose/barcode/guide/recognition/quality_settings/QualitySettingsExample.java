@@ -173,8 +173,17 @@ public class QualitySettingsExample {
     /**
      * Example 9:
      * Demonstrates how to recognize low-quality barcodes by setting
-     * BarcodeQualityMode.LOW manually. This forces the engine to apply
-     * more intensive correction filters at the cost of performance.
+     * BarcodeQualityMode.LOW manually.
+     *
+     * Semantics:
+     * - LOW does not mean “maximum effort” by itself. It tells the engine that
+     *   barcodes are expected to be low quality (blurred, noisy, weak contrast),
+     *   so the internal recognition path should be more tolerant to such inputs.
+     *
+     * Usage:
+     * - Combined with a suitable preset (for example, HighPerformance here for
+     *   speed or HighQuality for more robust scenarios), this hint helps the engine
+     *   choose algorithms appropriate for degraded images.
      */
     @Test
     public void readCode128LowQualityMode() throws Exception {
@@ -221,6 +230,9 @@ public class QualitySettingsExample {
      * Example 12:
      * Demonstrates how to verify default parameter values for built-in QualitySettings presets
      * and how to partially override them for fine-tuning recognition behavior.
+     * `getNormalQuality()` — «Suitable for the most of barcodes».
+     * `getHighQuality()` — «developed for low quality barcodes».
+     * `getMaxQuality()` — «recognize all possible barcodes, even incorrect».
      */
     @Test
     public void verifyPresetsAndPartialOverride() throws Exception {
