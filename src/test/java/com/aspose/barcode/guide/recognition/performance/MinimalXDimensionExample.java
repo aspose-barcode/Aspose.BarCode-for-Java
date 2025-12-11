@@ -50,10 +50,6 @@ public class MinimalXDimensionExample
         gen.save(fullPath, BarCodeImageFormat.PNG);
     }
 
-    // ------------------------- Tests -------------------------
-    // NOTE: If your enum name differs, replace XDimensionMode.USE_MINIMAL_X_DIMENSION
-    // with the actual constant that enables "UseMinimalXDimension".
-
     @Test
     public void read_Code128_X1_with_MinimalX_1px() throws Exception
     {

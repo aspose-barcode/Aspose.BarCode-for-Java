@@ -232,7 +232,7 @@ public class QualityModeExample {
      *
      * Demonstrates:
      * - Starting from a performance preset and explicitly setting:
-     *   * XDimensionMode.SMALL + MinimalXDimension(1.0f) to bias the detector
+     *   * XDimensionMode.SMALL to bias the detector
      *     toward small bar widths (useful for tiny prints or screenshots).
      *   * BarcodeQualityMode.LOW to tell the engine that symbols may be low quality
      *     and that extra effort is acceptable.
@@ -249,7 +249,6 @@ public class QualityModeExample {
 
         QualitySettings qs = QualitySettings.getHighPerformance();
         qs.setXDimension(XDimensionMode.SMALL);
-        qs.setMinimalXDimension(1.0f);
         qs.setBarcodeQuality(BarcodeQualityMode.LOW);
         reader.setQualitySettings(qs);
 

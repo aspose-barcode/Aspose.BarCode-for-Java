@@ -117,7 +117,7 @@ public class ReadingDamagedBarcodeExample
      *
      * Configuration:
      * - HighPerformance preset (speed-oriented baseline).
-     * - XDimensionMode.SMALL + MinimalXDimension(1.0f) give the engine a hint
+     * - XDimensionMode.USE_MINIMAL_X_DIMENSION + MinimalXDimension(1.0f) give the engine a hint
      *   that bars can be very thin.
      * - BarcodeQualityMode.LOW tells the engine that barcodes may be low quality
      *   (noisy, weak contrast), so a more tolerant recognition path is expected.
@@ -143,7 +143,7 @@ public class ReadingDamagedBarcodeExample
 
     /**
      * Blurred QR (mild) → SLOW deconvolution for recovery.
-     * Settings: HighQuality + Deconvolution=SLOW + XDimension=SMALL + MinimalXDimension=1.
+     * Settings: HighQuality + Deconvolution=SLOW + XDimension=USE_MINIMAL_X_DIMENSION + MinimalXDimension=1.
      * Expectation: at least one result; QR present.
      */
     @Test
@@ -153,7 +153,7 @@ public class ReadingDamagedBarcodeExample
 
         QualitySettings qs = QualitySettings.getHighQuality();
         qs.setDeconvolution(DeconvolutionMode.SLOW);
-        qs.setXDimension(XDimensionMode.SMALL);
+        qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
         qs.setMinimalXDimension(1.0f);
         reader.setQualitySettings(qs);
 

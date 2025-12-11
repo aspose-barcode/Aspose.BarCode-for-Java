@@ -222,7 +222,6 @@ public class DeconvolutionModeExample {
      *  - Base: HighPerformance (aims for speed on clean inputs).
      *  - Overrides:
      *      XDimension = SMALL           -> look for smaller bars/cells (tiny modules)
-     *      MinimalXDimension = 1.0 px   -> minimal expected module size in pixels
      *      BarcodeQuality = LOW         -> heavier methods for low-quality / damaged bars
      *      Deconvolution = SLOW         -> strongest restoration for blur/degradation
      *  - Intended use: when you expect very small and/or degraded 1D symbols.
@@ -236,7 +235,6 @@ public class DeconvolutionModeExample {
 
         QualitySettings qualitySettings = QualitySettings.getHighPerformance();
         qualitySettings.setXDimension(XDimensionMode.SMALL);
-        qualitySettings.setMinimalXDimension(1.0f);
         qualitySettings.setBarcodeQuality(BarcodeQualityMode.LOW);
         qualitySettings.setDeconvolution(DeconvolutionMode.SLOW);
         reader.setQualitySettings(qualitySettings);

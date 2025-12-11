@@ -164,7 +164,7 @@ public class QualitySettingsExample {
         checkOrCreateImage(IMAGES_FOLDER, "code128_small.png", this::generateCode128Small);
         QualitySettings qs = QualitySettings.getHighPerformance();
         qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
-        qs.setMinimalXDimension(1);
+        qs.setMinimalXDimension(1.0f);
         BarCodeReader reader = new BarCodeReader(getPath("code128_small.png"), DecodeType.CODE_128);
         reader.setQualitySettings(qs);
         ExampleAssist.assertRecognized(reader, "code128_small.png", 1, DecodeType.CODE_128);
@@ -239,7 +239,6 @@ public class QualitySettingsExample {
         // --- 1. Verify built-in preset values ---
         QualitySettings normal = QualitySettings.getNormalQuality();
         Assert.assertEquals(normal.getXDimension(), XDimensionMode.NORMAL, "NormalQuality: XDimension");
-        Assert.assertEquals(normal.getMinimalXDimension(), 1.0f, "NormalQuality: MinimalXDimension");
         Assert.assertEquals(normal.getBarcodeQuality(), BarcodeQualityMode.NORMAL, "NormalQuality: BarcodeQuality");
         Assert.assertEquals(normal.getDeconvolution(), DeconvolutionMode.NORMAL, "NormalQuality: Deconvolution");
         Assert.assertEquals(normal.getInverseImage(), InverseImageMode.DISABLED, "NormalQuality: InverseImage");

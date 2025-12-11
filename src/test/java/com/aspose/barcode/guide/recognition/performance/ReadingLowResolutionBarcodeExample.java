@@ -189,7 +189,7 @@ public class ReadingLowResolutionBarcodeExample {
                 ExampleAssist.pathCombine(FOLDER, FILE_CODE128_LOWRES_WIDTH_80), DecodeType.CODE_128);
 
         QualitySettings qs = QualitySettings.getHighPerformance();
-        qs.setXDimension(XDimensionMode.SMALL);
+        qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
         qs.setMinimalXDimension(1.0f); // Hint: expected minimal module width in pixels at this rendered size
         qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
         reader.setQualitySettings(qs);
@@ -229,7 +229,7 @@ public class ReadingLowResolutionBarcodeExample {
      *
      * Demonstrates:
      * - Best-case robustness near the resolution cliff: with accurate geometry hints
-     *   (XDimensionMode.SMALL, MinimalXDimension) and a preset tuned for difficult barcodes,
+     *   (XDimensionMode.USE_MINIMAL_X_DIMENSION, MinimalXDimension) and a preset tuned for difficult barcodes,
      *   even ~40 px wide symbols can be decoded when they are cleanly rendered.
      *
      * Interpretation:
@@ -242,7 +242,7 @@ public class ReadingLowResolutionBarcodeExample {
                 ExampleAssist.pathCombine(FOLDER, FILE_CODE128_LOWRES_WIDTH_40), DecodeType.CODE_128);
 
         QualitySettings qs = QualitySettings.getHighQuality();
-        qs.setXDimension(XDimensionMode.SMALL);
+        qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
         qs.setMinimalXDimension(1.0f);
         qs.setBarcodeQuality(BarcodeQualityMode.HIGH);
         reader.setQualitySettings(qs);
