@@ -131,7 +131,7 @@ public class ReadingDamagedBarcodeExample
                 new BarCodeReader(ExampleAssist.pathCombine(FOLDER, FILE_CODE128_NOISY), DecodeType.CODE_128);
 
         QualitySettings qs = QualitySettings.getHighPerformance();
-        qs.setXDimension(XDimensionMode.SMALL);
+        qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
         qs.setMinimalXDimension(1.0f);
         qs.setBarcodeQuality(BarcodeQualityMode.LOW);
         reader.setQualitySettings(qs);
