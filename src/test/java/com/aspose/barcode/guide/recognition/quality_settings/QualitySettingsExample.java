@@ -163,7 +163,7 @@ public class QualitySettingsExample {
     public void readCode128HighPerformanceTinyX() throws Exception {
         checkOrCreateImage(IMAGES_FOLDER, "code128_small.png", this::generateCode128Small);
         QualitySettings qs = QualitySettings.getHighPerformance();
-        qs.setXDimension(XDimensionMode.SMALL);
+        qs.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION);
         qs.setMinimalXDimension(1);
         BarCodeReader reader = new BarCodeReader(getPath("code128_small.png"), DecodeType.CODE_128);
         reader.setQualitySettings(qs);
@@ -258,11 +258,11 @@ public class QualitySettingsExample {
         Assert.assertEquals(maxQuality.getComplexBackground(), ComplexBackgroundMode.ENABLED, "MaxQuality: ComplexBackground");
 
         // --- 2. Demonstrate partial override ---
-        // We take a preset and fine-tune it for a specific use case.
         QualitySettings custom = QualitySettings.getHighPerformance();
-        custom.setInverseImage(InverseImageMode.ENABLED); // enable inverse detection
-        custom.setAllowIncorrectBarcodes(true);           // allow partially damaged codes
-        custom.setMinimalXDimension(2.5f);                // slightly lower X dimension threshold
+        custom.setInverseImage(InverseImageMode.ENABLED);   // support inverse images
+        custom.setAllowIncorrectBarcodes(true);             // allow partially damaged codes
+        custom.setXDimension(XDimensionMode.USE_MINIMAL_X_DIMENSION); // enable MinimalXDimension hint
+        custom.setMinimalXDimension(2.5f);                  // adjust minimal bar width
 
         // --- 3. Apply to a real barcode and verify recognition still works ---
         checkOrCreateImage(IMAGES_FOLDER, "code128_custom.png", this::generateCode128);
