@@ -28,6 +28,7 @@ public class BackgroundsExample {
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath(
                     "generation",
+                    "visual_parameters",
                     "backgrounds"
             );
 
