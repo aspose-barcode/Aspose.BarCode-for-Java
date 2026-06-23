@@ -195,7 +195,7 @@ public class ResultValidationExample {
         // 3) QR clean
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_CLEAN, (ImageSupplier) (String full) -> {
             BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "RESULT-VALIDATION-QR");
-            generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+            generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
             generator.save(full, BarCodeImageFormat.PNG);
         });
 

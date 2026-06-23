@@ -64,7 +64,7 @@ public class GenerateQRCode
         generator.getParameters()
                 .getBarcode()
                 .getQR()
-                .setQrErrorLevel(QRErrorLevel.LEVEL_H);
+                .setErrorLevel(QRErrorLevel.LEVEL_H);
 
         saveAndAssert(
                 generator,
@@ -110,8 +110,8 @@ public class GenerateQRCode
         String codeText = "データ";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, codeText);
 
-        generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.ECI);
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
 
         saveAndAssert(
                 generator,
@@ -135,9 +135,9 @@ public class GenerateQRCode
         generator.getParameters().getBarcode().getXDimension().setPixels(4);
         generator.getParameters().setResolution(300.0f);
 
-        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
-        generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.ECI);
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
 
         generator.getParameters().setBackColor(Color.WHITE);
         generator.getParameters().getBarcode().setBarColor(Color.BLACK);
@@ -247,8 +247,8 @@ public class GenerateQRCode
                 + "END:VCARD";
 
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, vcard);
-        generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.ECI);
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
 
         saveAndAssert(
                 generator,

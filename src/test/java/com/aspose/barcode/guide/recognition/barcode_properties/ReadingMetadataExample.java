@@ -175,7 +175,7 @@ public class ReadingMetadataExample {
         // 2) QR with high error correction (Level H) – affects recognition metadata (error level)
         ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_HIGH_EC, (String full) -> {
             BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "Aspose.Barcode Metadata Test");
-            generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
+            generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
             generator.save(full, BarCodeImageFormat.PNG);
         });
 

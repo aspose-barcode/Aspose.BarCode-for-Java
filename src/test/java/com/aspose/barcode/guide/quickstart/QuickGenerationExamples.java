@@ -98,8 +98,8 @@ public class QuickGenerationExamples {
         BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.QR, "https://www.aspose.com");
 
         barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        barcodeGenerator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.AUTO);
-        barcodeGenerator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        barcodeGenerator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.AUTO);
+        barcodeGenerator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
 
         saveAndAssert(barcodeGenerator, "qrcode.png");
     }
@@ -110,8 +110,8 @@ public class QuickGenerationExamples {
         BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.QR, "データ");
 
         barcodeGenerator.getParameters().getBarcode().getXDimension().setMillimeters(0.5f);
-        barcodeGenerator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
-        barcodeGenerator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        barcodeGenerator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.ECI);
+        barcodeGenerator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
 
         saveAndAssert(barcodeGenerator, "qrcode_unicode.png");
     }

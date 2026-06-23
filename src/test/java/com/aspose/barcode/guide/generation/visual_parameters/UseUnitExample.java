@@ -199,9 +199,9 @@ public class UseUnitExample {
         xDimension.setInches(0.01f);         // ≈ 3 px per module at 300 dpi
 
         // 2) Recommended QR settings for robustness.
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
-        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
-        generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_01); // compact symbol size
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters().getBarcode().getQR().setVersion(QRVersion.VERSION_01); // compact symbol size
 
         // 3) Quiet zone: ~4 modules on each side (with a minimum safety margin of 12 px).
         int quietPx = Math.max(12, Math.round(xDimension.getPixels() * 4));

@@ -74,8 +74,8 @@ public class ReadingCodeTextRawExample {
         ExampleAssist.checkOrCreateImage(FOLDER, "qr_eci_utf8.png", path -> {
             String text = "Привіт, 世界";
             BarcodeGenerator g = new BarcodeGenerator(EncodeTypes.QR, text);
-            g.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
-            g.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+            g.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.ECI);
+            g.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
             g.save(path, BarCodeImageFormat.PNG);
         });
 
@@ -99,7 +99,7 @@ public class ReadingCodeTextRawExample {
             // Option A: pass codetext via constructor
             BarcodeGenerator barcodeGenerator = new BarcodeGenerator(EncodeTypes.QR, extendedCodetext);
             // IMPORTANT: tell the engine to interpret extended codetext markers
-            barcodeGenerator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.EXTENDED);
+            barcodeGenerator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.EXTENDED);
             // Optional: human-readable text without control markers
             barcodeGenerator.getParameters().getBarcode().getCodeTextParameters().setTwoDDisplayText("QR-Extended");
             barcodeGenerator.save(path, BarCodeImageFormat.PNG);

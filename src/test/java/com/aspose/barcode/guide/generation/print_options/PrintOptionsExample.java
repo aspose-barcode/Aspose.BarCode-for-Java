@@ -180,7 +180,7 @@ public class PrintOptionsExample {
         // --- Anti-alias OFF (crisp modules) ---
         BarcodeGenerator generatorOff = new BarcodeGenerator(EncodeTypes.QR, payload);
         generatorOff.getParameters().setUseAntiAlias(false);
-        generatorOff.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_02);
+        generatorOff.getParameters().getBarcode().getQR().setVersion(QRVersion.VERSION_02);
         generatorOff.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generatorOff.getParameters().getImageWidth().setPixels(220);
         generatorOff.getParameters().getImageHeight().setPixels(220);
@@ -192,7 +192,7 @@ public class PrintOptionsExample {
         // --- Anti-alias ON (smoother visuals) ---
         BarcodeGenerator generatorOn = new BarcodeGenerator(EncodeTypes.QR, payload);
         generatorOn.getParameters().setUseAntiAlias(true);
-        generatorOn.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_02);
+        generatorOn.getParameters().getBarcode().getQR().setVersion(QRVersion.VERSION_02);
         generatorOn.getParameters().getBarcode().getXDimension().setPixels(3.0f);
         generatorOn.getParameters().getImageWidth().setPixels(220);
         generatorOn.getParameters().getImageHeight().setPixels(220);

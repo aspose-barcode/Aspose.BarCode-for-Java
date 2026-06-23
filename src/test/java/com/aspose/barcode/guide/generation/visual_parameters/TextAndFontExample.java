@@ -146,7 +146,7 @@ public class TextAndFontExample {
         final String payload = "QR-UTF8";
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, payload);
 
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
 
         CodetextParameters codeText = generator.getParameters().getBarcode().getCodeTextParameters();
         codeText.setLocation(CodeLocation.ABOVE);

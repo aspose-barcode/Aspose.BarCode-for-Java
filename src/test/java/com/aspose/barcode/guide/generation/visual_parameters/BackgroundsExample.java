@@ -103,69 +103,6 @@ public class BackgroundsExample {
     }
 
     /**
-     * Generates a QR Code with a fully transparent PNG background.
-     *
-     * The test verifies that the output contains at least one pixel with
-     * a fully transparent alpha value.
-     */
-    @Test
-    public void qrWithTransparentBackground() throws Exception {
-        String outputPath = ExampleAssist.pathCombine(
-                FOLDER,
-                "qr_transparent.png"
-        );
-
-        BarcodeGenerator generator = new BarcodeGenerator(
-                EncodeTypes.QR,
-                "TRANSPARENT-QR"
-        );
-
-        generator.getParameters().setBackColor(
-                new Color(255, 255, 255, 0)
-        );
-
-        generator.save(outputPath, BarCodeImageFormat.PNG);
-
-        ExampleAssist.assertFileCreated(outputPath);
-        Assert.assertTrue(
-                containsAlphaValue(outputPath, 0),
-                "PNG must contain at least one fully transparent pixel"
-        );
-    }
-
-    /**
-     * Generates a QR Code with a semi-transparent PNG background.
-     *
-     * The test verifies that the output contains pixels with the configured
-     * alpha value.
-     */
-    @Test
-    public void qrWithSemiTransparentBackground() throws Exception {
-        int alpha = 128;
-        String outputPath = ExampleAssist.pathCombine(
-                FOLDER,
-                "qr_semi_transparent.png"
-        );
-
-        BarcodeGenerator generator = new BarcodeGenerator(
-                EncodeTypes.QR,
-                "SEMI-TRANSPARENT-QR"
-        );
-
-        generator.getParameters().setBackColor(
-                new Color(255, 255, 255, alpha)
-        );
-
-        generator.save(outputPath, BarCodeImageFormat.PNG);
-
-        ExampleAssist.assertFileCreated(outputPath);
-        Assert.assertTrue(
-                containsAlphaValue(outputPath, alpha),
-                "PNG must contain at least one pixel with alpha=" + alpha
-        );
-    }
-
-    /**
      * Generates a Code 128 barcode with explicit padding around the symbol.
      *
      * Left and right padding reserve blank image space that can be used when
@@ -255,10 +192,79 @@ public class BackgroundsExample {
     }
 
     /**
-     * Returns {@code true} if the image contains at least one pixel with
-     * the specified alpha value.
+     * Generates a QR Code with a fully transparent PNG background.
+     *
+     * The test reads the generated PNG through ImageIO and verifies that:
+     * - the image color model contains an alpha channel;
+     * - the background pixel in the top-left corner is fully transparent.
      */
-    private static boolean containsAlphaValue(
+    @Test
+    public void qrWithTransparentBackground() throws Exception {
+        String outputPath = ExampleAssist.pathCombine(
+                FOLDER,
+                "qr_transparent.png"
+        );
+
+        BarcodeGenerator generator = new BarcodeGenerator(
+                EncodeTypes.QR,
+                "TRANSPARENT-QR"
+        );
+
+        generator.getParameters().setBackColor(
+                new Color(255, 255, 255, 0)
+        );
+
+        generator.save(outputPath, BarCodeImageFormat.PNG);
+
+        ExampleAssist.assertFileCreated(outputPath);
+        assertPngBackgroundAlpha(outputPath, 0);
+    }
+
+    /**
+     * Generates a QR Code with a semi-transparent PNG background.
+     *
+     * The test reads the generated PNG through ImageIO and verifies that:
+     * - the image color model contains an alpha channel;
+     * - the background pixel in the top-left corner has the configured alpha value.
+     */
+    @Test
+    public void qrWithSemiTransparentBackground() throws Exception {
+        int expectedAlpha = 128;
+
+        String outputPath = ExampleAssist.pathCombine(
+                FOLDER,
+                "qr_semi_transparent.png"
+        );
+
+        BarcodeGenerator generator = new BarcodeGenerator(
+                EncodeTypes.QR,
+                "SEMI-TRANSPARENT-QR"
+        );
+
+        generator.getParameters().setBackColor(
+                new Color(255, 255, 255, expectedAlpha)
+        );
+
+        generator.save(outputPath, BarCodeImageFormat.PNG);
+
+        ExampleAssist.assertFileCreated(outputPath);
+        assertPngBackgroundAlpha(outputPath, expectedAlpha);
+    }
+
+
+
+    /**
+     * Verifies that a generated PNG preserves an alpha channel and that its
+     * top-left background pixel has the expected alpha value.
+     *
+     * <p>The method also prints image diagnostics to make behavior differences
+     * between Aspose.BarCode versions visible in the test output.</p>
+     *
+     * @param imagePath    path to the generated PNG image
+     * @param expectedAlpha expected alpha value in the range {@code 0..255}
+     * @throws Exception if the image cannot be read or an assertion fails
+     */
+    private static void assertPngBackgroundAlpha(
             String imagePath,
             int expectedAlpha
     ) throws Exception {
@@ -266,18 +272,35 @@ public class BackgroundsExample {
 
         Assert.assertNotNull(
                 image,
-                "Generated image must be readable: " + imagePath
+                "Generated PNG must be readable: " + imagePath
         );
 
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                int alpha = (image.getRGB(x, y) >>> 24) & 0xFF;
-                if (alpha == expectedAlpha) {
-                    return true;
-                }
-            }
-        }
+        boolean hasAlpha = image.getColorModel().hasAlpha();
 
-        return false;
+        int cornerArgb = image.getRGB(0, 0);
+        Color cornerColor = new Color(cornerArgb, true);
+        int actualAlpha = cornerColor.getAlpha();
+
+        System.out.println("[PNG alpha diagnostics]");
+        System.out.println("  File: " + imagePath);
+        System.out.println("  BufferedImage type: " + image.getType());
+        System.out.println("  Color model: " + image.getColorModel());
+        System.out.println("  Has alpha: " + hasAlpha);
+        System.out.println("  Corner RGBA: "
+                + cornerColor.getRed() + ", "
+                + cornerColor.getGreen() + ", "
+                + cornerColor.getBlue() + ", "
+                + actualAlpha);
+
+        Assert.assertTrue(
+                hasAlpha,
+                "PNG color model must contain an alpha channel: " + imagePath
+        );
+
+        Assert.assertEquals(
+                actualAlpha,
+                expectedAlpha,
+                "Unexpected alpha value in the top-left background pixel"
+        );
     }
 }

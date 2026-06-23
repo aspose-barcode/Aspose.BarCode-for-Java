@@ -54,8 +54,8 @@ public class SetBarcodeSymbologyAndText {
         String outputPath = ExampleAssist.pathCombine(FOLDER, "qr_unicode.png");
 
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, codeText);
-        generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.ECI);
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.ECI);
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
         generator.save(outputPath, BarCodeImageFormat.PNG);
 
         ExampleAssist.assertFileCreated(outputPath);
@@ -87,7 +87,7 @@ public class SetBarcodeSymbologyAndText {
         generator.getParameters()
                 .getBarcode()
                 .getQR()
-                .setQrEncodeMode(QREncodeMode.BYTES);
+                .setEncodeMode(QREncodeMode.BYTES);
 
         generator.save(outputPath, BarCodeImageFormat.PNG);
 

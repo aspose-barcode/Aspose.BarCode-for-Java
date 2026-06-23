@@ -97,7 +97,7 @@ public class SymbologyAndCodeTextExample {
         Assert.assertTrue(generator.getCodeText() != null && !generator.getCodeText().isEmpty());
 
         // Setting an ECI helps decoders interpret bytes as UTF-8 even if BOM is ignored
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
 
         // Save & verify
         String full = pathCombine(FOLDER, FILE_QR_UTF8_BOM);
@@ -131,9 +131,9 @@ public class SymbologyAndCodeTextExample {
         generator.setCodeText(payload);
 
         // for raw bytes: force BYTE mode + set ECI to UTF-8
-        generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.BYTES);
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
-        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.BYTES);
+        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
+        generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
 
         String full = pathCombine(FOLDER, FILE_QR_BYTES);
         generator.save(full, BarCodeImageFormat.PNG);
@@ -157,16 +157,16 @@ public class SymbologyAndCodeTextExample {
      * Demonstrates QR-specific parameters: error correction level and fixed version.
      *
      * <p><b>Purpose:</b> Show where to configure symbology-specific settings for QR.</p>
-     * <p><b>Key API:</b> {@link QrParameters#setQrErrorLevel(QRErrorLevel)},
-     * {@link QrParameters#setQrVersion(QRVersion)}.</p>
+     * <p><b>Key API:</b> {@link QrParameters#setErrorLevel(QRErrorLevel)},
+     * {@link QrParameters#setVersion(QRVersion)}.</p>
      * <p><b>Expected:</b> One QR is detected with text "QR-PARAMS".</p>
      */
     @Test
     public void generate_QR_withParameters() throws Exception {
         // Show where QR-specific parameters live: error correction level and fixed version
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "QR-PARAMS");
-        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
-        generator.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_05);
+        generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_H);
+        generator.getParameters().getBarcode().getQR().setVersion(QRVersion.VERSION_05);
 
         // Basic assertions
         Assert.assertEquals(

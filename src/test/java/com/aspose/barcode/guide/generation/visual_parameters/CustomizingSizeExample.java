@@ -297,7 +297,7 @@ public class CustomizingSizeExample {
         Unit xdim = gen.getParameters().getBarcode().getXDimension();
         xdim.updateResolution(203f);
         xdim.setMillimeters(0.50f);
-        gen.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+        gen.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
 
         String full = ExampleAssist.pathCombine(FOLDER, FILE_QR_XDIMENSION);
         gen.save(full, BarCodeImageFormat.PNG);
@@ -547,7 +547,7 @@ public class CustomizingSizeExample {
     public void qrFixedVersion_quietZoneInPoints() throws Exception {
         BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.QR, "QR-PT");
 
-        gen.getParameters().getBarcode().getQR().setQrVersion(QRVersion.VERSION_02);
+        gen.getParameters().getBarcode().getQR().setVersion(QRVersion.VERSION_02);
         Unit l = gen.getParameters().getBarcode().getPadding().getLeft();
         Unit r = gen.getParameters().getBarcode().getPadding().getRight();
         Unit t = gen.getParameters().getBarcode().getPadding().getTop();

@@ -107,7 +107,7 @@ public class ColorsExample {
         generator.getParameters().setBackColor(new Color(245, 248, 255));
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
-        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
 
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(16);
         generator.getParameters().getBarcode().getPadding().getRight().setPixels(16);
@@ -360,7 +360,7 @@ public class ColorsExample {
         generator.getParameters().getBarcode().setBarColor(new Color(18, 18, 18));
 
         generator.getParameters().getBarcode().getXDimension().setPixels(3.5f);
-        generator.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
         generator.getParameters().getBarcode().getPadding().getLeft().setPixels(20);
         generator.getParameters().getBarcode().getPadding().getRight().setPixels(20);
         generator.getParameters().getBarcode().getPadding().getTop().setPixels(20);

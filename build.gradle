@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.aspose.barcode.java.example'
-version = '25.9.0'
+version = '26.6.0'
 
 ext {
     javaTarget = JavaVersion.VERSION_17
@@ -33,7 +33,7 @@ test {
 }
 
 dependencies {
-    implementation 'com.aspose:aspose-barcode:25.9'
-    testImplementation 'com.aspose:aspose-barcode:25.9'
+    implementation 'com.aspose:aspose-barcode:26.5'
+    testImplementation 'com.aspose:aspose-barcode:26.5'
     testImplementation 'org.testng:testng:7.10.2'
 }
