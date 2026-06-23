@@ -26,7 +26,11 @@ import java.util.List;
  */
 public class GenerateGS1_128 {
 
-    private static final String FOLDER = ExampleAssist.getOrCreateResourceFolderPath("gs1-128");
+    private static final String FOLDER =
+            ExampleAssist.getOrCreateResourceFolderPath(
+                    "generation",
+                    "generate-gs1-128"
+            );
 
     @BeforeClass
     public void setUp() {

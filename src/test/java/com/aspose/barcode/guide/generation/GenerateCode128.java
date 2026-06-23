@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class GenerateCode128 {
 
-    private static final String FOLDER = ExampleAssist.getOrCreateResourceFolderPath("code128");
+    private static final String FOLDER = ExampleAssist.getOrCreateResourceFolderPath("generation","code128");
 
     @BeforeClass
     public void setUp() {
