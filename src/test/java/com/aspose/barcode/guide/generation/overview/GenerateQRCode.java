@@ -1,4 +1,4 @@
-package com.aspose.barcode.guide.generation;
+package com.aspose.barcode.guide.generation.overview;
 
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.BarCodeImageFormat;
