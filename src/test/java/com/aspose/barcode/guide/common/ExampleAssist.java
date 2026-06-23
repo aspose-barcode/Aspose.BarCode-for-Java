@@ -1572,4 +1572,33 @@ public class ExampleAssist {
         try { Files.deleteIfExists(Paths.get(filePath)); } catch (Exception ignored) {}
     }
 
+    /**
+     * Asserts that a text file contains the specified text fragment.
+     *
+     * @param filePath     path to the text file
+     * @param expectedText text fragment expected in the file
+     * @throws Exception if the file cannot be read or the text is not found
+     */
+    public static void assertFileContains(
+            String filePath,
+            String expectedText
+    ) throws Exception {
+        Path path = Paths.get(filePath);
+
+        Assert.assertTrue(
+                Files.exists(path),
+                "File must exist: " + filePath
+        );
+
+        String content = Files.readString(
+                path,
+                StandardCharsets.UTF_8
+        );
+
+        Assert.assertTrue(
+                content.contains(expectedText),
+                "File must contain \"" + expectedText + "\": " + filePath
+        );
+    }
+
 }

@@ -63,20 +63,40 @@ public class SetBarcodeSymbologyAndText {
     }
 
     /**
-     * Generates a QR Code from raw UTF-8 bytes and verifies the binary payload.
+     * Generates a QR Code from a raw byte sequence and verifies that the
+     * decoded binary payload is identical to the source bytes.
      */
     @Test
     public void generateQrFromBytes() throws Exception {
-        byte[] payload = "Binary payload 🚀".getBytes(StandardCharsets.UTF_8);
-        String outputPath = ExampleAssist.pathCombine(FOLDER, "qr_bytes.png");
+        byte[] payload = {
+                0x42, 0x49, 0x4E, 0x41, 0x52, 0x59,
+                0x2D,
+                0x01, 0x02, 0x03,
+                0x7F
+        };
+
+        String outputPath = ExampleAssist.pathCombine(
+                FOLDER,
+                "qr_bytes.png"
+        );
 
         BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
         generator.setCodeText(payload);
-        generator.getParameters().getBarcode().getQR().setQrEncodeMode(QREncodeMode.BYTES);
-        generator.getParameters().getBarcode().getQR().setQrECIEncoding(ECIEncodings.UTF8);
+
+        // Encode the supplied byte array directly without text transcoding.
+        generator.getParameters()
+                .getBarcode()
+                .getQR()
+                .setQrEncodeMode(QREncodeMode.BYTES);
+
         generator.save(outputPath, BarCodeImageFormat.PNG);
 
         ExampleAssist.assertFileCreated(outputPath);
-        assertImageHasBarcodes(outputPath, 1, List.of(expected(DecodeType.QR, payload)));
+
+        assertImageHasBarcodes(
+                outputPath,
+                1,
+                List.of(expected(DecodeType.QR, payload))
+        );
     }
 }
