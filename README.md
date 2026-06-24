@@ -1,7 +1,7 @@
 # Aspose.BarCode for Java Examples
 
 This repository contains executable, self-documented TestNG examples for
-[Aspose.BarCode for Java](https://products.aspose.com/barcode/java).
+<a href="https://products.aspose.com/barcode/java" target="_blank">Aspose.BarCode for Java</a>.
 
 The examples demonstrate complete development workflows: configuring barcode data,
 generating barcode images, recognizing barcodes from different input sources,
@@ -21,13 +21,13 @@ repository:
 
 | Resource | Purpose |
 |---|---|
-| [Aspose.BarCode for Java documentation](https://docs.aspose.com/barcode/java/) | Main documentation entry point |
-| [Getting Started](https://docs.aspose.com/barcode/java/getting-started/) | Installation, licensing, system requirements, and initial setup |
-| [Developer Guide](https://docs.aspose.com/barcode/java/developer-guide/) | Detailed generation, recognition, and complex barcode guides |
-| [API Reference](https://reference.aspose.com/barcode/java/) | Java classes, methods, properties, and enumerations |
-| [Installation](https://docs.aspose.com/barcode/java/installation/) | Installing Aspose.BarCode for Java and configuring dependencies |
-| [Evaluation and Licensing](https://docs.aspose.com/barcode/java/licensing/) | Applying a license and understanding evaluation limitations |
-| [Release Notes](https://releases.aspose.com/barcode/java/release-notes/) | Changes, fixes, and new features in each release |
+| <a href="https://docs.aspose.com/barcode/java/" target="_blank">Aspose.BarCode for Java documentation</a> | Main documentation entry point |
+| <a href="https://docs.aspose.com/barcode/java/getting-started/" target="_blank">Getting Started</a> | Installation, licensing, system requirements, and initial setup |
+| <a href="https://docs.aspose.com/barcode/java/developer-guide/" target="_blank">Developer Guide</a> | Detailed generation, recognition, and complex barcode guides |
+| <a href="https://reference.aspose.com/barcode/java/" target="_blank">API Reference</a> | Java classes, methods, properties, and enumerations |
+| <a href="https://docs.aspose.com/barcode/java/installation/" target="_blank">Installation</a> | Installing Aspose.BarCode for Java and configuring dependencies |
+| <a href="https://docs.aspose.com/barcode/java/licensing/" target="_blank">Evaluation and Licensing</a> | Applying a license and understanding evaluation limitations |
+| <a href="https://releases.aspose.com/barcode/java/release-notes/" target="_blank">Release Notes</a> | Changes, fixes, and new features in each release |
 
 ---
 
@@ -91,8 +91,8 @@ Demonstrates how to:
 
 Related documentation:
 
-- [Quick Generation Examples](https://docs.aspose.com/barcode/java/developer-guide/quick-start/quick-generation-examples/)
-- [Barcode Generation](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/quick-start/quick-generation-examples/" target="_blank">Quick Generation Examples</a>
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/" target="_blank">Barcode Generation</a>
 
 ### `QuickRecognitionExamples`
 
@@ -106,8 +106,8 @@ Demonstrates how to:
 
 Related documentation:
 
-- [Quick Recognition Examples](https://docs.aspose.com/barcode/java/developer-guide/quick-start/quick-recognition-examples/)
-- [Barcode Recognition](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/quick-start/quick-recognition-examples/" target="_blank">Quick Recognition Examples</a>
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/" target="_blank">Barcode Recognition</a>
 
 ---
 
@@ -124,7 +124,7 @@ appearance, dimensions, output format, and validation behavior.
 
 Main documentation section:
 
-- [Barcode Generation](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/" target="_blank">Barcode Generation</a>
 
 ### Generation overview
 
@@ -145,7 +145,7 @@ the other generation examples:
 
 Related documentation:
 
-- [Barcode Generation](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/" target="_blank">Barcode Generation</a>
 
 ### Barcode symbology and codetext
 
@@ -170,8 +170,8 @@ These examples demonstrate how to:
 
 Related documentation:
 
-- [Set Barcode Symbology and Text](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/set-barcode-symbology-and-text/)
-- [Linear Barcodes Overview](https://docs.aspose.com/barcode/java/developer-guide/linear-barcodes-overview/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/set-barcode-symbology-and-text/" target="_blank">Set Barcode Symbology and Text</a>
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/linear-barcodes-overview/" target="_blank">Linear Barcodes Overview</a>
 
 ### Appearance
 
@@ -196,7 +196,7 @@ These examples demonstrate high-level appearance configuration, including:
 
 Related documentation:
 
-- [Visual Parameters and Layout](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/" target="_blank">Visual Parameters and Layout</a>
 
 ### Visual parameters and layout
 
@@ -238,7 +238,7 @@ The examples demonstrate how to configure:
 
 Related documentation:
 
-- [Visual Parameters and Layout](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/" target="_blank">Visual Parameters and Layout</a>
 
 ### Barcode size
 
@@ -264,8 +264,8 @@ Demonstrates how to control:
 
 Related documentation:
 
-- [Visual Parameters and Layout](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/)
-- [X-Dimension](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/xdimension/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/" target="_blank">Visual Parameters and Layout</a>
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/xdimension/" target="_blank">X-Dimension</a>
 
 ### Unit class
 
@@ -285,7 +285,7 @@ units rather than only in pixels.
 
 Related documentation:
 
-- [Visual Parameters and Layout](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/visual-parameters-and-layout/" target="_blank">Visual Parameters and Layout</a>
 
 ### X-dimension
 
@@ -309,7 +309,7 @@ Demonstrates how X-dimension affects:
 
 Related documentation:
 
-- [X-Dimension](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/xdimension/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/xdimension/" target="_blank">X-Dimension</a>
 
 ### Checksums
 
@@ -339,8 +339,8 @@ symbology-specific checksum rules.
 
 Related documentation:
 
-- [Set Barcode Checksum](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/set-barcode-checksum/)
-- [Barcode Recognition Special Parameters](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/special-parameters/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/set-barcode-checksum/" target="_blank">Set Barcode Checksum</a>
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/special-parameters/" target="_blank">Barcode Recognition Special Parameters</a>
 
 ### Save options
 
@@ -365,7 +365,7 @@ These examples demonstrate how to:
 
 Related documentation:
 
-- [Save Generated Barcodes](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/save-generated-barcodes/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/save-generated-barcodes/" target="_blank">Save Generated Barcodes</a>
 
 ### Print options
 
@@ -389,7 +389,7 @@ These examples demonstrate barcode printing workflows, including:
 
 Related documentation:
 
-- [Printing Barcodes](https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/printing/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-generation/printing/" target="_blank">Printing Barcodes</a>
 
 ---
 
@@ -407,7 +407,7 @@ metadata, and tune recognition quality and performance.
 
 Main documentation section:
 
-- [Barcode Recognition](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/" target="_blank">Barcode Recognition</a>
 
 ### Choose recognition symbology
 
@@ -430,8 +430,8 @@ Demonstrates how to:
 
 Related documentation:
 
-- [Barcode Recognition](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/)
-- [Quick Recognition Examples](https://docs.aspose.com/barcode/java/developer-guide/quick-start/quick-recognition-examples/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/" target="_blank">Barcode Recognition</a>
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/quick-start/quick-recognition-examples/" target="_blank">Quick Recognition Examples</a>
 
 ### Input sources
 
@@ -455,7 +455,7 @@ Demonstrates how to read barcodes from:
 
 Related documentation:
 
-- [Recognition Input Sources](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/input-sources/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/input-sources/" target="_blank">Recognition Input Sources</a>
 
 ### Barcode properties
 
@@ -489,7 +489,7 @@ These examples demonstrate how to retrieve and validate:
 
 Related documentation:
 
-- [Read Barcode Properties](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/barcode-properties/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/barcode-properties/" target="_blank">Read Barcode Properties</a>
 
 ### Region of interest
 
@@ -512,7 +512,7 @@ Demonstrates how to:
 
 Related documentation:
 
-- [Region of Interest](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/region-of-interest/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/region-of-interest/" target="_blank">Region of Interest</a>
 
 ### Quality settings
 
@@ -539,7 +539,7 @@ Use these examples when balancing:
 
 Related documentation:
 
-- [Recognition Performance and Quality](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/performance/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/performance/" target="_blank">Recognition Performance and Quality</a>
 
 ### Performance and difficult images
 
@@ -574,7 +574,7 @@ These examples demonstrate how to:
 
 Related documentation:
 
-- [Recognition Performance and Quality](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/performance/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/performance/" target="_blank">Recognition Performance and Quality</a>
 
 ### Special recognition parameters
 
@@ -602,7 +602,7 @@ These examples demonstrate specialized reader behavior, including:
 
 Related documentation:
 
-- [Special Recognition Parameters](https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/special-parameters/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/barcode-recognition/special-parameters/" target="_blank">Special Recognition Parameters</a>
 
 ---
 
@@ -626,7 +626,7 @@ workflow:
 
 Main documentation section:
 
-- [Complex Barcode](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/" target="_blank">Complex Barcode</a>
 
 ### Introduction
 
@@ -645,7 +645,7 @@ Explains the difference between:
 
 Related documentation:
 
-- [Introduction to Complex Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/introduction/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/introduction/" target="_blank">Introduction to Complex Barcodes</a>
 
 ### Generate complex barcodes
 
@@ -665,7 +665,7 @@ Demonstrates how to:
 
 Related documentation:
 
-- [Generate Complex Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/generate/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/generate/" target="_blank">Generate Complex Barcodes</a>
 
 ### Read complex barcodes
 
@@ -684,7 +684,7 @@ The examples also show how to handle unsupported data and `null` decoder results
 
 Related documentation:
 
-- [Read Complex Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/read/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/read/" target="_blank">Read Complex Barcodes</a>
 
 ### Supported complex barcode types
 
@@ -698,15 +698,15 @@ The examples are grouped by standard.
 
 | Directory | Structured data demonstrated | Related documentation |
 |---|---|---|
-| `swiss_qr/` | Swiss QR payment data, creditor and debtor addresses, references, and messages | [Swiss QR Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/swiss_qr/) |
-| `hibc/` | HIBC LIC product data and HIBC PAS healthcare records | [HIBC Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/hibc/) |
-| `royal_mail_mailmark/` | Royal Mail Mailmark 1D and Mailmark 2D postal data | [Royal Mail Mailmark Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/royal_mail_mailmark/) |
-| `maxicode/` | Structured MaxiCode mode 2 and mode 3 data | [MaxiCode Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/maxicode/) |
-| `usa_driver_id/` | AAMVA USA Driver ID data stored in PDF417 | [USA Driver ID Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/usa_driver_id/) |
+| `swiss_qr/` | Swiss QR payment data, creditor and debtor addresses, references, and messages | <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/swiss_qr/" target="_blank">Swiss QR Barcodes</a> |
+| `hibc/` | HIBC LIC product data and HIBC PAS healthcare records | <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/hibc/" target="_blank">HIBC Barcodes</a> |
+| `royal_mail_mailmark/` | Royal Mail Mailmark 1D and Mailmark 2D postal data | <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/royal_mail_mailmark/" target="_blank">Royal Mail Mailmark Barcodes</a> |
+| `maxicode/` | Structured MaxiCode mode 2 and mode 3 data | <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/maxicode/" target="_blank">MaxiCode Barcodes</a> |
+| `usa_driver_id/` | AAMVA USA Driver ID data stored in PDF417 | <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/usa_driver_id/" target="_blank">USA Driver ID Barcodes</a> |
 
 The parent documentation page is available here:
 
-- [Supported Complex Barcode Types](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/supported_types/" target="_blank">Supported Complex Barcode Types</a>
 
 ### Complete complex barcode workflows
 
@@ -727,7 +727,7 @@ Provides complete end-to-end tests that combine:
 
 Related documentation:
 
-- [Complete Complex Barcode Examples](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/examples/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/examples/" target="_blank">Complete Complex Barcode Examples</a>
 
 ### Complex barcode troubleshooting
 
@@ -747,7 +747,7 @@ Demonstrates how to distinguish between:
 
 Related documentation:
 
-- [Troubleshoot Complex Barcodes](https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/troubleshooting/)
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/complex-barcode/troubleshooting/" target="_blank">Troubleshoot Complex Barcodes</a>
 
 ---
 
@@ -991,13 +991,13 @@ When contributing a new example:
 
 ## Additional resources
 
-- [Aspose.BarCode for Java documentation](https://docs.aspose.com/barcode/java/)
-- [Getting Started](https://docs.aspose.com/barcode/java/getting-started/)
-- [Developer Guide](https://docs.aspose.com/barcode/java/developer-guide/)
-- [API Reference](https://reference.aspose.com/barcode/java/)
-- [Product Page](https://products.aspose.com/barcode/java)
-- [Download Aspose.BarCode for Java](https://releases.aspose.com/barcode/java/)
-- [Free Support Forum](https://forum.aspose.com/c/barcode)
+- <a href="https://docs.aspose.com/barcode/java/" target="_blank">Aspose.BarCode for Java documentation</a>
+- <a href="https://docs.aspose.com/barcode/java/getting-started/" target="_blank">Getting Started</a>
+- <a href="https://docs.aspose.com/barcode/java/developer-guide/" target="_blank">Developer Guide</a>
+- <a href="https://reference.aspose.com/barcode/java/" target="_blank">API Reference</a>
+- <a href="https://products.aspose.com/barcode/java" target="_blank">Product Page</a>
+- <a href="https://releases.aspose.com/barcode/java/" target="_blank">Download Aspose.BarCode for Java</a>
+- <a href="https://forum.aspose.com/c/barcode" target="_blank">Free Support Forum</a>
 
 ---
 
