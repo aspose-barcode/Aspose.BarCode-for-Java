@@ -110,12 +110,12 @@ public class ComplexBarcodeTroubleshooting {
     }
 
     /**
-     * Demonstrates how invalid values that do not conform to a barcode standard
-     * are rejected during codetext construction.
+     * Demonstrates how a field value that exceeds a Mailmark standard limit is
+     * rejected during codetext construction.
      *
-     * <p>The example supplies an incorrectly formatted Mailmark destination code.
-     * The API raises {@link BarCodeException} instead of generating a payload that
-     * does not comply with the Royal Mail Mailmark specification.</p>
+     * <p>The Mailmark item identifier must not exceed 99,999,999. The example
+     * supplies a larger value and verifies that the API raises
+     * {@link BarCodeException} before a noncompliant payload can be generated.</p>
      */
     @Test
     public void handleGeneratedDataDoesNotMatchStandard() {
@@ -124,17 +124,14 @@ public class ComplexBarcodeTroubleshooting {
         invalidCodetext.setVersionID(1);
         invalidCodetext.setClass("1");
         invalidCodetext.setSupplychainID(99);
-        invalidCodetext.setItemID(12345678);
-        invalidCodetext.setDestinationPostCodePlusDPS("INVALID");
-        boolean exceptionThrown = false;
+        invalidCodetext.setItemID(100_000_000);
+        invalidCodetext.setDestinationPostCodePlusDPS("XY11     ");
 
         try {
             invalidCodetext.getConstructedCodetext();
-        } catch (Exception exception) {
-            exceptionThrown = true;
-            Assert.assertTrue(exception.getMessage().contains("Destination Post Code"));
+            Assert.fail("Expected BarCodeException for an out-of-range Mailmark item ID.");
+        } catch (BarCodeException exception) {
+            Assert.assertTrue(exception.getMessage().contains("99999999"));
         }
-
-        Assert.assertTrue(exceptionThrown);
     }
 }
