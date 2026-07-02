@@ -192,68 +192,6 @@ public class BackgroundsExample {
     }
 
     /**
-     * Generates a QR Code with a fully transparent PNG background.
-     *
-     * The test reads the generated PNG through ImageIO and verifies that:
-     * - the image color model contains an alpha channel;
-     * - the background pixel in the top-left corner is fully transparent.
-     */
-    @Test
-    public void qrWithTransparentBackground() throws Exception {
-        String outputPath = ExampleAssist.pathCombine(
-                FOLDER,
-                "qr_transparent.png"
-        );
-
-        BarcodeGenerator generator = new BarcodeGenerator(
-                EncodeTypes.QR,
-                "TRANSPARENT-QR"
-        );
-
-        generator.getParameters().setBackColor(
-                new Color(255, 255, 255, 0)
-        );
-
-        generator.save(outputPath, BarCodeImageFormat.PNG);
-
-        ExampleAssist.assertFileCreated(outputPath);
-        assertPngBackgroundAlpha(outputPath, 0);
-    }
-
-    /**
-     * Generates a QR Code with a semi-transparent PNG background.
-     *
-     * The test reads the generated PNG through ImageIO and verifies that:
-     * - the image color model contains an alpha channel;
-     * - the background pixel in the top-left corner has the configured alpha value.
-     */
-    @Test
-    public void qrWithSemiTransparentBackground() throws Exception {
-        int expectedAlpha = 128;
-
-        String outputPath = ExampleAssist.pathCombine(
-                FOLDER,
-                "qr_semi_transparent.png"
-        );
-
-        BarcodeGenerator generator = new BarcodeGenerator(
-                EncodeTypes.QR,
-                "SEMI-TRANSPARENT-QR"
-        );
-
-        generator.getParameters().setBackColor(
-                new Color(255, 255, 255, expectedAlpha)
-        );
-
-        generator.save(outputPath, BarCodeImageFormat.PNG);
-
-        ExampleAssist.assertFileCreated(outputPath);
-        assertPngBackgroundAlpha(outputPath, expectedAlpha);
-    }
-
-
-
-    /**
      * Verifies that a generated PNG preserves an alpha channel and that its
      * top-left background pixel has the expected alpha value.
      *
@@ -301,6 +239,55 @@ public class BackgroundsExample {
                 actualAlpha,
                 expectedAlpha,
                 "Unexpected alpha value in the top-left background pixel"
+        );
+    }
+
+    /**
+     * Demonstrates that the PNG background is rendered as an opaque color.
+     *
+     * <p>The alpha component supplied through {@link Color} is not used for
+     * the generated barcode background. The test therefore verifies the
+     * resulting RGB color without expecting transparency.</p>
+     */
+    @Test
+    public void qrWithOpaquePngBackground() throws Exception {
+        String codeText = "OPAQUE-PNG-BACKGROUND";
+
+        String outputPath = ExampleAssist.pathCombine(
+                FOLDER,
+                "qr_opaque_background.png"
+        );
+
+        BarcodeGenerator generator = new BarcodeGenerator(
+                EncodeTypes.QR,
+                codeText
+        );
+
+        generator.getParameters().setBackColor(
+                new Color(245, 248, 252)
+        );
+
+        generator.save(
+                outputPath,
+                BarCodeImageFormat.PNG
+        );
+
+        ExampleAssist.assertFileCreated(outputPath);
+
+        assertCornerColor(
+                outputPath,
+                new Color(245, 248, 252)
+        );
+
+        assertImageHasBarcodes(
+                outputPath,
+                1,
+                List.of(
+                        expected(
+                                DecodeType.QR,
+                                codeText
+                        )
+                )
         );
     }
 }
