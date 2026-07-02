@@ -1,6 +1,10 @@
 package com.aspose.barcode.guide.recognition.barcode_properties;
 
-import com.aspose.barcode.barcoderecognition.*;
+import com.aspose.barcode.barcoderecognition.BarCodeExtendedParameters;
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
+import com.aspose.barcode.barcoderecognition.DecodeType;
+import com.aspose.barcode.barcoderecognition.QualitySettings;
 import com.aspose.barcode.generation.BarCodeImageFormat;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.EncodeTypes;
@@ -12,31 +16,46 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import static com.aspose.barcode.guide.common.ExampleAssist.*;
+import static com.aspose.barcode.guide.common.ExampleAssist.assertRecognized;
 
 /**
- * Result Validation:
- * - Checksum validation (via engine behavior and OneD checksum field)
- * - Confidence comparison on clean vs degraded images
- * - QualitySettings influence on difficult inputs
+ * Demonstrates result validation scenarios:
+ * <ul>
+ *   <li>checksum validation through recognition settings and extended parameters;</li>
+ *   <li>confidence comparison for clean and degraded images;</li>
+ *   <li>the effect of quality presets on difficult input images.</li>
+ * </ul>
  */
 public class ResultValidationExample {
 
     private static final String FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath("recognition", "barcode_properties", "result_validation");
+            ExampleAssist.getOrCreateResourceFolderPath(
+                    "recognition",
+                    "barcode_properties",
+                    "result_validation"
+            );
 
+    private static final String FILE_EAN13_VALID =
+            "rv_ean13_valid.png";
+    private static final String FILE_EAN13_DAMAGED =
+            "rv_ean13_damaged.png";
+    private static final String FILE_QR_CLEAN =
+            "rv_qr_clean.png";
+    private static final String FILE_QR_NOISY =
+            "rv_qr_noisy.png";
+    private static final String FILE_CODE128_SMALL =
+            "rv_c128_small.png";
+    private static final String FILE_CODE39_DAMAGED =
+            "rv_code39_damaged.png";
 
-    private static final String FILE_EAN13_VALID        = "rv_ean13_valid.png";
-    private static final String FILE_EAN13_DAMAGED      = "rv_ean13_damaged.png";
-    private static final String FILE_QR_CLEAN           = "rv_qr_clean.png";
-    private static final String FILE_QR_NOISY           = "rv_qr_noisy.png";
-    private static final String FILE_C128_TINY          = "rv_c128_tiny.png";
-    private static final String FILE_CODE39_DAMAGED           = "rv_code39_damaged.png";
-
+    /**
+     * Applies the license and creates deterministic test fixtures.
+     */
     @BeforeClass
     public void setUp() throws Exception {
         LicenseAssist.setupLicense();
@@ -44,201 +63,558 @@ public class ResultValidationExample {
     }
 
     /**
-     * Checksum validation:
-     * - Valid EAN-13 should be recognized with AllowIncorrectBarcodes=false.
-     * - Damaged EAN-13 is filtered out when disallowed, but may appear if allowed.
-     * - OneD checksum value can be inspected via Extended parameters.
+     * Verifies checksum-related recognition behavior for a valid EAN-13 barcode.
+     *
+     * <p>The example disables incorrect barcode results, checks that the valid
+     * barcode is recognized, and inspects the one-dimensional checksum metadata.</p>
      */
     @Test
-    public void checksumValidation_EAN13() throws Exception {
-        String validPath = ExampleAssist.pathCombine(FOLDER, FILE_EAN13_VALID);
+    public void checksumValidationEan13() throws Exception {
+        String validPath = ExampleAssist.pathCombine(
+                FOLDER,
+                FILE_EAN13_VALID
+        );
 
-        // Valid sample, disallow incorrect barcodes
-        BarCodeReader validReader = new BarCodeReader(validPath, DecodeType.EAN_13);
-        validReader.getQualitySettings().setAllowIncorrectBarcodes(false);
+        BarCodeReader reader = new BarCodeReader(
+                validPath,
+                DecodeType.EAN_13
+        );
 
-        BarCodeResult[] results = validReader.readBarCodes();
-        Assert.assertTrue(results.length >= 1, "Expected valid EAN-13 to be recognized");
-        BarCodeResult r = results[0];
+        reader.getQualitySettings()
+                .setAllowIncorrectBarcodes(false);
 
-        System.out.println("[EAN13 valid] Text=" + r.getCodeText() + " Confidence=" + r.getConfidence());
-        ExampleAssist.assertRecognized(validReader, "EAN13 valid", 1, DecodeType.EAN_13);
+        BarCodeResult[] results = reader.readBarCodes();
 
-        // Check that OneD checksum metadata is available
-        BarCodeExtendedParameters ext = r.getExtended();
-        Assert.assertNotNull(ext, "Extended parameters must be present");
-        Assert.assertNotNull(ext.getOneD(), "OneD extended parameters must be present for EAN-13");
-        System.out.println("[EAN13 valid] OneD checksum=" + ext.getOneD().getCheckSum());
+        Assert.assertTrue(
+                results.length >= 1,
+                "Expected valid EAN-13 to be recognized"
+        );
+
+        BarCodeResult result = results[0];
+
+        System.out.println(
+                "[EAN13 valid] Text="
+                        + result.getCodeText()
+                        + " Confidence="
+                        + result.getConfidence()
+        );
+
+        assertRecognized(
+                reader,
+                "EAN13 valid",
+                1,
+                DecodeType.EAN_13
+        );
+
+        BarCodeExtendedParameters extended =
+                result.getExtended();
+
+        Assert.assertNotNull(
+                extended,
+                "Extended parameters must be present"
+        );
+
+        Assert.assertNotNull(
+                extended.getOneD(),
+                "One-dimensional extended parameters must be present for EAN-13"
+        );
+
+        System.out.println(
+                "[EAN13 valid] OneD checksum="
+                        + extended.getOneD().getCheckSum()
+        );
     }
 
+    /**
+     * Compares recognition results for a damaged Code 39 barcode when incorrect
+     * barcode results are disabled and enabled.
+     */
     @Test
-    public void allowIncorrect_Effect_Code39_Damaged() throws Exception {
-        String path = ExampleAssist.pathCombine(FOLDER, FILE_CODE39_DAMAGED);
+    public void compareAllowIncorrectForDamagedCode39() throws Exception {
+        String path = ExampleAssist.pathCombine(
+                FOLDER,
+                FILE_CODE39_DAMAGED
+        );
 
-        // Disallow incorrect barcodes
-        BarCodeReader disallowReader = new BarCodeReader(path, DecodeType.CODE_39);
-        disallowReader.getQualitySettings().setAllowIncorrectBarcodes(false);
-        BarCodeResult[] disallowResults = disallowReader.readBarCodes();
-        int countDisallow = disallowResults.length;
+        BarCodeReader disallowReader = new BarCodeReader(
+                path,
+                DecodeType.CODE_39
+        );
 
-        // Allow incorrect barcodes
-        BarCodeReader allowReader = new BarCodeReader(path, DecodeType.CODE_39);
-        allowReader.getQualitySettings().setAllowIncorrectBarcodes(true);
-        BarCodeResult[] allowResults = allowReader.readBarCodes();
-        int countAllow = allowResults.length;
+        disallowReader.getQualitySettings()
+                .setAllowIncorrectBarcodes(false);
 
-        System.out.println("[Code39 damaged] disallow=" + countDisallow + " | allow=" + countAllow);
-        if (countAllow > 0) {
-            System.out.println("  allow first: text=" + allowResults[0].getCodeText()
-                    + " conf=" + allowResults[0].getConfidence());
+        BarCodeResult[] disallowResults =
+                disallowReader.readBarCodes();
+
+        BarCodeReader allowReader = new BarCodeReader(
+                path,
+                DecodeType.CODE_39
+        );
+
+        allowReader.getQualitySettings()
+                .setAllowIncorrectBarcodes(true);
+
+        BarCodeResult[] allowResults =
+                allowReader.readBarCodes();
+
+        int disallowCount = disallowResults.length;
+        int allowCount = allowResults.length;
+
+        System.out.println(
+                "[Code39 damaged] disallow="
+                        + disallowCount
+                        + " | allow="
+                        + allowCount
+        );
+
+        if (allowCount > 0) {
+            System.out.println(
+                    "  allow first: text="
+                            + allowResults[0].getCodeText()
+                            + " conf="
+                            + allowResults[0].getConfidence()
+            );
         }
 
-        // Enabling incorrect results should not yield fewer candidates
-        Assert.assertTrue(countAllow >= countDisallow,
-                "With allowIncorrect=true we expect >= results than with disallow");
+        Assert.assertTrue(
+                allowCount >= disallowCount,
+                "Allowing incorrect barcodes must not produce fewer candidates"
+        );
 
-        // At least one of the modes should detect something on this damaged input
-        Assert.assertTrue(countAllow > 0 || countDisallow > 0,
-                "Expected at least one result on damaged Code39 with either setting");
-    }
-
-
-
-    /**
-     * Confidence comparison:
-     * Clean QR should have confidence >= noisy QR (heuristic expectation).
-     * We do soft assertion to avoid overfitting engine internals.
-     */
-    @Test
-    public void confidence_CleanVsNoisy_QR() throws Exception {
-        String cleanPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_CLEAN);
-        String noisyPath = ExampleAssist.pathCombine(FOLDER, FILE_QR_NOISY);
-
-        BarCodeReader cleanReader = new BarCodeReader(cleanPath, DecodeType.QR);
-        cleanReader.setQualitySettings(QualitySettings.getHighQuality());
-        BarCodeResult[] cleanResults = cleanReader.readBarCodes();
-        Assert.assertTrue(cleanResults.length >= 1, "Expected clean QR to be recognized");
-        double cleanConfidence = cleanResults[0].getConfidence();
-
-        BarCodeReader noisyReader = new BarCodeReader(noisyPath, DecodeType.QR);
-        noisyReader.setQualitySettings(QualitySettings.getHighQuality());
-        BarCodeResult[] noisyResults = noisyReader.readBarCodes();
-        Assert.assertTrue(noisyResults.length >= 1, "Expected noisy QR to be recognized");
-        double noisyConfidence = noisyResults[0].getConfidence();
-
-        System.out.println("[QR] clean confidence=" + cleanConfidence + " vs noisy=" + noisyConfidence);
-        // Heuristic: clean should not be worse than noisy
-        Assert.assertTrue(cleanConfidence >= noisyConfidence,
-                "Expected clean QR confidence >= noisy QR confidence");
+        Assert.assertTrue(
+                allowCount > 0 || disallowCount > 0,
+                "Expected at least one result for the damaged Code 39 image"
+        );
     }
 
     /**
-     * QualitySettings effect on hard input (tiny Code128):
-     * Compare HighPerformance vs HighQuality — at least one of them must read the tiny code.
-     * If both read, print confidences for reference.
+     * Compares recognition confidence for clean and noisy QR images.
+     *
+     * <p>The clean image is expected to have confidence that is not lower than
+     * the confidence of the noisy image.</p>
      */
     @Test
-    public void qualitySettings_TinyCode128() {
-        String path = ExampleAssist.pathCombine(FOLDER, FILE_C128_TINY);
+    public void compareConfidenceForCleanAndNoisyQr() throws Exception {
+        String cleanPath = ExampleAssist.pathCombine(
+                FOLDER,
+                FILE_QR_CLEAN
+        );
 
-        BarCodeReader hpReader = new BarCodeReader(path, DecodeType.CODE_128);
-        hpReader.setQualitySettings(QualitySettings.getHighPerformance());
-        BarCodeResult[] hpResults = hpReader.readBarCodes();
+        String noisyPath = ExampleAssist.pathCombine(
+                FOLDER,
+                FILE_QR_NOISY
+        );
 
-        BarCodeReader hqReader = new BarCodeReader(path, DecodeType.CODE_128);
-        hqReader.setQualitySettings(QualitySettings.getHighQuality());
-        BarCodeResult[] hqResults = hqReader.readBarCodes();
+        BarCodeReader cleanReader = new BarCodeReader(
+                cleanPath,
+                DecodeType.QR
+        );
 
-        System.out.println("[Tiny C128] HP count=" + hpResults.length
-                + (hpResults.length > 0 ? (" conf=" + hpResults[0].getConfidence()) : "")
-                + " | HQ count=" + hqResults.length
-                + (hqResults.length > 0 ? (" conf=" + hqResults[0].getConfidence()) : ""));
+        cleanReader.setQualitySettings(
+                QualitySettings.getHighQuality()
+        );
 
-        Assert.assertTrue(hpResults.length > 0 || hqResults.length > 0,
-                "Expected at least one preset to recognize the tiny Code128");
+        BarCodeResult[] cleanResults =
+                cleanReader.readBarCodes();
+
+        Assert.assertTrue(
+                cleanResults.length >= 1,
+                "Expected clean QR to be recognized"
+        );
+
+        double cleanConfidence =
+                cleanResults[0].getConfidence();
+
+        BarCodeReader noisyReader = new BarCodeReader(
+                noisyPath,
+                DecodeType.QR
+        );
+
+        noisyReader.setQualitySettings(
+                QualitySettings.getHighQuality()
+        );
+
+        BarCodeResult[] noisyResults =
+                noisyReader.readBarCodes();
+
+        Assert.assertTrue(
+                noisyResults.length >= 1,
+                "Expected noisy QR to be recognized"
+        );
+
+        double noisyConfidence =
+                noisyResults[0].getConfidence();
+
+        System.out.println(
+                "[QR] clean confidence="
+                        + cleanConfidence
+                        + " vs noisy="
+                        + noisyConfidence
+        );
+
+        Assert.assertTrue(
+                cleanConfidence >= noisyConfidence,
+                "Expected clean QR confidence to be greater than or equal to noisy QR confidence"
+        );
     }
 
-    // ---------------- fixtures ----------------
+    /**
+     * Compares HighPerformance and HighQuality presets on a small Code 128 image.
+     *
+     * <p>At least one preset must recognize the expected Code 128 value.</p>
+     */
+    @Test
+    public void compareQualitySettingsForSmallCode128() {
+        String path = ExampleAssist.pathCombine(
+                FOLDER,
+                FILE_CODE128_SMALL
+        );
+
+        String expectedCodeText = "C128-SMALL";
+
+        BarCodeReader highPerformanceReader = new BarCodeReader(
+                path,
+                DecodeType.CODE_128
+        );
+
+        highPerformanceReader.setQualitySettings(
+                QualitySettings.getHighPerformance()
+        );
+
+        BarCodeResult[] highPerformanceResults =
+                highPerformanceReader.readBarCodes();
+
+        BarCodeReader highQualityReader = new BarCodeReader(
+                path,
+                DecodeType.CODE_128
+        );
+
+        highQualityReader.setQualitySettings(
+                QualitySettings.getHighQuality()
+        );
+
+        BarCodeResult[] highQualityResults =
+                highQualityReader.readBarCodes();
+
+        boolean recognizedByHighPerformance =
+                containsCodeText(
+                        highPerformanceResults,
+                        expectedCodeText
+                );
+
+        boolean recognizedByHighQuality =
+                containsCodeText(
+                        highQualityResults,
+                        expectedCodeText
+                );
+
+        System.out.println(
+                "[Small Code128] HighPerformance count="
+                        + highPerformanceResults.length
+                        + formatConfidence(highPerformanceResults)
+                        + " | HighQuality count="
+                        + highQualityResults.length
+                        + formatConfidence(highQualityResults)
+        );
+
+        Assert.assertTrue(
+                recognizedByHighPerformance
+                        || recognizedByHighQuality,
+                "Expected at least one quality preset to recognize the small Code 128 barcode"
+        );
+    }
+
+    /**
+     * Creates all recognition fixtures used by the tests.
+     */
     private void generateFixtures() throws Exception {
-        // 1) EAN-13 valid (generator enforces correct checksum)
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_EAN13_VALID, (ImageSupplier) (String full) -> {
-            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
-            generator.save(full, BarCodeImageFormat.PNG);
-        });
+        createValidEan13Fixture();
+        createDamagedEan13Fixture();
+        createCleanQrFixture();
+        createNoisyQrFixture();
+        createSmallCode128Fixture();
+        createDamagedCode39Fixture();
+    }
 
-        // 2) EAN-13 damaged — keep bars crisp, apply a thin occluder + mild noise (no blur!)
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_EAN13_DAMAGED, (ImageSupplier) (String full) -> {
-            String tmp = full + ".tmp.png";
-            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.EAN_13, "5901234123457");
-            generator.save(tmp, BarCodeImageFormat.PNG);
+    /**
+     * Creates a valid EAN-13 image.
+     */
+    private void createValidEan13Fixture() throws Exception {
+        ExampleAssist.checkOrCreateImage(
+                FOLDER,
+                FILE_EAN13_VALID,
+                (ImageSupplier) (String fullPath) -> {
+                    BarcodeGenerator generator = new BarcodeGenerator(
+                            EncodeTypes.EAN_13,
+                            "5901234123457"
+                    );
 
-            BufferedImage img = javax.imageio.ImageIO.read(new File(tmp));
-            Graphics2D g = img.createGraphics();
-            try {
-                g.setColor(Color.BLACK);
+                    generator.save(
+                            fullPath,
+                            BarCodeImageFormat.PNG
+                    );
+                }
+        );
+    }
 
-                // Thin vertical occluder in the center (doesn't touch left/right guard bars)
-                int occW = Math.max(3, img.getWidth() / 50);
-                int occH = (int) (img.getHeight() * 0.60);
-                int occX = img.getWidth() / 2 - occW / 2;
-                int occY = (img.getHeight() - occH) / 2;
-                g.fillRect(occX, occY, occW, occH);
-            } finally {
-                g.dispose();
+    /**
+     * Creates a mildly damaged EAN-13 image.
+     */
+    private void createDamagedEan13Fixture() throws Exception {
+        ExampleAssist.checkOrCreateImage(
+                FOLDER,
+                FILE_EAN13_DAMAGED,
+                (ImageSupplier) (String fullPath) -> {
+                    String temporaryPath =
+                            fullPath + ".tmp.png";
+
+                    BarcodeGenerator generator = new BarcodeGenerator(
+                            EncodeTypes.EAN_13,
+                            "5901234123457"
+                    );
+
+                    generator.save(
+                            temporaryPath,
+                            BarCodeImageFormat.PNG
+                    );
+
+                    BufferedImage image =
+                            javax.imageio.ImageIO.read(
+                                    new File(temporaryPath)
+                            );
+
+                    Graphics2D graphics =
+                            image.createGraphics();
+
+                    try {
+                        graphics.setColor(Color.BLACK);
+
+                        int occluderWidth =
+                                Math.max(
+                                        3,
+                                        image.getWidth() / 50
+                                );
+
+                        int occluderHeight =
+                                (int) (image.getHeight() * 0.60);
+
+                        int occluderX =
+                                image.getWidth() / 2
+                                        - occluderWidth / 2;
+
+                        int occluderY =
+                                (image.getHeight()
+                                        - occluderHeight) / 2;
+
+                        graphics.fillRect(
+                                occluderX,
+                                occluderY,
+                                occluderWidth,
+                                occluderHeight
+                        );
+                    } finally {
+                        graphics.dispose();
+                    }
+
+                    javax.imageio.ImageIO.write(
+                            image,
+                            "PNG",
+                            new File(temporaryPath)
+                    );
+
+                    ExampleAssist.addGaussianNoise(
+                            temporaryPath,
+                            fullPath,
+                            6.0
+                    );
+
+                    new File(temporaryPath).delete();
+                }
+        );
+    }
+
+    /**
+     * Creates a clean QR image.
+     */
+    private void createCleanQrFixture() throws Exception {
+        ExampleAssist.checkOrCreateImage(
+                FOLDER,
+                FILE_QR_CLEAN,
+                (ImageSupplier) (String fullPath) -> {
+                    BarcodeGenerator generator = new BarcodeGenerator(
+                            EncodeTypes.QR,
+                            "RESULT-VALIDATION-QR"
+                    );
+
+                    generator.getParameters()
+                            .getBarcode()
+                            .getQR()
+                            .setErrorLevel(
+                                    QRErrorLevel.LEVEL_M
+                            );
+
+                    generator.save(
+                            fullPath,
+                            BarCodeImageFormat.PNG
+                    );
+                }
+        );
+    }
+
+    /**
+     * Creates a noisy version of the clean QR image.
+     */
+    private void createNoisyQrFixture() throws Exception {
+        ExampleAssist.checkOrCreateImage(
+                FOLDER,
+                FILE_QR_NOISY,
+                (ImageSupplier) (String fullPath) -> {
+                    String cleanPath =
+                            ExampleAssist.pathCombine(
+                                    FOLDER,
+                                    FILE_QR_CLEAN
+                            );
+
+                    ExampleAssist.addGaussianNoise(
+                            cleanPath,
+                            fullPath,
+                            12.0
+                    );
+                }
+        );
+    }
+
+    /**
+     * Creates a small but still recognizable Code 128 image.
+     *
+     * <p>The fixture is recreated on every test run so that an older cached image
+     * with a smaller width cannot affect the result.</p>
+     */
+    private void createSmallCode128Fixture() throws Exception {
+        String fullPath = ExampleAssist.pathCombine(
+                FOLDER,
+                FILE_CODE128_SMALL
+        );
+
+        String largePath =
+                fullPath + ".large.png";
+
+        new File(fullPath).delete();
+        new File(largePath).delete();
+
+        ExampleAssist.renderBarcodeFixedSizePNG(
+                EncodeTypes.CODE_128,
+                "C128-SMALL",
+                420,
+                180,
+                2.0f,
+                24,
+                largePath
+        );
+
+        ExampleAssist.downscaleNearestCrisp(
+                largePath,
+                fullPath,
+                200
+        );
+
+        new File(largePath).delete();
+
+        ExampleAssist.assertFileCreated(fullPath);
+    }
+
+    /**
+     * Creates a damaged Code 39 image with a thin central blocker.
+     */
+    private void createDamagedCode39Fixture() throws Exception {
+        ExampleAssist.checkOrCreateImage(
+                FOLDER,
+                FILE_CODE39_DAMAGED,
+                (String fullPath) -> {
+                    String temporaryPath =
+                            fullPath + ".tmp.png";
+
+                    BarcodeGenerator generator = new BarcodeGenerator(
+                            EncodeTypes.CODE_39,
+                            "RESULT-VALIDATION-39"
+                    );
+
+                    generator.save(
+                            temporaryPath,
+                            BarCodeImageFormat.PNG
+                    );
+
+                    BufferedImage image =
+                            javax.imageio.ImageIO.read(
+                                    new File(temporaryPath)
+                            );
+
+                    Graphics2D graphics =
+                            image.createGraphics();
+
+                    try {
+                        graphics.setColor(Color.BLACK);
+
+                        int blockerWidth =
+                                Math.max(
+                                        3,
+                                        image.getWidth() / 50
+                                );
+
+                        int blockerHeight =
+                                (int) (image.getHeight() * 0.60);
+
+                        graphics.fillRect(
+                                image.getWidth() / 2
+                                        - blockerWidth / 2,
+                                (image.getHeight()
+                                        - blockerHeight) / 2,
+                                blockerWidth,
+                                blockerHeight
+                        );
+                    } finally {
+                        graphics.dispose();
+                    }
+
+                    javax.imageio.ImageIO.write(
+                            image,
+                            "PNG",
+                            new File(fullPath)
+                    );
+
+                    new File(temporaryPath).delete();
+                }
+        );
+    }
+
+    /**
+     * Checks whether the recognition results contain the expected code text.
+     */
+    private static boolean containsCodeText(
+            BarCodeResult[] results,
+            String expectedCodeText
+    ) {
+        for (BarCodeResult result : results) {
+            if (expectedCodeText.equals(result.getCodeText())) {
+                return true;
             }
+        }
 
-            // Add mild Gaussian noise to degrade edges a bit, but keep bars readable
-            ExampleAssist.addGaussianNoise(tmp, full, /*stdDev=*/6.0);
-            new File(tmp).delete();
-        });
+        return false;
+    }
 
-        // 3) QR clean
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_CLEAN, (ImageSupplier) (String full) -> {
-            BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "RESULT-VALIDATION-QR");
-            generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
-            generator.save(full, BarCodeImageFormat.PNG);
-        });
+    /**
+     * Formats the confidence of the first recognition result for diagnostics.
+     */
+    private static String formatConfidence(
+            BarCodeResult[] results
+    ) {
+        if (results.length == 0) {
+            return "";
+        }
 
-        // 4) QR noisy (add Gaussian noise to clean)
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_QR_NOISY, (ImageSupplier) (String full) -> {
-            String clean = ExampleAssist.pathCombine(FOLDER, FILE_QR_CLEAN);
-            ExampleAssist.addGaussianNoise(clean, full, 12.0);
-        });
-
-        // 5) Tiny Code128 fixture: render big & crisp, then downscale with nearest+Otsu
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_C128_TINY, (String full) -> {
-            String big = full + ".big.png";
-
-            // 1) Render a clean Code128 with explicit quiet zones
-            ExampleAssist.renderBarcodeFixedSizePNG(
-                    EncodeTypes.CODE_128, "C128-TINY",
-                    /*widthPx*/ 420, /*heightPx*/ 180,
-                    /*xDimPx*/ 2.0f, /*quietPx*/ 24,
-                    big);
-
-            // 2) Downscale to a tiny width while keeping edges crisp (no blur)
-            ExampleAssist.downscaleNearestCrisp(big, full, /*targetWidthPx*/ 128);
-
-            new java.io.File(big).delete();
-        });
-
-
-        ExampleAssist.checkOrCreateImage(FOLDER, FILE_CODE39_DAMAGED, (String full) -> {
-            String tmp = full + ".tmp.png";
-            BarcodeGenerator gen = new BarcodeGenerator(EncodeTypes.CODE_39, "RESULT-VALIDATION-39");
-            gen.save(tmp, BarCodeImageFormat.PNG);
-
-            BufferedImage img = javax.imageio.ImageIO.read(new File(tmp));
-            Graphics2D g = img.createGraphics();
-            g.setColor(Color.BLACK);
-            // Thin central blocker
-            int w = Math.max(3, img.getWidth() / 50);
-            int h = (int)(img.getHeight() * 0.6);
-            g.fillRect(img.getWidth()/2 - w/2, (img.getHeight()-h)/2, w, h);
-            g.dispose();
-            javax.imageio.ImageIO.write(img, "PNG", new File(full));
-            new File(tmp).delete();
-        });
-
+        return " confidence="
+                + results[0].getConfidence();
     }
 }
