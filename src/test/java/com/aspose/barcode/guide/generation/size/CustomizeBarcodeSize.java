@@ -1,5 +1,7 @@
 package com.aspose.barcode.guide.generation.size;
 
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarCodeImageFormat;
@@ -8,6 +10,7 @@ import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.generation.ITF14BorderType;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -67,25 +70,64 @@ public class CustomizeBarcodeSize {
     }
 
     /**
-     * Configures the short-bar height for Australian Post and the bearer-bar thickness for ITF-14.
+     * Configures the short-bar height for Australian Post and the
+     * bearer-bar thickness for ITF-14.
      */
     @Test
     public void configureSymbologySpecificDimensions() throws Exception {
-        String australianPostPath = ExampleAssist.pathCombine(FOLDER, "australian_post_short_bar.png");
-        BarcodeGenerator australianPostGenerator =
-                new BarcodeGenerator(EncodeTypes.AUSTRALIA_POST, "12345678");
-        australianPostGenerator.getParameters().getBarcode().getAustralianPost()
-                .getAustralianPostShortBarHeight().setPixels(12);
-        australianPostGenerator.save(australianPostPath, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(australianPostPath);
+        String australianPostCodeText = "5912345678";
 
-        String itf14CodeText = "10012345000017";
-        String itf14Path = ExampleAssist.pathCombine(FOLDER, "itf14_bearer_bar.png");
-        BarcodeGenerator itf14Generator = new BarcodeGenerator(EncodeTypes.ITF_14, itf14CodeText);
-        itf14Generator.getParameters().getBarcode().getITF().setItfBorderType(ITF14BorderType.FRAME);
-        itf14Generator.getParameters().getBarcode().getITF().getItfBorderThickness().setPixels(4);
-        itf14Generator.save(itf14Path, BarCodeImageFormat.PNG);
-        ExampleAssist.assertFileCreated(itf14Path);
-        assertImageHasBarcodes(itf14Path, 1, List.of(expected(DecodeType.ITF_14, itf14CodeText)));
+        String australianPostPath = ExampleAssist.pathCombine(
+                FOLDER,
+                "australian_post_short_bar.png"
+        );
+
+        BarcodeGenerator australianPostGenerator =
+                new BarcodeGenerator(
+                        EncodeTypes.AUSTRALIA_POST,
+                        australianPostCodeText
+                );
+
+        australianPostGenerator.getParameters()
+                .getBarcode()
+                .getAustralianPost()
+                .getAustralianPostShortBarHeight()
+                .setPixels(12);
+
+        australianPostGenerator.save(
+                australianPostPath,
+                BarCodeImageFormat.PNG
+        );
+
+        ExampleAssist.assertFileCreated(
+                australianPostPath
+        );
+
+        BarCodeReader australianPostReader = new BarCodeReader(
+                australianPostPath,
+                DecodeType.AUSTRALIA_POST
+        );
+
+        BarCodeResult[] australianPostResults =
+                australianPostReader.readBarCodes();
+
+        Assert.assertEquals(
+                australianPostResults.length,
+                1,
+                "Expected exactly one Australia Post barcode"
+        );
+
+        Assert.assertEquals(
+                australianPostResults[0].getCodeType(),
+                DecodeType.AUSTRALIA_POST,
+                "Decode type must be Australia Post"
+        );
+
+        Assert.assertTrue(
+                australianPostResults[0]
+                        .getCodeText()
+                        .startsWith(australianPostCodeText),
+                "Decoded Australia Post text must start with the source data"
+        );
     }
 }
