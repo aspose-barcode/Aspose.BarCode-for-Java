@@ -113,43 +113,141 @@ public class SymbologyAndCodeTextExample {
     }
 
     /**
-     * Generates a QR code from raw UTF-8 bytes (including an emoji) and verifies round-trip of raw payload.
+     * Generates a QR Code from a raw byte sequence and verifies that the
+     * decoded binary payload is identical to the source bytes.
      *
-     * <p><b>Purpose:</b> Show how to set Code Text as byte[] and ensure readers decode bytes as UTF-8 via ECI.</p>
+     * <p><b>Purpose:</b> Demonstrate how to pass binary data through
+     * {@link BarcodeGenerator#setCodeText(byte[])} without text transcoding.</p>
+     *
      * <p><b>Key API:</b> {@link BarcodeGenerator#setCodeText(byte[])},
-     * {@link BarCodeReader#readBarCodes()}.</p>
-     * <p><b>Expected:</b> One QR is detected with text reconstructed from bytes. The raw payload equals the original.</p>
-     * <p><b>Notes:</b> No try-with-resources and no explicit close/dispose on {@code BarCodeReader} by project policy.</p>
+     * {@link QrParameters#setEncodeMode(QREncodeMode)},
+     * {@link BarCodeResult#getCodeBytes()}.</p>
+     *
+     * <p><b>Expected:</b> One QR Code is detected and its decoded byte sequence
+     * exactly matches the supplied binary payload.</p>
      */
     @Test
     public void generate_QR_withRawBytes() throws Exception {
-        // Prepare a UTF-8 payload (includes an emoji to ensure multi-byte correctness)
-        byte[] payload = "Hello, \uD83D\uDE80 bytes!".getBytes(StandardCharsets.UTF_8);
+        byte[] payload = {
+                0x42, 0x49, 0x4E, 0x41, 0x52, 0x59,
+                0x2D,
+                0x01, 0x02, 0x03,
+                0x7F
+        };
 
-        // Provide Code Text as raw bytes
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
+        BarcodeGenerator generator =
+                new BarcodeGenerator(EncodeTypes.QR);
+
         generator.setCodeText(payload);
 
-        // for raw bytes: force BYTE mode + set ECI to UTF-8
-        generator.getParameters().getBarcode().getQR().setEncodeMode(QREncodeMode.BYTES);
-        generator.getParameters().getBarcode().getQR().setECIEncoding(ECIEncodings.UTF8);
-        generator.getParameters().getBarcode().getQR().setErrorLevel(QRErrorLevel.LEVEL_M);
+        generator.getParameters()
+                .getBarcode()
+                .getQR()
+                .setEncodeMode(QREncodeMode.BYTES);
 
-        String full = pathCombine(FOLDER, FILE_QR_BYTES);
-        generator.save(full, BarCodeImageFormat.PNG);
-        assertFileCreated(full);
+        generator.getParameters()
+                .getBarcode()
+                .getQR()
+                .setErrorLevel(QRErrorLevel.LEVEL_M);
 
-       //compare by BYTES via ExampleAssist.expected(...)
-        assertImageHasBarcodes(full,1,List.of(expected(DecodeType.QR, payload)));
+        String fullPath = pathCombine(
+                FOLDER,
+                FILE_QR_BYTES
+        );
 
-        // (Optional) extra explicit check
-        BarCodeReader reader = new BarCodeReader(full, DecodeType.QR);
-        BarCodeResult[] results = reader.readBarCodes();
-        Assert.assertEquals(results.length, 1, "Expected exactly 1 QR");
-        Assert.assertEquals(results[0].getCodeType(), DecodeType.QR, "Decode type must be QR");
-        Assert.assertEquals(results[0].getCodeBytes(), payload, "QR payload bytes must round-trip exactly");
+        generator.save(
+                fullPath,
+                BarCodeImageFormat.PNG
+        );
+
+        assertFileCreated(fullPath);
+
+        assertImageHasBarcodes(
+                fullPath,
+                1,
+                List.of(
+                        expected(
+                                DecodeType.QR,
+                                payload
+                        )
+                )
+        );
+
+        BarCodeReader reader = new BarCodeReader(
+                fullPath,
+                DecodeType.QR
+        );
+
+        BarCodeResult[] results =
+                reader.readBarCodes();
+
+        Assert.assertEquals(
+                results.length,
+                1,
+                "Expected exactly one QR Code"
+        );
+
+        Assert.assertEquals(
+                results[0].getCodeType(),
+                DecodeType.QR,
+                "Decode type must be QR"
+        );
+
+        Assert.assertEquals(
+                results[0].getCodeBytes(),
+                payload,
+                "QR payload bytes must round-trip exactly"
+        );
     }
 
+
+    /**
+     * Generates a QR Code from Unicode text using UTF-8 ECI.
+     *
+     * <p><b>Expected:</b> The decoded text matches the original Unicode string.</p>
+     */
+    @Test
+    public void generate_QR_withUtf8Text() throws Exception {
+        String payload = "Hello, 🚀 bytes!";
+
+        BarcodeGenerator generator = new BarcodeGenerator(
+                EncodeTypes.QR,
+                payload
+        );
+
+        generator.getParameters()
+                .getBarcode()
+                .getQR()
+                .setEncodeMode(QREncodeMode.ECI);
+
+        generator.getParameters()
+                .getBarcode()
+                .getQR()
+                .setECIEncoding(ECIEncodings.UTF8);
+
+        String fullPath = pathCombine(
+                FOLDER,
+                "qr_utf8_text.png"
+        );
+
+        generator.save(
+                fullPath,
+                BarCodeImageFormat.PNG
+        );
+
+        assertFileCreated(fullPath);
+
+        assertImageHasBarcodes(
+                fullPath,
+                1,
+                List.of(
+                        expected(
+                                DecodeType.QR,
+                                payload
+                        )
+                )
+        );
+    }
 
 
 
