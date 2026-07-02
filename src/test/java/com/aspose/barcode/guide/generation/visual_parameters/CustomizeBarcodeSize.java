@@ -292,13 +292,13 @@ public class CustomizeBarcodeSize {
     }
 
     /**
-     * Configures Australia Post short-bar height in millimeters at 300 DPI.
+     * Configures the short-bar height for an Australia Post barcode.
      *
      * <p>The recognized value is checked by prefix because Australia Post
      * recognition can append generated machine data to the original FCC and DPID.</p>
      */
     @Test
-    public void configureAustraliaPostShortBarHeightAt300Dpi() throws Exception {
+    public void configureAustraliaPostShortBarHeight() throws Exception {
         String codeText = "5912345678";
 
         BarcodeGenerator generator = new BarcodeGenerator(
@@ -311,31 +311,59 @@ public class CustomizeBarcodeSize {
                 .getCodeTextParameters()
                 .setLocation(CodeLocation.NONE);
 
-        generator.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
-        generator.getParameters().getBarcode().getXDimension().setPixels(3.0f);
-        generator.getParameters().getBarcode().getBarHeight().setPixels(100);
+        generator.getParameters()
+                .setAutoSizeMode(AutoSizeMode.NONE);
 
-        Unit shortBarHeight = generator.getParameters()
+        generator.getParameters()
+                .getBarcode()
+                .getXDimension()
+                .setPixels(3.0f);
+
+        generator.getParameters()
+                .getBarcode()
+                .getBarHeight()
+                .setPixels(100);
+
+        generator.getParameters()
                 .getBarcode()
                 .getAustralianPost()
-                .getAustralianPostShortBarHeight();
+                .getAustralianPostShortBarHeight()
+                .setPixels(12);
 
-        shortBarHeight.updateResolution(300f);
-        shortBarHeight.setMillimeters(3.0f);
+        generator.getParameters()
+                .getBarcode()
+                .getPadding()
+                .getLeft()
+                .setPixels(24);
 
-        generator.getParameters().getBarcode().getPadding().getLeft().setPixels(24);
-        generator.getParameters().getBarcode().getPadding().getRight().setPixels(24);
-        generator.getParameters().getBarcode().getPadding().getTop().setPixels(16);
-        generator.getParameters().getBarcode().getPadding().getBottom().setPixels(16);
-        generator.getParameters().getImageWidth().setPixels(640);
-        generator.getParameters().getImageHeight().setPixels(240);
+        generator.getParameters()
+                .getBarcode()
+                .getPadding()
+                .getRight()
+                .setPixels(24);
+
+        generator.getParameters()
+                .getBarcode()
+                .getPadding()
+                .getTop()
+                .setPixels(16);
+
+        generator.getParameters()
+                .getBarcode()
+                .getPadding()
+                .getBottom()
+                .setPixels(16);
 
         String outputPath = ExampleAssist.pathCombine(
                 FOLDER,
                 FILE_AUSTRALIA_POST_SHORT_BAR
         );
 
-        generator.save(outputPath, BarCodeImageFormat.PNG);
+        generator.save(
+                outputPath,
+                BarCodeImageFormat.PNG
+        );
+
         ExampleAssist.assertFileCreated(outputPath);
 
         assertImageHasBarcodes(
