@@ -18,7 +18,7 @@ import static com.aspose.barcode.guide.common.ExampleAssist.*;
 /**
  * This class contains focused examples that demonstrate:
  * 1) Choosing a barcode symbology (EncodeTypes.*)
- * 2) Setting Code Text in different ways (String, String + Charset + BOM, raw byte[])
+ * 2) Setting Code Text in different ways (constructor, setter, String + Charset + BOM, raw byte[])
  * 3) When and why to use ECI for QR to ensure correct interpretation of bytes
  * 4) Basic symbology-specific parameters (QR/DataMatrix/PDF417) to show where they live
  *
@@ -34,6 +34,7 @@ public class SymbologyAndCodeTextExample {
             ExampleAssist.getOrCreateResourceFolderPath("generation", "symbology_and_code_text");
 
     private static final String FILE_C128_SIMPLE  = "c128_simple.png";
+    private static final String FILE_QR_UPDATED_PAYLOAD = "qr_updated_payload.png";
     private static final String FILE_QR_UTF8_BOM  = "qr_utf8_bom.png";
     private static final String FILE_QR_BYTES     = "qr_bytes.png";
     private static final String FILE_QR_PARAMS    = "qr_params.png";
@@ -51,31 +52,53 @@ public class SymbologyAndCodeTextExample {
     }
 
     /**
-     * Generates a simple Code 128 barcode with plain String Code Text.
+     * Generates a Code 128 barcode from a Java string.
      *
-     * <p><b>Purpose:</b> Show the minimal path to create a barcode by specifying symbology and code text.</p>
-     * <p><b>Key API:</b> {@link BarcodeGenerator(EncodeTypes, String)},
-     * {@link BarcodeGenerator#save(String, BarCodeImageFormat)}.</p>
-     * <p><b>Expected:</b> One CODE_128 barcode is detected with text "C128-SIMPLE".</p>
+     * <p><b>Purpose:</b> Show the minimal generation workflow by selecting
+     * {@link EncodeTypes#CODE_128} and supplying the code text in the constructor.</p>
+     * <p><b>Expected:</b> One CODE_128 barcode is detected with text "PRODUCT-2026".</p>
      */
     @Test
-    public void generate_Code128_withSimpleText() throws Exception {
-        // Choose the symbology and provide Code Text as a simple Java String
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, "C128-SIMPLE");
+    public void generateCode128FromText() throws Exception {
+        String codeText = "PRODUCT-2026";
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.CODE_128, codeText);
 
-        // Basic assertion: generator holds the same code text we provided
-        Assert.assertEquals(generator.getCodeText(), "C128-SIMPLE");
+        Assert.assertEquals(generator.getCodeText(), codeText);
 
-        // Save to a deterministic location
-        String full = pathCombine(FOLDER, FILE_C128_SIMPLE);
-        generator.save(full, BarCodeImageFormat.PNG);
-        assertFileCreated(full);
+        String outputPath = pathCombine(FOLDER, FILE_C128_SIMPLE);
+        generator.save(outputPath, BarCodeImageFormat.PNG);
+        assertFileCreated(outputPath);
 
-        // Validate that the image has exactly one CODE_128 with the expected text
         assertImageHasBarcodes(
-                full,
+                outputPath,
                 1,
-                List.of(expected(DecodeType.CODE_128, "C128-SIMPLE"))
+                List.of(expected(DecodeType.CODE_128, codeText))
+        );
+    }
+
+    /**
+     * Creates a QR generator first and assigns the text payload afterwards.
+     *
+     * <p><b>Purpose:</b> Demonstrate {@link BarcodeGenerator#setCodeText(String)}
+     * when the symbology is selected before the payload becomes available.</p>
+     * <p><b>Expected:</b> One QR barcode is detected with text "Updated payload".</p>
+     */
+    @Test
+    public void setPayloadAfterConstruction() throws Exception {
+        String codeText = "Updated payload";
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
+        generator.setCodeText(codeText);
+
+        Assert.assertEquals(generator.getCodeText(), codeText);
+
+        String outputPath = pathCombine(FOLDER, FILE_QR_UPDATED_PAYLOAD);
+        generator.save(outputPath, BarCodeImageFormat.PNG);
+        assertFileCreated(outputPath);
+
+        assertImageHasBarcodes(
+                outputPath,
+                1,
+                List.of(expected(DecodeType.QR, codeText))
         );
     }
 
@@ -127,7 +150,7 @@ public class SymbologyAndCodeTextExample {
      * exactly matches the supplied binary payload.</p>
      */
     @Test
-    public void generate_QR_withRawBytes() throws Exception {
+    public void generateQrFromBytes() throws Exception {
         byte[] payload = {
                 0x42, 0x49, 0x4E, 0x41, 0x52, 0x59,
                 0x2D,
@@ -202,17 +225,19 @@ public class SymbologyAndCodeTextExample {
 
 
     /**
-     * Generates a QR Code from Unicode text using UTF-8 ECI.
+     * Generates a QR Code from Unicode text using explicit UTF-8 ECI encoding.
      *
-     * <p><b>Expected:</b> The decoded text matches the original Unicode string.</p>
+     * <p><b>Purpose:</b> Demonstrate a Java string payload whose character
+     * encoding is declared explicitly in the QR Code.</p>
+     * <p><b>Expected:</b> The decoded text matches "Aspose — データ".</p>
      */
     @Test
-    public void generate_QR_withUtf8Text() throws Exception {
-        String payload = "Hello, 🚀 bytes!";
+    public void generateQrFromUnicodeText() throws Exception {
+        String codeText = "Aspose — データ";
 
         BarcodeGenerator generator = new BarcodeGenerator(
                 EncodeTypes.QR,
-                payload
+                codeText
         );
 
         generator.getParameters()
@@ -225,27 +250,18 @@ public class SymbologyAndCodeTextExample {
                 .getQR()
                 .setECIEncoding(ECIEncodings.UTF8);
 
-        String fullPath = pathCombine(
+        String outputPath = pathCombine(
                 FOLDER,
                 "qr_utf8_text.png"
         );
 
-        generator.save(
-                fullPath,
-                BarCodeImageFormat.PNG
-        );
-
-        assertFileCreated(fullPath);
+        generator.save(outputPath, BarCodeImageFormat.PNG);
+        assertFileCreated(outputPath);
 
         assertImageHasBarcodes(
-                fullPath,
+                outputPath,
                 1,
-                List.of(
-                        expected(
-                                DecodeType.QR,
-                                payload
-                        )
-                )
+                List.of(expected(DecodeType.QR, codeText))
         );
     }
 
