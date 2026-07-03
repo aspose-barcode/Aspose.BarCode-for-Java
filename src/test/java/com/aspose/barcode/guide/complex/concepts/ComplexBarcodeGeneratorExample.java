@@ -29,7 +29,7 @@ import static com.aspose.barcode.guide.common.ExampleAssist.expected;
  * encoding an already prepared string and letting Aspose.BarCode construct the
  * standardized payload from a typed business object.</p>
  */
-public class ComplexBarcodeGenerator {
+public class ComplexBarcodeGeneratorExample {
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath(

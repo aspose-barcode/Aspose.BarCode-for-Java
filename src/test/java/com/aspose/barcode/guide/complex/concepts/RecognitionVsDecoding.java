@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  * Decoding interprets the recognized text as a specific complex barcode standard
  * and restores a typed Java object, such as {@link SwissQRCodetext}.</p>
  */
-public class RecognitionDecoding {
+public class RecognitionVsDecoding {
 
     private static final String FOLDER =
             ExampleAssist.getOrCreateResourceFolderPath(
