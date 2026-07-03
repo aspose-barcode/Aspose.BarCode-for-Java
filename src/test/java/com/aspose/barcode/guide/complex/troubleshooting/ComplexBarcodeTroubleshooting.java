@@ -4,35 +4,39 @@ import com.aspose.barcode.BarCodeException;
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
 import com.aspose.barcode.barcoderecognition.DecodeType;
+import com.aspose.barcode.complexbarcode.ComplexBarcodeGenerator;
 import com.aspose.barcode.complexbarcode.ComplexCodetextReader;
+import com.aspose.barcode.complexbarcode.HIBCLICCombinedCodetext;
+import com.aspose.barcode.complexbarcode.HIBCLICComplexCodetext;
+import com.aspose.barcode.complexbarcode.HIBCLICDateFormat;
 import com.aspose.barcode.complexbarcode.MailmarkCodetext;
+import com.aspose.barcode.complexbarcode.PrimaryData;
+import com.aspose.barcode.complexbarcode.SecondaryAndAdditionalData;
 import com.aspose.barcode.complexbarcode.SwissQRCodetext;
+import com.aspose.barcode.generation.BarCodeImageFormat;
+import com.aspose.barcode.generation.BarcodeGenerator;
+import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.barcode.guide.common.ExampleAssist;
 import com.aspose.barcode.guide.common.LicenseAssist;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.time.LocalDateTime;
 
 /**
- * Demonstrates common troubleshooting scenarios for complex barcodes with
+ * Demonstrates troubleshooting scenarios specific to complex barcodes with
  * Aspose.BarCode for Java.
  *
- * <p>The examples distinguish image-recognition failures from codetext-decoding
- * failures, show how missing required fields are reported during payload
- * construction, and demonstrate how invalid standard-specific values can be
- * detected before a barcode is generated.</p>
+ * <p>The examples focus on issues that happen after a barcode has been
+ * recognized or before a complex barcode image is generated: checking the
+ * recognized symbology, selecting the matching complex decoder, validating
+ * required business fields, and enforcing standard-specific limits.</p>
  */
 public class ComplexBarcodeTroubleshooting {
 
     private static final String FOLDER =
-            ExampleAssist.getOrCreateResourceFolderPath(
-                    "complex", "troubleshooting");
+            ExampleAssist.getOrCreateResourceFolderPath("complex", "troubleshooting");
 
     /**
      * Initializes the Aspose.BarCode license before running the troubleshooting
@@ -44,69 +48,76 @@ public class ComplexBarcodeTroubleshooting {
     }
 
     /**
-     * Demonstrates how to detect that an image does not contain a recognizable
-     * barcode.
+     * Demonstrates that successful barcode recognition does not necessarily mean
+     * successful complex barcode decoding.
      *
-     * <p>The test creates a blank image, scans it for all supported symbologies,
-     * and verifies that the reader returns an empty result array. This indicates
-     * an image-recognition problem rather than a complex codetext parsing problem.</p>
+     * <p>The generated symbol is a valid QR Code, but its text is not a Swiss QR
+     * payment payload. The reader recognizes the QR Code correctly, while the
+     * Swiss QR decoder returns {@code null}.</p>
      */
     @Test
-    public void handleBarcodeNotRecognized() throws Exception {
-        BufferedImage blankImage = new BufferedImage(320, 180, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics = blankImage.createGraphics();
-        graphics.setColor(Color.WHITE);
-        graphics.fillRect(0, 0, blankImage.getWidth(), blankImage.getHeight());
+    public void verifyRecognizedBarcodeTypeBeforeComplexDecoding() throws Exception {
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR, "NOT-A-SWISS-QR");
+        String outputPath = ExampleAssist.pathCombine(FOLDER, "plain_qr_not_swiss.png");
+        generator.save(outputPath, BarCodeImageFormat.PNG);
 
-        String outputPath = ExampleAssist.pathCombine(FOLDER, "blank_image.png");
-        ImageIO.write(blankImage, "png", new File(outputPath));
-
+        ExampleAssist.assertFileCreated(outputPath);
         BarCodeReader reader = new BarCodeReader(outputPath, DecodeType.ALL_SUPPORTED_TYPES);
         BarCodeResult[] results = reader.readBarCodes();
 
-        Assert.assertEquals(results.length, 0);
+        Assert.assertEquals(results.length, 1);
+        Assert.assertEquals(results[0].getCodeType(), DecodeType.QR);
+        Assert.assertNull(ComplexCodetextReader.tryDecodeSwissQR(results[0].getCodeText()));
     }
 
     /**
-     * Demonstrates how to handle recognized text that cannot be decoded as the
-     * requested complex barcode standard.
+     * Demonstrates that a valid complex barcode payload must be decoded with the
+     * matching complex decoder.
      *
-     * <p>The try-decode methods return {@code null} for unsupported content, so
-     * application code can try a different decoder or report that the payload is
-     * not a supported complex barcode.</p>
+     * <p>The HIBC LIC payload is valid complex barcode data, but it is not Swiss
+     * QR data. The Swiss QR decoder returns {@code null}, while the HIBC LIC
+     * decoder restores the typed codetext object.</p>
      */
     @Test
-    public void handleCodetextCannotBeDecoded() {
-        String invalidCodetext = "NOT-A-COMPLEX-BARCODE";
+    public void decodeUsingMatchingComplexDecoder() throws Exception {
+        HIBCLICCombinedCodetext sourceCodetext = createHIBCLICCodetext();
+        String outputPath = ExampleAssist.pathCombine(FOLDER, "hibc_lic_for_decoder_check.png");
 
-        Assert.assertNull(ComplexCodetextReader.tryDecodeSwissQR(invalidCodetext));
-        Assert.assertNull(ComplexCodetextReader.tryDecodeHIBCLIC(invalidCodetext));
-        Assert.assertNull(ComplexCodetextReader.tryDecodeHIBCPAS(invalidCodetext));
-        Assert.assertNull(ComplexCodetextReader.tryDecodeMailmark(invalidCodetext));
-        Assert.assertNull(ComplexCodetextReader.tryDecodeMailmark2D(invalidCodetext));
+        ComplexBarcodeGenerator generator = new ComplexBarcodeGenerator(sourceCodetext);
+        generator.save(outputPath, BarCodeImageFormat.PNG);
+
+        ExampleAssist.assertFileCreated(outputPath);
+        BarCodeReader reader = new BarCodeReader(outputPath, DecodeType.HIBCQRLIC);
+        BarCodeResult[] results = reader.readBarCodes();
+        Assert.assertEquals(results.length, 1);
+
+        String recognizedText = results[0].getCodeText();
+        Assert.assertNull(ComplexCodetextReader.tryDecodeSwissQR(recognizedText));
+
+        HIBCLICComplexCodetext decodedCodetext =
+                ComplexCodetextReader.tryDecodeHIBCLIC(recognizedText);
+        Assert.assertTrue(decodedCodetext instanceof HIBCLICCombinedCodetext);
     }
 
     /**
      * Demonstrates how missing required business fields are reported before image
      * generation.
      *
-     * <p>An empty Swiss QR object does not contain the required valid IBAN. Calling
-     * {@code getConstructedCodetext()} therefore raises {@link BarCodeException},
-     * allowing the application to correct the business data before rendering.</p>
+     * <p>An empty Swiss QR object does not contain the required valid IBAN.
+     * Calling {@code getConstructedCodetext()} therefore raises
+     * {@link BarCodeException}, allowing the application to correct the business
+     * data before rendering.</p>
      */
     @Test
     public void handleRequiredFieldsMissing() {
         SwissQRCodetext incompleteCodetext = new SwissQRCodetext();
-        boolean exceptionThrown = false;
 
         try {
             incompleteCodetext.getConstructedCodetext();
+            Assert.fail("Expected BarCodeException for missing required Swiss QR fields.");
         } catch (BarCodeException exception) {
-            exceptionThrown = true;
             Assert.assertTrue(exception.getMessage().contains("IBAN"));
         }
-
-        Assert.assertTrue(exceptionThrown);
     }
 
     /**
@@ -133,5 +144,28 @@ public class ComplexBarcodeTroubleshooting {
         } catch (BarCodeException exception) {
             Assert.assertTrue(exception.getMessage().contains("99999999"));
         }
+    }
+
+    /**
+     * Creates a combined HIBC LIC model used to demonstrate decoder selection.
+     */
+    private HIBCLICCombinedCodetext createHIBCLICCodetext() {
+        HIBCLICCombinedCodetext codetext = new HIBCLICCombinedCodetext();
+        codetext.setBarcodeType(EncodeTypes.HIBCQRLIC);
+
+        PrimaryData primaryData = new PrimaryData();
+        primaryData.setLabelerIdentificationCode("A999");
+        primaryData.setProductOrCatalogNumber("12345");
+        primaryData.setUnitOfMeasureID(1);
+        codetext.setPrimaryData(primaryData);
+
+        SecondaryAndAdditionalData secondaryData = new SecondaryAndAdditionalData();
+        secondaryData.setExpiryDateFormat(HIBCLICDateFormat.YYYYMMDD);
+        secondaryData.setExpiryDate(LocalDateTime.of(2027, 12, 31, 0, 0));
+        secondaryData.setQuantity(30);
+        secondaryData.setLotNumber("LOT123");
+        secondaryData.setSerialNumber("SERIAL123");
+        codetext.setSecondaryAndAdditionalData(secondaryData);
+        return codetext;
     }
 }
